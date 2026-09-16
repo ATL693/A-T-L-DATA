@@ -3,334 +3,364 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>A T L Data</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+      font-family:Arial,Helvetica,sans-serif;
     }
 
-    body {
-      background: #f4f7f8;
-      color: #172026;
+    body{
+      background:#f4f7f6;
+      color:#17201d;
     }
 
-    header {
-      background: #087443;
-      color: white;
-      padding: 15px 18px;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 2px 8px rgba(0,0,0,.15);
+    button,input,select{
+      font:inherit;
     }
 
-    .header-inner {
-      max-width: 1100px;
-      margin: auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
+    button{
+      cursor:pointer;
     }
 
-    .logo {
-      font-size: 22px;
-      font-weight: bold;
+    .app-page{
+      display:none;
+      min-height:100vh;
     }
 
-    nav {
-      display: flex;
-      gap: 7px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
+    .app-page.active{
+      display:block;
     }
 
-    nav button {
-      background: transparent;
-      border: 1px solid rgba(255,255,255,.5);
-      color: white;
-      padding: 8px 11px;
-      border-radius: 7px;
-      cursor: pointer;
+    .topbar{
+      background:linear-gradient(135deg,#006b45,#008f5d);
+      color:white;
+      padding:18px 16px;
+      position:sticky;
+      top:0;
+      z-index:20;
+      box-shadow:0 3px 12px rgba(0,0,0,.15);
     }
 
-    nav button:hover {
-      background: rgba(255,255,255,.15);
+    .topbar-inner{
+      max-width:1000px;
+      margin:auto;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:15px;
     }
 
-    .container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 20px;
+    .brand{
+      font-size:23px;
+      font-weight:800;
     }
 
-    .app-page {
-      display: none;
+    .brand small{
+      display:block;
+      font-size:11px;
+      opacity:.85;
+      margin-top:3px;
     }
 
-    .app-page.active {
-      display: block;
+    .wallet-mini{
+      background:rgba(255,255,255,.16);
+      padding:9px 12px;
+      border-radius:12px;
+      font-size:13px;
     }
 
-    .hero {
-      background: linear-gradient(135deg, #087443, #0b9658);
-      color: white;
-      padding: 35px 22px;
-      border-radius: 15px;
-      margin-bottom: 22px;
+    .container{
+      max-width:1000px;
+      margin:auto;
+      padding:22px 15px 100px;
     }
 
-    .hero h1 {
-      font-size: 32px;
-      margin-bottom: 10px;
+    .hero{
+      background:linear-gradient(135deg,#006b45,#00a66a);
+      color:white;
+      padding:30px 22px;
+      border-radius:22px;
+      margin-bottom:20px;
+      box-shadow:0 10px 25px rgba(0,80,50,.15);
     }
 
-    .hero p {
-      margin-bottom: 18px;
-      line-height: 1.5;
+    .hero h1{
+      font-size:30px;
+      margin-bottom:10px;
     }
 
-    .btn {
-      border: none;
-      padding: 12px 17px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 15px;
+    .hero p{
+      line-height:1.6;
+      opacity:.94;
     }
 
-    .btn-primary {
-      background: #087443;
-      color: white;
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:14px;
     }
 
-    .btn-light {
-      background: white;
-      color: #087443;
+    .service{
+      background:white;
+      border:1px solid #e3ebe7;
+      border-radius:18px;
+      padding:20px;
+      min-height:150px;
+      box-shadow:0 5px 15px rgba(0,0,0,.05);
+      transition:.2s;
     }
 
-    .btn-danger {
-      background: #c62828;
-      color: white;
+    .service:hover{
+      transform:translateY(-2px);
+      box-shadow:0 9px 20px rgba(0,0,0,.08);
     }
 
-    .back-btn {
-      margin-bottom: 18px;
-      background: #e7eeee;
-      color: #172026;
+    .service-icon{
+      font-size:30px;
+      margin-bottom:10px;
     }
 
-    .section-title {
-      margin-bottom: 15px;
-      font-size: 24px;
+    .service h3{
+      margin-bottom:7px;
     }
 
-    .services {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-      gap: 15px;
+    .service p{
+      color:#66736e;
+      font-size:14px;
+      line-height:1.5;
     }
 
-    .service-card {
-      background: white;
-      padding: 22px;
-      border-radius: 13px;
-      box-shadow: 0 3px 12px rgba(0,0,0,.08);
-      cursor: pointer;
-      border: 1px solid #e8eeee;
-      transition: .2s;
+    .btn{
+      border:0;
+      border-radius:12px;
+      padding:13px 16px;
+      font-weight:700;
+      margin-top:14px;
+      width:100%;
     }
 
-    .service-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 16px rgba(0,0,0,.12);
+    .btn-primary{
+      background:#008f5d;
+      color:white;
     }
 
-    .service-icon {
-      font-size: 35px;
-      margin-bottom: 10px;
+    .btn-primary:hover{
+      background:#00784e;
     }
 
-    .service-card h3 {
-      margin-bottom: 7px;
+    .btn-light{
+      background:#eef5f2;
+      color:#006b45;
     }
 
-    .service-card p {
-      color: #667;
-      line-height: 1.4;
+    .btn-danger{
+      background:#c62828;
+      color:white;
     }
 
-    .page-card {
-      background: white;
-      padding: 22px;
-      border-radius: 13px;
-      box-shadow: 0 3px 12px rgba(0,0,0,.08);
-      max-width: 700px;
-      margin: auto;
+    .btn-outline{
+      background:white;
+      border:1px solid #008f5d;
+      color:#008f5d;
     }
 
-    .page-card h2 {
-      margin-bottom: 8px;
-      color: #087443;
+    .card{
+      background:white;
+      border-radius:20px;
+      padding:22px;
+      margin-bottom:18px;
+      box-shadow:0 5px 18px rgba(0,0,0,.06);
     }
 
-    .page-card > p {
-      color: #667;
-      margin-bottom: 20px;
+    .card h2{
+      margin-bottom:7px;
     }
 
-    label {
-      display: block;
-      font-weight: bold;
-      margin: 13px 0 6px;
+    .muted{
+      color:#6c7773;
+      font-size:14px;
+      line-height:1.5;
     }
 
-    input,
-    select {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ccd5d5;
-      border-radius: 8px;
-      outline: none;
-      font-size: 15px;
-      background: white;
+    .form-group{
+      margin-top:15px;
     }
 
-    input:focus,
-    select:focus {
-      border-color: #087443;
+    label{
+      display:block;
+      font-weight:700;
+      margin-bottom:7px;
+      font-size:14px;
     }
 
-    .form-group {
-      margin-bottom: 12px;
+    input,select{
+      width:100%;
+      padding:13px;
+      border:1px solid #ccd8d3;
+      border-radius:11px;
+      outline:none;
+      background:white;
     }
 
-    .message {
-      padding: 11px;
-      border-radius: 8px;
-      margin-top: 15px;
-      display: none;
-      line-height: 1.4;
+    input:focus,select:focus{
+      border-color:#008f5d;
+      box-shadow:0 0 0 3px rgba(0,143,93,.1);
     }
 
-    .message.success {
-      background: #e5f7ec;
-      color: #126b38;
-      display: block;
+    .back{
+      width:auto;
+      padding:10px 15px;
+      margin:0 0 18px;
     }
 
-    .message.error {
-      background: #fdeaea;
-      color: #a51f1f;
-      display: block;
+    .two{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
     }
 
-    .message.info {
-      background: #eaf2ff;
-      color: #24528a;
-      display: block;
+    .balance{
+      background:linear-gradient(135deg,#073b2a,#008f5d);
+      color:white;
+      border-radius:20px;
+      padding:22px;
+      margin-bottom:18px;
     }
 
-    .auth-switch {
-      text-align: center;
-      margin-top: 15px;
-      color: #555;
+    .balance .amount{
+      font-size:30px;
+      font-weight:800;
+      margin-top:8px;
     }
 
-    .auth-switch button {
-      border: none;
-      background: none;
-      color: #087443;
-      font-weight: bold;
-      cursor: pointer;
+    .account-item{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      padding:15px 0;
+      border-bottom:1px solid #e7eeeb;
     }
 
-    .account-box {
-      background: #087443;
-      color: white;
-      padding: 20px;
-      border-radius: 12px;
-      margin-bottom: 20px;
+    .account-item:last-child{
+      border-bottom:0;
     }
 
-    .balance {
-      font-size: 30px;
-      font-weight: bold;
-      margin-top: 8px;
+    .account-item button{
+      width:auto;
+      margin:0;
+      padding:9px 12px;
     }
 
-    .account-actions {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 10px;
-      margin-top: 15px;
+    .hidden{
+      display:none !important;
     }
 
-    .transaction {
-      background: #f7f9f9;
-      padding: 13px;
-      border-radius: 8px;
-      margin-bottom: 9px;
-      border-left: 4px solid #087443;
+    .status{
+      margin-top:12px;
+      padding:12px;
+      border-radius:10px;
+      background:#eef7f3;
+      color:#006b45;
+      font-size:14px;
     }
 
-    .transaction small {
-      color: #777;
+    .bill-section{
+      margin-top:15px;
+      padding:16px;
+      background:#f7faf9;
+      border-radius:15px;
+      border:1px solid #e3ebe7;
     }
 
-    .hidden {
-      display: none !important;
+    .history{
+      padding:13px 0;
+      border-bottom:1px solid #e7eeeb;
     }
 
-    .notice {
-      background: #fff7df;
-      border: 1px solid #f1d47a;
-      color: #765800;
-      padding: 13px;
-      border-radius: 8px;
-      margin-bottom: 15px;
-      line-height: 1.5;
+    .history:last-child{
+      border-bottom:0;
     }
 
-    footer {
-      text-align: center;
-      padding: 30px 15px;
-      color: #777;
-      margin-top: 30px;
+    .history strong{
+      display:block;
+      margin-bottom:4px;
     }
 
-    .loading {
-      text-align: center;
-      padding: 20px;
-      color: #777;
+    .history small{
+      color:#718079;
     }
 
-    @media (max-width: 650px) {
-      .header-inner {
-        align-items: flex-start;
-        flex-direction: column;
+    .bottom-nav{
+      position:fixed;
+      bottom:0;
+      left:0;
+      right:0;
+      background:white;
+      border-top:1px solid #dfe8e4;
+      z-index:30;
+      display:flex;
+      justify-content:center;
+    }
+
+    .nav-inner{
+      width:100%;
+      max-width:700px;
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+    }
+
+    .nav-btn{
+      border:0;
+      background:white;
+      padding:10px 4px;
+      color:#65716c;
+      font-size:11px;
+    }
+
+    .nav-btn span{
+      display:block;
+      font-size:20px;
+      margin-bottom:3px;
+    }
+
+    .nav-btn.active{
+      color:#008f5d;
+      font-weight:800;
+    }
+
+    .success{
+      text-align:center;
+      padding:20px;
+    }
+
+    .success-icon{
+      font-size:50px;
+      margin-bottom:10px;
+    }
+
+    footer{
+      text-align:center;
+      color:#75817c;
+      font-size:12px;
+      margin-top:30px;
+    }
+
+    @media(max-width:600px){
+      .grid{
+        grid-template-columns:1fr;
       }
 
-      nav {
-        width: 100%;
-        justify-content: flex-start;
+      .two{
+        grid-template-columns:1fr;
       }
 
-      nav button {
-        font-size: 13px;
-      }
-
-      .hero h1 {
-        font-size: 27px;
-      }
-
-      .container {
-        padding: 14px;
+      .hero h1{
+        font-size:25px;
       }
     }
   </style>
@@ -338,547 +368,757 @@
 
 <body>
 
-<header>
-  <div class="header-inner">
-    <div class="logo">A T L Data</div>
+<!-- ================= HOME ================= -->
 
-    <nav>
-      <button id="homeNav">Home</button>
-      <button id="dataNav">Data</button>
-      <button id="airtimeNav">Airtime</button>
-      <button id="billsNav">Bills</button>
-      <button id="accountNav">Login</button>
-    </nav>
-  </div>
-</header>
+<section id="homePage" class="app-page active">
 
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        A T L Data
+        <small>Data • Airtime • Bills</small>
+      </div>
 
-<main class="container">
+      <div class="wallet-mini" id="topWallet">
+        Wallet: ₦0.00
+      </div>
+    </div>
+  </header>
 
-  <!-- HOME -->
-  <section id="homePage" class="app-page active">
+  <main class="container">
 
     <div class="hero">
       <h1>Welcome to A T L Data</h1>
       <p>
-        Buy Data, Airtime and pay different bills from one place.
+        Fast and simple platform for data, airtime and bill payment services.
       </p>
 
-      <button class="btn btn-light" id="heroDataBtn">
-        Buy Data
+      <button class="btn btn-light" id="heroAccountBtn">
+        Login / Create Account
       </button>
     </div>
 
-    <h2 class="section-title">Our Services</h2>
+    <div class="grid">
 
-    <div class="services">
-
-      <div class="service-card" id="dataCard">
-        <div class="service-icon">📶</div>
+      <div class="service">
+        <div class="service-icon">📱</div>
         <h3>Buy Data</h3>
-        <p>MTN, Airtel, Glo and 9mobile data plans.</p>
+        <p>Choose your network and data plan.</p>
+        <button class="btn btn-primary" id="homeDataBtn">
+          Buy Data
+        </button>
       </div>
 
-      <div class="service-card" id="airtimeCard">
-        <div class="service-icon">📞</div>
-        <h3>Buy Airtime</h3>
-        <p>Recharge your mobile line easily.</p>
+      <div class="service">
+        <div class="service-icon">☎️</div>
+        <h3>Airtime</h3>
+        <p>Buy airtime for MTN, Airtel, Glo and 9mobile.</p>
+        <button class="btn btn-primary" id="homeAirtimeBtn">
+          Buy Airtime
+        </button>
       </div>
 
-      <div class="service-card" id="billsCard">
-        <div class="service-icon">💡</div>
+      <div class="service">
+        <div class="service-icon">💳</div>
         <h3>Pay Bills</h3>
-        <p>Electricity, NECO, WAEC, JAMB, Cable TV and Internet.</p>
+        <p>Electricity, NECO, WAEC, JAMB, TV and Internet.</p>
+        <button class="btn btn-primary" id="homeBillsBtn">
+          Pay Bills
+        </button>
       </div>
 
-      <div class="service-card" id="accountCard">
+      <div class="service">
         <div class="service-icon">👤</div>
         <h3>My Account</h3>
-        <p>Login, wallet and transaction history.</p>
+        <p>Manage your profile, wallet and transactions.</p>
+        <button class="btn btn-primary" id="homeAccountBtn">
+          My Account
+        </button>
       </div>
 
     </div>
 
-  </section>
+    <footer>
+      © 2026 A T L Data
+    </footer>
+
+  </main>
+</section>
 
 
-  <!-- DATA -->
-  <section id="dataPage" class="app-page">
+<!-- ================= DATA ================= -->
 
-    <button class="btn back-btn" id="dataBack">
-      ← Back to Home
+<section id="dataPage" class="app-page">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">A T L Data</div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <button class="btn btn-light back" data-back>
+      ← Back
     </button>
 
-    <div class="page-card">
+    <div class="card">
+      <h2>📱 Buy Data</h2>
+      <p class="muted">
+        Select network and plan.
+      </p>
 
-      <h2>📶 Buy Data</h2>
-      <p>Select your network and data plan.</p>
-
-      <div class="notice">
-        Data orders are currently recorded for testing.
-        Real VTU fulfillment will be connected later.
+      <div class="form-group">
+        <label>Network</label>
+        <select id="dataNetwork">
+          <option value="">Select network</option>
+          <option>MTN</option>
+          <option>Airtel</option>
+          <option>Glo</option>
+          <option>9mobile</option>
+        </select>
       </div>
 
-      <label>Network</label>
-      <select id="dataNetwork">
-        <option value="MTN">MTN</option>
-        <option value="Airtel">Airtel</option>
-        <option value="Glo">Glo</option>
-        <option value="9mobile">9mobile</option>
-      </select>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input id="dataPhone" type="tel" placeholder="08012345678">
+      </div>
 
-      <label>Phone Number</label>
-      <input
-        id="dataPhone"
-        type="tel"
-        placeholder="08012345678"
-        maxlength="11"
-      >
-
-      <label>Data Plan</label>
-      <select id="dataPlan">
-        <option value="500MB">500MB</option>
-        <option value="1GB">1GB</option>
-        <option value="2GB">2GB</option>
-        <option value="5GB">5GB</option>
-      </select>
-
-      <br><br>
+      <div class="form-group">
+        <label>Data Plan</label>
+        <select id="dataPlan">
+          <option value="">Select plan</option>
+          <option>500MB</option>
+          <option>1GB</option>
+          <option>2GB</option>
+          <option>5GB</option>
+        </select>
+      </div>
 
       <button class="btn btn-primary" id="dataOrderBtn">
         Continue
       </button>
 
-      <div id="dataMessage" class="message"></div>
-
     </div>
+  </main>
+</section>
 
-  </section>
 
+<!-- ================= AIRTIME ================= -->
 
-  <!-- AIRTIME -->
-  <section id="airtimePage" class="app-page">
+<section id="airtimePage" class="app-page">
 
-    <button class="btn back-btn" id="airtimeBack">
-      ← Back to Home
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">A T L Data</div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <button class="btn btn-light back" data-back>
+      ← Back
     </button>
 
-    <div class="page-card">
+    <div class="card">
+      <h2>☎️ Buy Airtime</h2>
+      <p class="muted">
+        Enter the number and amount.
+      </p>
 
-      <h2>📞 Buy Airtime</h2>
-      <p>Recharge any supported network.</p>
-
-      <div class="notice">
-        Airtime orders are currently recorded for testing.
-        Real airtime delivery will be connected later.
+      <div class="form-group">
+        <label>Network</label>
+        <select id="airtimeNetwork">
+          <option value="">Select network</option>
+          <option>MTN</option>
+          <option>Airtel</option>
+          <option>Glo</option>
+          <option>9mobile</option>
+        </select>
       </div>
 
-      <label>Network</label>
-      <select id="airtimeNetwork">
-        <option value="MTN">MTN</option>
-        <option value="Airtel">Airtel</option>
-        <option value="Glo">Glo</option>
-        <option value="9mobile">9mobile</option>
-      </select>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input id="airtimePhone" type="tel" placeholder="08012345678">
+      </div>
 
-      <label>Phone Number</label>
-      <input
-        id="airtimePhone"
-        type="tel"
-        placeholder="08012345678"
-        maxlength="11"
-      >
-
-      <label>Amount</label>
-      <input
-        id="airtimeAmount"
-        type="number"
-        min="50"
-        placeholder="Enter amount"
-      >
-
-      <br><br>
+      <div class="form-group">
+        <label>Amount</label>
+        <input id="airtimeAmount" type="number" min="50" placeholder="100">
+      </div>
 
       <button class="btn btn-primary" id="airtimeOrderBtn">
         Continue
       </button>
-
-      <div id="airtimeMessage" class="message"></div>
-
     </div>
 
-  </section>
+  </main>
+</section>
 
 
-  <!-- BILLS -->
-  <section id="billsPage" class="app-page">
+<!-- ================= BILLS ================= -->
 
-    <button class="btn back-btn" id="billsBack">
-      ← Back to Home
+<section id="billsPage" class="app-page">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">A T L Data</div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <button class="btn btn-light back" data-back>
+      ← Back
     </button>
 
-    <div class="page-card">
+    <div class="card">
 
-      <h2>💡 Pay Bills</h2>
-      <p>Select the bill you want to pay.</p>
+      <h2>💳 Pay Bills</h2>
+      <p class="muted">
+        Select a service. The correct options will appear automatically.
+      </p>
 
-      <div class="notice">
-        Bill payment is currently in testing mode.
-        No real payment will be made until the payment/API system is connected.
+      <div class="form-group">
+        <label>Bill Service</label>
+
+        <select id="billService">
+
+          <option value="">Select service</option>
+
+          <optgroup label="Education">
+            <option value="neco">NECO</option>
+            <option value="waec">WAEC</option>
+            <option value="jamb">JAMB</option>
+          </optgroup>
+
+          <optgroup label="Electricity">
+            <option value="electricity">Electricity / NEPA</option>
+          </optgroup>
+
+          <optgroup label="Cable TV">
+            <option value="cable">Cable TV</option>
+          </optgroup>
+
+          <optgroup label="Internet">
+            <option value="internet">Internet</option>
+          </optgroup>
+
+        </select>
       </div>
 
-      <label>Bill Type</label>
 
-      <select id="billType">
+      <!-- NECO -->
 
-        <option value="electricity">
-          Electricity
-        </option>
+      <div id="necoBox" class="bill-section hidden">
 
-        <option value="neco">
-          NECO
-        </option>
+        <h3>📚 NECO Payment</h3>
+        <p class="muted">
+          Enter the required NECO information.
+        </p>
 
-        <option value="waec">
-          WAEC
-        </option>
+        <div class="form-group">
+          <label>NECO Service</label>
+          <select id="necoService">
+            <option>NECO Registration</option>
+            <option>NECO Result Checker</option>
+            <option>NECO Token</option>
+          </select>
+        </div>
 
-        <option value="jamb">
-          JAMB
-        </option>
+        <div class="form-group">
+          <label>Registration / Exam Number</label>
+          <input id="necoNumber" placeholder="Enter NECO number">
+        </div>
 
-        <option value="cable">
-          Cable TV
-        </option>
+        <div class="form-group">
+          <label>Amount</label>
+          <input id="necoAmount" type="number" placeholder="Amount">
+        </div>
 
-        <option value="internet">
-          Internet
-        </option>
+      </div>
 
-      </select>
+
+      <!-- WAEC -->
+
+      <div id="waecBox" class="bill-section hidden">
+
+        <h3>📚 WAEC Payment</h3>
+
+        <div class="form-group">
+          <label>WAEC Service</label>
+          <select id="waecService">
+            <option>WAEC Result Checker</option>
+            <option>WAEC Registration</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Candidate / Registration Number</label>
+          <input id="waecNumber">
+        </div>
+
+        <div class="form-group">
+          <label>Amount</label>
+          <input id="waecAmount" type="number">
+        </div>
+
+      </div>
+
+
+      <!-- JAMB -->
+
+      <div id="jambBox" class="bill-section hidden">
+
+        <h3>🎓 JAMB Payment</h3>
+
+        <div class="form-group">
+          <label>JAMB Service</label>
+          <select id="jambService">
+            <option>UTME Registration</option>
+            <option>Result Checker</option>
+            <option>Admission Services</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>JAMB Profile / Registration Number</label>
+          <input id="jambNumber">
+        </div>
+
+        <div class="form-group">
+          <label>Amount</label>
+          <input id="jambAmount" type="number">
+        </div>
+
+      </div>
 
 
       <!-- ELECTRICITY -->
 
-      <div id="electricityFields">
+      <div id="electricityBox" class="bill-section hidden">
 
-        <label>Electricity Provider</label>
+        <h3>💡 Electricity / NEPA</h3>
 
-        <select id="electricityProvider">
+        <div class="form-group">
+          <label>Electricity Provider</label>
 
-          <option value="IKEDC">IKEDC</option>
-          <option value="EKEDC">EKEDC</option>
-          <option value="KEDCO">KEDCO</option>
-          <option value="ABEDC">ABEDC</option>
-          <option value="KAEDCO">KAEDCO</option>
-          <option value="YEDC">YEDC</option>
-          <option value="BEDC">BEDC</option>
-          <option value="JED">JED</option>
-          <option value="IBEDC">IBEDC</option>
-          <option value="PHED">PHED</option>
-          <option value="AEDC">AEDC</option>
+          <select id="electricityProvider">
+            <option value="">Select provider</option>
+            <option>IKEDC</option>
+            <option>EKEDC</option>
+            <option>KEDCO</option>
+            <option>ABEDC</option>
+            <option>KAEDCO</option>
+            <option>YEDC</option>
+            <option>BEDC</option>
+            <option>JED</option>
+            <option>IBEDC</option>
+            <option>PHED</option>
+            <option>AEDC</option>
+          </select>
+        </div>
 
-        </select>
+        <div class="form-group">
+          <label>Meter Type</label>
 
+          <select id="meterType">
+            <option>Prepaid</option>
+            <option>Postpaid</option>
+          </select>
+        </div>
 
-        <label>Meter Type</label>
+        <div class="form-group">
+          <label>Meter Number</label>
+          <input id="meterNumber">
+        </div>
 
-        <select id="meterType">
-          <option value="Prepaid">Prepaid</option>
-          <option value="Postpaid">Postpaid</option>
-        </select>
-
-
-        <label>Meter Number</label>
-
-        <input
-          id="meterNumber"
-          type="text"
-          placeholder="Enter meter number"
-        >
-
-
-        <label>Amount</label>
-
-        <input
-          id="electricityAmount"
-          type="number"
-          min="100"
-          placeholder="Enter amount"
-        >
-
-      </div>
-
-
-      <!-- EDUCATION -->
-
-      <div id="educationFields" class="hidden">
-
-        <label id="educationNumberLabel">
-          Registration Number
-        </label>
-
-        <input
-          id="educationNumber"
-          type="text"
-          placeholder="Enter registration number"
-        >
-
-        <label>Amount</label>
-
-        <input
-          id="educationAmount"
-          type="number"
-          min="100"
-          placeholder="Enter amount"
-        >
+        <div class="form-group">
+          <label>Amount</label>
+          <input id="electricityAmount" type="number">
+        </div>
 
       </div>
 
 
       <!-- CABLE -->
 
-      <div id="cableFields" class="hidden">
+      <div id="cableBox" class="bill-section hidden">
 
-        <label>Cable TV Provider</label>
+        <h3>📺 Cable TV</h3>
 
-        <select id="cableProvider">
-          <option value="DStv">DStv</option>
-          <option value="GOtv">GOtv</option>
-          <option value="Startimes">Startimes</option>
-        </select>
+        <div class="form-group">
+          <label>Provider</label>
 
-        <label>Smartcard / IUC Number</label>
+          <select id="cableProvider">
+            <option value="">Select provider</option>
+            <option>DStv</option>
+            <option>GOtv</option>
+            <option>Startimes</option>
+          </select>
+        </div>
 
-        <input
-          id="cableNumber"
-          type="text"
-          placeholder="Enter customer number"
-        >
+        <div class="form-group">
+          <label>Smartcard / IUC Number</label>
+          <input id="cableNumber">
+        </div>
 
-        <label>Amount</label>
-
-        <input
-          id="cableAmount"
-          type="number"
-          min="100"
-          placeholder="Enter amount"
-        >
+        <div class="form-group">
+          <label>Amount</label>
+          <input id="cableAmount" type="number">
+        </div>
 
       </div>
 
 
       <!-- INTERNET -->
 
-      <div id="internetFields" class="hidden">
+      <div id="internetBox" class="bill-section hidden">
 
-        <label>Internet Provider</label>
+        <h3>🌐 Internet</h3>
 
-        <select id="internetProvider">
-          <option value="Smile">Smile</option>
-          <option value="Spectranet">Spectranet</option>
-          <option value="MTN Fibre">MTN Fibre</option>
-          <option value="Airtel Internet">Airtel Internet</option>
-        </select>
+        <div class="form-group">
+          <label>Provider</label>
 
-        <label>Customer / Account Number</label>
+          <select id="internetProvider">
+            <option value="">Select provider</option>
+            <option>Smile</option>
+            <option>Spectranet</option>
+            <option>MTN Fibre</option>
+            <option>Airtel Internet</option>
+          </select>
+        </div>
 
-        <input
-          id="internetNumber"
-          type="text"
-          placeholder="Enter customer number"
-        >
+        <div class="form-group">
+          <label>Account Number</label>
+          <input id="internetNumber">
+        </div>
 
-        <label>Amount</label>
-
-        <input
-          id="internetAmount"
-          type="number"
-          min="100"
-          placeholder="Enter amount"
-        >
+        <div class="form-group">
+          <label>Amount</label>
+          <input id="internetAmount" type="number">
+        </div>
 
       </div>
 
 
-      <br>
-
-      <button class="btn btn-primary" id="billOrderBtn">
+      <button class="btn btn-primary" id="billContinueBtn">
         Continue
       </button>
 
-      <div id="billMessage" class="message"></div>
+      <div id="billStatus"></div>
 
     </div>
+  </main>
+</section>
 
-  </section>
 
+<!-- ================= LOGIN ================= -->
 
-  <!-- LOGIN -->
-  <section id="loginPage" class="app-page">
+<section id="loginPage" class="app-page">
 
-    <button class="btn back-btn" id="loginBack">
-      ← Back to Home
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">A T L Data</div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <button class="btn btn-light back" data-back>
+      ← Back
     </button>
 
-    <div class="page-card">
+    <div class="card">
 
-      <h2 id="authTitle">Login</h2>
+      <div id="loginBox">
 
-      <p id="authDescription">
-        Login to your A T L Data account.
-      </p>
-
-      <form id="authForm">
-
-        <div id="nameGroup" class="hidden">
-
-          <label>Full Name</label>
-
-          <input
-            id="fullName"
-            type="text"
-            placeholder="Enter your full name"
-          >
-
-        </div>
-
-
-        <label>Email</label>
-
-        <input
-          id="email"
-          type="email"
-          placeholder="example@gmail.com"
-          required
-        >
-
-
-        <label>Password</label>
-
-        <input
-          id="password"
-          type="password"
-          placeholder="Enter password"
-          minlength="6"
-          required
-        >
-
-
-        <br>
-
-        <button
-          type="submit"
-          class="btn btn-primary"
-          id="authSubmit"
-        >
-          Login
-        </button>
-
-      </form>
-
-
-      <div id="authMessage" class="message"></div>
-
-
-      <div class="auth-switch">
-
-        <span id="authSwitchText">
-          Don't have an account?
-        </span>
-
-        document.getElementById("authSwitchBtn")
-  .addEventListener("click", (e) => {
-    e.preventDefault();
-
-    const loginBox = document.getElementById("loginBox");
-    const signupBox = document.getElementById("signupBox");
-
-    if (loginBox) {
-      loginBox.style.display = "none";
-    }
-
-    if (signupBox) {
-      signupBox.style.display = "block";
-    }
-  });
-
-
-  <!-- ACCOUNT -->
-  <section id="accountPage" class="app-page">
-
-    <button class="btn back-btn" id="accountBack">
-      ← Back to Home
-    </button>
-
-    <div class="page-card">
-
-      <div id="loggedOutAccount">
-
-        <h2>👤 My Account</h2>
-
-        <p>
-          Please login or create an account to continue.
+        <h2>🔐 Login</h2>
+        <p class="muted">
+          Login to access your A T L Data account.
         </p>
 
-        <br>
+        <form id="loginForm">
 
-        <button class="btn btn-primary" id="accountLoginBtn">
-          Login / Sign Up
+          <div class="form-group">
+            <label>Email</label>
+            <input id="loginEmail" type="email" required>
+          </div>
+
+          <div class="form-group">
+            <label>Password</label>
+            <input id="loginPassword" type="password" required>
+          </div>
+
+          <button class="btn btn-primary" type="submit">
+            Login
+          </button>
+
+        </form>
+
+        <button class="btn btn-light" id="switchToSignup">
+          Create New Account
+        </button>
+
+        <button class="btn btn-outline" id="forgotPasswordBtn">
+          Forgot Password?
         </button>
 
       </div>
 
 
-      <div id="loggedInAccount" class="hidden">
+      <div id="signupBox" class="hidden">
 
-        <div class="account-box">
+        <h2>📝 Create Account</h2>
 
-          <div>Wallet Balance</div>
+        <p class="muted">
+          Create your A T L Data account.
+        </p>
 
-          <div class="balance" id="walletBalance">
-            ₦0.00
+        <form id="signupForm">
+
+          <div class="form-group">
+            <label>Email</label>
+            <input id="signupEmail" type="email" required>
           </div>
 
-          <div id="userEmail">
-            -
+          <div class="form-group">
+            <label>Password</label>
+            <input id="signupPassword" type="password" minlength="6" required>
           </div>
 
+          <button class="btn btn-primary" type="submit">
+            Create Account
+          </button>
+
+        </form>
+
+        <button class="btn btn-light" id="switchToLogin">
+          ← Back to Login
+        </button>
+
+      </div>
+
+    </div>
+  </main>
+</section>
+
+
+<!-- ================= ACCOUNT ================= -->
+
+<section id="accountPage" class="app-page">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">My Account</div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <button class="btn btn-light back" data-back>
+      ← Back
+    </button>
+
+    <div id="loggedOutAccount" class="card">
+
+      <h2>👤 My Account</h2>
+
+      <p class="muted">
+        Please login or create an account to continue.
+      </p>
+
+      <button class="btn btn-primary" id="accountLoginBtn">
+        Login / Sign Up
+      </button>
+
+    </div>
+
+
+    <div id="loggedInAccount" class="hidden">
+
+      <div class="balance">
+
+        <div>Wallet Balance</div>
+
+        <div class="amount" id="walletBalance">
+          ₦0.00
+        </div>
+
+        <button class="btn btn-light" id="addMoneyBtn">
+          + Add Money
+        </button>
+
+      </div>
+
+
+      <div class="card">
+
+        <h2>Account</h2>
+
+        <div class="account-item">
+          <div>
+            <strong>Email</strong>
+            <div class="muted" id="accountEmail">
+              -
+            </div>
+          </div>
         </div>
 
 
-        <div class="account-actions">
+        <div class="account-item">
 
-          <button
-            class="btn btn-primary"
-            id="addMoneyBtn"
-          >
-            Add Money
+          <div>
+            <strong>Manage My Account</strong>
+            <div class="muted">
+              Password, Tier 1 and account settings
+            </div>
+          </div>
+
+          <button class="btn btn-primary" id="manageAccountBtn">
+  Manage
+</button>
+
+        </div>
+
+        <div class="account-item">
+
+          <div>
+            <strong>Transaction History</strong>
+            <div class="muted">
+              View your previous transactions
+            </div>
+          </div>
+
+          <button class="btn btn-primary" id="historyBtn">
+            History
           </button>
 
-          <button
-            class="btn btn-danger"
-            id="logoutBtn"
-          >
+        </div>
+
+        <div class="account-item">
+
+          <div>
+            <strong>Logout</strong>
+            <div class="muted">
+              Sign out of your account
+            </div>
+          </div>
+
+          <button class="btn btn-danger" id="logoutBtn">
             Logout
           </button>
 
         </div>
 
+      </div>
 
-        <br>
+    </div>
 
-        <h3>Transaction History</h3>
+  </section>
 
-        <br>
 
-        <div id="transactions">
+  <!-- ================= MANAGE ACCOUNT ================= -->
 
-          <div class="loading">
-            No transactions yet.
-          </div>
+  <section id="managePage" class="app-page hidden">
 
-        </div>
+    <div class="card">
+
+      <button class="btn btn-light" id="manageBack">
+        ← Back
+      </button>
+
+      <h2>⚙️ Manage My Account</h2>
+
+      <p class="muted">
+        Manage your password, account tier and support.
+      </p>
+
+      <button class="menu-btn" id="forgotPasswordBtn">
+        🔐 Forgot Password
+      </button>
+
+      <button class="menu-btn" id="tier1Btn">
+        ⭐ Upgrade Account to Tier 1
+      </button>
+
+      <button class="menu-btn" id="supportBtn">
+        💬 WhatsApp Support
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- ================= TIER 1 ================= -->
+
+  <section id="tier1Page" class="app-page hidden">
+
+    <div class="card">
+
+      <button class="btn btn-light" id="tier1Back">
+        ← Back
+      </button>
+
+      <h2>⭐ Upgrade to Tier 1</h2>
+
+      <p class="muted">
+        Enter your correct information to upgrade your account.
+      </p>
+
+      <label>Full Name</label>
+      <input
+        type="text"
+        id="tier1Name"
+        placeholder="Enter full name"
+      >
+
+      <label>Phone Number</label>
+      <input
+        type="tel"
+        id="tier1Phone"
+        placeholder="08012345678"
+      >
+
+      <label>Date of Birth</label>
+      <input
+        type="date"
+        id="tier1Dob"
+      >
+
+      <label>Address</label>
+      <textarea
+        id="tier1Address"
+        placeholder="Enter your address"
+      ></textarea>
+
+      <button class="btn btn-primary" id="saveTier1Btn">
+        Save & Upgrade
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- ================= HISTORY ================= -->
+
+  <section id="historyPage" class="app-page hidden">
+
+    <div class="card">
+
+      <button class="btn btn-light" id="historyBack">
+        ← Back
+      </button>
+
+      <h2>📜 Transaction History</h2>
+
+      <div id="historyList">
+
+        <p class="muted">
+          No transactions yet.
+        </p>
 
       </div>
 
@@ -886,596 +1126,451 @@
 
   </section>
 
-</main>
+
+  <!-- ================= FIREBASE ================= -->
+
+  <script type="module">
+
+    import { initializeApp }
+      from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut,
+      sendPasswordResetEmail
+    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      updateDoc,
+      collection,
+      query,
+      orderBy,
+      getDocs,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
-<footer>
-  © 2026 A T L Data. All rights reserved.
-</footer>
+    const firebaseConfig = {
+      apiKey: "AIzaSyA_x5ZYj7D5Dt_9Bq-NzlchpRPRd3QN21I",
+      authDomain: "a-t-l-data.firebaseapp.com",
+      projectId: "a-t-l-data",
+      storageBucket: "a-t-l-data.firebasestorage.app",
+      messagingSenderId: "519558305824",
+      appId: "1:519558305824:web:cf6dd75ef20ef708c24445"
+    };
 
 
-<!-- FIREBASE -->
+    const app = initializeApp(firebaseConfig);
 
-<script type="module">
-
-  import { initializeApp }
-    from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-
-  import {
-    getAuth,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    onAuthStateChanged,
-    signOut
-  }
-    from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
-
-  import {
-    getFirestore,
-    doc,
-    setDoc,
-    getDoc,
-    addDoc,
-    collection,
-    query,
-    orderBy,
-    getDocs,
-    serverTimestamp
-  }
-    from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyA_x5ZYj7D5Dt_9Bq-NzlchpRPRd3QN21I",
-    authDomain: "a-t-l-data.firebaseapp.com",
-    projectId: "a-t-l-data",
-    storageBucket: "a-t-l-data.firebasestorage.app",
-    messagingSenderId: "519558305824",
-    appId: "1:519558305824:web:cf6dd75ef20ef708c24445"
-  };
+    function showPage(pageId){
 
+      document
+        .querySelectorAll(".app-page")
+        .forEach(page => page.classList.add("hidden"));
 
-  const app = initializeApp(firebaseConfig);
+      const page = document.getElementById(pageId);
 
-  const auth = getAuth(app);
+      if(page){
+        page.classList.remove("hidden");
+        window.scrollTo(0,0);
+      }
 
-  const db = getFirestore(app);
-
-
-  let currentUser = null;
-
-  let loginMode = true;
-
-
-  // -----------------------------
-  // PAGE NAVIGATION
-  // -----------------------------
-
-  const pages = document.querySelectorAll(".app-page");
-
-
-  function showPage(pageId) {
-
-    pages.forEach(page => {
-      page.classList.remove("active");
-    });
-
-    const selectedPage = document.getElementById(pageId);
-
-    if (selectedPage) {
-      selectedPage.classList.add("active");
     }
 
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  }
+
+    function showError(error){
+
+      alert(
+        error?.message ||
+        "Something went wrong. Please try again."
+      );
+
+    }
 
 
-  // -----------------------------
-  // NAVIGATION BUTTONS
-  // -----------------------------
+    // MANAGE ACCOUNT
 
-  document.getElementById("homeNav")
-    .addEventListener("click", () => {
-      showPage("homePage");
-    });
+    document
+      .getElementById("manageAccountBtn")
+      ?.addEventListener("click", () => {
 
+        showPage("managePage");
 
-  document.getElementById("dataNav")
-    .addEventListener("click", () => {
-      showPage("dataPage");
-    });
+      });
 
 
-  document.getElementById("airtimeNav")
-    .addEventListener("click", () => {
-      showPage("airtimePage");
-    });
+    document
+      .getElementById("manageBack")
+      ?.addEventListener("click", () => {
 
-
-  document.getElementById("billsNav")
-    .addEventListener("click", () => {
-      showPage("billsPage");
-    });
-
-
-  document.getElementById("accountNav")
-    .addEventListener("click", () => {
-
-      if (currentUser) {
         showPage("accountPage");
-      } else {
-        showPage("loginPage");
-      }
 
-    });
+      });
 
 
-  document.getElementById("heroDataBtn")
-    .addEventListener("click", () => {
-      showPage("dataPage");
-    });
+    // HISTORY
+
+    document
+      .getElementById("historyBtn")
+      ?.addEventListener("click", async () => {
+
+        if(!auth.currentUser){
+
+          alert("Please login first.");
+          showPage("loginPage");
+          return;
+
+        }
+
+        showPage("historyPage");
+
+        const list =
+          document.getElementById("historyList");
+
+        list.innerHTML =
+          "<p class='muted'>Loading...</p>";
+
+        try{
+
+          const ref = collection(
+            db,
+            "users",
+            auth.currentUser.uid,
+            "transactions"
+          );
+
+          const q = query(
+            ref,
+            orderBy("createdAt","desc")
+          );
+
+          const snapshot = await getDocs(q);
+
+          if(snapshot.empty){
+
+            list.innerHTML =
+              "<p class='muted'>No transactions yet.</p>";
+
+            return;
+
+          }
+
+          list.innerHTML = "";
+
+          snapshot.forEach(item => {
+
+            const data = item.data();
+
+            const div =
+              document.createElement("div");
+
+            div.className = "account-item";
+
+            div.innerHTML = `
+
+              <div>
+
+                <strong>
+                  ${escapeHTML(data.type || "Transaction")}
+                </strong>
+
+                <div class="muted">
+                  ${escapeHTML(data.status || "Pending")}
+                </div>
+
+              </div>
+
+              <strong>
+                ₦${Number(data.amount || 0).toFixed(2)}
+              </strong>
+
+            `;
+
+            list.appendChild(div);
+
+          });
+
+        }catch(error){
+
+          list.innerHTML =
+            "<p class='muted'>Unable to load history.</p>";
+
+          console.error(error);
+
+        }
+
+      });
 
 
-  document.getElementById("dataCard")
-    .addEventListener("click", () => {
-      showPage("dataPage");
-    });
+    document
+      .getElementById("historyBack")
+      ?.addEventListener("click", () => {
 
-
-  document.getElementById("airtimeCard")
-    .addEventListener("click", () => {
-      showPage("airtimePage");
-    });
-
-
-  document.getElementById("billsCard")
-    .addEventListener("click", () => {
-      showPage("billsPage");
-    });
-
-
-  document.getElementById("accountCard")
-    .addEventListener("click", () => {
-
-      if (currentUser) {
         showPage("accountPage");
-      } else {
+
+      });
+
+
+    // FORGOT PASSWORD
+
+    document
+      .getElementById("forgotPasswordBtn")
+      ?.addEventListener("click", async () => {
+
+        const email =
+          auth.currentUser?.email ||
+          prompt("Enter your email address:");
+
+        if(!email) return;
+
+        try{
+
+          await sendPasswordResetEmail(
+            auth,
+            email
+          );
+
+          alert(
+            "Password reset email has been sent. Check your email."
+          );
+
+        }catch(error){
+
+          showError(error);
+
+        }
+
+      });
+
+
+    // TIER 1 PAGE
+
+    document
+      .getElementById("tier1Btn")
+      ?.addEventListener("click", () => {
+
+        showPage("tier1Page");
+
+      });
+
+
+    document
+      .getElementById("tier1Back")
+      ?.addEventListener("click", () => {
+
+        showPage("managePage");
+
+      });
+
+
+    // SAVE TIER 1
+
+    document
+      .getElementById("saveTier1Btn")
+      ?.addEventListener("click", async () => {
+
+        if(!auth.currentUser){
+
+          alert("Please login first.");
+          showPage("loginPage");
+          return;
+
+        }
+
+        const name =
+          document.getElementById("tier1Name").value.trim();
+
+        const phone =
+          document.getElementById("tier1Phone").value.trim();
+
+        const dob =
+          document.getElementById("tier1Dob").value;
+
+        const address =
+          document.getElementById("tier1Address").value.trim();
+
+
+        if(!name || !phone || !dob || !address){
+
+          alert("Please fill all fields.");
+          return;
+
+        }
+
+
+        try{
+
+          await updateDoc(
+            doc(
+              db,
+              "users",
+              auth.currentUser.uid
+            ),
+            {
+              fullName: name,
+              phone: phone,
+              dateOfBirth: dob,
+              address: address,
+              tier: 1,
+              tierUpdatedAt: serverTimestamp()
+            }
+          );
+
+
+          alert(
+            "Your Tier 1 information has been saved."
+          );
+
+          showPage("accountPage");
+
+        }catch(error){
+
+          showError(error);
+
+        }
+
+      });
+
+
+    // WHATSAPP SUPPORT
+
+    document
+      .getElementById("supportBtn")
+      ?.addEventListener("click", () => {
+
+        window.open(
+          "https://wa.me/2347073160817",
+          "_blank"
+        );
+
+      });
+
+
+    // LOGOUT
+
+    document
+      .getElementById("logoutBtn")
+      ?.addEventListener("click", async () => {
+
+        try{
+
+          await signOut(auth);
+
+          alert("You have been logged out.");
+
+          showPage("homePage");
+
+        }catch(error){
+
+          showError(error);
+
+        }
+
+      });
+
+
+    // ACCOUNT LOGIN BUTTON
+
+    document
+      .getElementById("accountLoginBtn")
+      ?.addEventListener("click", () => {
+
         showPage("loginPage");
+
+      });
+
+
+    // AUTH STATE
+
+    onAuthStateChanged(auth, async (user) => {
+
+      const loggedOut =
+        document.getElementById("loggedOutAccount");
+
+      const loggedIn =
+        document.getElementById("loggedInAccount");
+
+      if(!loggedOut || !loggedIn) return;
+
+
+      if(user){
+
+        loggedOut.classList.add("hidden");
+
+        loggedIn.classList.remove("hidden");
+
+        const email =
+          document.getElementById("accountEmail");
+
+        if(email){
+
+          email.textContent =
+            user.email || "-";
+
+        }
+
+        try{
+
+          const snap = await getDoc(
+            doc(db,"users",user.uid)
+          );
+
+          if(snap.exists()){
+
+            const data = snap.data();
+
+            const balance =
+              Number(data.walletBalance || 0);
+
+            const wallet =
+              document.getElementById("walletBalance");
+
+            if(wallet){
+
+              wallet.textContent =
+                "₦" + balance.toFixed(2);
+
+            }
+
+          }
+
+        }catch(error){
+
+          console.error(error);
+
+        }
+
+      }else{
+
+        loggedIn.classList.add("hidden");
+
+        loggedOut.classList.remove("hidden");
+
       }
 
     });
 
 
-  document.getElementById("dataBack")
-    .addEventListener("click", () => {
-      showPage("homePage");
-    });
+    function escapeHTML(value){
 
+      return String(value ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
 
-  document.getElementById("airtimeBack")
-    .addEventListener("click", () => {
-      showPage("homePage");
-    });
-
-
-  document.getElementById("billsBack")
-  .addEventListener("click", () => {
-    showPage("homePage");
-  });
-
-document.getElementById("accountBack")
-  .addEventListener("click", () => {
-    showPage("homePage");
-  });
-
-document.getElementById("loginBack")
-  .addEventListener("click", () => {
-    showPage("homePage");
-  });
-
-/* =========================
-   HOME SERVICE BUTTONS
-   ========================= */
-
-document.getElementById("dataService")
-  .addEventListener("click", () => {
-    showPage("dataPage");
-  });
-
-document.getElementById("airtimeService")
-  .addEventListener("click", () => {
-    showPage("airtimePage");
-  });
-
-document.getElementById("billsService")
-  .addEventListener("click", () => {
-    showPage("billsPage");
-  });
-
-document.getElementById("accountService")
-  .addEventListener("click", () => {
-    showPage("accountPage");
-  });
-
-/* =========================
-   NAVIGATION
-   ========================= */
-
-document.getElementById("homeNav")
-  .addEventListener("click", () => {
-    showPage("homePage");
-  });
-
-document.getElementById("dataNav")
-  .addEventListener("click", () => {
-    showPage("dataPage");
-  });
-
-document.getElementById("airtimeNav")
-  .addEventListener("click", () => {
-    showPage("airtimePage");
-  });
-
-document.getElementById("billsNav")
-  .addEventListener("click", () => {
-    showPage("billsPage");
-  });
-
-document.getElementById("accountNav")
-  .addEventListener("click", () => {
-    showPage("accountPage");
-  });
-
-/* =========================
-   LOGIN
-   ========================= */
-
-document.getElementById("loginForm")
-  .addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const email = document.getElementById("loginEmail").value.trim();
-    const password = document.getElementById("loginPassword").value;
-
-    if (!email || !password) {
-      alert("Please enter your email and password.");
-      return;
     }
 
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
+  </script>
 
-      alert("Login successful!");
-      showPage("accountPage");
-
-    } catch (error) {
-      console.error(error);
-      alert("Login failed: " + error.message);
-    }
-  });
-
-/* =========================
-   CREATE ACCOUNT
-   ========================= */
-
-document.getElementById("signupForm")
-document.getElementById("signupForm")
-  .addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const email = document.getElementById("signupEmail").value.trim();
-    const password = document.getElementById("signupPassword").value;
-
-    if (!email || !password) {
-      alert("Please enter your email and password.");
-      return;
-    }
-
-    if (password.length < 6) {
-      alert("Password must be at least 6 characters.");
-      return;
-    }
-
-    try {
-      const result = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-
-      // Create the user's Firestore profile
-      await createUserProfile(result.user);
-
-      alert("Account created successfully!");
-
-      // Open Account page after successful signup
-      document.querySelectorAll(".app-page").forEach(page => {
-        page.classList.add("hidden");
-      });
-
-      const accountPage = document.getElementById("accountPage");
-
-      if (accountPage) {
-        accountPage.classList.remove("hidden");
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth"
-        });
-      }
-
-    } catch (error) {
-      console.error("Create Account Error:", error);
-
-      if (error.code === "auth/email-already-in-use") {
-        alert("This email already has an account. Please Login.");
-      } else if (error.code === "auth/invalid-email") {
-        alert("Please enter a valid email address.");
-      } else if (error.code === "auth/weak-password") {
-        alert("Password must be at least 6 characters.");
-      } else {
-        alert("Account created successfully!");
-
-showPage("accountPage");
-
-setTimeout(() => {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
-}, 100);
-      }
-    }
-  });
-
-/* =========================
-   LOGOUT
-   ========================= */
-
-document.getElementById("logoutBtn")
-  .addEventListener("click", async () => {
-    try {
-      await signOut(auth);
-      alert("You have logged out.");
-      showPage("homePage");
-    } catch (error) {
-      console.error(error);
-      alert("Logout failed.");
-    }
-  });
-
-/* =========================
-   LOGIN / SIGNUP SWITCH
-   ========================= */
-
-document.getElementById("openSignup")
-  .addEventListener("click", (e) => {
-    e.preventDefault();
-
-    showPage("loginPage");
-
-    const loginBox = document.getElementById("loginBox");
-    const signupBox = document.getElementById("signupBox");
-
-    if (loginBox) {
-      loginBox.style.display = "none";
-    }
-
-    if (signupBox) {
-      signupBox.style.display = "block";
-    }
-  });
-
-document.getElementById("showSignup")
-  .addEventListener("click", (e) => {
-    e.preventDefault();
-
-    const loginBox = document.getElementById("loginBox");
-    const signupBox = document.getElementById("signupBox");
-
-    if (loginBox) {
-      loginBox.style.display = "none";
-    }
-
-    if (signupBox) {
-      signupBox.style.display = "block";
-    }
-  });
-
-document.getElementById("showLogin")
-  .addEventListener("click", (e) => {
-    e.preventDefault();
-
-    const signupBox = document.getElementById("signupBox");
-    const loginBox = document.getElementById("loginBox");
-
-    if (signupBox) {
-      signupBox.style.display = "none";
-    }
-
-    if (loginBox) {
-      loginBox.style.display = "block";
-    }
-  });
-
-document.getElementById("openSignup")
-  .addEventListener("click", () => {
-    showPage("loginPage");
-    document.getElementById("loginBox").style.display = "none";
-    document.getElementById("signupBox").style.display = "block";
-  });
-
-document.getElementById("showSignup")
-  .addEventListener("click", () => {
-    document.getElementById("loginBox").style.display = "none";
-    document.getElementById("signupBox").style.display = "block";
-  });
-
-document.getElementById("showLogin")
-  .addEventListener("click", () => {
-    document.getElementById("signupBox").style.display = "none";
-    document.getElementById("loginBox").style.display = "block";
-  });
-
-/* =========================
-   DATA ORDER
-   ========================= */
-
-document.getElementById("dataContinue")
-  .addEventListener("click", async () => {
-
-    const network = document.getElementById("dataNetwork").value;
-    const phone = document.getElementById("dataPhone").value.trim();
-    const plan = document.getElementById("dataPlan").value;
-
-    if (!network || !phone || !plan) {
-      alert("Please complete all fields.");
-      return;
-    }
-
-    const user = auth.currentUser;
-
-    if (!user) {
-      alert("Please login first.");
-      showPage("loginPage");
-      return;
-    }
-
-    try {
-      await saveTransaction({
-        type: "Data",
-        network: network,
-        phone: phone,
-        plan: plan,
-        status: "Testing"
-      });
-
-      alert(
-        "Data order saved for testing.\nReal data delivery will be added after VTU API integration."
-      );
-
-    } catch (error) {
-      console.error(error);
-      alert("Unable to save order.");
-    }
-  });
-
-/* =========================
-   AIRTIME ORDER
-   ========================= */
-
-document.getElementById("airtimeContinue")
-  .addEventListener("click", async () => {
-
-    const network = document.getElementById("airtimeNetwork").value;
-    const phone = document.getElementById("airtimePhone").value.trim();
-    const amount = document.getElementById("airtimeAmount").value;
-
-    if (!network || !phone || !amount) {
-      alert("Please complete all fields.");
-      return;
-    }
-
-    const user = auth.currentUser;
-
-    if (!user) {
-      alert("Please login first.");
-      showPage("loginPage");
-      return;
-    }
-
-    try {
-      await saveTransaction({
-        type: "Airtime",
-        network: network,
-        phone: phone,
-        amount: Number(amount),
-        status: "Testing"
-      });
-
-      alert(
-        "Airtime order saved for testing.\nReal airtime delivery will be added after VTU API integration."
-      );
-
-    } catch (error) {
-      console.error(error);
-      alert("Unable to save airtime order.");
-    }
-  });
-
-/* =========================
-   BILLS ORDER
-   ========================= */
-
-document.getElementById("billsContinue")
-  .addEventListener("click", async () => {
-
-    const service = document.getElementById("billService").value;
-    const number = document.getElementById("billNumber").value.trim();
-    const amount = document.getElementById("billAmount").value;
-
-    if (!service || !number || !amount) {
-      alert("Please complete all fields.");
-      return;
-    }
-
-    const user = auth.currentUser;
-
-    if (!user) {
-      alert("Please login first.");
-      showPage("loginPage");
-      return;
-    }
-
-    try {
-      await saveTransaction({
-        type: "Bill Payment",
-        service: service,
-        customerNumber: number,
-        amount: Number(amount),
-        status: "Testing"
-      });
-
-      alert(
-        "Bill payment saved for testing.\nReal bill payment will be added after API integration."
-      );
-
-    } catch (error) {
-      console.error(error);
-      alert("Unable to save bill payment.");
-    }
-  });
-
-/* =========================
-   ADD MONEY
-   ========================= */
-
-document.getElementById("addMoneyBtn")
-  .addEventListener("click", () => {
-    alert(
-      "Add Money is coming soon.\nSecure payment integration will be added with a verified payment backend."
-    );
-  });
-
-/* =========================
-   WHATSAPP
-   ========================= */
-
-document.getElementById("whatsappBtn")
-  .addEventListener("click", () => {
-    window.open(
-      "https://wa.me/2347073160817",
-      "_blank"
-    );
-  });
-
-/* =========================
-   DEFAULT PAGE
-   ========================= */
-
-showPage("homePage");
-
-</script></body>
-</html>
+</body>
+  </html>
