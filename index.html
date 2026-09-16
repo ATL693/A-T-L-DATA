@@ -2387,25 +2387,7 @@
       .replace(/'/g, "&#039;");
 
   }
-<button id="adminDashboardBtn" style="display:none;">
-  ⚙️ Admin Dashboard
-</button>
 
-<script>
-const adminDashboardBtn = document.getElementById("adminDashboardBtn");
-
-onAuthStateChanged(auth, (user) => {
-  if (user && user.email === "lawanahmadt03@gmail.com") {
-    adminDashboardBtn.style.display = "block";
-  } else {
-    adminDashboardBtn.style.display = "none";
-  }
-});
-
-adminDashboardBtn.addEventListener("click", () => {
-  window.location.href = "admin.html";
-});
-</script>
 </script>
 
 
