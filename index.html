@@ -2961,196 +2961,7 @@
 
 </body>
 </html>
-<!-- =====================================================
-     A T L DATA — COMPLETE ADMIN DASHBOARD
-     ADMIN EMAIL: lawanahmadt03@gmail.com
-     ===================================================== -->
-
-<section id="adminPage" class="app-page" style="display:none;">
-
-  <div class="topbar">
-    <button id="adminBackBtn" class="back-btn" type="button">←</button>
-
-    <div>
-      <h2>Admin Dashboard</h2>
-      <small>A T L Data Management</small>
-    </div>
-  </div>
-
-
-  <!-- ================= STATS ================= -->
-
-  <div class="admin-stats">
-
-    <div class="admin-stat-card">
-      <div class="admin-icon">👥</div>
-      <strong id="totalUsers">0</strong>
-      <small>Total Users</small>
-    </div>
-
-    <div class="admin-stat-card">
-      <div class="admin-icon">💰</div>
-      <strong id="totalWallet">₦0</strong>
-      <small>Total Wallet</small>
-    </div>
-
-    <div class="admin-stat-card">
-      <div class="admin-icon">⭐</div>
-      <strong id="tier1Users">0</strong>
-      <small>Tier 1 Users</small>
-    </div>
-
-  </div>
-
-
-  <!-- ================= SEARCH ================= -->
-
-  <div class="admin-search-box">
-
-    <input
-      id="adminSearch"
-      type="search"
-      placeholder="🔍 Search user by email, name or phone..."
-    >
-
-    <button
-      id="refreshUsersBtn"
-      type="button"
-      class="refresh-btn"
-    >
-      🔄 Refresh
-    </button>
-
-  </div>
-
-
-  <!-- ================= USERS ================= -->
-
-  <div class="admin-card">
-
-    <div class="admin-card-title">
-      <h3>👥 Registered Users</h3>
-      <span id="userCountLabel">0 Users</span>
-    </div>
-
-    <div id="adminUsersList">
-
-      <div class="admin-loading">
-        Loading users...
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ================= ADMIN CSS ================= -->
-
-<style>
-
-.admin-stats {
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
-  margin:15px 0;
-}
-
-.admin-stat-card {
-  background:#fff;
-  border-radius:18px;
-  padding:18px 10px;
-  text-align:center;
-  box-shadow:0 5px 18px rgba(0,0,0,.08);
-}
-
-.admin-icon {
-  font-size:27px;
-  margin-bottom:7px;
-}
-
-.admin-stat-card strong {
-  display:block;
-  font-size:20px;
-  margin-bottom:4px;
-}
-
-.admin-stat-card small {
-  color:#777;
-  font-size:12px;
-}
-
-
-.admin-search-box {
-  display:flex;
-  gap:8px;
-  margin:15px 0;
-}
-
-.admin-search-box input {
-  flex:1;
-  min-width:0;
-  padding:14px;
-  border:1px solid #ddd;
-  border-radius:13px;
-  outline:none;
-  font-size:14px;
-  box-sizing:border-box;
-}
-
-.refresh-btn {
-  border:none;
-  border-radius:13px;
-  padding:0 14px;
-  cursor:pointer;
-  background:#eee;
-}
-
-
-.admin-card {
-  background:#fff;
-  border-radius:18px;
-  padding:15px;
-  box-shadow:0 5px 18px rgba(0,0,0,.07);
-}
-
-.admin-card-title {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  margin-bottom:14px;
-}
-
-.admin-card-title h3 {
-  margin:0;
-  font-size:17px;
-}
-
-.admin-card-title span {
-  color:#777;
-  font-size:12px;
-}
-
-
-.admin-user {
-  border:1px solid #eee;
-  border-radius:14px;
-  padding:14px;
-  margin-bottom:10px;
-}
-
-.admin-user:last-child {
-  margin-bottom:0;
-}
-
-.admin-email {
-  font-weight:700;
-  word-break:break-word;
-  margin-bottom:10px;
-}
-
+  
 .admin-details {
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -3842,11 +3653,886 @@ function escapeAdminText(value) {
       "&quot;"
     )
 
+
     .replace(
       /'/g,
       "&#039;"
     );
 
+}
+
 </script>
 </body>
 </html>
+<!-- =========================================================
+     A T L DATA — ADMIN DASHBOARD
+     ADMIN EMAIL: lawanahmadt03@gmail.com
+     ========================================================= -->
+
+<section id="adminPage" class="app-page" style="display:none;">
+
+  <div class="topbar">
+    <button id="adminBackBtn" class="back-btn" type="button">←</button>
+    <div>
+      <h2>Admin Dashboard</h2>
+      <small>A T L Data Management</small>
+    </div>
+  </div>
+
+  <!-- DASHBOARD STATS -->
+  <div class="admin-stats">
+
+    <div class="admin-stat-card">
+      <div>👥</div>
+      <strong id="totalUsers">0</strong>
+      <small>Total Users</small>
+    </div>
+
+    <div class="admin-stat-card">
+      <div>💰</div>
+      <strong id="totalWallet">₦0</strong>
+      <small>Total Wallet</small>
+    </div>
+
+    <div class="admin-stat-card">
+      <div>⭐</div>
+      <strong id="tier1Users">0</strong>
+      <small>Tier 1 Users</small>
+    </div>
+
+  </div>
+
+  <!-- SEARCH -->
+  <div class="admin-search">
+
+    <input
+      id="adminSearch"
+      type="search"
+      placeholder="Search email, name or phone..."
+    >
+
+    <button
+      id="refreshUsersBtn"
+      type="button"
+    >
+      🔄 Refresh
+    </button>
+
+  </div>
+
+  <!-- USERS -->
+  <div class="admin-users-box">
+
+    <div class="admin-heading">
+      <h3>👥 Registered Users</h3>
+      <span id="userCountLabel">0 Users</span>
+    </div>
+
+    <div id="adminUsersList">
+      <div class="admin-loading">
+        Loading users...
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     ADMIN CSS
+     ========================================================= -->
+
+<style>
+
+.admin-stats {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin:15px 0;
+}
+
+.admin-stat-card {
+  background:#fff;
+  border-radius:16px;
+  padding:15px 8px;
+  text-align:center;
+  box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
+
+.admin-stat-card div {
+  font-size:25px;
+  margin-bottom:6px;
+}
+
+.admin-stat-card strong {
+  display:block;
+  font-size:19px;
+}
+
+.admin-stat-card small {
+  color:#777;
+  font-size:11px;
+}
+
+
+.admin-search {
+  display:flex;
+  gap:8px;
+  margin:15px 0;
+}
+
+.admin-search input {
+  flex:1;
+  min-width:0;
+  padding:13px;
+  border:1px solid #ddd;
+  border-radius:12px;
+  outline:none;
+  font-size:14px;
+}
+
+.admin-search button {
+  border:0;
+  border-radius:12px;
+  padding:0 14px;
+  cursor:pointer;
+}
+
+
+.admin-users-box {
+  background:#fff;
+  border-radius:17px;
+  padding:15px;
+  box-shadow:0 4px 15px rgba(0,0,0,.07);
+}
+
+.admin-heading {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:14px;
+}
+
+.admin-heading h3 {
+  margin:0;
+  font-size:17px;
+}
+
+.admin-heading span {
+  color:#777;
+  font-size:12px;
+}
+
+
+.admin-user-card {
+  border:1px solid #eee;
+  border-radius:14px;
+  padding:13px;
+  margin-bottom:10px;
+}
+
+.admin-user-card:last-child {
+  margin-bottom:0;
+}
+
+.admin-user-email {
+  font-weight:700;
+  word-break:break-word;
+  margin-bottom:10px;
+}
+
+.admin-user-details {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.admin-detail {
+  background:#f7f7f7;
+  border-radius:10px;
+  padding:9px;
+  font-size:12px;
+}
+
+.admin-detail span {
+  display:block;
+  color:#777;
+  margin-bottom:3px;
+}
+
+.admin-detail strong {
+  word-break:break-word;
+}
+
+.admin-user-id {
+  margin-top:9px;
+  color:#999;
+  font-size:10px;
+  word-break:break-all;
+}
+
+.admin-loading,
+.admin-empty,
+.admin-error {
+  text-align:center;
+  padding:25px 8px;
+  color:#777;
+}
+
+@media(max-width:600px) {
+
+  .admin-stats {
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .admin-stat-card {
+    padding:12px 5px;
+  }
+
+  .admin-stat-card strong {
+    font-size:15px;
+  }
+
+  .admin-search {
+    flex-direction:column;
+  }
+
+  .admin-search button {
+    padding:12px;
+  }
+
+}
+
+</style>
+
+
+<!-- =========================================================
+     ADMIN JAVASCRIPT
+     ========================================================= -->
+
+<script type="module">
+
+import {
+  initializeApp,
+  getApps,
+  getApp
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+import {
+  getAuth,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+import {
+  getFirestore,
+  collection,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+/* ================= FIREBASE CONFIG ================= */
+
+const firebaseConfig = {
+
+  apiKey:
+    "AIzaSyA_x5ZYj7D5Dt_9Bq-NzlchpRPRd3QN21I",
+
+  authDomain:
+    "a-t-l-data.firebaseapp.com",
+
+  projectId:
+    "a-t-l-data",
+
+  storageBucket:
+    "a-t-l-data.firebasestorage.app",
+
+  messagingSenderId:
+    "519558305824",
+
+  appId:
+    "1:519558305824:web:cf6dd75ef20ef708c24445"
+
+};
+
+
+/* ================= FIREBASE ================= */
+
+const app =
+  getApps().length
+    ? getApp()
+    : initializeApp(firebaseConfig);
+
+const auth =
+  getAuth(app);
+
+const db =
+  getFirestore(app);
+
+
+/* ================= ADMIN EMAIL ================= */
+
+const ADMIN_EMAIL =
+  "lawanahmadt03@gmail.com";
+
+
+/* ================= VARIABLES ================= */
+
+let allAdminUsers = [];
+
+
+/* ================= ELEMENTS ================= */
+
+const adminPage =
+  document.getElementById("adminPage");
+
+const adminUsersList =
+  document.getElementById("adminUsersList");
+
+const totalUsers =
+  document.getElementById("totalUsers");
+
+const totalWallet =
+  document.getElementById("totalWallet");
+
+const tier1Users =
+  document.getElementById("tier1Users");
+
+const userCountLabel =
+  document.getElementById("userCountLabel");
+
+const adminSearch =
+  document.getElementById("adminSearch");
+
+const refreshUsersBtn =
+  document.getElementById("refreshUsersBtn");
+
+const adminBackBtn =
+  document.getElementById("adminBackBtn");
+
+
+/* ================= CHECK ADMIN ================= */
+
+function checkAdmin() {
+
+  const user =
+    auth.currentUser;
+
+  if (!user) {
+
+    alert("Please login first.");
+
+    return false;
+  }
+
+
+  const loggedEmail =
+    (user.email || "")
+      .trim()
+      .toLowerCase();
+
+  const adminEmail =
+    ADMIN_EMAIL
+      .trim()
+      .toLowerCase();
+
+
+  if (loggedEmail !== adminEmail) {
+
+    alert(
+      "Admin only.\n\n" +
+      "Logged in as: " +
+      (user.email || "Unknown")
+    );
+
+    return false;
+  }
+
+
+  return true;
+}
+
+
+/* ================= OPEN ADMIN ================= */
+
+function openAdminDashboard() {
+
+  if (!checkAdmin()) {
+    return;
+  }
+
+
+  document
+    .querySelectorAll(".app-page")
+    .forEach(page => {
+
+      page.style.display = "none";
+
+    });
+
+
+  adminPage.style.display =
+    "block";
+
+
+  loadUsers();
+
+}
+
+
+/* ================= LOAD USERS ================= */
+
+async function loadUsers() {
+
+  if (!checkAdmin()) {
+    return;
+  }
+
+
+  adminUsersList.innerHTML = `
+    <div class="admin-loading">
+      ⏳ Loading users...
+    </div>
+  `;
+
+
+  try {
+
+    const snapshot =
+      await getDocs(
+        collection(db, "users")
+      );
+
+
+    allAdminUsers = [];
+
+
+    snapshot.forEach(doc => {
+
+      allAdminUsers.push({
+
+        id: doc.id,
+
+        ...doc.data()
+
+      });
+
+    });
+
+
+    updateStats();
+
+    displayUsers(
+      allAdminUsers
+    );
+
+
+  } catch(error) {
+
+    console.error(error);
+
+
+    adminUsersList.innerHTML = `
+      <div class="admin-error">
+
+        ❌ Could not load users.
+
+        <br><br>
+
+        ${escapeHTML(error.message)}
+
+      </div>
+    `;
+
+  }
+
+}
+
+
+/* ================= STATS ================= */
+
+function updateStats() {
+
+  totalUsers.textContent =
+    allAdminUsers.length;
+
+
+  userCountLabel.textContent =
+    allAdminUsers.length +
+    (
+      allAdminUsers.length === 1
+        ? " User"
+        : " Users"
+    );
+
+
+  let walletTotal = 0;
+
+  let tier1Total = 0;
+
+
+  allAdminUsers.forEach(user => {
+
+    walletTotal += Number(
+      user.walletBalance || 0
+    );
+
+
+    if (
+      Number(user.tier || 0) >= 1
+    ) {
+
+      tier1Total++;
+
+    }
+
+  });
+
+
+  totalWallet.textContent =
+    "₦" +
+    walletTotal.toLocaleString();
+
+
+  tier1Users.textContent =
+    tier1Total;
+
+}
+
+
+/* ================= DISPLAY USERS ================= */
+
+function displayUsers(users) {
+
+  if (!users.length) {
+
+    adminUsersList.innerHTML = `
+      <div class="admin-empty">
+        👤 No users found.
+      </div>
+    `;
+
+    return;
+  }
+
+
+  adminUsersList.innerHTML =
+
+    users.map(user => {
+
+
+      const email =
+        user.email ||
+        "No email";
+
+
+      const name =
+        user.fullName ||
+        "Not provided";
+
+
+      const phone =
+        user.phone ||
+        "Not provided";
+
+
+      const wallet =
+        Number(
+          user.walletBalance || 0
+        );
+
+
+      const tier =
+        Number(
+          user.tier || 0
+        );
+
+
+      return `
+
+        <div class="admin-user-card">
+
+          <div class="admin-user-email">
+
+            📧
+            ${escapeHTML(email)}
+
+          </div>
+
+
+          <div class="admin-user-details">
+
+            <div class="admin-detail">
+
+              <span>👤 Name</span>
+
+              <strong>
+                ${escapeHTML(name)}
+              </strong>
+
+            </div>
+
+
+            <div class="admin-detail">
+
+              <span>💰 Wallet</span>
+
+              <strong>
+                ₦${wallet.toLocaleString()}
+              </strong>
+
+            </div>
+
+
+            <div class="admin-detail">
+
+              <span>⭐ Account</span>
+
+              <strong>
+                Tier ${tier}
+              </strong>
+
+            </div>
+
+
+            <div class="admin-detail">
+
+              <span>📱 Phone</span>
+
+              <strong>
+                ${escapeHTML(phone)}
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <div class="admin-user-id">
+
+            User ID:
+            ${escapeHTML(user.id)}
+
+          </div>
+
+        </div>
+
+      `;
+
+    }).join("");
+
+}
+
+
+/* ================= SEARCH ================= */
+
+adminSearch.addEventListener(
+  "input",
+  function() {
+
+    const search =
+      adminSearch.value
+        .trim()
+        .toLowerCase();
+
+
+    if (!search) {
+
+      displayUsers(
+        allAdminUsers
+      );
+
+      return;
+    }
+
+
+    const filtered =
+      allAdminUsers.filter(user => {
+
+        const email =
+          String(
+            user.email || ""
+          ).toLowerCase();
+
+        const name =
+          String(
+            user.fullName || ""
+          ).toLowerCase();
+
+        const phone =
+          String(
+            user.phone || ""
+          ).toLowerCase();
+
+
+        return (
+
+          email.includes(search) ||
+
+          name.includes(search) ||
+
+          phone.includes(search)
+
+        );
+
+      });
+
+
+    displayUsers(filtered);
+
+  }
+);
+
+
+/* ================= REFRESH ================= */
+
+refreshUsersBtn.addEventListener(
+  "click",
+  function() {
+
+    loadUsers();
+
+  }
+);
+
+
+/* ================= BACK ================= */
+
+adminBackBtn.addEventListener(
+  "click",
+  function() {
+
+    adminPage.style.display =
+      "none";
+
+
+    const homePage =
+      document.getElementById(
+        "homePage"
+      );
+
+
+    if (homePage) {
+
+      homePage.style.display =
+        "block";
+
+    }
+
+  }
+);
+
+
+/* ================= ADD ADMIN BUTTON ================= */
+
+const accountPage =
+  document.getElementById(
+    "accountPage"
+  );
+
+
+if (accountPage) {
+
+  const oldButton =
+    document.getElementById(
+      "adminDashboardBtn"
+    );
+
+
+  if (!oldButton) {
+
+    const button =
+      document.createElement(
+        "button"
+      );
+
+
+    button.id =
+      "adminDashboardBtn";
+
+
+    button.type =
+      "button";
+
+
+    button.className =
+      "main-btn";
+
+
+    button.style.marginTop =
+      "10px";
+
+
+    button.textContent =
+      "🛠️ Admin Dashboard";
+
+
+    button.addEventListener(
+      "click",
+      openAdminDashboard
+    );
+
+
+    accountPage.appendChild(
+      button
+    );
+
+  }
+
+}
+
+
+/* ================= AUTH ================= */
+
+onAuthStateChanged(
+  auth,
+  function(user) {
+
+    if (user) {
+
+      console.log(
+        "A T L Data logged in:",
+        user.email
+      );
+
+    }
+
+  }
+);
+
+
+/* ================= ESCAPE ================= */
+
+function escapeHTML(value) {
+
+  return String(value)
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+  </script>
