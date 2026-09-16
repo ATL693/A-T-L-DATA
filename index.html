@@ -1,1019 +1,1059 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A T L Data</title><style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
-body{background:#f5f8f6;color:#123b2a}
-header{background:#087443;color:white;padding:15px 5%;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
-.logo{font-size:22px;font-weight:bold}
-nav a{color:white;text-decoration:none;margin-left:15px;font-size:14px}
-.account-btn,.main-btn{background:#d6a62d;color:white;border:none;padding:12px 18px;border-radius:8px;cursor:pointer;font-weight:bold}
-.hero{text-align:center;padding:55px 20px;background:linear-gradient(135deg,#087443,#0c9a5b);color:white}
-.hero h1{font-size:35px;margin-bottom:12px}
-.hero p{margin-bottom:20px}
-section{padding:35px 5%}
-.section-title{text-align:center;margin-bottom:25px}
-.box{background:white;padding:22px;border-radius:12px;box-shadow:0 3px 12px rgba(0,0,0,.08);max-width:600px;margin:auto}
-input,select{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:7px;outline:none}
-.services{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px}
-.service{background:white;padding:25px;border-radius:12px;text-align:center;box-shadow:0 3px 12px rgba(0,0,0,.07)}
-.service h3{margin-bottom:8px}
-.service button{margin-top:15px;border:none;background:#087443;color:white;padding:10px 16px;border-radius:7px;cursor:pointer}
-.account-box{display:none}
-.balance{font-size:28px;font-weight:bold;color:#087443;margin:10px 0 20px}
-.history{margin-top:20px}
-.transaction{border-bottom:1px solid #ddd;padding:12px 0;font-size:14px}
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:999;align-items:center;justify-content:center;padding:20px}
-.modal-content{background:white;width:100%;max-width:430px;padding:25px;border-radius:12px;position:relative}
-.close{position:absolute;right:15px;top:10px;font-size:25px;cursor:pointer}
-.modal-content h2{margin-bottom:15px}
-.modal-content button{border:none;padding:11px 18px;border-radius:7px;cursor:pointer;margin-top:8px}
-.primary{background:#087443;color:white}
-.secondary{background:#ddd;color:#222}
-.danger{background:#b3261e;color:white;border:none;padding:10px 16px;border-radius:7px;cursor:pointer}
-.whatsapp{display:inline-block;background:#25D366;color:white;padding:12px 18px;text-decoration:none;border-radius:8px;margin-top:15px}
-.error{color:#b3261e;font-size:14px;margin-top:8px}
-.success{color:#087443;font-size:14px;margin-top:8px}
-footer{background:#123b2a;color:white;text-align:center;padding:20px;margin-top:30px}
-.bill-note{font-size:13px;color:#666;margin:5px 0 10px}
-@media(max-width:600px){
-nav{display:none}
-.hero h1{font-size:28px}
-}
-</style></head><body><header>
-<div class="logo">A T L Data</div><nav>
-<a href="#home">Home</a>
-<a href="#services">Services</a>
-<a href="#account">Account</a>
-<a href="#contact">Contact</a>
-</nav><button class="account-btn" id="accountButton">Login</button>
-
-</header><section class="hero" id="home">
-<h1>A T L Data</h1>
-<p>Fast and convenient digital services.</p>
-<button class="main-btn" id="heroDataButton">Buy Data</button>
-</section><section>
-<div class="box">
-<h2 class="section-title">Buy Data</h2><select id="network">
-<option value="">Select Network</option>
-<option>MTN</option>
-<option>Airtel</option>
-<option>Glo</option>
-<option>9mobile</option>
-</select><input type="tel" id="dataPhone" placeholder="Phone Number"><select id="dataPlan">
-<option value="">Select Data Plan</option>
-<option>500MB</option>
-<option>1GB</option>
-<option>2GB</option>
-<option>5GB</option>
-</select><button class="main-btn" id="buyDataButton">Continue</button>
-
-<p id="dataMessage"></p>
-</div>
-</section><section id="services">
-<h2 class="section-title">Our Services</h2><div class="services"><div class="service">
-<h3>📱 Data</h3>
-<p>Buy mobile data bundles.</p>
-<button id="serviceDataButton">Buy Data</button>
-</div><div class="service">
-<h3>☎️ Airtime</h3>
-<p>Buy airtime for your line.</p>
-<button id="airtimeButton">Buy Airtime</button>
-</div><div class="service">
-<h3>💡 Pay Bills</h3>
-<p>Pay electricity, education and other bills.</p>
-<button id="billsButton">Pay Bills</button>
-</div><div class="service">
-<h3>👤 Account</h3>
-<p>Manage your A T L Data account.</p>
-<button id="serviceAccountButton">My Account</button>
-</div></div>
-</section><section id="account" class="account-box">
-<div class="box"><h2 class="section-title">My Account</h2><p id="userEmail"></p><p>Wallet Balance</p><div class="balance" id="walletBalance">₦0.00</div><button class="main-btn" id="addMoneyButton">Add Money</button>
-
-<div class="history">
-<h3>Transaction History</h3>
-<div id="transactionHistory">No transactions yet.</div>
-</div><br><button class="danger" id="logoutButton">Logout</button>
-
-</div>
-</section><section id="contact">
-<div class="box" style="text-align:center"><h2>Contact A T L Data</h2>
-<p>Need help? Contact us on WhatsApp.</p><a class="whatsapp"
-href="https://wa.me/2347073160817"
-target="_blank">
-WhatsApp
-</a>
-
-</div>
-</section><footer>
-<p>© 2026 A T L Data. All rights reserved.</p>
-</footer><!-- LOGIN / SIGN UP MODAL --><div class="modal" id="authModal"><div class="modal-content"><span class="close" id="closeAuth">×</span>
-
-<h2 id="authTitle">Login</h2><input type="email" id="email" placeholder="Email address"><input type="password" id="password" placeholder="Password"><button class="primary" id="authSubmit">Login</button>
-
-<button class="secondary" id="switchAuth">
-Create Account
-</button><p id="authMessage"></p></div>
-</div><!-- DATA MODAL --><div class="modal" id="dataModal"><div class="modal-content"><span class="close" id="closeData">×</span>
-
-<h2>Buy Data</h2><select id="modalNetwork">
-<option value="">Select Network</option>
-<option>MTN</option>
-<option>Airtel</option>
-<option>Glo</option>
-<option>9mobile</option>
-</select><input type="tel" id="modalPhone" placeholder="Phone Number"><select id="modalPlan">
-<option value="">Select Data Plan</option>
-<option>500MB</option>
-<option>1GB</option>
-<option>2GB</option>
-<option>5GB</option>
-</select><button class="primary" id="processDataButton">Continue</button>
-
-<button class="secondary" id="cancelDataButton">Cancel</button>
-
-</div>
-</div><!-- AIRTIME MODAL --><div class="modal" id="airtimeModal"><div class="modal-content"><span class="close" id="closeAirtime">×</span>
-
-<h2>Buy Airtime</h2><select id="airtimeNetwork">
-<option value="">Select Network</option>
-<option>MTN</option>
-<option>Airtel</option>
-<option>Glo</option>
-<option>9mobile</option>
-</select><input type="tel" id="airtimePhone" placeholder="Phone Number"><input type="number" id="airtimeAmount" placeholder="Amount (₦)"><button class="primary" id="processAirtimeButton">Continue</button>
-
-<button class="secondary" id="cancelAirtimeButton">Cancel</button>
-
-</div>
-</div><!-- PAY BILLS MODAL --><div class="modal" id="billsModal"><div class="modal-content"><span class="close" id="closeBills">×</span>
-
-<h2>💡 Pay Bills</h2><select id="billType"><option value="">Select Bill</option><option value="electricity">
-Electricity Bill
-</option><option value="neco">
-NECO
-</option><option value="waec">
-WAEC
-</option><option value="jamb">
-JAMB
-</option><option value="cable">
-Cable TV
-</option><option value="internet">
-Internet Subscription
-</option></select><!-- ELECTRICITY --><div id="electricityFields" style="display:none"><select id="electricityProvider"><option value="">Select Electricity Provider</option><option>IKEDC</option>
-<option>EKEDC</option>
-<option>KEDCO</option>
-<option>ABEDC</option>
-<option>KAEDCO</option>
-<option>YEDC</option>
-<option>BEDC</option>
-<option>JED</option>
-<option>IBEDC</option>
-<option>PHED</option>
-<option>AEDC</option></select><select id="meterType"><option value="">Meter Type</option>
-<option>Prepaid</option>
-<option>Postpaid</option></select><input
-type="text"
-id="meterNumber"
-placeholder="Meter Number"
-
-«»
-
-<input
-type="number"
-id="electricityAmount"
-placeholder="Amount (₦)"
-
-«»
-
-</div><!-- EDUCATION BILLS --><div id="educationFields" style="display:none"><input
-type="text"
-id="examNumber"
-placeholder="Candidate / Registration Number"
-
-«»
-
-<input
-type="number"
-id="educationAmount"
-placeholder="Amount (₦)"
-
-«»
-
-<p class="bill-note">
-Enter the correct examination or registration number.
-</p></div><!-- OTHER BILLS --><div id="otherBillFields" style="display:none"><input
-type="text"
-id="customerNumber"
-placeholder="Customer / Account Number"
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>A T L Data</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f7f8;
+      color: #172026;
+    }
+
+    header {
+      background: #087443;
+      color: white;
+      padding: 15px 18px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 8px rgba(0,0,0,.15);
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    nav {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    nav button {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,.5);
+      color: white;
+      padding: 8px 11px;
+      border-radius: 7px;
+      cursor: pointer;
+    }
+
+    nav button:hover {
+      background: rgba(255,255,255,.15);
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .app-page {
+      display: none;
+    }
+
+    .app-page.active {
+      display: block;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #087443, #0b9658);
+      color: white;
+      padding: 35px 22px;
+      border-radius: 15px;
+      margin-bottom: 22px;
+    }
+
+    .hero h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      margin-bottom: 18px;
+      line-height: 1.5;
+    }
+
+    .btn {
+      border: none;
+      padding: 12px 17px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 15px;
+    }
+
+    .btn-primary {
+      background: #087443;
+      color: white;
+    }
+
+    .btn-light {
+      background: white;
+      color: #087443;
+    }
+
+    .btn-danger {
+      background: #c62828;
+      color: white;
+    }
+
+    .back-btn {
+      margin-bottom: 18px;
+      background: #e7eeee;
+      color: #172026;
+    }
+
+    .section-title {
+      margin-bottom: 15px;
+      font-size: 24px;
+    }
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 15px;
+    }
+
+    .service-card {
+      background: white;
+      padding: 22px;
+      border-radius: 13px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.08);
+      cursor: pointer;
+      border: 1px solid #e8eeee;
+      transition: .2s;
+    }
+
+    .service-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 16px rgba(0,0,0,.12);
+    }
+
+    .service-icon {
+      font-size: 35px;
+      margin-bottom: 10px;
+    }
+
+    .service-card h3 {
+      margin-bottom: 7px;
+    }
+
+    .service-card p {
+      color: #667;
+      line-height: 1.4;
+    }
+
+    .page-card {
+      background: white;
+      padding: 22px;
+      border-radius: 13px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.08);
+      max-width: 700px;
+      margin: auto;
+    }
+
+    .page-card h2 {
+      margin-bottom: 8px;
+      color: #087443;
+    }
+
+    .page-card > p {
+      color: #667;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin: 13px 0 6px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccd5d5;
+      border-radius: 8px;
+      outline: none;
+      font-size: 15px;
+      background: white;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: #087443;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .message {
+      padding: 11px;
+      border-radius: 8px;
+      margin-top: 15px;
+      display: none;
+      line-height: 1.4;
+    }
+
+    .message.success {
+      background: #e5f7ec;
+      color: #126b38;
+      display: block;
+    }
+
+    .message.error {
+      background: #fdeaea;
+      color: #a51f1f;
+      display: block;
+    }
+
+    .message.info {
+      background: #eaf2ff;
+      color: #24528a;
+      display: block;
+    }
+
+    .auth-switch {
+      text-align: center;
+      margin-top: 15px;
+      color: #555;
+    }
+
+    .auth-switch button {
+      border: none;
+      background: none;
+      color: #087443;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .account-box {
+      background: #087443;
+      color: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+
+    .balance {
+      font-size: 30px;
+      font-weight: bold;
+      margin-top: 8px;
+    }
+
+    .account-actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .transaction {
+      background: #f7f9f9;
+      padding: 13px;
+      border-radius: 8px;
+      margin-bottom: 9px;
+      border-left: 4px solid #087443;
+    }
+
+    .transaction small {
+      color: #777;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .notice {
+      background: #fff7df;
+      border: 1px solid #f1d47a;
+      color: #765800;
+      padding: 13px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 15px;
+      color: #777;
+      margin-top: 30px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 20px;
+      color: #777;
+    }
+
+    @media (max-width: 650px) {
+      .header-inner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      nav {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      nav button {
+        font-size: 13px;
+      }
+
+      .hero h1 {
+        font-size: 27px;
+      }
+
+      .container {
+        padding: 14px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">A T L Data</div>
+
+    <nav>
+      <button id="homeNav">Home</button>
+      <button id="dataNav">Data</button>
+      <button id="airtimeNav">Airtime</button>
+      <button id="billsNav">Bills</button>
+      <button id="accountNav">Login</button>
+    </nav>
+  </div>
+</header>
+
+
+<main class="container">
+
+  <!-- HOME -->
+  <section id="homePage" class="app-page active">
+
+    <div class="hero">
+      <h1>Welcome to A T L Data</h1>
+      <p>
+        Buy Data, Airtime and pay different bills from one place.
+      </p>
+
+      <button class="btn btn-light" id="heroDataBtn">
+        Buy Data
+      </button>
+    </div>
+
+    <h2 class="section-title">Our Services</h2>
+
+    <div class="services">
+
+      <div class="service-card" id="dataCard">
+        <div class="service-icon">📶</div>
+        <h3>Buy Data</h3>
+        <p>MTN, Airtel, Glo and 9mobile data plans.</p>
+      </div>
+
+      <div class="service-card" id="airtimeCard">
+        <div class="service-icon">📞</div>
+        <h3>Buy Airtime</h3>
+        <p>Recharge your mobile line easily.</p>
+      </div>
+
+      <div class="service-card" id="billsCard">
+        <div class="service-icon">💡</div>
+        <h3>Pay Bills</h3>
+        <p>Electricity, NECO, WAEC, JAMB, Cable TV and Internet.</p>
+      </div>
+
+      <div class="service-card" id="accountCard">
+        <div class="service-icon">👤</div>
+        <h3>My Account</h3>
+        <p>Login, wallet and transaction history.</p>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- DATA -->
+  <section id="dataPage" class="app-page">
+
+    <button class="btn back-btn" id="dataBack">
+      ← Back to Home
+    </button>
+
+    <div class="page-card">
+
+      <h2>📶 Buy Data</h2>
+      <p>Select your network and data plan.</p>
+
+      <div class="notice">
+        Data orders are currently recorded for testing.
+        Real VTU fulfillment will be connected later.
+      </div>
+
+      <label>Network</label>
+      <select id="dataNetwork">
+        <option value="MTN">MTN</option>
+        <option value="Airtel">Airtel</option>
+        <option value="Glo">Glo</option>
+        <option value="9mobile">9mobile</option>
+      </select>
+
+      <label>Phone Number</label>
+      <input
+        id="dataPhone"
+        type="tel"
+        placeholder="08012345678"
+        maxlength="11"
+      >
+
+      <label>Data Plan</label>
+      <select id="dataPlan">
+        <option value="500MB">500MB</option>
+        <option value="1GB">1GB</option>
+        <option value="2GB">2GB</option>
+        <option value="5GB">5GB</option>
+      </select>
+
+      <br><br>
+
+      <button class="btn btn-primary" id="dataOrderBtn">
+        Continue
+      </button>
+
+      <div id="dataMessage" class="message"></div>
+
+    </div>
+
+  </section>
+
+
+  <!-- AIRTIME -->
+  <section id="airtimePage" class="app-page">
+
+    <button class="btn back-btn" id="airtimeBack">
+      ← Back to Home
+    </button>
+
+    <div class="page-card">
+
+      <h2>📞 Buy Airtime</h2>
+      <p>Recharge any supported network.</p>
+
+      <div class="notice">
+        Airtime orders are currently recorded for testing.
+        Real airtime delivery will be connected later.
+      </div>
+
+      <label>Network</label>
+      <select id="airtimeNetwork">
+        <option value="MTN">MTN</option>
+        <option value="Airtel">Airtel</option>
+        <option value="Glo">Glo</option>
+        <option value="9mobile">9mobile</option>
+      </select>
+
+      <label>Phone Number</label>
+      <input
+        id="airtimePhone"
+        type="tel"
+        placeholder="08012345678"
+        maxlength="11"
+      >
+
+      <label>Amount</label>
+      <input
+        id="airtimeAmount"
+        type="number"
+        min="50"
+        placeholder="Enter amount"
+      >
+
+      <br><br>
+
+      <button class="btn btn-primary" id="airtimeOrderBtn">
+        Continue
+      </button>
+
+      <div id="airtimeMessage" class="message"></div>
+
+    </div>
+
+  </section>
+
+
+  <!-- BILLS -->
+  <section id="billsPage" class="app-page">
+
+    <button class="btn back-btn" id="billsBack">
+      ← Back to Home
+    </button>
+
+    <div class="page-card">
+
+      <h2>💡 Pay Bills</h2>
+      <p>Select the bill you want to pay.</p>
+
+      <div class="notice">
+        Bill payment is currently in testing mode.
+        No real payment will be made until the payment/API system is connected.
+      </div>
+
+      <label>Bill Type</label>
+
+      <select id="billType">
+
+        <option value="electricity">
+          Electricity
+        </option>
+
+        <option value="neco">
+          NECO
+        </option>
+
+        <option value="waec">
+          WAEC
+        </option>
+
+        <option value="jamb">
+          JAMB
+        </option>
+
+        <option value="cable">
+          Cable TV
+        </option>
+
+        <option value="internet">
+          Internet
+        </option>
+
+      </select>
+
+
+      <!-- ELECTRICITY -->
+
+      <div id="electricityFields">
+
+        <label>Electricity Provider</label>
+
+        <select id="electricityProvider">
+
+          <option value="IKEDC">IKEDC</option>
+          <option value="EKEDC">EKEDC</option>
+          <option value="KEDCO">KEDCO</option>
+          <option value="ABEDC">ABEDC</option>
+          <option value="KAEDCO">KAEDCO</option>
+          <option value="YEDC">YEDC</option>
+          <option value="BEDC">BEDC</option>
+          <option value="JED">JED</option>
+          <option value="IBEDC">IBEDC</option>
+          <option value="PHED">PHED</option>
+          <option value="AEDC">AEDC</option>
+
+        </select>
+
+
+        <label>Meter Type</label>
+
+        <select id="meterType">
+          <option value="Prepaid">Prepaid</option>
+          <option value="Postpaid">Postpaid</option>
+        </select>
+
+
+        <label>Meter Number</label>
+
+        <input
+          id="meterNumber"
+          type="text"
+          placeholder="Enter meter number"
+        >
+
+
+        <label>Amount</label>
+
+        <input
+          id="electricityAmount"
+          type="number"
+          min="100"
+          placeholder="Enter amount"
+        >
+
+      </div>
+
+
+      <!-- EDUCATION -->
+
+      <div id="educationFields" class="hidden">
+
+        <label id="educationNumberLabel">
+          Registration Number
+        </label>
+
+        <input
+          id="educationNumber"
+          type="text"
+          placeholder="Enter registration number"
+        >
+
+        <label>Amount</label>
+
+        <input
+          id="educationAmount"
+          type="number"
+          min="100"
+          placeholder="Enter amount"
+        >
+
+      </div>
+
+
+      <!-- CABLE -->
+
+      <div id="cableFields" class="hidden">
+
+        <label>Cable TV Provider</label>
+
+        <select id="cableProvider">
+          <option value="DStv">DStv</option>
+          <option value="GOtv">GOtv</option>
+          <option value="Startimes">Startimes</option>
+        </select>
 
-«»
+        <label>Smartcard / IUC Number</label>
 
-<input
-type="number"
-id="billAmount"
-placeholder="Amount (₦)"
+        <input
+          id="cableNumber"
+          type="text"
+          placeholder="Enter customer number"
+        >
 
-«»
+        <label>Amount</label>
 
-</div><button class="primary" id="processBillButton">
-Continue
-</button><button class="secondary" id="cancelBillsButton">
-Cancel
-</button></div>
-</div><!-- FIREBASE --><script type="module">
+        <input
+          id="cableAmount"
+          type="number"
+          min="100"
+          placeholder="Enter amount"
+        >
 
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+      </div>
 
-import {
-getAuth,
-createUserWithEmailAndPassword,
-signInWithEmailAndPassword,
-signOut,
-onAuthStateChanged
-}
-from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
-import {
-getFirestore,
-doc,
-setDoc,
-getDoc,
-collection,
-addDoc,
-query,
-orderBy,
-getDocs,
-serverTimestamp
-}
-from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+      <!-- INTERNET -->
 
+      <div id="internetFields" class="hidden">
 
-const firebaseConfig = {
+        <label>Internet Provider</label>
 
-apiKey:"AIzaSyA_x5ZYj7D5Dt_9Bq-NzlchpRPRd3QN21I",
+        <select id="internetProvider">
+          <option value="Smile">Smile</option>
+          <option value="Spectranet">Spectranet</option>
+          <option value="MTN Fibre">MTN Fibre</option>
+          <option value="Airtel Internet">Airtel Internet</option>
+        </select>
 
-authDomain:"a-t-l-data.firebaseapp.com",
+        <label>Customer / Account Number</label>
 
-projectId:"a-t-l-data",
+        <input
+          id="internetNumber"
+          type="text"
+          placeholder="Enter customer number"
+        >
 
-storageBucket:"a-t-l-data.firebasestorage.app",
+        <label>Amount</label>
 
-messagingSenderId:"519558305824",
+        <input
+          id="internetAmount"
+          type="number"
+          min="100"
+          placeholder="Enter amount"
+        >
 
-appId:"1:519558305824:web:cf6dd75ef20ef708c24445"
+      </div>
 
-};
 
+      <br>
 
-const app=initializeApp(firebaseConfig);
+      <button class="btn btn-primary" id="billOrderBtn">
+        Continue
+      </button>
 
-const auth=getAuth(app);
+      <div id="billMessage" class="message"></div>
 
-const db=getFirestore(app);
+    </div>
 
-let loginMode=true;
+  </section>
 
 
-/* BASIC HELPERS */
+  <!-- LOGIN -->
+  <section id="loginPage" class="app-page">
 
-function $(id){
-return document.getElementById(id);
-}
+    <button class="btn back-btn" id="loginBack">
+      ← Back to Home
+    </button>
 
-function openModal(id){
-$(id).style.display="flex";
-}
+    <div class="page-card">
 
-function closeModal(id){
-$(id).style.display="none";
-}
+      <h2 id="authTitle">Login</h2>
 
+      <p id="authDescription">
+        Login to your A T L Data account.
+      </p>
 
-/* AUTH STATE */
+      <form id="authForm">
 
-onAuthStateChanged(auth,async(user)=>{
+        <div id="nameGroup" class="hidden">
 
-const accountButton=$("accountButton");
-const accountSection=$("account");
+          <label>Full Name</label>
 
-if(user){
+          <input
+            id="fullName"
+            type="text"
+            placeholder="Enter your full name"
+          >
 
-accountButton.textContent="My Account";
+        </div>
 
-$("userEmail").textContent="Email: "+user.email;
 
-accountSection.style.display="block";
+        <label>Email</label>
 
-await createUserProfile(user);
+        <input
+          id="email"
+          type="email"
+          placeholder="example@gmail.com"
+          required
+        >
 
-await loadTransactions(user.uid);
 
-}else{
+        <label>Password</label>
 
-accountButton.textContent="Login";
+        <input
+          id="password"
+          type="password"
+          placeholder="Enter password"
+          minlength="6"
+          required
+        >
 
-accountSection.style.display="none";
 
-}
+        <br>
 
-});
+        <button
+          type="submit"
+          class="btn btn-primary"
+          id="authSubmit"
+        >
+          Login
+        </button>
 
+      </form>
 
-/* USER PROFILE */
 
-async function createUserProfile(user){
+      <div id="authMessage" class="message"></div>
 
-const userRef=doc(db,"users",user.uid);
 
-const userSnap=await getDoc(userRef);
+      <div class="auth-switch">
 
-if(!userSnap.exists()){
+        <span id="authSwitchText">
+          Don't have an account?
+        </span>
 
-await setDoc(userRef,{
+        <button id="authSwitchBtn" type="button">
+          Create Account
+        </button>
 
-uid:user.uid,
+      </div>
 
-email:user.email,
+    </div>
 
-walletBalance:0,
+  </section>
 
-createdAt:serverTimestamp()
 
-});
+  <!-- ACCOUNT -->
+  <section id="accountPage" class="app-page">
 
-}
+    <button class="btn back-btn" id="accountBack">
+      ← Back to Home
+    </button>
 
-}
+    <div class="page-card">
 
+      <div id="loggedOutAccount">
 
-/* AUTH */
+        <h2>👤 My Account</h2>
 
-async function handleAuth(){
+        <p>
+          Please login or create an account to continue.
+        </p>
 
-const email=$("email").value.trim();
+        <br>
 
-const password=$("password").value;
+        <button class="btn btn-primary" id="accountLoginBtn">
+          Login / Sign Up
+        </button>
 
-const message=$("authMessage");
+      </div>
 
-message.className="error";
 
-if(!email||!password){
+      <div id="loggedInAccount" class="hidden">
 
-message.textContent="Please enter email and password.";
+        <div class="account-box">
 
-return;
+          <div>Wallet Balance</div>
 
-}
+          <div class="balance" id="walletBalance">
+            ₦0.00
+          </div>
 
-if(password.length<6){
+          <div id="userEmail">
+            -
+          </div>
 
-message.textContent="Password must be at least 6 characters.";
+        </div>
 
-return;
 
-}
+        <div class="account-actions">
 
-try{
+          <button
+            class="btn btn-primary"
+            id="addMoneyBtn"
+          >
+            Add Money
+          </button>
 
-if(loginMode){
+          <button
+            class="btn btn-danger"
+            id="logoutBtn"
+          >
+            Logout
+          </button>
 
-await signInWithEmailAndPassword(auth,email,password);
+        </div>
 
-message.className="success";
 
-message.textContent="Login successful.";
+        <br>
 
-}else{
+        <h3>Transaction History</h3>
 
-const result=
-await createUserWithEmailAndPassword(
-auth,email,password
-);
+        <br>
 
-await createUserProfile(result.user);
+        <div id="transactions">
 
-message.className="success";
+          <div class="loading">
+            No transactions yet.
+          </div>
 
-message.textContent="Account created successfully.";
+        </div>
 
-}
+      </div>
 
-setTimeout(()=>{
+    </div>
 
-closeModal("authModal");
+  </section>
 
-$("email").value="";
+</main>
 
-$("password").value="";
 
-},700);
+<footer>
+  © 2026 A T L Data. All rights reserved.
+</footer>
 
-}catch(error){
 
-message.textContent=getFriendlyError(error.code);
+<!-- FIREBASE -->
 
-}
+<script type="module">
 
-}
+  import { initializeApp }
+    from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
+    signOut
+  }
+    from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
-$("authSubmit").addEventListener("click",handleAuth);
+  import {
+    getFirestore,
+    doc,
+    setDoc,
+    getDoc,
+    addDoc,
+    collection,
+    query,
+    orderBy,
+    getDocs,
+    serverTimestamp
+  }
+    from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
-/* SWITCH LOGIN / CREATE ACCOUNT */
+  const firebaseConfig = {
+    apiKey: "AIzaSyA_x5ZYj7D5Dt_9Bq-NzlchpRPRd3QN21I",
+    authDomain: "a-t-l-data.firebaseapp.com",
+    projectId: "a-t-l-data",
+    storageBucket: "a-t-l-data.firebasestorage.app",
+    messagingSenderId: "519558305824",
+    appId: "1:519558305824:web:cf6dd75ef20ef708c24445"
+  };
 
-$("switchAuth").addEventListener("click",()=>{
 
-loginMode=!loginMode;
+  const app = initializeApp(firebaseConfig);
 
-$("authTitle").textContent=
-loginMode?"Login":"Create Account";
+  const auth = getAuth(app);
 
-$("authSubmit").textContent=
-loginMode?"Login":"Create Account";
+  const db = getFirestore(app);
 
-$("switchAuth").textContent=
-loginMode
-?"Create Account"
-:"Already have an account? Login";
 
-$("authMessage").textContent="";
+  let currentUser = null;
 
-});
+  let loginMode = true;
 
 
-/* FRIENDLY ERRORS */
+  // -----------------------------
+  // PAGE NAVIGATION
+  // -----------------------------
 
-function getFriendlyError(code){
+  const pages = document.querySelectorAll(".app-page");
 
-switch(code){
 
-case"auth/email-already-in-use":
-return"This email is already registered.";
+  function showPage(pageId) {
 
-case"auth/invalid-email":
-return"Please enter a valid email address.";
+    pages.forEach(page => {
+      page.classList.remove("active");
+    });
 
-case"auth/weak-password":
-return"Password is too weak.";
+    const selectedPage = document.getElementById(pageId);
 
-case"auth/invalid-credential":
-return"Incorrect email or password.";
+    if (selectedPage) {
+      selectedPage.classList.add("active");
+    }
 
-case"auth/user-not-found":
-return"Account not found.";
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
 
-default:
-return"Something went wrong. Please try again.";
 
-}
+  // -----------------------------
+  // NAVIGATION BUTTONS
+  // -----------------------------
 
-}
+  document.getElementById("homeNav")
+    .addEventListener("click", () => {
+      showPage("homePage");
+    });
 
 
-/* LOGOUT */
+  document.getElementById("dataNav")
+    .addEventListener("click", () => {
+      showPage("dataPage");
+    });
 
-$("logoutButton").addEventListener("click",async()=>{
 
-await signOut(auth);
+  document.getElementById("airtimeNav")
+    .addEventListener("click", () => {
+      showPage("airtimePage");
+    });
 
-alert("You have been logged out.");
 
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
+  document.getElementById("billsNav")
+    .addEventListener("click", () => {
+      showPage("billsPage");
+    });
 
-});
 
+  document.getElementById("accountNav")
+    .addEventListener("click", () => {
 
-/* TRANSACTIONS */
+      if (currentUser) {
+        showPage("accountPage");
+      } else {
+        showPage("loginPage");
+      }
 
-async function saveTransaction(type,details){
+    });
 
-const user=auth.currentUser;
 
-if(!user){
+  document.getElementById("heroDataBtn")
+    .addEventListener("click", () => {
+      showPage("dataPage");
+    });
 
-alert("Please login first.");
 
-return false;
+  document.getElementById("dataCard")
+    .addEventListener("click", () => {
+      showPage("dataPage");
+    });
 
-}
 
-try{
+  document.getElementById("airtimeCard")
+    .addEventListener("click", () => {
+      showPage("airtimePage");
+    });
 
-await addDoc(
 
-collection(
-db,
-"users",
-user.uid,
-"transactions"
-),
+  document.getElementById("billsCard")
+    .addEventListener("click", () => {
+      showPage("billsPage");
+    });
 
-{
 
-type:type,
+  document.getElementById("accountCard")
+    .addEventListener("click", () => {
 
-details:details,
+      if (currentUser) {
+        showPage("accountPage");
+      } else {
+        showPage("loginPage");
+      }
 
-createdAt:serverTimestamp()
+    });
 
-}
 
-);
+  document.getElementById("dataBack")
+    .addEventListener("click", () => {
+      showPage("homePage");
+    });
 
-await loadTransactions(user.uid);
 
-return true;
+  document.getElementById("airtimeBack")
+    .addEventListener("click", () => {
+      showPage("homePage");
+    });
 
-}catch(error){
 
-alert("Unable to save transaction. Please try again.");
-
-return false;
-
-}
-
-}
-
-
-/* LOAD TRANSACTIONS */
-
-async function loadTransactions(uid){
-
-const history=$("transactionHistory");
-
-history.innerHTML="Loading...";
-
-try{
-
-const transactionRef=
-collection(
-db,
-"users",
-uid,
-"transactions"
-);
-
-const q=query(
-transactionRef,
-orderBy("createdAt","desc")
-);
-
-const snapshot=await getDocs(q);
-
-if(snapshot.empty){
-
-history.innerHTML="No transactions yet.";
-
-return;
-
-}
-
-history.innerHTML="";
-
-snapshot.forEach(item=>{
-
-const data=item.data();
-
-const div=document.createElement("div");
-
-div.className="transaction";
-
-div.textContent=
-data.type+" — "+data.details;
-
-history.appendChild(div);
-
-});
-
-}catch(error){
-
-history.innerHTML=
-"Transaction history will appear here.";
-
-}
-
-}
-
-
-/* OPEN LOGIN */
-
-$("accountButton").addEventListener("click",()=>{
-
-if(auth.currentUser){
-
-$("account").scrollIntoView({
-behavior:"smooth"
-});
-
-}else{
-
-openModal("authModal");
-
-}
-
-});
-
-
-/* ACCOUNT */
-
-$("serviceAccountButton").addEventListener("click",()=>{
-
-if(auth.currentUser){
-
-$("account").scrollIntoView({
-behavior:"smooth"
-});
-
-}else{
-
-openModal("authModal");
-
-}
-
-});
-
-
-/* DATA MODALS */
-
-$("heroDataButton").addEventListener(
-"click",
-()=>openModal("dataModal")
-);
-
-$("serviceDataButton").addEventListener(
-"click",
-()=>openModal("dataModal")
-);
-
-$("closeData").addEventListener(
-"click",
-()=>closeModal("dataModal")
-);
-
-$("cancelDataButton").addEventListener(
-"click",
-()=>closeModal("dataModal")
-);
-
-
-/* DATA MAIN FORM */
-
-$("buyDataButton").addEventListener("click",async()=>{
-
-const network=$("network").value;
-
-const phone=$("dataPhone").value.trim();
-
-const plan=$("dataPlan").value;
-
-const message=$("dataMessage");
-
-if(!auth.currentUser){
-
-openModal("authModal");
-
-return;
-
-}
-
-if(!network||!phone||!plan){
-
-message.className="error";
-
-message.textContent=
-"Please complete all fields.";
-
-return;
-
-}
-
-await saveTransaction(
-"Data order",
-network+" "+plan+" for "+phone
-);
-
-message.className="success";
-
-message.textContent=
-"Order recorded. Real data delivery will be connected later.";
-
-});
-
-
-/* DATA MODAL */
-
-$("processDataButton").addEventListener("click",async()=>{
-
-const network=$("modalNetwork").value;
-
-const phone=$("modalPhone").value.trim();
-
-const plan=$("modalPlan").value;
-
-if(!auth.currentUser){
-
-closeModal("dataModal");
-
-openModal("authModal");
-
-return;
-
-}
-
-if(!network||!phone||!plan){
-
-alert("Please complete all fields.");
-
-return;
-
-}
-
-await saveTransaction(
-"Data order",
-network+" "+plan+" for "+phone
-);
-
-alert(
-"Order recorded. Real data delivery will be connected later."
-);
-
-closeModal("dataModal");
-
-});
-
-
-/* AIRTIME */
-
-$("airtimeButton").addEventListener(
-"click",
-()=>openModal("airtimeModal")
-);
-
-$("closeAirtime").addEventListener(
-"click",
-()=>closeModal("airtimeModal")
-);
-
-$("cancelAirtimeButton").addEventListener(
-"click",
-()=>closeModal("airtimeModal")
-);
-
-
-$("processAirtimeButton").addEventListener("click",async()=>{
-
-const network=$("airtimeNetwork").value;
-
-const phone=$("airtimePhone").value.trim();
-
-const amount=$("airtimeAmount").value;
-
-if(!auth.currentUser){
-
-closeModal("airtimeModal");
-
-openModal("authModal");
-
-return;
-
-}
-
-if(!network||!phone||!amount){
-
-alert("Please complete all fields.");
-
-return;
-
-}
-
-await saveTransaction(
-"Airtime order",
-network+" ₦"+amount+" for "+phone
-);
-
-alert(
-"Order recorded. Real airtime delivery will be connected later."
-);
-
-closeModal("airtimeModal");
-
-});
-
-
-/* PAY BILLS */
-
-$("billsButton").addEventListener(
-"click",
-()=>openModal("billsModal")
-);
-
-$("closeBills").addEventListener(
-"click",
-()=>closeModal("billsModal")
-);
-
-$("cancelBillsButton").addEventListener(
-"click",
-()=>closeModal("billsModal")
-);
-
-
-/* BILL TYPE CHANGE */
-
-$("billType").addEventListener("change",()=>{
-
-const type=$("billType").value;
-
-$("electricityFields").style.display="none";
-
-$("educationFields").style.display="none";
-
-$("otherBillFields").style.display="none";
-
-
-if(type==="electricity"){
-
-$("electricityFields").style.display="block";
-
-}
-
-else if(
-type==="neco"||
-type==="waec"||
-type==="jamb"
-){
-
-$("educationFields").style.display="block";
-
-}
-
-else if(
-type==="cable"||
-type==="internet"
-){
-
-$("otherBillFields").style.display="block";
-
-}
-
-});
-
-
-/* PROCESS BILL */
-
-$("processBillButton").addEventListener("click",async()=>{
-
-if(!auth.currentUser){
-
-closeModal("billsModal");
-
-openModal("authModal");
-
-return;
-
-}
-
-const type=$("billType").value;
-
-if(!type){
-
-alert("Please select a bill.");
-
-return;
-
-}
-
-
-let details="";
-
-
-if(type==="electricity"){
-
-const provider=$("electricityProvider").value;
-
-const meterType=$("meterType").value;
-
-const meter=$("meterNumber").value.trim();
-
-const amount=$("electricityAmount").value;
-
-if(!provider||!meterType||!meter||!amount){
-
-alert("Please complete all electricity fields.");
-
-return;
-
-}
-
-details=
-provider+
-" — "+
-meterType+
-" meter "+
-meter+
-" — ₦"+
-amount;
-
-}
-
-
-else if(
-type==="neco"||
-type==="waec"||
-type==="jamb"
-){
-
-const examNumber=$("examNumber").value.trim();
-
-const amount=$("educationAmount").value;
-
-if(!examNumber||!amount){
-
-alert("Please enter the registration number and amount.");
-
-return;
-
-}
-
-details=
-type.toUpperCase()+
-" — "+
-examNumber+
-" — ₦"+
-amount;
-
-}
-
-
-else{
-
-const customer=$("customerNumber").value.trim();
-
-const amount=$("billAmount").value;
-
-if(!customer||!amount){
-
-alert("Please enter customer number and amount.");
-
-return;
-
-}
-
-details=
-type+
-" — "+
-customer+
-" — ₦"+
-amount;
-
-}
-
-
-await saveTransaction(
-"Bill payment",
-details
-);
-
-alert(
-"Bill order recorded. Real bill payment will be connected later."
-);
-
-closeModal("billsModal");
-
-});
-
-
-/* ADD MONEY */
-
-$("addMoneyButton").addEventListener("click",()=>{
-
-alert(
-"Wallet funding will be connected to Paystack after the secure payment system is completed."
-);
-
-});
-
-
-/* CLOSE MODALS WHEN CLICKING OUTSIDE */
-
-window.addEventListener("click",(event)=>{
-
-if(event.target.classList.contains("modal")){
-
-event.target.style.display="none";
-
-}
-
-});
-
-</script></body>
-           </html>
+  document.getElementById("billsBack")
+    .addEventListener("click", 
