@@ -1,487 +1,1077 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>A T L Data | Data & Airtime</title>
+<title>A T L Data | Data & Airtime</title>
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial,sans-serif;
+}
 
-    body {
-      background: #f4f7f6;
-      color: #17221d;
-    }
+body{
+  background:#f4f7f6;
+  color:#17221d;
+}
 
-    header {
-      background: linear-gradient(135deg, #006b3c, #00a65a);
-      color: white;
-      padding: 18px 7%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      box-shadow: 0 3px 12px rgba(0,0,0,.15);
-    }
+header{
+  background:linear-gradient(135deg,#006b3c,#00a65a);
+  color:white;
+  padding:16px 6%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:sticky;
+  top:0;
+  z-index:100;
+  box-shadow:0 3px 12px rgba(0,0,0,.15);
+}
 
-    .logo {
-      font-size: 25px;
-      font-weight: bold;
-    }
+.logo{
+  font-size:24px;
+  font-weight:bold;
+}
 
-    .logo span {
-      color: #ffd54a;
-    }
+.logo span{
+  color:#ffd54a;
+}
 
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin-left: 18px;
-      font-size: 14px;
-    }
+nav{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
 
-    .hero {
-      padding: 55px 7%;
-      background: linear-gradient(135deg, #003d25, #008f4c);
-      color: white;
-      text-align: center;
-    }
+nav a, nav button{
+  color:white;
+  text-decoration:none;
+  background:none;
+  border:none;
+  cursor:pointer;
+  font-size:14px;
+}
 
-    .hero h1 {
-      font-size: 38px;
-      margin-bottom: 12px;
-    }
+nav button{
+  background:#ffd54a;
+  color:#173b28;
+  padding:9px 14px;
+  border-radius:20px;
+  font-weight:bold;
+}
 
-    .hero p {
-      font-size: 17px;
-      opacity: .9;
-      margin-bottom: 25px;
-    }
+.hero{
+  padding:55px 7%;
+  background:linear-gradient(135deg,#003d25,#008f4c);
+  color:white;
+  text-align:center;
+}
 
-    .hero button {
-      background: #ffd54a;
-      color: #173b28;
-      border: none;
-      padding: 13px 25px;
-      border-radius: 25px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.hero h1{
+  font-size:38px;
+  margin-bottom:12px;
+}
 
-    .container {
-      width: 90%;
-      max-width: 900px;
-      margin: 30px auto;
-    }
+.hero p{
+  font-size:17px;
+  margin-bottom:25px;
+}
 
-    .card {
-      background: white;
-      padding: 25px;
-      border-radius: 18px;
-      box-shadow: 0 5px 20px rgba(0,0,0,.08);
-      margin-bottom: 25px;
-    }
+.hero button{
+  background:#ffd54a;
+  color:#173b28;
+  border:none;
+  padding:13px 25px;
+  border-radius:25px;
+  font-weight:bold;
+  cursor:pointer;
+}
 
-    .card h2 {
-      margin-bottom: 20px;
-      color: #006b3c;
-    }
+.container{
+  width:92%;
+  max-width:950px;
+  margin:30px auto;
+}
 
-    label {
-      display: block;
-      margin: 12px 0 7px;
-      font-weight: bold;
-    }
+.card{
+  background:white;
+  padding:24px;
+  border-radius:18px;
+  box-shadow:0 5px 20px rgba(0,0,0,.08);
+  margin-bottom:25px;
+}
 
-    select,
-    input {
-      width: 100%;
-      padding: 14px;
-      border: 1px solid #d5ddd8;
-      border-radius: 10px;
-      outline: none;
-      font-size: 15px;
-    }
+.card h2{
+  margin-bottom:20px;
+  color:#006b3c;
+}
 
-    select:focus,
-    input:focus {
-      border-color: #00a65a;
-    }
+label{
+  display:block;
+  margin:12px 0 7px;
+  font-weight:bold;
+}
 
-    .plans {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      margin-top: 15px;
-    }
+select,input{
+  width:100%;
+  padding:14px;
+  border:1px solid #d5ddd8;
+  border-radius:10px;
+  outline:none;
+  font-size:15px;
+}
 
-    .plan {
-      border: 2px solid #e1e8e4;
-      padding: 17px;
-      border-radius: 13px;
-      cursor: pointer;
-      text-align: center;
-      transition: .2s;
-    }
+.plans{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  margin-top:15px;
+}
 
-    .plan:hover {
-      border-color: #00a65a;
-      transform: translateY(-2px);
-    }
+.plan{
+  border:2px solid #e1e8e4;
+  padding:17px;
+  border-radius:13px;
+  cursor:pointer;
+  text-align:center;
+}
 
-    .plan.selected {
-      border-color: #00a65a;
-      background: #eafff3;
-    }
+.plan.selected{
+  border-color:#00a65a;
+  background:#eafff3;
+}
 
-    .plan strong {
-      display: block;
-      color: #006b3c;
-      font-size: 19px;
-      margin-bottom: 5px;
-    }
+.plan strong{
+  display:block;
+  color:#006b3c;
+  font-size:19px;
+  margin-bottom:5px;
+}
 
-    .buy-btn {
-      width: 100%;
-      margin-top: 20px;
-      padding: 15px;
-      border: none;
-      border-radius: 12px;
-      background: #006b3c;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.buy-btn{
+  width:100%;
+  margin-top:20px;
+  padding:15px;
+  border:none;
+  border-radius:12px;
+  background:#006b3c;
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
 
-    .buy-btn:hover {
-      background: #004f2d;
-    }
+.services{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+}
 
-    .services {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 15px;
-    }
+.service{
+  background:white;
+  padding:22px 12px;
+  border-radius:15px;
+  text-align:center;
+  box-shadow:0 4px 15px rgba(0,0,0,.06);
+  cursor:pointer;
+}
 
-    .service {
-      background: white;
-      padding: 22px 12px;
-      border-radius: 15px;
-      text-align: center;
-      box-shadow: 0 4px 15px rgba(0,0,0,.06);
-    }
+.service .icon{
+  font-size:30px;
+  margin-bottom:10px;
+}
 
-    .service .icon {
-      font-size: 30px;
-      margin-bottom: 10px;
-    }
+.service h3{
+  font-size:15px;
+  margin-bottom:5px;
+}
 
-    .service h3 {
-      font-size: 15px;
-      margin-bottom: 5px;
-    }
+.service p{
+  font-size:12px;
+  color:#68736e;
+}
 
-    .service p {
-      font-size: 12px;
-      color: #68736e;
-    }
+.notice{
+  background:#fff8df;
+  border-left:5px solid #e9b900;
+  padding:15px;
+  border-radius:8px;
+  margin-top:20px;
+  font-size:13px;
+  line-height:1.5;
+}
 
-    .notice {
-      background: #fff8df;
-      border-left: 5px solid #e9b900;
-      padding: 15px;
-      border-radius: 8px;
-      margin-top: 20px;
-      font-size: 13px;
-      line-height: 1.5;
-    }
+.whatsapp{
+  display:block;
+  text-align:center;
+  background:#20b957;
+  color:white;
+  text-decoration:none;
+  padding:14px;
+  border-radius:12px;
+  font-weight:bold;
+  margin-top:20px;
+}
 
-    .whatsapp {
-      display: block;
-      text-align: center;
-      background: #20b957;
-      color: white;
-      text-decoration: none;
-      padding: 14px;
-      border-radius: 12px;
-      font-weight: bold;
-      margin-top: 20px;
-    }
+.hidden{
+  display:none;
+}
 
-    footer {
-      margin-top: 40px;
-      background: #10231a;
-      color: white;
-      text-align: center;
-      padding: 25px 10px;
-      font-size: 13px;
-    }
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+  z-index:200;
+}
 
-    footer span {
-      color: #ffd54a;
-    }
+.modal-box{
+  background:white;
+  width:100%;
+  max-width:430px;
+  padding:25px;
+  border-radius:18px;
+  position:relative;
+}
 
-    @media (max-width: 650px) {
-      header {
-        padding: 16px 5%;
-      }
+.close{
+  position:absolute;
+  right:18px;
+  top:12px;
+  font-size:25px;
+  cursor:pointer;
+}
 
-      nav a {
-        display: none;
-      }
+.modal-box h2{
+  color:#006b3c;
+  margin-bottom:20px;
+}
 
-      .hero {
-        padding: 45px 5%;
-      }
+.account-box{
+  background:#eafff3;
+  padding:18px;
+  border-radius:12px;
+  margin-bottom:15px;
+}
 
-      .hero h1 {
-        font-size: 30px;
-      }
+.account-box strong{
+  color:#006b3c;
+}
 
-      .container {
-        width: 94%;
-      }
+.account-btn{
+  width:100%;
+  padding:13px;
+  margin-top:10px;
+  border:none;
+  border-radius:10px;
+  background:#006b3c;
+  color:white;
+  cursor:pointer;
+  font-weight:bold;
+}
 
-      .services {
-        grid-template-columns: repeat(2, 1fr);
-      }
+.logout{
+  background:#b42318;
+}
 
-      .plans {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-  </style>
+.balance{
+  font-size:25px;
+  font-weight:bold;
+  color:#006b3c;
+}
+
+.history-item{
+  padding:12px 0;
+  border-bottom:1px solid #e4e9e6;
+  font-size:14px;
+}
+
+footer{
+  margin-top:40px;
+  background:#10231a;
+  color:white;
+  text-align:center;
+  padding:25px 10px;
+  font-size:13px;
+}
+
+footer span{
+  color:#ffd54a;
+}
+
+@media(max-width:650px){
+
+  header{
+    padding:15px 4%;
+  }
+
+  nav a{
+    display:none;
+  }
+
+  .hero h1{
+    font-size:30px;
+  }
+
+  .container{
+    width:94%;
+  }
+
+  .services{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .plans{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <header>
-    <div class="logo">A T L <span>Data</span></div>
+<header>
 
-    <nav>
-      <a href="#home">Home</a>
-      <a href="#data">Data</a>
-      <a href="#services">Services</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </header>
+  <div class="logo">
+    A T L <span>Data</span>
+  </div>
 
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#data">Data</a>
+    <a href="#services">Services</a>
+    <a href="#contact">Contact</a>
 
-  <section class="hero" id="home">
-    <h1>A T L Data</h1>
-
-    <p>Fast • Simple • Reliable</p>
-
-    <button onclick="document.getElementById('data').scrollIntoView()">
-      Buy Data
+    <button id="accountButton" onclick="openLogin()">
+      Login
     </button>
-  </section>
+  </nav>
 
+</header>
 
-  <main class="container">
 
-    <section class="card" id="data">
+<section class="hero" id="home">
 
-      <h2>📡 Buy Data</h2>
+  <h1>A T L Data</h1>
 
-      <label>Select Network</label>
+  <p>Fast • Simple • Reliable</p>
 
-      <select id="network">
-        <option value="">-- Select Network --</option>
-        <option>MTN</option>
-        <option>Airtel</option>
-        <option>Glo</option>
-        <option>9mobile</option>
-      </select>
+  <button onclick="goTo('data')">
+    Buy Data
+  </button>
 
+</section>
 
-      <label>Phone Number</label>
 
-      <input
-        type="tel"
-        id="phone"
-        placeholder="08012345678"
-        maxlength="11"
-      >
+<main class="container">
 
 
-      <label>Select Data Plan</label>
+<!-- DATA -->
 
-      <div class="plans">
+<section class="card" id="data">
 
-        <div class="plan" onclick="selectPlan(this, '500MB', '150')">
-          <strong>500MB</strong>
-          ₦150
-        </div>
+<h2>📡 Buy Data</h2>
 
-        <div class="plan" onclick="selectPlan(this, '1GB', '300')">
-          <strong>1GB</strong>
-          ₦300
-        </div>
+<label>Select Network</label>
 
-        <div class="plan" onclick="selectPlan(this, '2GB', '600')">
-          <strong>2GB</strong>
-          ₦600
-        </div>
+<select id="network">
+<option value="">-- Select Network --</option>
+<option>MTN</option>
+<option>Airtel</option>
+<option>Glo</option>
+<option>9mobile</option>
+</select>
 
-        <div class="plan" onclick="selectPlan(this, '5GB', '1500')">
-          <strong>5GB</strong>
-          ₦1,500
-        </div>
+<label>Phone Number</label>
 
-      </div>
+<input
+type="tel"
+id="phone"
+placeholder="08012345678"
+maxlength="11"
+>
 
+<label>Select Data Plan</label>
 
-      <button class="buy-btn" onclick="buyData()">
-        Buy Data
-      </button>
+<div class="plans">
 
+<div class="plan" onclick="selectPlan(this,'500MB','150')">
+<strong>500MB</strong>
+₦150
+</div>
 
-      <div class="notice">
-        ⚠️ <b>Demo Notice:</b>
-        Wannan version demo ce. Ba ta cire kuɗi ko aika data kai tsaye.
-        Za a haɗa payment gateway da data API daga baya.
-      </div>
+<div class="plan" onclick="selectPlan(this,'1GB','300')">
+<strong>1GB</strong>
+₦300
+</div>
 
-    </section>
+<div class="plan" onclick="selectPlan(this,'2GB','600')">
+<strong>2GB</strong>
+₦600
+</div>
 
+<div class="plan" onclick="selectPlan(this,'5GB','1500')">
+<strong>5GB</strong>
+₦1,500
+</div>
 
-    <section id="services">
+</div>
 
-      <div class="card">
+<button class="buy-btn" onclick="buyData()">
+Buy Data
+</button>
 
-        <h2>Our Services</h2>
+<div class="notice">
+⚠️ <b>Demo:</b>
+Payment gateway da data API ba a haɗa su ba tukuna.
+</div>
 
-        <div class="services">
+</section>
 
-          <div class="service">
-            <div class="icon">📡</div>
-            <h3>Data</h3>
-            <p>Buy affordable data</p>
-          </div>
 
-          <div class="service">
-            <div class="icon">☎️</div>
-            <h3>Airtime</h3>
-            <p>Recharge your line</p>
-          </div>
+<!-- SERVICES -->
 
-          <div class="service">
-            <div class="icon">💳</div>
-            <h3>Bills</h3>
-            <p>Pay your bills</p>
-          </div>
+<section id="services">
 
-          <div class="service">
-            <div class="icon">👤</div>
-            <h3>Account</h3>
-            <p>Manage your account</p>
-          </div>
+<div class="card">
 
-        </div>
+<h2>Our Services</h2>
 
-      </div>
+<div class="services">
 
-    </section>
+<div class="service" onclick="goTo('data')">
+<div class="icon">📡</div>
+<h3>Data</h3>
+<p>Buy affordable data</p>
+</div>
 
+<div class="service" onclick="openAirtime()">
+<div class="icon">☎️</div>
+<h3>Airtime</h3>
+<p>Recharge your line</p>
+</div>
 
-    <section class="card" id="contact">
+<div class="service" onclick="openRecharge()">
+<div class="icon">💳</div>
+<h3>Recharge Card</h3>
+<p>Buy recharge card</p>
+</div>
 
-      <h2>💬 Contact A T L Data</h2>
+<div class="service" onclick="openAccount()">
+<div class="icon">👤</div>
+<h3>Account</h3>
+<p>Manage your account</p>
+</div>
 
-      <p>
-        Need help or want to make an enquiry?
-        Contact us on WhatsApp.
-      </p>
+</div>
 
-      <!-- 07073160817 -->
-      <a
-        class="whatsapp"
-        href="https://wa.me/2347073160817"
-        target="_blank"
-      >
-        💬 Chat on WhatsApp
-      </a>
+</div>
 
-    </section>
+</section>
 
-  </main>
 
+<!-- CONTACT -->
 
-  <footer>
-    <p>© 2026 <span>A T L Data</span>. All Rights Reserved.</p>
-    <p style="margin-top:8px;">Fast • Simple • Reliable</p>
-  </footer>
+<section class="card" id="contact">
 
+<h2>💬 Contact A T L Data</h2>
 
-  <script>
+<p>
+Need help or want to make an enquiry?
+Contact us on WhatsApp.
+</p>
 
-    let selectedPlan = "";
-    let selectedPrice = "";
+<a
+class="whatsapp"
+href="https://wa.me/2347073160817"
+target="_blank"
+>
+💬 Chat on WhatsApp
+</a>
 
+</section>
 
-    function selectPlan(element, plan, price) {
 
-      document.querySelectorAll(".plan").forEach(function(item) {
-        item.classList.remove("selected");
-      });
+<!-- ACCOUNT -->
 
-      element.classList.add("selected");
+<section class="card hidden" id="dashboard">
 
-      selectedPlan = plan;
-      selectedPrice = price;
-    }
+<h2>👤 My Account</h2>
 
+<div class="account-box">
 
-    function buyData() {
+<p>Welcome, <strong id="userName"></strong></p>
 
-      const network =
-        document.getElementById("network").value;
+<p style="margin-top:10px;">
+Wallet Balance
+</p>
 
-      const phone =
-        document.getElementById("phone").value.trim();
+<p class="balance">
+₦<span id="balance">0</span>
+</p>
 
+</div>
 
-      if (network === "") {
-        alert("Please select your network.");
-        return;
-      }
+<button class="account-btn" onclick="showHistory()">
+📜 Transaction History
+</button>
 
+<button class="account-btn logout" onclick="logout()">
+Logout
+</button>
 
-      if (!/^[0-9]{11}$/.test(phone)) {
-        alert("Please enter a valid 11-digit phone number.");
-        return;
-      }
+<div id="history" class="hidden" style="margin-top:20px;">
 
+<h3 style="color:#006b3c;margin-bottom:10px;">
+Transaction History
+</h3>
 
-      if (selectedPlan === "") {
-        alert("Please select a data plan.");
-        return;
-      }
+<div id="historyList"></div>
 
+</div>
 
-      alert(
-        "Order Details\n\n" +
-        "Network: " + network + "\n" +
-        "Phone: " + phone + "\n" +
-        "Plan: " + selectedPlan + "\n" +
-        "Price: ₦" + selectedPrice +
-        "\n\nThis is currently a demo."
-      );
+</section>
 
-    }
+</main>
 
-  </script>
+
+<!-- LOGIN / SIGNUP MODAL -->
+
+<div class="modal hidden" id="authModal">
+
+<div class="modal-box">
+
+<span class="close" onclick="closeModal()">×</span>
+
+<div id="loginBox">
+
+<h2>🔐 Login</h2>
+
+<label>Email</label>
+
+<input id="loginEmail" type="email" placeholder="Enter email">
+
+<label>Password</label>
+
+<input id="loginPassword" type="password" placeholder="Enter password">
+
+<button class="account-btn" onclick="login()">
+Login
+</button>
+
+<p style="text-align:center;margin-top:15px;">
+Don't have an account?
+<a href="#" onclick="showSignup();return false;">
+Sign Up
+</a>
+</p>
+
+</div>
+
+
+<div id="signupBox" class="hidden">
+
+<h2>📝 Create Account</h2>
+
+<label>Full Name</label>
+
+<input id="signupName" type="text" placeholder="Your name">
+
+<label>Email</label>
+
+<input id="signupEmail" type="email" placeholder="Your email">
+
+<label>Password</label>
+
+<input id="signupPassword" type="password" placeholder="Create password">
+
+<button class="account-btn" onclick="signup()">
+Sign Up
+</button>
+
+<p style="text-align:center;margin-top:15px;">
+Already have an account?
+<a href="#" onclick="showLogin();return false;">
+Login
+</a>
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- AIRTIME MODAL -->
+
+<div class="modal hidden" id="airtimeModal">
+
+<div class="modal-box">
+
+<span class="close" onclick="closeAirtime()">×</span>
+
+<h2>☎️ Buy Airtime</h2>
+
+<label>Network</label>
+
+<select id="airtimeNetwork">
+<option value="">Select Network</option>
+<option>MTN</option>
+<option>Airtel</option>
+<option>Glo</option>
+<option>9mobile</option>
+</select>
+
+<label>Phone Number</label>
+
+<input id="airtimePhone" type="tel" maxlength="11" placeholder="08012345678">
+
+<label>Amount</label>
+
+<input id="airtimeAmount" type="number" placeholder="Enter amount">
+
+<button class="account-btn" onclick="buyAirtime()">
+Continue
+</button>
+
+</div>
+
+</div>
+
+
+<!-- RECHARGE CARD MODAL -->
+
+<div class="modal hidden" id="rechargeModal">
+
+<div class="modal-box">
+
+<span class="close" onclick="closeRecharge()">×</span>
+
+<h2>💳 Buy Recharge Card</h2>
+
+<label>Network</label>
+
+<select id="rechargeNetwork">
+<option value="">Select Network</option>
+<option>MTN</option>
+<option>Airtel</option>
+<option>Glo</option>
+<option>9mobile</option>
+</select>
+
+<label>Amount</label>
+
+<select id="rechargeAmount">
+<option value="">Select Amount</option>
+<option>100</option>
+<option>200</option>
+<option>500</option>
+<option>1000</option>
+</select>
+
+<button class="account-btn" onclick="buyRecharge()">
+Continue
+</button>
+
+</div>
+
+</div>
+
+
+<footer>
+
+<p>
+© 2026 <span>A T L Data</span>. All Rights Reserved.
+</p>
+
+<p style="margin-top:8px;">
+Fast • Simple • Reliable
+</p>
+
+</footer>
+
+
+<script>
+
+let selectedPlan="";
+let selectedPrice="";
+
+
+function goTo(id){
+document.getElementById(id).scrollIntoView({
+behavior:"smooth"
+});
+}
+
+
+function selectPlan(element,plan,price){
+
+document.querySelectorAll(".plan").forEach(function(item){
+item.classList.remove("selected");
+});
+
+element.classList.add("selected");
+
+selectedPlan=plan;
+selectedPrice=price;
+}
+
+
+function getUser(){
+return JSON.parse(localStorage.getItem("atlUser"));
+}
+
+
+function signup(){
+
+const name=document.getElementById("signupName").value.trim();
+const email=document.getElementById("signupEmail").value.trim();
+const password=document.getElementById("signupPassword").value;
+
+if(!name || !email || !password){
+alert("Please complete all fields.");
+return;
+}
+
+if(password.length<6){
+alert("Password must be at least 6 characters.");
+return;
+}
+
+const user={
+name:name,
+email:email,
+password:password,
+balance:0,
+history:[]
+};
+
+localStorage.setItem("atlUser",JSON.stringify(user));
+
+alert("Account created successfully.");
+
+showLogin();
+}
+
+
+function login(){
+
+const email=document.getElementById("loginEmail").value.trim();
+const password=document.getElementById("loginPassword").value;
+
+const user=getUser();
+
+if(!user){
+alert("No account found. Please Sign Up first.");
+return;
+}
+
+if(email!==user.email || password!==user.password){
+alert("Incorrect email or password.");
+return;
+}
+
+localStorage.setItem("atlLoggedIn","true");
+
+closeModal();
+updateAccount();
+
+alert("Login successful.");
+}
+
+
+function logout(){
+
+localStorage.removeItem("atlLoggedIn");
+
+document.getElementById("dashboard").classList.add("hidden");
+
+document.getElementById("accountButton").innerText="Login";
+
+alert("You have been logged out.");
+}
+
+
+function openLogin(){
+
+if(localStorage.getItem("atlLoggedIn")==="true"){
+openAccount();
+}else{
+document.getElementById("authModal").classList.remove("hidden");
+showLogin();
+}
+
+}
+
+
+function openAccount(){
+
+const user=getUser();
+
+if(!user){
+openLogin();
+return;
+}
+
+document.getElementById("dashboard").classList.remove("hidden");
+
+document.getElementById("dashboard").scrollIntoView({
+behavior:"smooth"
+});
+
+updateAccount();
+}
+
+
+function updateAccount(){
+
+const user=getUser();
+
+if(!user) return;
+
+if(localStorage.getItem("atlLoggedIn")==="true"){
+
+document.getElementById("accountButton").innerText="My Account";
+
+document.getElementById("dashboard").classList.remove("hidden");
+
+document.getElementById("userName").innerText=user.name;
+
+document.getElementById("balance").innerText=
+Number(user.balance).toLocaleString();
+
+}else{
+
+document.getElementById("accountButton").innerText="Login";
+
+}
+
+}
+
+
+function showLogin(){
+
+document.getElementById("loginBox").classList.remove("hidden");
+document.getElementById("signupBox").classList.add("hidden");
+
+}
+
+
+function showSignup(){
+
+document.getElementById("loginBox").classList.add("hidden");
+document.getElementById("signupBox").classList.remove("hidden");
+
+}
+
+
+function closeModal(){
+
+document.getElementById("authModal").classList.add("hidden");
+
+}
+
+
+function buyData(){
+
+const network=document.getElementById("network").value;
+const phone=document.getElementById("phone").value.trim();
+
+if(localStorage.getItem("atlLoggedIn")!=="true"){
+alert("Please Login or Sign Up first.");
+openLogin();
+return;
+}
+
+if(network===""){
+alert("Please select your network.");
+return;
+}
+
+if(!/^[0-9]{11}$/.test(phone)){
+alert("Please enter a valid 11-digit phone number.");
+return;
+}
+
+if(selectedPlan===""){
+alert("Please select a data plan.");
+return;
+}
+
+const user=getUser();
+
+user.history.push({
+type:"Data",
+network:network,
+phone:phone,
+plan:selectedPlan,
+amount:selectedPrice,
+date:new Date().toLocaleString()
+});
+
+localStorage.setItem("atlUser",JSON.stringify(user));
+
+alert(
+"Order received!\n\n"+
+network+" "+selectedPlan+
+"\nPhone: "+phone+
+"\nAmount: ₦"+selectedPrice+
+"\n\nDemo mode: payment/data API ba a haɗa ba tukuna."
+);
+
+updateAccount();
+}
+
+
+function openAirtime(){
+
+if(localStorage.getItem("atlLoggedIn")!=="true"){
+openLogin();
+return;
+}
+
+document.getElementById("airtimeModal").classList.remove("hidden");
+}
+
+
+function closeAirtime(){
+document.getElementById("airtimeModal").classList.add("hidden");
+}
+
+
+function buyAirtime(){
+
+const network=document.getElementById("airtimeNetwork").value;
+const phone=document.getElementById("airtimePhone").value.trim();
+const amount=document.getElementById("airtimeAmount").value;
+
+if(!network || !/^[0-9]{11}$/.test(phone) || !amount){
+alert("Please complete all fields correctly.");
+return;
+}
+
+const user=getUser();
+
+user.history.push({
+type:"Airtime",
+network:network,
+phone:phone,
+amount:amount,
+date:new Date().toLocaleString()
+});
+
+localStorage.setItem("atlUser",JSON.stringify(user));
+
+closeAirtime();
+
+alert(
+"Airtime order received.\n\n"+
+network+" - ₦"+amount+
+"\nPhone: "+phone+
+"\n\nDemo mode."
+);
+
+}
+
+
+function openRecharge(){
+
+if(localStorage.getItem("atlLoggedIn")!=="true"){
+openLogin();
+return;
+}
+
+document.getElementById("rechargeModal").classList.remove("hidden");
+}
+
+
+function closeRecharge(){
+document.getElementById("rechargeModal").classList.add("hidden");
+}
+
+
+function buyRecharge(){
+
+const network=document.getElementById("rechargeNetwork").value;
+const amount=document.getElementById("rechargeAmount").value;
+
+if(!network || !amount){
+alert("Please select network and amount.");
+return;
+}
+
+const user=getUser();
+
+user.history.push({
+type:"Recharge Card",
+network:network,
+amount:amount,
+date:new Date().toLocaleString()
+});
+
+localStorage.setItem("atlUser",JSON.stringify(user));
+
+closeRecharge();
+
+alert(
+"Recharge card order received.\n\n"+
+network+" - ₦"+amount+
+"\n\nDemo mode."
+);
+
+}
+
+
+function showHistory(){
+
+const user=getUser();
+
+const list=document.getElementById("historyList");
+
+list.innerHTML="";
+
+if(!user.history || user.history.length===0){
+
+list.innerHTML="<p>No transactions yet.</p>";
+
+}else{
+
+user.history.slice().reverse().forEach(function(item){
+
+const div=document.createElement("div");
+
+div.className="history-item";
+
+div.innerHTML=
+"<b>"+item.type+"</b><br>"+
+(item.network || "")+
+(item.phone ? " • "+item.phone : "")+
+(item.plan ? " • "+item.plan : "")+
+"<br>Amount: ₦"+item.amount+
+"<br><small>"+item.date+"</small>";
+
+list.appendChild(div);
+
+});
+
+}
+
+document.getElementById("history").classList.remove("hidden");
+
+}
+
+
+updateAccount();
+
+</script>
 
 </body>
 </html>
