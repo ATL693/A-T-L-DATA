@@ -2389,41 +2389,21 @@
   }
 
 </script>
-  
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  const adminBtn = document.createElement("button");
-
-  adminBtn.innerHTML = "⚙️ Admin Dashboard";
-  adminBtn.style.cssText = `
-    display: none;
-    width: 100%;
-    padding: 14px;
-    margin-top: 12px;
-    border: none;
-    border-radius: 10px;
-    background: #198754;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-  `;
-
-  adminBtn.onclick = function () {
-    window.location.href = "admin.html";
-  };
-
-  document.body.appendChild(adminBtn);
-
-  onAuthStateChanged(auth, function(user) {
-    if (user && user.email === "lawanahmadt03@gmail.com") {
-      adminBtn.style.display = "block";
-    } else {
-      adminBtn.style.display = "none";
-    }
-  });
-});
-</script>
-
+  <button
+  onclick="window.location.href='admin.html'"
+  style="
+    display:block;
+    width:90%;
+    margin:15px auto;
+    padding:14px;
+    border:0;
+    border-radius:10px;
+    background:#198754;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+  ">
+  ⚙️ Admin Dashboard
+</button>
 </body>
   </html>
