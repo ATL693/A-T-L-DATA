@@ -1210,7 +1210,16 @@ document.getElementById("signupForm")
       } else if (error.code === "auth/weak-password") {
         alert("Password must be at least 6 characters.");
       } else {
-        alert("Create Account failed: " + error.message);
+        alert("Account created successfully!");
+
+showPage("accountPage");
+
+setTimeout(() => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}, 100);
       }
     }
   });
