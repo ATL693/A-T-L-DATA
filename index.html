@@ -1156,6 +1156,7 @@ document.getElementById("loginForm")
    ========================= */
 
 document.getElementById("signupForm")
+document.getElementById("signupForm")
   .addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -1163,7 +1164,7 @@ document.getElementById("signupForm")
     const password = document.getElementById("signupPassword").value;
 
     if (!email || !password) {
-      alert("Please enter email and password.");
+      alert("Please enter your email and password.");
       return;
     }
 
@@ -1179,14 +1180,38 @@ document.getElementById("signupForm")
         password
       );
 
+      // Create the user's Firestore profile
       await createUserProfile(result.user);
 
       alert("Account created successfully!");
-      showPage("accountPage");
+
+      // Open Account page after successful signup
+      document.querySelectorAll(".app-page").forEach(page => {
+        page.classList.add("hidden");
+      });
+
+      const accountPage = document.getElementById("accountPage");
+
+      if (accountPage) {
+        accountPage.classList.remove("hidden");
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      }
 
     } catch (error) {
-      console.error(error);
-      alert("Sign up failed: " + error.message);
+      console.error("Create Account Error:", error);
+
+      if (error.code === "auth/email-already-in-use") {
+        alert("This email already has an account. Please Login.");
+      } else if (error.code === "auth/invalid-email") {
+        alert("Please enter a valid email address.");
+      } else if (error.code === "auth/weak-password") {
+        alert("Password must be at least 6 characters.");
+      } else {
+        alert("Create Account failed: " + error.message);
+      }
     }
   });
 
