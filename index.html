@@ -1056,4 +1056,343 @@
 
 
   document.getElementById("billsBack")
-    .addEventListener("click", 
+  .addEventListener("click", () => {
+    showPage("homePage");
+  });
+
+document.getElementById("accountBack")
+  .addEventListener("click", () => {
+    showPage("homePage");
+  });
+
+document.getElementById("loginBack")
+  .addEventListener("click", () => {
+    showPage("homePage");
+  });
+
+/* =========================
+   HOME SERVICE BUTTONS
+   ========================= */
+
+document.getElementById("dataService")
+  .addEventListener("click", () => {
+    showPage("dataPage");
+  });
+
+document.getElementById("airtimeService")
+  .addEventListener("click", () => {
+    showPage("airtimePage");
+  });
+
+document.getElementById("billsService")
+  .addEventListener("click", () => {
+    showPage("billsPage");
+  });
+
+document.getElementById("accountService")
+  .addEventListener("click", () => {
+    showPage("accountPage");
+  });
+
+/* =========================
+   NAVIGATION
+   ========================= */
+
+document.getElementById("homeNav")
+  .addEventListener("click", () => {
+    showPage("homePage");
+  });
+
+document.getElementById("dataNav")
+  .addEventListener("click", () => {
+    showPage("dataPage");
+  });
+
+document.getElementById("airtimeNav")
+  .addEventListener("click", () => {
+    showPage("airtimePage");
+  });
+
+document.getElementById("billsNav")
+  .addEventListener("click", () => {
+    showPage("billsPage");
+  });
+
+document.getElementById("accountNav")
+  .addEventListener("click", () => {
+    showPage("accountPage");
+  });
+
+/* =========================
+   LOGIN
+   ========================= */
+
+document.getElementById("loginForm")
+  .addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value;
+
+    if (!email || !password) {
+      alert("Please enter your email and password.");
+      return;
+    }
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+
+      alert("Login successful!");
+      showPage("accountPage");
+
+    } catch (error) {
+      console.error(error);
+      alert("Login failed: " + error.message);
+    }
+  });
+
+/* =========================
+   CREATE ACCOUNT
+   ========================= */
+
+document.getElementById("signupForm")
+  .addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("signupEmail").value.trim();
+    const password = document.getElementById("signupPassword").value;
+
+    if (!email || !password) {
+      alert("Please enter email and password.");
+      return;
+    }
+
+    if (password.length < 6) {
+      alert("Password must be at least 6 characters.");
+      return;
+    }
+
+    try {
+      const result = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      await createUserProfile(result.user);
+
+      alert("Account created successfully!");
+      showPage("accountPage");
+
+    } catch (error) {
+      console.error(error);
+      alert("Sign up failed: " + error.message);
+    }
+  });
+
+/* =========================
+   LOGOUT
+   ========================= */
+
+document.getElementById("logoutBtn")
+  .addEventListener("click", async () => {
+    try {
+      await signOut(auth);
+      alert("You have logged out.");
+      showPage("homePage");
+    } catch (error) {
+      console.error(error);
+      alert("Logout failed.");
+    }
+  });
+
+/* =========================
+   LOGIN / SIGNUP SWITCH
+   ========================= */
+
+document.getElementById("openLogin")
+  .addEventListener("click", () => {
+    showPage("loginPage");
+    document.getElementById("loginBox").style.display = "block";
+    document.getElementById("signupBox").style.display = "none";
+  });
+
+document.getElementById("openSignup")
+  .addEventListener("click", () => {
+    showPage("loginPage");
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("signupBox").style.display = "block";
+  });
+
+document.getElementById("showSignup")
+  .addEventListener("click", () => {
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("signupBox").style.display = "block";
+  });
+
+document.getElementById("showLogin")
+  .addEventListener("click", () => {
+    document.getElementById("signupBox").style.display = "none";
+    document.getElementById("loginBox").style.display = "block";
+  });
+
+/* =========================
+   DATA ORDER
+   ========================= */
+
+document.getElementById("dataContinue")
+  .addEventListener("click", async () => {
+
+    const network = document.getElementById("dataNetwork").value;
+    const phone = document.getElementById("dataPhone").value.trim();
+    const plan = document.getElementById("dataPlan").value;
+
+    if (!network || !phone || !plan) {
+      alert("Please complete all fields.");
+      return;
+    }
+
+    const user = auth.currentUser;
+
+    if (!user) {
+      alert("Please login first.");
+      showPage("loginPage");
+      return;
+    }
+
+    try {
+      await saveTransaction({
+        type: "Data",
+        network: network,
+        phone: phone,
+        plan: plan,
+        status: "Testing"
+      });
+
+      alert(
+        "Data order saved for testing.\nReal data delivery will be added after VTU API integration."
+      );
+
+    } catch (error) {
+      console.error(error);
+      alert("Unable to save order.");
+    }
+  });
+
+/* =========================
+   AIRTIME ORDER
+   ========================= */
+
+document.getElementById("airtimeContinue")
+  .addEventListener("click", async () => {
+
+    const network = document.getElementById("airtimeNetwork").value;
+    const phone = document.getElementById("airtimePhone").value.trim();
+    const amount = document.getElementById("airtimeAmount").value;
+
+    if (!network || !phone || !amount) {
+      alert("Please complete all fields.");
+      return;
+    }
+
+    const user = auth.currentUser;
+
+    if (!user) {
+      alert("Please login first.");
+      showPage("loginPage");
+      return;
+    }
+
+    try {
+      await saveTransaction({
+        type: "Airtime",
+        network: network,
+        phone: phone,
+        amount: Number(amount),
+        status: "Testing"
+      });
+
+      alert(
+        "Airtime order saved for testing.\nReal airtime delivery will be added after VTU API integration."
+      );
+
+    } catch (error) {
+      console.error(error);
+      alert("Unable to save airtime order.");
+    }
+  });
+
+/* =========================
+   BILLS ORDER
+   ========================= */
+
+document.getElementById("billsContinue")
+  .addEventListener("click", async () => {
+
+    const service = document.getElementById("billService").value;
+    const number = document.getElementById("billNumber").value.trim();
+    const amount = document.getElementById("billAmount").value;
+
+    if (!service || !number || !amount) {
+      alert("Please complete all fields.");
+      return;
+    }
+
+    const user = auth.currentUser;
+
+    if (!user) {
+      alert("Please login first.");
+      showPage("loginPage");
+      return;
+    }
+
+    try {
+      await saveTransaction({
+        type: "Bill Payment",
+        service: service,
+        customerNumber: number,
+        amount: Number(amount),
+        status: "Testing"
+      });
+
+      alert(
+        "Bill payment saved for testing.\nReal bill payment will be added after API integration."
+      );
+
+    } catch (error) {
+      console.error(error);
+      alert("Unable to save bill payment.");
+    }
+  });
+
+/* =========================
+   ADD MONEY
+   ========================= */
+
+document.getElementById("addMoneyBtn")
+  .addEventListener("click", () => {
+    alert(
+      "Add Money is coming soon.\nSecure payment integration will be added with a verified payment backend."
+    );
+  });
+
+/* =========================
+   WHATSAPP
+   ========================= */
+
+document.getElementById("whatsappBtn")
+  .addEventListener("click", () => {
+    window.open(
+      "https://wa.me/2347073160817",
+      "_blank"
+    );
+  });
+
+/* =========================
+   DEFAULT PAGE
+   ========================= */
+
+showPage("homePage");
+
+</script></body>
+</html>
