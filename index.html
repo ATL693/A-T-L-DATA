@@ -2961,403 +2961,6 @@
 
 </body>
 </html>
-<!-- ================= ADMIN DASHBOARD ================= -->
-<section id="adminPage" class="app-page">
-
-  <div class="topbar">
-    <button id="adminBackBtn" class="back-btn" type="button">←</button>
-    <div>
-      <h2>Admin Dashboard</h2>
-      <small>A T L Data Management</small>
-    </div>
-  </div>
-
-  <!-- ADMIN STATS -->
-  <div class="admin-stats">
-
-    <div class="admin-stat-card">
-      <span>👥</span>
-      <strong id="totalUsers">0</strong>
-      <small>Total Users</small>
-    </div>
-
-    <div class="admin-stat-card">
-      <span>💰</span>
-      <strong id="totalWallet">₦0</strong>
-      <small>Total Wallet</small>
-    </div>
-
-    <div class="admin-stat-card">
-      <span>⭐</span>
-      <strong id="tier1Users">0</strong>
-      <small>Tier 1 Users</small>
-    </div>
-
-  </div>
-
-  <!-- SEARCH -->
-  <div class="admin-search">
-    <input
-      id="adminSearch"
-      type="search"
-      placeholder="Search user by email..."
-    >
-  </div>
-
-  <!-- USERS -->
-  <div class="admin-section">
-    <div class="section-title">
-      <h3>Registered Users</h3>
-      <button id="refreshUsersBtn" class="small-btn" type="button">
-        Refresh
-      </button>
-    </div>
-
-    <div id="adminUsersList" class="admin-users-list">
-      <div class="loading-box">
-        Loading users...
-      </div>
-    </div>
-  </div>
-
-</section>
-
-<style>
-/* ================= ADMIN STYLE ================= */
-
-.admin-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin: 15px 0;
-}
-
-.admin-stat-card {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 16px 10px;
-  text-align: center;
-  box-shadow: 0 4px 15px rgba(0,0,0,.08);
-}
-
-.admin-stat-card span {
-  display: block;
-  font-size: 25px;
-  margin-bottom: 6px;
-}
-
-.admin-stat-card strong {
-  display: block;
-  font-size: 19px;
-  margin-bottom: 4px;
-}
-
-.admin-stat-card small {
-  color: #777;
-}
-
-.admin-search {
-  margin: 15px 0;
-}
-
-.admin-search input {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 14px;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  font-size: 15px;
-  outline: none;
-}
-
-.admin-section {
-  background: #fff;
-  border-radius: 16px;
-  padding: 15px;
-  box-shadow: 0 4px 15px rgba(0,0,0,.06);
-}
-
-.section-title {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.section-title h3 {
-  margin: 0;
-}
-
-.small-btn {
-  border: none;
-  border-radius: 10px;
-  padding: 9px 13px;
-  cursor: pointer;
-}
-
-.admin-user-card {
-  border: 1px solid #eee;
-  border-radius: 13px;
-  padding: 13px;
-  margin-bottom: 10px;
-}
-
-.admin-user-email {
-  font-weight: 700;
-  word-break: break-word;
-  margin-bottom: 8px;
-}
-
-.admin-user-info {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 7px;
-  font-size: 13px;
-  color: #555;
-}
-
-.loading-box,
-.empty-box {
-  padding: 25px 10px;
-  text-align: center;
-  color: #777;
-}
-
-@media (max-width: 600px) {
-  .admin-stats {
-    grid-template-columns: 1fr;
-  }
-}
-
-}
-</style>
-
-<script type="module">
-
-/* FIREBASE */
-
-...
-
-const ADMIN_EMAIL = "lawanahmadt03@gmail.com";
-
-/* ================= ELEMENTS ================= */
-
-const adminPage = document.getElementById("adminPage");
-const adminUsersList = document.getElementById("adminUsersList");
-const totalUsers = document.getElementById("totalUsers");
-const totalWallet = document.getElementById("totalWallet");
-const tier1Users = document.getElementById("tier1Users");
-const adminSearch = document.getElementById("adminSearch");
-const refreshUsersBtn = document.getElementById("refreshUsersBtn");
-const adminBackBtn = document.getElementById("adminBackBtn");
-
-
-let allUsers = [];
-
-
-/* ================= OPEN ADMIN PAGE ================= */
-
-function openAdminPage() {
-
-  document.querySelectorAll(".app-page").forEach(page => {
-    page.style.display = "none";
-  });
-
-  adminPage.style.display = "block";
-
-  loadUsers();
-}
-
-
-/* ================= CHECK ADMIN ================= */
-
-function checkAdmin() {
-
-  const user = auth.currentUser;
-
-  if (!user) {
-    alert("Please login first.");
-    return false;
-  }
-
-  if (user.email !== User@gmail.com) {
-    alert("Access denied. Admin only.");
-    return false;
-  }
-
-  return true;
-}
-
-
-/* ================= LOAD USERS ================= */
-
-async function loadUsers() {
-
-  if (!checkAdmin()) return;
-
-  adminUsersList.innerHTML = `
-    <div class="loading-box">
-      Loading users...
-    </div>
-  `;
-
-  try {
-
-    const snapshot = await getDocs(
-      collection(db, "users")
-    );
-
-    allUsers = [];
-
-    snapshot.forEach(doc => {
-
-      const data = doc.data();
-
-      allUsers.push({
-        id: doc.id,
-        ...data
-      });
-
-    });
-
-    updateAdminStats();
-    displayUsers(allUsers);
-
-  } catch (error) {
-
-    console.error(error);
-
-    adminUsersList.innerHTML = `
-      <div class="empty-box">
-        ❌ Unable to load users.<br><br>
-        Check your Firebase Firestore Rules.
-      </div>
-    `;
-  }
-}
-
-
-/* ================= ADMIN STATS ================= */
-
-function updateAdminStats() {
-
-  totalUsers.textContent = allUsers.length;
-
-  let wallet = 0;
-  let tier1 = 0;
-
-  allUsers.forEach(user => {
-
-    wallet += Number(user.walletBalance || 0);
-
-    if (
-      Number(user.tier || 0) >= 1
-    ) {
-      tier1++;
-    }
-
-  });
-
-  totalWallet.textContent =
-    "₦" + wallet.toLocaleString();
-
-  tier1Users.textContent = tier1;
-}
-
-
-/* ================= DISPLAY USERS ================= */
-
-function displayUsers(users) {
-
-  if (!users.length) {
-
-    adminUsersList.innerHTML = `
-      <div class="empty-box">
-        No users found.
-      </div>
-    `;
-
-    return;
-  }
-
-
-  adminUsersList.innerHTML = users.map(user => {
-
-    const email =
-      user.email || "lawanahmadt03@gmail.com";
-
-    const wallet =
-      Number(user.walletBalance || 0);
-
-    const tier =
-      Number(user.tier || 0);
-
-    const name =
-      user.fullName || "Not provided";
-
-    const phone =
-      user.phone || "Not provided";
-
-
-    return `
-
-      <div class="admin-user-card">
-
-        <div class="admin-user-email">
-          📧 ${escapeAdminHTML(email)}
-        </div>
-
-        <div class="admin-user-info">
-
-          <div>
-            👤 Name:<br>
-            <strong>
-              ${escapeAdminHTML(name)}
-            </strong>
-          </div>
-
-          <div>
-            💰 Wallet:<br>
-            <strong>
-              ₦${wallet.toLocaleString()}
-            </strong>
-          </div>
-
-          <div>
-            ⭐ Tier:<br>
-            <strong>
-              Tier ${tier}
-            </strong>
-          </div>
-
-          <div>
-            📱 Phone:<br>
-            <strong>
-              ${escapeAdminHTML(phone)}
-            </strong>
-          </div>
-
-        </div>
-
-        <div style="
-          margin-top:10px;
-          font-size:11px;
-          color:#888;
-          word-break:break-all;
-        ">
-          User ID: ${escapeAdminHTML(user.id)}
-        </div>
-
-      </div>
-
-    `;
-
-  }).join("");
-}
-
-
-/* ================= SEARCH ================= */
-
 adminSearch.addEventListener(
   "input",
   function() {
@@ -3372,32 +2975,741 @@ adminSearch.addEventListener(
       displayUsers(allUsers);
       return;
 
+ {
+
+
+  </script>
+</body>
+</html>
+<!-- =====================================================
+     A T L DATA — COMPLETE ADMIN DASHBOARD
+     ADMIN EMAIL: lawanahmadt03@gmail.com
+     ===================================================== -->
+
+<section id="adminPage" class="app-page" style="display:none;">
+
+  <div class="topbar">
+    <button id="adminBackBtn" class="back-btn" type="button">←</button>
+
+    <div>
+      <h2>Admin Dashboard</h2>
+      <small>A T L Data Management</small>
+    </div>
+  </div>
+
+
+  <!-- ================= STATS ================= -->
+
+  <div class="admin-stats">
+
+    <div class="admin-stat-card">
+      <div class="admin-icon">👥</div>
+      <strong id="totalUsers">0</strong>
+      <small>Total Users</small>
+    </div>
+
+    <div class="admin-stat-card">
+      <div class="admin-icon">💰</div>
+      <strong id="totalWallet">₦0</strong>
+      <small>Total Wallet</small>
+    </div>
+
+    <div class="admin-stat-card">
+      <div class="admin-icon">⭐</div>
+      <strong id="tier1Users">0</strong>
+      <small>Tier 1 Users</small>
+    </div>
+
+  </div>
+
+
+  <!-- ================= SEARCH ================= -->
+
+  <div class="admin-search-box">
+
+    <input
+      id="adminSearch"
+      type="search"
+      placeholder="🔍 Search user by email, name or phone..."
+    >
+
+    <button
+      id="refreshUsersBtn"
+      type="button"
+      class="refresh-btn"
+    >
+      🔄 Refresh
+    </button>
+
+  </div>
+
+
+  <!-- ================= USERS ================= -->
+
+  <div class="admin-card">
+
+    <div class="admin-card-title">
+      <h3>👥 Registered Users</h3>
+      <span id="userCountLabel">0 Users</span>
+    </div>
+
+    <div id="adminUsersList">
+
+      <div class="admin-loading">
+        Loading users...
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= ADMIN CSS ================= -->
+
+<style>
+
+.admin-stats {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin:15px 0;
+}
+
+.admin-stat-card {
+  background:#fff;
+  border-radius:18px;
+  padding:18px 10px;
+  text-align:center;
+  box-shadow:0 5px 18px rgba(0,0,0,.08);
+}
+
+.admin-icon {
+  font-size:27px;
+  margin-bottom:7px;
+}
+
+.admin-stat-card strong {
+  display:block;
+  font-size:20px;
+  margin-bottom:4px;
+}
+
+.admin-stat-card small {
+  color:#777;
+  font-size:12px;
+}
+
+
+.admin-search-box {
+  display:flex;
+  gap:8px;
+  margin:15px 0;
+}
+
+.admin-search-box input {
+  flex:1;
+  min-width:0;
+  padding:14px;
+  border:1px solid #ddd;
+  border-radius:13px;
+  outline:none;
+  font-size:14px;
+  box-sizing:border-box;
+}
+
+.refresh-btn {
+  border:none;
+  border-radius:13px;
+  padding:0 14px;
+  cursor:pointer;
+  background:#eee;
+}
+
+
+.admin-card {
+  background:#fff;
+  border-radius:18px;
+  padding:15px;
+  box-shadow:0 5px 18px rgba(0,0,0,.07);
+}
+
+.admin-card-title {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:14px;
+}
+
+.admin-card-title h3 {
+  margin:0;
+  font-size:17px;
+}
+
+.admin-card-title span {
+  color:#777;
+  font-size:12px;
+}
+
+
+.admin-user {
+  border:1px solid #eee;
+  border-radius:14px;
+  padding:14px;
+  margin-bottom:10px;
+}
+
+.admin-user:last-child {
+  margin-bottom:0;
+}
+
+.admin-email {
+  font-weight:700;
+  word-break:break-word;
+  margin-bottom:10px;
+}
+
+.admin-details {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+}
+
+.admin-detail {
+  background:#f7f7f7;
+  border-radius:10px;
+  padding:9px;
+  font-size:12px;
+}
+
+.admin-detail span {
+  display:block;
+  color:#777;
+  margin-bottom:3px;
+}
+
+.admin-detail strong {
+  word-break:break-word;
+}
+
+
+.admin-id {
+  margin-top:10px;
+  color:#999;
+  font-size:10px;
+  word-break:break-all;
+}
+
+
+.admin-loading,
+.admin-empty,
+.admin-error {
+  text-align:center;
+  padding:25px 10px;
+  color:#777;
+}
+
+
+@media(max-width:600px) {
+
+  .admin-stats {
+    grid-template-columns:1fr 1fr 1fr;
+  }
+
+  .admin-stat-card {
+    padding:13px 5px;
+  }
+
+  .admin-stat-card strong {
+    font-size:16px;
+  }
+
+  .admin-search-box {
+    flex-direction:column;
+  }
+
+  .refresh-btn {
+    padding:12px;
+  }
+
+}
+
+</style>
+
+
+<!-- ================= ADMIN JAVASCRIPT ================= -->
+
+<script type="module">
+
+import {
+  initializeApp,
+  getApps,
+  getApp
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+import {
+  getAuth,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+import {
+  getFirestore,
+  collection,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+/* ================= FIREBASE CONFIG ================= */
+
+const firebaseConfig = {
+
+  apiKey:
+    "AIzaSyA_x5ZYj7D5Dt_9Bq-NzlchpRPRd3QN21I",
+
+  authDomain:
+    "a-t-l-data.firebaseapp.com",
+
+  projectId:
+    "a-t-l-data",
+
+  storageBucket:
+    "a-t-l-data.firebasestorage.app",
+
+  messagingSenderId:
+    "519558305824",
+
+  appId:
+    "1:519558305824:web:cf6dd75ef20ef708c24445"
+
+};
+
+
+/* ================= START FIREBASE ================= */
+
+const adminApp =
+  getApps().length
+    ? getApp()
+    : initializeApp(firebaseConfig);
+
+const adminAuth =
+  getAuth(adminApp);
+
+const adminDB =
+  getFirestore(adminApp);
+
+
+/* ================= ADMIN EMAIL ================= */
+
+const ADMIN_EMAIL =
+  "lawanahmadt03@gmail.com";
+
+
+/* ================= VARIABLES ================= */
+
+let adminUsers = [];
+
+
+/* ================= ELEMENTS ================= */
+
+const adminPage =
+  document.getElementById("adminPage");
+
+const adminUsersList =
+  document.getElementById("adminUsersList");
+
+const totalUsers =
+  document.getElementById("totalUsers");
+
+const totalWallet =
+  document.getElementById("totalWallet");
+
+const tier1Users =
+  document.getElementById("tier1Users");
+
+const userCountLabel =
+  document.getElementById("userCountLabel");
+
+const adminSearch =
+  document.getElementById("adminSearch");
+
+const refreshUsersBtn =
+  document.getElementById("refreshUsersBtn");
+
+const adminBackBtn =
+  document.getElementById("adminBackBtn");
+
+
+/* ================= ADMIN CHECK ================= */
+
+function isAdmin() {
+
+  const user =
+    adminAuth.currentUser;
+
+  if (!user) {
+
+    alert("Please login first.");
+
+    return false;
+  }
+
+
+  const currentEmail =
+    (user.email || "")
+      .trim()
+      .toLowerCase();
+
+  const adminEmail =
+    ADMIN_EMAIL
+      .trim()
+      .toLowerCase();
+
+
+  if (currentEmail !== adminEmail) {
+
+    alert(
+      "Admin only.\n\n" +
+      "Logged in as: " +
+      (user.email || "Unknown")
+    );
+
+    return false;
+  }
+
+
+  return true;
+}
+
+
+/* ================= OPEN ADMIN ================= */
+
+function openAdminDashboard() {
+
+  if (!isAdmin()) return;
+
+
+  document
+    .querySelectorAll(".app-page")
+    .forEach(page => {
+
+      page.style.display = "none";
+
+    });
+
+
+  adminPage.style.display = "block";
+
+
+  loadAdminUsers();
+}
+
+
+/* ================= LOAD USERS ================= */
+
+async function loadAdminUsers() {
+
+  if (!isAdmin()) return;
+
+
+  adminUsersList.innerHTML = `
+    <div class="admin-loading">
+      ⏳ Loading users...
+    </div>
+  `;
+
+
+  try {
+
+    const snapshot =
+      await getDocs(
+        collection(
+          adminDB,
+          "users"
+        )
+      );
+
+
+    adminUsers = [];
+
+
+    snapshot.forEach(doc => {
+
+      adminUsers.push({
+
+        id:doc.id,
+
+        ...doc.data()
+
+      });
+
+    });
+
+
+    updateAdminStats();
+
+    displayAdminUsers(
+      adminUsers
+    );
+
+
+  } catch(error) {
+
+    console.error(error);
+
+
+    adminUsersList.innerHTML = `
+      <div class="admin-error">
+        ❌ Could not load users.
+        <br><br>
+        ${escapeAdminText(error.message)}
+      </div>
+    `;
+
+  }
+
+}
+
+
+/* ================= STATS ================= */
+
+function updateAdminStats() {
+
+  totalUsers.textContent =
+    adminUsers.length;
+
+
+  userCountLabel.textContent =
+    adminUsers.length +
+    (
+      adminUsers.length === 1
+        ? " User"
+        : " Users"
+    );
+
+
+  let wallet = 0;
+
+  let tier1 = 0;
+
+
+  adminUsers.forEach(user => {
+
+    wallet += Number(
+      user.walletBalance || 0
+    );
+
+
+    if (
+      Number(user.tier || 0) >= 1
+    ) {
+
+      tier1++;
+
     }
 
+  });
+
+
+  totalWallet.textContent =
+    "₦" +
+    wallet.toLocaleString();
+
+
+  tier1Users.textContent =
+    tier1;
+
+}
+
+
+/* ================= DISPLAY USERS ================= */
+
+function displayAdminUsers(users) {
+
+
+  if (!users.length) {
+
+    adminUsersList.innerHTML = `
+      <div class="admin-empty">
+        👤 No users found.
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  adminUsersList.innerHTML =
+
+    users.map(user => {
+
+
+      const email =
+        user.email ||
+        "No email";
+
+
+      const name =
+        user.fullName ||
+        "Not provided";
+
+
+      const phone =
+        user.phone ||
+        "Not provided";
+
+
+      const wallet =
+        Number(
+          user.walletBalance || 0
+        );
+
+
+      const tier =
+        Number(
+          user.tier || 0
+        );
+
+
+      return `
+
+        <div class="admin-user">
+
+          <div class="admin-email">
+            📧
+            ${escapeAdminText(email)}
+          </div>
+
+
+          <div class="admin-details">
+
+            <div class="admin-detail">
+
+              <span>👤 Full Name</span>
+
+              <strong>
+                ${escapeAdminText(name)}
+              </strong>
+
+            </div>
+
+
+            <div class="admin-detail">
+
+              <span>💰 Wallet</span>
+
+              <strong>
+                ₦${wallet.toLocaleString()}
+              </strong>
+
+            </div>
+
+
+            <div class="admin-detail">
+
+              <span>⭐ Account</span>
+
+              <strong>
+                Tier ${tier}
+              </strong>
+
+            </div>
+
+
+            <div class="admin-detail">
+
+              <span>📱 Phone</span>
+
+              <strong>
+                ${escapeAdminText(phone)}
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <div class="admin-id">
+
+            User ID:
+            ${escapeAdminText(user.id)}
+
+          </div>
+
+        </div>
+
+      `;
+
+
+    }).join("");
+
+}
+
+
+/* ================= SEARCH USERS ================= */
+
+adminSearch.addEventListener(
+  "input",
+  function() {
+
+
+    const search =
+      adminSearch.value
+        .trim()
+        .toLowerCase();
+
+
+    if (!search) {
+
+      displayAdminUsers(
+        adminUsers
+      );
+
+      return;
+
+    }
+
+
     const filtered =
-      allUsers.filter(user => {
+      adminUsers.filter(user => {
+
 
         const email =
-          String(user.email || "")
-            .toLowerCase();
+          String(
+            user.email || ""
+          ).toLowerCase();
+
 
         const name =
-          String(user.fullName || "")
-            .toLowerCase();
+          String(
+            user.fullName || ""
+          ).toLowerCase();
+
 
         const phone =
-          String(user.phone || "")
-            .toLowerCase();
+          String(
+            user.phone || ""
+          ).toLowerCase();
+
 
         return (
+
           email.includes(search) ||
+
           name.includes(search) ||
+
           phone.includes(search)
+
         );
 
       });
 
-    displayUsers(filtered);
+
+    displayAdminUsers(
+      filtered
+    );
 
   }
 );
@@ -3407,7 +3719,7 @@ adminSearch.addEventListener(
 
 refreshUsersBtn.addEventListener(
   "click",
-  loadUsers
+  loadAdminUsers
 );
 
 
@@ -3417,13 +3729,22 @@ adminBackBtn.addEventListener(
   "click",
   function() {
 
-    adminPage.style.display = "none";
 
-    const home =
-      document.getElementById("homePage");
+    adminPage.style.display =
+      "none";
 
-    if (home) {
-      home.style.display = "block";
+
+    const homePage =
+      document.getElementById(
+        "homePage"
+      );
+
+
+    if (homePage) {
+
+      homePage.style.display =
+        "block";
+
     }
 
   }
@@ -3433,70 +3754,119 @@ adminBackBtn.addEventListener(
 /* ================= ADMIN BUTTON ================= */
 
 /*
-  Wannan yana kirkirar button din Admin
+  Wannan button zai bayyana
   a Account page.
 */
 
 const accountPage =
-  document.getElementById("accountPage");
+  document.getElementById(
+    "accountPage"
+  );
+
 
 if (accountPage) {
 
-  const adminButton =
-    document.createElement("button");
 
-  adminButton.type = "button";
-  adminButton.textContent = "🛠️ Admin Dashboard";
+  const existingButton =
+    document.getElementById(
+      "adminDashboardBtn"
+    );
 
-  adminButton.className = "main-btn";
 
-  adminButton.style.marginTop = "10px";
+  if (!existingButton) {
 
-  adminButton.addEventListener(
-    "click",
-    function() {
 
-      if (checkAdmin()) {
-        openAdminPage();
-      }
+    const button =
+      document.createElement(
+        "button"
+      );
 
-    }
-  );
 
-  accountPage.appendChild(adminButton);
+    button.id =
+      "adminDashboardBtn";
+
+
+    button.type =
+      "button";
+
+
+    button.className =
+      "main-btn";
+
+
+    button.style.marginTop =
+      "10px";
+
+
+    button.textContent =
+      "🛠️ Admin Dashboard";
+
+
+    button.addEventListener(
+      "click",
+      openAdminDashboard
+    );
+
+
+    accountPage.appendChild(
+      button
+    );
+
+  }
+
 }
 
 
-/* ================= AUTH CHECK ================= */
+/* ================= AUTH ================= */
 
 onAuthStateChanged(
-  auth,
+  adminAuth,
   function(user) {
 
-    if (!user) return;
+    if (user) {
 
-    console.log(
-      "Logged in:",
-      user.email
-    );
+      console.log(
+        "A T L Data login:",
+        user.email
+      );
+
+    }
 
   }
 );
 
 
-/* ================= SECURITY HELPER ================= */
+/* ================= ESCAPE TEXT ================= */
 
-function escapeAdminHTML(value) {
+function escapeAdminText(value) {
 
   return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
+    );
 
 }
 
-  </script>
-</body>
-</html>
+</script>
