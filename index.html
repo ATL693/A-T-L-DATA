@@ -1,162 +1,263 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>A T L Data</title>
+
+  <title>A T L Data | Data & Airtime</title>
 
   <style>
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
       font-family: Arial, sans-serif;
     }
 
     body {
       background: #f4f7f6;
-      color: #222;
+      color: #17221d;
     }
 
     header {
-      background: #075e54;
+      background: linear-gradient(135deg, #006b3c, #00a65a);
       color: white;
-      padding: 18px 20px;
-      text-align: center;
+      padding: 18px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 3px 12px rgba(0,0,0,.15);
     }
 
-    header h1 {
-      font-size: 28px;
+    .logo {
+      font-size: 25px;
+      font-weight: bold;
     }
 
-    header p {
-      margin-top: 5px;
+    .logo span {
+      color: #ffd54a;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 18px;
       font-size: 14px;
     }
 
     .hero {
-      background: white;
-      margin: 20px auto;
-      padding: 25px 20px;
-      max-width: 600px;
+      padding: 55px 7%;
+      background: linear-gradient(135deg, #003d25, #008f4c);
+      color: white;
       text-align: center;
-      border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     }
 
-    .hero h2 {
-      color: #075e54;
-      margin-bottom: 10px;
+    .hero h1 {
+      font-size: 38px;
+      margin-bottom: 12px;
     }
 
     .hero p {
-      color: #666;
-      margin-bottom: 20px;
+      font-size: 17px;
+      opacity: .9;
+      margin-bottom: 25px;
+    }
+
+    .hero button {
+      background: #ffd54a;
+      color: #173b28;
+      border: none;
+      padding: 13px 25px;
+      border-radius: 25px;
+      font-weight: bold;
+      cursor: pointer;
     }
 
     .container {
-      max-width: 600px;
-      margin: auto;
-      padding: 0 15px 30px;
+      width: 90%;
+      max-width: 900px;
+      margin: 30px auto;
     }
 
     .card {
       background: white;
-      padding: 20px;
-      margin-bottom: 15px;
-      border-radius: 15px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+      padding: 25px;
+      border-radius: 18px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.08);
+      margin-bottom: 25px;
     }
 
-    .card h3 {
-      margin-bottom: 15px;
-      color: #075e54;
+    .card h2 {
+      margin-bottom: 20px;
+      color: #006b3c;
     }
 
     label {
       display: block;
-      margin: 10px 0 6px;
+      margin: 12px 0 7px;
       font-weight: bold;
     }
 
     select,
     input {
       width: 100%;
-      padding: 13px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 16px;
+      padding: 14px;
+      border: 1px solid #d5ddd8;
+      border-radius: 10px;
+      outline: none;
+      font-size: 15px;
+    }
+
+    select:focus,
+    input:focus {
+      border-color: #00a65a;
     }
 
     .plans {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-top: 10px;
+      gap: 12px;
+      margin-top: 15px;
     }
 
     .plan {
-      border: 1px solid #ddd;
-      padding: 15px;
-      border-radius: 10px;
-      text-align: center;
+      border: 2px solid #e1e8e4;
+      padding: 17px;
+      border-radius: 13px;
       cursor: pointer;
-      background: #fafafa;
+      text-align: center;
+      transition: .2s;
     }
 
     .plan:hover {
-      border-color: #075e54;
+      border-color: #00a65a;
+      transform: translateY(-2px);
+    }
+
+    .plan.selected {
+      border-color: #00a65a;
+      background: #eafff3;
     }
 
     .plan strong {
       display: block;
-      color: #075e54;
+      color: #006b3c;
+      font-size: 19px;
       margin-bottom: 5px;
     }
 
-    button {
+    .buy-btn {
       width: 100%;
-      padding: 14px;
-      margin-top: 18px;
+      margin-top: 20px;
+      padding: 15px;
       border: none;
-      border-radius: 9px;
-      background: #075e54;
+      border-radius: 12px;
+      background: #006b3c;
       color: white;
-      font-size: 17px;
+      font-size: 16px;
       font-weight: bold;
       cursor: pointer;
     }
 
-    button:hover {
-      background: #064c44;
+    .buy-btn:hover {
+      background: #004f2d;
     }
 
     .services {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
     }
 
     .service {
-      background: #f0f7f5;
-      padding: 18px;
-      border-radius: 10px;
+      background: white;
+      padding: 22px 12px;
+      border-radius: 15px;
       text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,.06);
+    }
+
+    .service .icon {
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    .service h3 {
+      font-size: 15px;
+      margin-bottom: 5px;
+    }
+
+    .service p {
+      font-size: 12px;
+      color: #68736e;
+    }
+
+    .notice {
+      background: #fff8df;
+      border-left: 5px solid #e9b900;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .whatsapp {
+      display: block;
+      text-align: center;
+      background: #20b957;
+      color: white;
+      text-decoration: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-weight: bold;
+      margin-top: 20px;
     }
 
     footer {
-      background: #075e54;
+      margin-top: 40px;
+      background: #10231a;
       color: white;
       text-align: center;
-      padding: 20px;
-      margin-top: 20px;
-      font-size: 14px;
+      padding: 25px 10px;
+      font-size: 13px;
     }
 
-    @media (max-width: 400px) {
-      .plans,
+    footer span {
+      color: #ffd54a;
+    }
+
+    @media (max-width: 650px) {
+      header {
+        padding: 16px 5%;
+      }
+
+      nav a {
+        display: none;
+      }
+
+      .hero {
+        padding: 45px 5%;
+      }
+
+      .hero h1 {
+        font-size: 30px;
+      }
+
+      .container {
+        width: 94%;
+      }
+
       .services {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .plans {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
   </style>
@@ -165,30 +266,47 @@
 <body>
 
   <header>
-    <h1>A T L Data</h1>
-    <p>Fast • Simple • Reliable</p>
+    <div class="logo">A T L <span>Data</span></div>
+
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#data">Data</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </nav>
   </header>
 
-  <section class="hero">
-    <h2>Buy Data Easily</h2>
-    <p>Choose your network and data plan below.</p>
+
+  <section class="hero" id="home">
+    <h1>A T L Data</h1>
+
+    <p>Fast • Simple • Reliable</p>
+
+    <button onclick="document.getElementById('data').scrollIntoView()">
+      Buy Data
+    </button>
   </section>
+
 
   <main class="container">
 
-    <div class="card">
-      <h3>📱 Buy Data</h3>
+    <section class="card" id="data">
 
-      <label for="network">Network</label>
+      <h2>📡 Buy Data</h2>
+
+      <label>Select Network</label>
+
       <select id="network">
-        <option value="">Select Network</option>
-        <option value="MTN">MTN</option>
-        <option value="Airtel">Airtel</option>
-        <option value="Glo">Glo</option>
-        <option value="9mobile">9mobile</option>
+        <option value="">-- Select Network --</option>
+        <option>MTN</option>
+        <option>Airtel</option>
+        <option>Glo</option>
+        <option>9mobile</option>
       </select>
 
-      <label for="phone">Phone Number</label>
+
+      <label>Phone Number</label>
+
       <input
         type="tel"
         id="phone"
@@ -196,75 +314,132 @@
         maxlength="11"
       >
 
-      <label>Choose Data Plan</label>
+
+      <label>Select Data Plan</label>
 
       <div class="plans">
-        <div class="plan" onclick="selectPlan('500MB', '₦150')">
+
+        <div class="plan" onclick="selectPlan(this, '500MB', '150')">
           <strong>500MB</strong>
           ₦150
         </div>
 
-        <div class="plan" onclick="selectPlan('1GB', '₦300')">
+        <div class="plan" onclick="selectPlan(this, '1GB', '300')">
           <strong>1GB</strong>
           ₦300
         </div>
 
-        <div class="plan" onclick="selectPlan('2GB', '₦600')">
+        <div class="plan" onclick="selectPlan(this, '2GB', '600')">
           <strong>2GB</strong>
           ₦600
         </div>
 
-        <div class="plan" onclick="selectPlan('5GB', '₦1,500')">
+        <div class="plan" onclick="selectPlan(this, '5GB', '1500')">
           <strong>5GB</strong>
           ₦1,500
         </div>
+
       </div>
 
-      <input type="hidden" id="selectedPlan">
 
-      <button onclick="buyData()">Buy Data</button>
-    </div>
-
-
-    <div class="card">
-      <h3>⚡ Our Services</h3>
-
-      <div class="services">
-        <div class="service">📱 Data</div>
-        <div class="service">☎️ Airtime</div>
-        <div class="service">💳 Bills Payment</div>
-        <div class="service">👤 User Account</div>
-      </div>
-    </div>
-
-
-    <div class="card">
-      <h3>📞 Contact A T L Data</h3>
-      <p>Need help? Contact our support team.</p>
-
-      <button onclick="contactWhatsApp()">
-        Chat on WhatsApp
+      <button class="buy-btn" onclick="buyData()">
+        Buy Data
       </button>
-    </div>
+
+
+      <div class="notice">
+        ⚠️ <b>Demo Notice:</b>
+        Wannan version demo ce. Ba ta cire kuɗi ko aika data kai tsaye.
+        Za a haɗa payment gateway da data API daga baya.
+      </div>
+
+    </section>
+
+
+    <section id="services">
+
+      <div class="card">
+
+        <h2>Our Services</h2>
+
+        <div class="services">
+
+          <div class="service">
+            <div class="icon">📡</div>
+            <h3>Data</h3>
+            <p>Buy affordable data</p>
+          </div>
+
+          <div class="service">
+            <div class="icon">☎️</div>
+            <h3>Airtime</h3>
+            <p>Recharge your line</p>
+          </div>
+
+          <div class="service">
+            <div class="icon">💳</div>
+            <h3>Bills</h3>
+            <p>Pay your bills</p>
+          </div>
+
+          <div class="service">
+            <div class="icon">👤</div>
+            <h3>Account</h3>
+            <p>Manage your account</p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <section class="card" id="contact">
+
+      <h2>💬 Contact A T L Data</h2>
+
+      <p>
+        Need help or want to make an enquiry?
+        Contact us on WhatsApp.
+      </p>
+
+      <!-- 07073160817 -->
+      <a
+        class="whatsapp"
+        href="https://wa.me/2347073160817"
+        target="_blank"
+      >
+        💬 Chat on WhatsApp
+      </a>
+
+    </section>
 
   </main>
 
 
   <footer>
-    © 2026 A T L Data. All Rights Reserved.
+    <p>© 2026 <span>A T L Data</span>. All Rights Reserved.</p>
+    <p style="margin-top:8px;">Fast • Simple • Reliable</p>
   </footer>
 
 
   <script>
 
     let selectedPlan = "";
+    let selectedPrice = "";
 
-    function selectPlan(plan, price) {
-      selectedPlan = plan + " - " + price;
 
-      document.getElementById("selectedPlan").value = selectedPlan;
+    function selectPlan(element, plan, price) {
 
-      alert("Selected: " + selectedPlan);
+      document.querySelectorAll(".plan").forEach(function(item) {
+        item.classList.remove("selected");
+      });
+
+      element.classList.add("selected");
+
+      selectedPlan = plan;
+      selectedPrice = price;
     }
 
 
@@ -274,55 +449,36 @@
         document.getElementById("network").value;
 
       const phone =
-        document.getElementById("phone").value;
+        document.getElementById("phone").value.trim();
+
 
       if (network === "") {
         alert("Please select your network.");
         return;
       }
 
-      if (phone.length !== 11) {
+
+      if (!/^[0-9]{11}$/.test(phone)) {
         alert("Please enter a valid 11-digit phone number.");
         return;
       }
+
 
       if (selectedPlan === "") {
         alert("Please select a data plan.");
         return;
       }
 
+
       alert(
-        "Order received!\\n\\n" +
-        "Network: " + network + "\\n" +
-        "Phone: " + phone + "\\n" +
-        "Plan: " + selectedPlan
+        "Order Details\n\n" +
+        "Network: " + network + "\n" +
+        "Phone: " + phone + "\n" +
+        "Plan: " + selectedPlan + "\n" +
+        "Price: ₦" + selectedPrice +
+        "\n\nThis is currently a demo."
       );
 
-      /*
-        LATER:
-        We will connect this button to:
-        1. Payment Gateway
-        2. Data Vending API
-        3. Backend
-        4. Transaction Database
-      */
-    }
-
-
-    function contactWhatsApp() {
-
-      const phoneNumber = "07073160817";
-
-      const message =
-        "Hello A T L Data, I need help with my order.";
-
-      window.open(
-        "https://wa.me/" +
-        phoneNumber +
-        "?text=" +
-        encodeURIComponent(message),
-        "_blank"
-      );
     }
 
   </script>
