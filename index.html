@@ -1,3736 +1,861 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>A T L Data</title>
 
   <style>
-
-    *{
-      box-sizing:border-box;
-      margin:0;
-      padding:0;
-      font-family:Arial,sans-serif;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
     }
 
-    body{
-      background:#f3f7f5;
-      color:#17231d;
-      padding-bottom:80px;
+    body {
+      background: #f4f7f6;
+      color: #222;
+      padding-bottom: 75px;
     }
 
-    .hidden{
-      display:none !important;
+    header {
+      background: #087443;
+      color: white;
+      padding: 18px 16px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
-    .topbar{
-      background:#087f3e;
-      color:white;
-      padding:18px 16px;
-      position:sticky;
-      top:0;
-      z-index:100;
-      box-shadow:0 2px 10px rgba(0,0,0,.12);
+    header h1 {
+      font-size: 25px;
+      margin-bottom: 5px;
     }
 
-    .topbar h1{
-      font-size:22px;
+    header p {
+      font-size: 13px;
+      opacity: .9;
     }
 
-    .topbar p{
-      font-size:13px;
-      margin-top:4px;
-      opacity:.9;
+    main {
+      max-width: 600px;
+      margin: auto;
+      padding: 15px;
     }
 
-    .container{
-      width:min(100%,520px);
-      margin:auto;
-      padding:18px 14px;
+    .page {
+      display: none;
     }
 
-    .app-page{
-      width:100%;
+    .page.active {
+      display: block;
     }
 
-    .card{
-      background:white;
-      border-radius:18px;
-      padding:18px;
-      margin-bottom:15px;
-      box-shadow:0 3px 14px rgba(0,0,0,.07);
+    .welcome {
+      background: white;
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 15px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.06);
     }
 
-    .hero{
-      background:linear-gradient(135deg,#087f3e,#0aa957);
-      color:white;
-      border-radius:20px;
-      padding:22px;
-      margin-bottom:16px;
+    .welcome h2 {
+      color: #087443;
+      margin-bottom: 8px;
     }
 
-    .hero h2{
-      font-size:25px;
-      margin-bottom:7px;
+    .welcome p {
+      color: #666;
+      line-height: 1.5;
     }
 
-    .hero p{
-      font-size:14px;
-      line-height:1.5;
+    .service-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
     }
 
-    .grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:12px;
+    .service-card {
+      background: white;
+      border: none;
+      border-radius: 15px;
+      padding: 20px 12px;
+      min-height: 120px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.06);
+      cursor: pointer;
+      text-align: center;
     }
 
-    .service-card{
-      background:white;
-      border-radius:17px;
-      padding:18px 12px;
-      text-align:center;
-      box-shadow:0 3px 12px rgba(0,0,0,.07);
-      cursor:pointer;
-      border:1px solid #e8eee9;
+    .service-card:active {
+      transform: scale(.98);
     }
 
-    .service-card .icon{
-      font-size:30px;
-      margin-bottom:8px;
+    .service-icon {
+      font-size: 30px;
+      margin-bottom: 8px;
     }
 
-    .service-card strong{
-      display:block;
-      font-size:15px;
+    .service-card strong {
+      display: block;
+      color: #087443;
+      margin-bottom: 5px;
     }
 
-    .service-card span{
-      display:block;
-      color:#718078;
-      font-size:12px;
-      margin-top:5px;
+    .service-card span {
+      color: #777;
+      font-size: 12px;
     }
 
-    h2{
-      margin-bottom:10px;
-      font-size:21px;
+    .box {
+      background: white;
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 15px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.06);
     }
 
-    h3{
-      margin-bottom:8px;
+    .box h2 {
+      color: #087443;
+      margin-bottom: 15px;
     }
 
-    .muted{
-      color:#718078;
-      font-size:14px;
-      line-height:1.5;
-    }
-
-    label{
-      display:block;
-      font-size:13px;
-      font-weight:bold;
-      margin:14px 0 6px;
+    label {
+      display: block;
+      margin: 12px 0 6px;
+      font-size: 13px;
+      font-weight: bold;
     }
 
     input,
-    select,
-    textarea{
-      width:100%;
-      border:1px solid #d8e2dc;
-      border-radius:12px;
-      padding:13px;
-      outline:none;
-      background:#fff;
-      font-size:14px;
+    select {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      outline: none;
+      background: white;
+      font-size: 14px;
     }
 
     input:focus,
-    select:focus,
-    textarea:focus{
-      border-color:#087f3e;
+    select:focus {
+      border-color: #087443;
     }
 
-    textarea{
-      min-height:90px;
-      resize:vertical;
+    .btn {
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      padding: 14px;
+      margin-top: 15px;
+      background: #087443;
+      color: white;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
     }
 
-    .btn{
-      border:0;
-      border-radius:12px;
-      padding:13px 16px;
-      font-weight:bold;
-      cursor:pointer;
-      margin-top:12px;
-      width:100%;
+    .btn.secondary {
+      background: #e9f5ef;
+      color: #087443;
     }
 
-    .btn-primary{
-      background:#087f3e;
-      color:white;
+    .back-btn {
+      background: none;
+      border: none;
+      color: #087443;
+      font-weight: bold;
+      margin-bottom: 12px;
+      cursor: pointer;
+      font-size: 14px;
     }
 
-    .btn-light{
-      background:#edf5f0;
-      color:#087f3e;
+    .bill-box {
+      display: none;
     }
 
-    .btn-danger{
-      background:#c62828;
-      color:white;
+    .bill-box.active {
+      display: block;
     }
 
-    .menu-btn{
-      width:100%;
-      padding:15px;
-      margin-top:10px;
-      border:1px solid #e0e8e3;
-      background:white;
-      border-radius:13px;
-      text-align:left;
-      font-weight:bold;
-      cursor:pointer;
+    .account-card {
+      background: #087443;
+      color: white;
+      border-radius: 17px;
+      padding: 20px;
+      margin-bottom: 15px;
     }
 
-    .back-btn{
-      width:auto;
-      padding:10px 14px;
-      margin-bottom:15px;
-      margin-top:0;
+    .account-card h2 {
+      margin-bottom: 8px;
     }
 
-    .balance{
-      background:linear-gradient(135deg,#087f3e,#075f30);
-      color:white;
-      border-radius:18px;
-      padding:20px;
-      margin-bottom:15px;
+    .balance {
+      font-size: 30px;
+      font-weight: bold;
+      margin: 12px 0;
     }
 
-    .amount{
-      font-size:28px;
-      font-weight:bold;
-      margin:8px 0;
+    .login-required {
+      text-align: center;
+      padding: 25px 10px;
     }
 
-    .balance .btn-light{
-      background:white;
-      color:#087f3e;
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 68px;
+      background: white;
+      border-top: 1px solid #ddd;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      z-index: 200;
     }
 
-    .account-item{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-      padding:15px 0;
-      border-bottom:1px solid #edf1ee;
+    .bottom-nav button {
+      border: none;
+      background: white;
+      color: #777;
+      font-size: 11px;
+      cursor: pointer;
     }
 
-    .account-item:last-child{
-      border-bottom:0;
+    .bottom-nav button.active {
+      color: #087443;
+      font-weight: bold;
     }
 
-    .account-item .btn{
-      width:auto;
-      margin-top:0;
-      white-space:nowrap;
+    .bottom-nav .nav-icon {
+      display: block;
+      font-size: 20px;
+      margin-bottom: 3px;
     }
 
-    .bill-box{
-      margin-top:15px;
-      padding:15px;
-      border-radius:14px;
-      background:#f5faf7;
-      border:1px solid #e1ece5;
+    .notice {
+      background: #fff8df;
+      color: #765f00;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 12px;
+      margin-top: 12px;
     }
 
-    .notice{
-      background:#fff8df;
-      border:1px solid #f1df9b;
-      color:#6e5915;
-      border-radius:12px;
-      padding:12px;
-      font-size:13px;
-      line-height:1.5;
-      margin-top:12px;
+    @media (max-width: 380px) {
+      .service-grid {
+        grid-template-columns: 1fr;
+      }
     }
-
-    .bottom-nav{
-      position:fixed;
-      bottom:0;
-      left:0;
-      right:0;
-      background:white;
-      border-top:1px solid #e2e8e4;
-      display:flex;
-      justify-content:space-around;
-      padding:9px 4px;
-      z-index:200;
-    }
-
-    .nav-btn{
-      border:0;
-      background:none;
-      font-size:12px;
-      color:#65736b;
-      cursor:pointer;
-      padding:5px;
-    }
-
-    .nav-btn b{
-      display:block;
-      font-size:20px;
-      margin-bottom:2px;
-    }
-
-    .nav-btn.active{
-      color:#087f3e;
-      font-weight:bold;
-    }
-
-    .auth-tabs{
-      display:flex;
-      gap:8px;
-      margin-bottom:15px;
-    }
-
-    .auth-tabs button{
-      flex:1;
-      padding:12px;
-      border:0;
-      border-radius:11px;
-      background:#edf5f0;
-      color:#087f3e;
-      font-weight:bold;
-      cursor:pointer;
-    }
-
-    .auth-tabs button.active{
-      background:#087f3e;
-      color:white;
-    }
-
-    .small{
-      font-size:12px;
-    }
-
   </style>
-
 </head>
 
 <body>
 
-  <!-- TOP BAR -->
-
-  <header class="topbar">
-
-    <h1>⚡ A T L Data</h1>
-
-    <p>Data • Airtime • Bills • Digital Services</p>
-
-  </header>
-
-
-  <main class="container">
-
-
-    <!-- ================= HOME ================= -->
-
-    <section id="homePage" class="app-page">
-
-      <div class="hero">
-
-        <h2>Welcome to A T L Data</h2>
-
-        <p>
-          Fast and simple digital services
-          at your fingertips.
-        </p>
-
-      </div>
-
-
-      <div class="grid">
-
-        <div class="service-card" id="homeDataBtn">
-
-          <div class="icon">📱</div>
-
-          <strong>Buy Data</strong>
-
-          <span>MTN • Airtel • Glo • 9mobile</span>
-
-        </div>
-
-
-        <div class="service-card" id="homeAirtimeBtn">
-
-          <div class="icon">📞</div>
-
-          <strong>Buy Airtime</strong>
-
-          <span>Recharge your line</span>
-
-        </div>
-
-
-        <div class="service-card" id="homeBillsBtn">
-
-          <div class="icon">🧾</div>
-
-          <strong>Pay Bills</strong>
-
-          <span>NECO • WAEC • JAMB • Electricity</span>
-
-        </div>
-
-
-        <div class="service-card" id="homeAccountBtn">
-
-          <div class="icon">👤</div>
-
-          <strong>My Account</strong>
-
-          <span>Login • Wallet • Settings</span>
-
-        </div>
-
-      </div>
-
-
-      <div class="card" style="margin-top:15px">
-
-        <h3>Our Services</h3>
-
-        <p class="muted">
-          Choose a service above to continue.
-          Your account and transaction history
-          are securely connected to Firebase.
-        </p>
-
-      </div>
-
-    </section>
-
-
-    <!-- ================= DATA ================= -->
-
-    <section id="dataPage" class="app-page hidden">
-
-      <div class="card">
-
-        <button
-          class="btn btn-light back-btn"
-          id="dataBackBtn"
-        >
-          ← Back
-        </button>
-
-        <h2>📱 Buy Data</h2>
-
-        <p class="muted">
-          Select your network and data plan.
-        </p>
-
-
-        <label>Network</label>
-
-        <select id="dataNetwork">
-
-          <option value="">Select Network</option>
-
-          <option>MTN</option>
-
-          <option>Airtel</option>
-
-          <option>Glo</option>
-
-          <option>9mobile</option>
-
-        </select>
-
-
-        <label>Phone Number</label>
-
-        <input
-          type="tel"
-          id="dataPhone"
-          placeholder="08012345678"
-        >
-
-
-        <label>Data Plan</label>
-
-        <select id="dataPlan">
-
-          <option value="">Select Data Plan</option>
-
-          <option value="500MB">500MB</option>
-
-          <option value="1GB">1GB</option>
-
-          <option value="2GB">2GB</option>
-
-          <option value="5GB">5GB</option>
-
-        </select>
-
-
-        <button
-          class="btn btn-primary"
-          id="buyDataBtn"
-        >
-          Continue
-        </button>
-
-      </div>
-
-    </section>
-
-
-    <!-- ================= AIRTIME ================= -->
-
-    <section id="airtimePage" class="app-page hidden">
-
-      <div class="card">
-
-        <button
-          class="btn btn-light back-btn"
-          id="airtimeBackBtn"
-        >
-          ← Back
-        </button>
-
-        <h2>📞 Buy Airtime</h2>
-
-        <p class="muted">
-          Enter the phone number and amount.
-        </p>
-
-
-        <label>Network</label>
-
-        <select id="airtimeNetwork">
-
-          <option value="">Select Network</option>
-
-          <option>MTN</option>
-
-          <option>Airtel</option>
-
-          <option>Glo</option>
-
-          <option>9mobile</option>
-
-        </select>
-
-
-        <label>Phone Number</label>
-
-        <input
-          type="tel"
-          id="airtimePhone"
-          placeholder="08012345678"
-        >
-
-
-        <label>Amount</label>
-
-        <input
-          type="number"
-          id="airtimeAmount"
-          placeholder="Enter amount"
-          min="50"
-        >
-
-
-        <button
-          class="btn btn-primary"
-          id="buyAirtimeBtn"
-        >
-          Continue
-        </button>
-
-      </div>
-
-    </section>
-
-
-    <!-- ================= BILLS ================= -->
-
-    <section id="billsPage" class="app-page hidden">
-
-      <div class="card">
-
-        <button
-          class="btn btn-light back-btn"
-          id="billsBackBtn"
-        >
-          ← Back
-        </button>
-
-        <h2>🧾 Pay Bills</h2>
-
-        <p class="muted">
-          Select the bill you want to pay.
-          The correct form will appear automatically.
-        </p>
-
-
-        <label>Bill Service</label>
-
-        <select id="billService">
-
-          <option value="">
-            Select Bill Service
-          </option>
-
-          <option value="neco">
-            NECO
-          </option>
-
-          <option value="waec">
-            WAEC
-          </option>
-
-          <option value="jamb">
-            JAMB
-          </option>
-
-          <option value="electricity">
-            Electricity / NEPA
-          </option>
-
-          <option value="cable">
-            Cable TV
-          </option>
-
-          <option value="internet">
-            Internet
-          </option>
-
-        </select>
-
-
-        <!-- NECO -->
-
-        <div
-          id="necoBox"
-          class="bill-box hidden"
-        >
-
-          <h3>🎓 NECO</h3>
-
-          <p class="muted">
-            Select the NECO service you need.
-          </p>
-
-
-          <label>NECO Service</label>
-
-          <select id="necoService">
-
-            <option value="">
-              Select Service
-            </option>
-
-            <option>NECO Registration</option>
-
-            <option>NECO Result Checker</option>
-
-            <option>NECO Token</option>
-
-          </select>
-
-
-          <label>
-            Registration / Examination Number
-          </label>
-
-          <input
-            type="text"
-            id="necoNumber"
-            placeholder="Enter number"
-          >
-
-
-          <label>Amount</label>
-
-          <input
-            type="number"
-            id="necoAmount"
-            placeholder="Enter amount"
-            min="1"
-          >
-
-        </div>
-
-
-        <!-- WAEC -->
-
-        <div
-          id="waecBox"
-          class="bill-box hidden"
-        >
-
-          <h3>🎓 WAEC</h3>
-
-          <p class="muted">
-            Select your WAEC service.
-          </p>
-
-
-          <label>WAEC Service</label>
-
-          <select id="waecService">
-
-            <option value="">
-              Select Service
-            </option>
-
-            <option>WAEC Registration</option>
-
-            <option>WAEC Result Checker</option>
-
-            <option>WAEC PIN</option>
-
-          </select>
-
-
-          <label>Candidate / Registration Number</label>
-
-          <input
-            type="text"
-            id="waecNumber"
-            placeholder="Enter number"
-          >
-
-
-          <label>Amount</label>
-
-          <input
-            type="number"
-            id="waecAmount"
-            placeholder="Enter amount"
-            min="1"
-          >
-
-        </div>
-
-
-        <!-- JAMB -->
-
-        <div
-          id="jambBox"
-          class="bill-box hidden"
-        >
-
-          <h3>🎓 JAMB</h3>
-
-          <p class="muted">
-            Select your JAMB service.
-          </p>
-
-
-          <label>JAMB Service</label>
-
-          <select id="jambService">
-
-            <option value="">
-              Select Service
-            </option>
-
-            <option>JAMB Registration</option>
-
-            <option>JAMB Result Checker</option>
-
-            <option>JAMB PIN</option>
-
-          </select>
-
-
-          <label>Profile / Registration Number</label>
-
-          <input
-            type="text"
-            id="jambNumber"
-            placeholder="Enter number"
-          >
-
-
-          <label>Amount</label>
-
-          <input
-            type="number"
-            id="jambAmount"
-            placeholder="Enter amount"
-            min="1"
-          >
-
-        </div>
-
-
-        <!-- ELECTRICITY -->
-
-        <div
-          id="electricityBox"
-          class="bill-box hidden"
-        >
-
-          <h3>💡 Electricity / NEPA</h3>
-
-          <label>Electricity Provider</label>
-
-          <select id="electricityProvider">
-
-            <option value="">
-              Select Provider
-            </option>
-
-            <option>KEDCO</option>
-
-            <option>IKEDC</option>
-
-            <option>EKEDC</option>
-
-            <option>ABEDC</option>
-
-            <option>KAEDCO</option>
-
-            <option>YEDC</option>
-
-            <option>BEDC</option>
-
-            <option>JED</option>
-
-            <option>IBEDC</option>
-
-            <option>PHED</option>
-
-            <option>AEDC</option>
-
-          </select>
-
-
-          <label>Meter Type</label>
-
-          <select id="meterType">
-
-            <option value="">
-              Select Meter Type
-            </option>
-
-            <option>Prepaid</option>
-
-            <option>Postpaid</option>
-
-          </select>
-
-
-          <label>Meter Number</label>
-
-          <input
-            type="text"
-            id="meterNumber"
-            placeholder="Enter meter number"
-          >
-
-
-          <label>Amount</label>
-
-          <input
-            type="number"
-            id="electricityAmount"
-            placeholder="Enter amount"
-            min="1"
-          >
-
-        </div>
-
-
-        <!-- CABLE -->
-
-        <div
-          id="cableBox"
-          class="bill-box hidden"
-        >
-
-          <h3>📺 Cable TV</h3>
-
-          <label>Provider</label>
-
-          <select id="cableProvider">
-
-            <option value="">
-              Select Provider
-            </option>
-
-            <option>DStv</option>
-
-            <option>GOtv</option>
-
-            <option>Startimes</option>
-
-          </select>
-
-
-          <label>Smartcard / IUC Number</label>
-
-          <input
-            type="text"
-            id="cableNumber"
-            placeholder="Enter Smartcard / IUC"
-          >
-
-
-          <label>Amount</label>
-
-          <input
-            type="number"
-            id="cableAmount"
-            placeholder="Enter amount"
-            min="1"
-          >
-
-        </div>
-
-
-        <!-- INTERNET -->
-
-        <div
-          id="internetBox"
-          class="bill-box hidden"
-        >
-
-          <h3>🌐 Internet</h3>
-
-          <label>Internet Provider</label>
-
-          <select id="internetProvider">
-
-            <option value="">
-              Select Provider
-            </option>
-
-            <option>Smile</option>
-
-            <option>Spectranet</option>
-
-            <option>MTN Fibre</option>
-
-            <option>Airtel Internet</option>
-
-          </select>
-
-
-          <label>Account Number</label>
-
-          <input
-            type="text"
-            id="internetNumber"
-            placeholder="Enter account number"
-          >
-
-
-          <label>Amount</label>
-
-          <input
-            type="number"
-            id="internetAmount"
-            placeholder="Enter amount"
-            min="1"
-          >
-
-        </div>
-
-
-        <button
-          class="btn btn-primary"
-          id="billContinueBtn"
-        >
-          Continue
-        </button>
-
-
-        <div class="notice">
-
-          ⚠️ Bill services are currently in
-          testing mode. Real bill payment will
-          be connected after the secure backend
-          and API are configured.
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- ================= ACCOUNT ================= -->
-
-    <section
-      id="accountPage"
-      class="app-page hidden"
-    >
-
-      <div id="loggedOutAccount">
-
-        <div class="card">
-
-          <h2>👤 My Account</h2>
-
-          <p class="muted">
-            Please login or create an account
-            to continue.
-          </p>
-
-          <button
-            class="btn btn-primary"
-            id="accountLoginBtn"
-          >
-            Login / Sign Up
-          </button>
-
-        </div>
-
-      </div>
-
-
-      <div
-        id="loggedInAccount"
-        class="hidden"
+<header>
+  <h1>A T L Data</h1>
+  <p>Fast • Simple • Reliable</p>
+</header>
+
+<main>
+
+  <!-- HOME -->
+  <section id="homePage" class="page active">
+
+    <div class="welcome">
+      <h2>Welcome to A T L Data</h2>
+      <p>Buy data, airtime and pay your bills easily.</p>
+    </div>
+
+    <div class="service-grid">
+
+      <button class="service-card" id="homeDataBtn">
+        <div class="service-icon">📶</div>
+        <strong>Buy Data</strong>
+        <span>MTN, Airtel, Glo & 9mobile</span>
+      </button>
+
+      <button class="service-card" id="homeAirtimeBtn">
+        <div class="service-icon">📱</div>
+        <strong>Airtime</strong>
+        <span>Recharge your line</span>
+      </button>
+
+      <button class="service-card" id="homeBillsBtn">
+        <div class="service-icon">💳</div>
+        <strong>Pay Bills</strong>
+        <span>NECO, WAEC, JAMB & more</span>
+      </button>
+
+      <button class="service-card" id="homeAccountBtn">
+        <div class="service-icon">👤</div>
+        <strong>My Account</strong>
+        <span>Wallet & account settings</span>
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- DATA PAGE -->
+  <section id="dataPage" class="page">
+
+    <button class="back-btn" id="dataBackBtn">← Back</button>
+
+    <div class="box">
+      <h2>📶 Buy Data</h2>
+
+      <label>Network</label>
+      <select id="dataNetwork">
+        <option value="">Select network</option>
+        <option value="MTN">MTN</option>
+        <option value="Airtel">Airtel</option>
+        <option value="Glo">Glo</option>
+        <option value="9mobile">9mobile</option>
+      </select>
+
+      <label>Phone Number</label>
+      <input
+        type="tel"
+        id="dataPhone"
+        placeholder="08012345678"
+        maxlength="11"
       >
 
-        <div class="balance">
+      <label>Data Plan</label>
+      <select id="dataPlan">
+        <option value="">Select plan</option>
+        <option value="500MB">500MB</option>
+        <option value="1GB">1GB</option>
+        <option value="2GB">2GB</option>
+        <option value="5GB">5GB</option>
+      </select>
 
-          <div>Wallet Balance</div>
+      <button class="btn" id="buyDataBtn">
+        Continue
+      </button>
 
-          <div
-            class="amount"
-            id="walletBalance"
-          >
-            ₦0.00
-          </div>
-
-          <button
-            class="btn btn-light"
-            id="addMoneyBtn"
-          >
-            + Add Money
-          </button>
-
-        </div>
-
-
-        <div class="card">
-
-          <h2>Account</h2>
-
-          <div class="account-item">
-
-            <div>
-
-              <strong>Email</strong>
-
-              <div
-                class="muted"
-                id="accountEmail"
-              >
-                -
-              </div>
-
-            </div>
-
-          </div>
-
-
-          <div class="account-item">
-
-            <div>
-
-              <strong>
-                Manage My Account
-              </strong>
-
-              <div class="muted">
-                Password, Tier 1 and settings
-              </div>
-
-            </div>
-
-            <button
-              class="btn btn-primary"
-              id="manageAccountBtn"
-            >
-              Manage
-            </button>
-
-          </div>
-
-
-          <div class="account-item">
-
-            <div>
-
-              <strong>
-                Transaction History
-              </strong>
-
-              <div class="muted">
-                View your previous transactions
-              </div>
-
-            </div>
-
-            <button
-              class="btn btn-primary"
-              id="historyBtn"
-            >
-              History
-            </button>
-
-          </div>
-
-
-          <div class="account-item">
-
-            <div>
-
-              <strong>Logout</strong>
-
-              <div class="muted">
-                Sign out of your account
-              </div>
-
-            </div>
-
-            <button
-              class="btn btn-danger"
-              id="logoutBtn"
-            >
-              Logout
-            </button>
-
-          </div>
-
-        </div>
-
+      <div class="notice">
+        Data purchase will be connected to your wallet after payment/API setup.
       </div>
+    </div>
 
-    </section>
-
-
-    <!-- ================= LOGIN ================= -->
-
-    <section
-      id="loginPage"
-      class="app-page hidden"
-    >
-
-      <div class="card">
-
-        <button
-          class="btn btn-light back-btn"
-          id="loginBackBtn"
-        >
-          ← Back
-        </button>
-
-        <h2>🔐 Login</h2>
-
-        <p class="muted">
-          Login to your A T L Data account.
-        </p>
+  </section>
 
 
-        <div class="auth-tabs">
+  <!-- AIRTIME PAGE -->
+  <section id="airtimePage" class="page">
 
-          <button
-            id="showLoginBtn"
-            class="active"
-          >
-            Login
-          </button>
+    <button class="back-btn" id="airtimeBackBtn">← Back</button>
 
-          <button
-            id="showSignupBtn"
-          >
-            Create Account
-          </button>
+    <div class="box">
+      <h2>📱 Buy Airtime</h2>
 
-        </div>
+      <label>Network</label>
+      <select id="airtimeNetwork">
+        <option value="">Select network</option>
+        <option value="MTN">MTN</option>
+        <option value="Airtel">Airtel</option>
+        <option value="Glo">Glo</option>
+        <option value="9mobile">9mobile</option>
+      </select>
 
+      <label>Phone Number</label>
+      <input
+        type="tel"
+        id="airtimePhone"
+        placeholder="08012345678"
+        maxlength="11"
+      >
 
-        <div id="loginForm">
+      <label>Amount</label>
+      <input
+        type="number"
+        id="airtimeAmount"
+        placeholder="Minimum ₦50"
+        min="50"
+      >
 
-          <label>Email</label>
+      <button class="btn" id="buyAirtimeBtn">
+        Continue
+      </button>
+    </div>
 
-          <input
-            type="email"
-            id="loginEmail"
-            placeholder="Enter email"
-          >
-
-
-          <label>Password</label>
-
-          <input
-            type="password"
-            id="loginPassword"
-            placeholder="Enter password"
-          >
-
-
-          <button
-            class="btn btn-primary"
-            id="loginBtn"
-          >
-            Login
-          </button>
+  </section>
 
 
-          <button
-            class="menu-btn"
-            id="loginForgotBtn"
-          >
-            Forgot Password?
-          </button>
+  <!-- BILLS PAGE -->
+  <section id="billsPage" class="page">
 
-        </div>
+    <button class="back-btn" id="billsBackBtn">← Back</button>
 
+    <div class="box">
 
-        <div
-          id="signupForm"
-          class="hidden"
-        >
+      <h2>💳 Pay Bills</h2>
 
-          <label>Email</label>
+      <label>Select Service</label>
 
-          <input
-            type="email"
-            id="signupEmail"
-            placeholder="Enter email"
-          >
+      <select id="billService">
+        <option value="">Select service</option>
+        <option value="NECO">NECO</option>
+        <option value="WAEC">WAEC</option>
+        <option value="JAMB">JAMB</option>
+        <option value="Electricity">Electricity / NEPA</option>
+        <option value="Cable TV">Cable TV</option>
+        <option value="Internet">Internet</option>
+      </select>
 
 
-          <label>Password</label>
+      <!-- NECO -->
+      <div id="necoBox" class="bill-box">
 
-          <input
-            type="password"
-            id="signupPassword"
-            placeholder="Create password"
-          >
+        <label>NECO Service</label>
+        <select id="necoService">
+          <option value="">Select option</option>
+          <option value="Result Checker PIN">Result Checker PIN</option>
+          <option value="Exam Registration">Exam Registration</option>
+        </select>
 
-
-          <label>Confirm Password</label>
-
-          <input
-            type="password"
-            id="signupConfirmPassword"
-            placeholder="Confirm password"
-          >
-
-
-          <button
-            class="btn btn-primary"
-            id="signupBtn"
-          >
-            Create Account
-          </button>
-
-        </div>
-
-      </div>
-
-    </section>
-    <!-- ================= MANAGE ACCOUNT ================= -->
-
-    <section
-      id="managePage"
-      class="app-page hidden"
-    >
-
-      <div class="card">
-
-        <button
-          class="btn btn-light back-btn"
-          id="manageBackBtn"
-        >
-          ← Back
-        </button>
-
-        <h2>⚙️ Manage My Account</h2>
-
-        <p class="muted">
-          Manage your password, account tier and
-          customer support.
-        </p>
-
-
-        <button
-          class="menu-btn"
-          id="forgotPasswordBtn"
-        >
-          🔐 Forgot Password
-          <br>
-          <span class="muted small">
-            Reset your account password
-          </span>
-        </button>
-
-
-        <button
-          class="menu-btn"
-          id="tier1Btn"
-        >
-          ⭐ Upgrade Account to Tier 1
-          <br>
-          <span class="muted small">
-            Complete your account information
-          </span>
-        </button>
-
-
-        <button
-          class="menu-btn"
-          id="supportBtn"
-        >
-          💬 WhatsApp Support
-          <br>
-          <span class="muted small">
-            Contact A T L Data support
-          </span>
-        </button>
-
-      </div>
-
-    </section>
-
-
-    <!-- ================= TIER 1 ================= -->
-
-    <section
-      id="tier1Page"
-      class="app-page hidden"
-    >
-
-      <div class="card">
-
-        <button
-          class="btn btn-light back-btn"
-          id="tier1BackBtn"
-        >
-          ← Back
-        </button>
-
-        <h2>⭐ Upgrade to Tier 1</h2>
-
-        <p class="muted">
-          Enter your correct information below.
-        </p>
-
-
-        <label>Full Name</label>
-
+        <label>Candidate / Registration Number</label>
         <input
           type="text"
-          id="tier1Name"
-          placeholder="Enter your full name"
+          id="necoNumber"
+          placeholder="Enter number"
         >
 
-
-        <label>Phone Number</label>
-
+        <label>Amount</label>
         <input
-          type="tel"
-          id="tier1Phone"
-          placeholder="08012345678"
+          type="number"
+          id="necoAmount"
+          placeholder="Amount"
         >
-
-
-        <label>Date of Birth</label>
-
-        <input
-          type="date"
-          id="tier1Dob"
-        >
-
-
-        <label>Address</label>
-
-        <textarea
-          id="tier1Address"
-          placeholder="Enter your address"
-        ></textarea>
-
-
-        <button
-          class="btn btn-primary"
-          id="saveTier1Btn"
-        >
-          Save & Upgrade
-        </button>
 
       </div>
 
-    </section>
 
+      <!-- WAEC -->
+      <div id="waecBox" class="bill-box">
 
-    <!-- ================= HISTORY ================= -->
+        <label>WAEC Service</label>
+        <select id="waecService">
+          <option value="">Select option</option>
+          <option value="Result Checker PIN">Result Checker PIN</option>
+          <option value="Registration">Registration</option>
+        </select>
 
-    <section
-      id="historyPage"
-      class="app-page hidden"
-    >
-
-      <div class="card">
-
-        <button
-          class="btn btn-light back-btn"
-          id="historyBackBtn"
+        <label>Candidate / Registration Number</label>
+        <input
+          type="text"
+          id="waecNumber"
+          placeholder="Enter number"
         >
-          ← Back
-        </button>
 
-        <h2>📜 Transaction History</h2>
+        <label>Amount</label>
+        <input
+          type="number"
+          id="waecAmount"
+          placeholder="Amount"
+        >
 
-        <p class="muted">
-          Your recent transactions will appear here.
+      </div>
+
+
+      <!-- JAMB -->
+      <div id="jambBox" class="bill-box">
+
+        <label>JAMB Service</label>
+        <select id="jambService">
+          <option value="">Select option</option>
+          <option value="Result Checker">Result Checker</option>
+          <option value="Profile Code">Profile Code</option>
+          <option value="Registration">Registration</option>
+        </select>
+
+        <label>JAMB Registration Number</label>
+        <input
+          type="text"
+          id="jambNumber"
+          placeholder="Enter JAMB number"
+        >
+
+        <label>Amount</label>
+        <input
+          type="number"
+          id="jambAmount"
+          placeholder="Amount"
+        >
+
+      </div>
+
+
+      <!-- ELECTRICITY -->
+      <div id="electricityBox" class="bill-box">
+
+        <label>Electricity Provider</label>
+        <select id="electricityProvider">
+          <option value="">Select provider</option>
+          <option value="KEDCO">KEDCO</option>
+          <option value="AEDC">AEDC</option>
+          <option value="IKEDC">IKEDC</option>
+          <option value="EKEDC">EKEDC</option>
+        </select>
+
+        <label>Meter Type</label>
+        <select id="meterType">
+          <option value="">Select meter type</option>
+          <option value="Prepaid">Prepaid</option>
+          <option value="Postpaid">Postpaid</option>
+        </select>
+
+        <label>Meter Number</label>
+        <input
+          type="text"
+          id="meterNumber"
+          placeholder="Enter meter number"
+        >
+
+        <label>Amount</label>
+        <input
+          type="number"
+          id="electricityAmount"
+          placeholder="Amount"
+        >
+
+      </div>
+
+
+      <!-- CABLE -->
+      <div id="cableBox" class="bill-box">
+
+        <label>Cable Provider</label>
+        <select id="cableProvider">
+          <option value="">Select provider</option>
+          <option value="DSTV">DSTV</option>
+          <option value="GOtv">GOtv</option>
+          <option value="Startimes">Startimes</option>
+        </select>
+
+        <label>Smart Card / IUC Number</label>
+        <input
+          type="text"
+          id="cableNumber"
+          placeholder="Enter IUC number"
+        >
+
+        <label>Amount</label>
+        <input
+          type="number"
+          id="cableAmount"
+          placeholder="Amount"
+        >
+
+      </div>
+
+
+      <!-- INTERNET -->
+      <div id="internetBox" class="bill-box">
+
+        <label>Internet Provider</label>
+        <select id="internetProvider">
+          <option value="">Select provider</option>
+          <option value="MTN">MTN</option>
+          <option value="Airtel">Airtel</option>
+          <option value="Glo">Glo</option>
+          <option value="9mobile">9mobile</option>
+        </select>
+
+        <label>Phone / Account Number</label>
+        <input
+          type="text"
+          id="internetNumber"
+          placeholder="Enter number"
+        >
+
+        <label>Amount</label>
+        <input
+          type="number"
+          id="internetAmount"
+          placeholder="Amount"
+        >
+
+      </div>
+
+
+      <button class="btn" id="billContinueBtn">
+        Continue
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- ACCOUNT PAGE -->
+  <section id="accountPage" class="page">
+
+    <div id="loggedOutAccount" class="box">
+
+      <div class="login-required">
+        <h2>👤 My Account</h2>
+        <p style="color:#777; margin-top:8px;">
+          Login or create an account to manage your wallet and transactions.
         </p>
 
+        <button class="btn" id="accountLoginBtn">
+          Login / Sign Up
+        </button>
+      </div>
 
-        <div id="historyList">
+    </div>
 
-          <p class="muted">
-            No transactions yet.
-          </p>
 
+    <div id="loggedInAccount" style="display:none;">
+
+      <div class="account-card">
+
+        <h2>My Wallet</h2>
+
+        <div class="balance" id="walletBalance">
+          ₦0.00
+        </div>
+
+        <div id="accountEmail">
+          —
         </div>
 
       </div>
 
-    </section>
+
+      <div class="box">
+
+        <button class="btn" id="addMoneyBtn">
+          💰 Add Money
+        </button>
+
+        <button class="btn secondary" id="manageAccountBtn">
+          ⚙️ Manage My Account
+        </button>
+
+        <button class="btn secondary" id="historyBtn">
+          📜 Transaction History
+        </button>
+
+        <button class="btn secondary" id="logoutBtn">
+          Logout
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
 
 
-  </main>
+  <!-- LOGIN PAGE -->
+  <section id="loginPage" class="page">
+
+    <button class="back-btn" id="loginBackBtn">← Back</button>
+
+    <div class="box">
+
+      <h2 id="authTitle">Login</h2>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:15px;">
+
+        <button class="btn secondary" id="showLoginBtn">
+          Login
+        </button>
+
+        <button class="btn secondary" id="showSignupBtn">
+          Create Account
+        </button>
+
+      </div>
 
 
-  <!-- ================= BOTTOM NAVIGATION ================= -->
+      <!-- LOGIN FORM -->
+      <div id="loginForm">
 
-  <nav class="bottom-nav">
+        <label>Email</label>
+        <input
+          type="email"
+          id="loginEmail"
+          placeholder="Enter email"
+        >
 
-    <button
-      class="nav-btn active"
-      id="navHomeBtn"
-    >
-      <b>🏠</b>
-      Home
-    </button>
+        <label>Password</label>
+        <input
+          type="password"
+          id="loginPassword"
+          placeholder="Enter password"
+        >
 
+        <button class="btn" id="loginBtn">
+          Login
+        </button>
 
-    <button
-      class="nav-btn"
-      id="navDataBtn"
-    >
-      <b>📱</b>
-      Data
-    </button>
+        <button class="btn secondary" id="loginForgotBtn">
+          Forgot Password?
+        </button>
 
-
-    <button
-      class="nav-btn"
-      id="navAirtimeBtn"
-    >
-      <b>📞</b>
-      Airtime
-    </button>
+      </div>
 
 
-    <button
-      class="nav-btn"
-      id="navBillsBtn"
-    >
-      <b>🧾</b>
-      Bills
-    </button>
+      <!-- SIGNUP FORM -->
+      <div id="signupForm" style="display:none;">
+
+        <label>Email</label>
+        <input
+          type="email"
+          id="signupEmail"
+          placeholder="Enter email"
+        >
+
+        <label>Password</label>
+        <input
+          type="password"
+          id="signupPassword"
+          placeholder="Minimum 6 characters"
+        >
+
+        <label>Confirm Password</label>
+        <input
+          type="password"
+          id="signupConfirmPassword"
+          placeholder="Repeat password"
+        >
+
+        <button class="btn" id="signupBtn">
+          Create Account
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
 
 
-    <button
-      class="nav-btn"
-      id="navAccountBtn"
-    >
-      <b>👤</b>
-      Account
-    </button>
+<!-- BOTTOM NAVIGATION -->
+<nav class="bottom-nav">
+
+  <button id="navHomeBtn" class="active">
+    <span class="nav-icon">🏠</span>
+    Home
+  </button>
+
+  <button id="navDataBtn">
+    <span class="nav-icon">📶</span>
+    Data
+  </button>
+
+  <button id="navAirtimeBtn">
+    <span class="nav-icon">📱</span>
+    Airtime
+  </button>
+
+  <button id="navBillsBtn">
+    <span class="nav-icon">💳</span>
+    Bills
+  </button>
+
+  <button id="navAccountBtn">
+    <span class="nav-icon">👤</span>
+    Account
+  </button>
 
   </nav>
+  <!-- =========================
+     PART 2 — FIREBASE + NAVIGATION
+     ========================= -->
 
+<!-- MANAGE ACCOUNT PAGE -->
+<section id="managePage" class="page">
 
-  <!-- ================= FIREBASE + JAVASCRIPT ================= -->
+  <button class="back-btn" id="manageBackBtn">← Back</button>
 
-  <script type="module">
+  <div class="box">
+    <h2>⚙️ Manage My Account</h2>
 
-    import { initializeApp }
-      from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+    <button class="btn secondary" id="forgotPasswordBtn">
+      🔐 Forgot Password
+    </button>
 
+    <button class="btn secondary" id="tier1Btn">
+      ⭐ Upgrade Account to Tier 1
+    </button>
 
-    import {
-      getAuth,
-      onAuthStateChanged,
-      signInWithEmailAndPassword,
-      createUserWithEmailAndPassword,
-      signOut,
-      sendPasswordResetEmail
-    }
-    from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
-
-
-    import {
-      getFirestore,
-      doc,
-      setDoc,
-      getDoc,
-      updateDoc,
-      collection,
-      addDoc,
-      query,
-      orderBy,
-      getDocs,
-      serverTimestamp
-    }
-    from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
-
-
-    const firebaseConfig = {
-
-      apiKey:
-        "AIzaSyA_x5ZYj7D5Dt_9Bq-NzlchpRPRd3QN21I",
-
-      authDomain:
-        "a-t-l-data.firebaseapp.com",
-
-      projectId:
-        "a-t-l-data",
-
-      storageBucket:
-        "a-t-l-data.firebasestorage.app",
-
-      messagingSenderId:
-        "519558305824",
-
-      appId:
-        "1:519558305824:web:cf6dd75ef20ef708c24445"
-
-    };
-
-
-    const app =
-      initializeApp(firebaseConfig);
-
-
-    const auth =
-      getAuth(app);
-
-
-    const db =
-      getFirestore(app);
-
-
-    /* ================= PAGE SYSTEM ================= */
-
-    function showPage(pageId){
-
-      document
-        .querySelectorAll(".app-page")
-        .forEach(page => {
-
-          page.classList.add("hidden");
-
-        });
-
-
-      const page =
-        document.getElementById(pageId);
-
-
-      if(page){
-
-        page.classList.remove("hidden");
-
-        window.scrollTo({
-          top:0,
-          behavior:"smooth"
-        });
-
-      }
-
-    }
-
-
-    /* ================= ERROR ================= */
-
-    function friendlyError(error){
-
-      const code =
-        error?.code || "";
-
-
-      if(code.includes("auth/invalid-credential")){
-
-        return "Email or password is incorrect.";
-
-      }
-
-
-      if(code.includes("auth/email-already-in-use")){
-
-        return "This email already has an account.";
-
-      }
-
-
-      if(code.includes("auth/weak-password")){
-
-        return "Password is too weak. Use at least 6 characters.";
-
-      }
-
-
-      if(code.includes("auth/invalid-email")){
-
-        return "Please enter a valid email address.";
-
-      }
-
-
-      if(code.includes("auth/network-request-failed")){
-
-        return "Internet connection problem. Please try again.";
-
-      }
-
-
-      return error?.message ||
-        "Something went wrong. Please try again.";
-
-    }
-
-
-    /* ================= NAVIGATION ================= */
-
-    document
-      .getElementById("homeDataBtn")
-      .addEventListener("click", () => {
-
-        showPage("dataPage");
-
-      });
-
-
-    document
-      .getElementById("homeAirtimeBtn")
-      .addEventListener("click", () => {
-
-        showPage("airtimePage");
-
-      });
-
-
-    document
-      .getElementById("homeBillsBtn")
-      .addEventListener("click", () => {
-
-        showPage("billsPage");
-
-      });
-
-
-    document
-      .getElementById("homeAccountBtn")
-      .addEventListener("click", () => {
-
-        showPage("accountPage");
-
-      });
-
-
-    document
-      .getElementById("navHomeBtn")
-      .addEventListener("click", () => {
-
-        showPage("homePage");
-
-      });
-
-
-    document
-      .getElementById("navDataBtn")
-      .addEventListener("click", () => {
-
-        showPage("dataPage");
-
-      });
-
-
-    document
-      .getElementById("navAirtimeBtn")
-      .addEventListener("click", () => {
-
-        showPage("airtimePage");
-
-      });
-
-
-    document
-      .getElementById("navBillsBtn")
-      .addEventListener("click", () => {
-
-        showPage("billsPage");
-
-      });
-
-
-    document
-      .getElementById("navAccountBtn")
-      .addEventListener("click", () => {
-
-        showPage("accountPage");
-
-      });
-
-
-    /* ================= BACK BUTTONS ================= */
-
-    document
-      .getElementById("dataBackBtn")
-      .addEventListener("click", () => {
-
-        showPage("homePage");
-
-      });
-
-
-    document
-      .getElementById("airtimeBackBtn")
-      .addEventListener("click", () => {
-
-        showPage("homePage");
-
-      });
-
-
-    document
-      .getElementById("billsBackBtn")
-      .addEventListener("click", () => {
-
-        showPage("homePage");
-
-      });
-
-
-    document
-      .getElementById("loginBackBtn")
-      .addEventListener("click", () => {
-
-        showPage("accountPage");
-
-      });
-
-
-    document
-      .getElementById("manageBackBtn")
-      .addEventListener("click", () => {
-
-        showPage("accountPage");
-
-      });
-
-
-    document
-      .getElementById("tier1BackBtn")
-      .addEventListener("click", () => {
-
-        showPage("managePage");
-
-      });
-
-
-    document
-      .getElementById("historyBackBtn")
-      .addEventListener("click", () => {
-
-        showPage("accountPage");
-
-      });
-
-
-    /* ================= BILL SERVICE SWITCH ================= */
-
-    const billService =
-      document.getElementById("billService");
-
-
-    const billBoxes = [
-
-      "necoBox",
-
-      "waecBox",
-
-      "jambBox",
-
-      "electricityBox",
-
-      "cableBox",
-
-      "internetBox"
-
-    ];
-
-
-    billService
-      .addEventListener("change", () => {
-
-        billBoxes.forEach(id => {
-
-          document
-            .getElementById(id)
-            .classList.add("hidden");
-
-        });
-
-
-        if(billService.value){
-
-          const selected =
-            billService.value + "Box";
-
-
-          const box =
-            document.getElementById(selected);
-
-
-          if(box){
-
-            box.classList.remove("hidden");
-
-          }
-
-        }
-
-      });
-
-
-    /* ================= ACCOUNT LOGIN ================= */
-
-    document
-      .getElementById("accountLoginBtn")
-      .addEventListener("click", () => {
-
-        showPage("loginPage");
-
-      });
-
-
-    /* ================= LOGIN / SIGNUP TABS ================= */
-
-    const loginForm =
-      document.getElementById("loginForm");
-
-
-    const signupForm =
-      document.getElementById("signupForm");
-
-
-    const showLoginBtn =
-      document.getElementById("showLoginBtn");
-
-
-    const showSignupBtn =
-      document.getElementById("showSignupBtn");
-
-
-    showLoginBtn
-      .addEventListener("click", () => {
-
-        loginForm.classList.remove("hidden");
-
-        signupForm.classList.add("hidden");
-
-        showLoginBtn.classList.add("active");
-
-        showSignupBtn.classList.remove("active");
-
-      });
-
-
-    showSignupBtn
-      .addEventListener("click", () => {
-
-        signupForm.classList.remove("hidden");
-
-        loginForm.classList.add("hidden");
-
-        showSignupBtn.classList.add("active");
-
-        showLoginBtn.classList.remove("active");
-
-      });
-
-
-    /* ================= LOGIN ================= */
-
-    document
-      .getElementById("loginBtn")
-      .addEventListener("click", async () => {
-
-        const email =
-          document
-            .getElementById("loginEmail")
-            .value
-            .trim();
-
-
-        const password =
-          document
-            .getElementById("loginPassword")
-            .value;
-
-
-        if(!email || !password){
-
-          alert("Please enter email and password.");
-
-          return;
-
-        }
-
-
-        try{
-
-          await signInWithEmailAndPassword(
-            auth,
-            email,
-            password
-          );
-
-
-          alert("Login successful.");
-
-          showPage("accountPage");
-
-        }catch(error){
-
-          alert(
-            friendlyError(error)
-          );
-
-        }
-
-      });
-
-
-    /* ================= SIGNUP ================= */
-
-    document
-      .getElementById("signupBtn")
-      .addEventListener("click", async () => {
-
-        const email =
-          document
-            .getElementById("signupEmail")
-            .value
-            .trim();
-
-
-        const password =
-          document
-            .getElementById("signupPassword")
-            .value;
-
-
-        const confirm =
-          document
-            .getElementById("signupConfirmPassword")
-            .value;
-
-
-        if(!email || !password || !confirm){
-
-          alert("Please fill all fields.");
-
-          return;
-
-        }
-
-
-        if(password !== confirm){
-
-          alert("Passwords do not match.");
-
-          return;
-
-        }
-
-
-        try{
-
-          const result =
-            await createUserWithEmailAndPassword(
-              auth,
-              email,
-              password
-            );
-
-
-          await setDoc(
-            doc(
-              db,
-              "users",
-              result.user.uid
-            ),
-            {
-              uid:result.user.uid,
-              email:email,
-              walletBalance:0,
-              tier:0,
-              createdAt:serverTimestamp()
-            }
-          );
-
-
-          alert(
-            "Account created successfully."
-          );
-
-
-          showPage("accountPage");
-
-        }catch(error){
-
-          alert(
-            friendlyError(error)
-          );
-
-        }
-
-      });
-
-
-    /* ================= FORGOT PASSWORD ================= */
-
-    async function resetPassword(){
-
-      const email =
-        prompt(
-          "Enter your registered email:"
-        );
-
-
-      if(!email){
-
-        return;
-
-      }
-
-
-      try{
-
-        await sendPasswordResetEmail(
-          auth,
-          email.trim()
-        );
-
-
-        alert(
-          "Password reset email sent. Check your inbox."
-        );
-
-      }catch(error){
-
-        alert(
-          friendlyError(error)
-        );
-
-      }
-
-    }
-
-
-    document
-      .getElementById("loginForgotBtn")
-      .addEventListener("click", resetPassword);
-
-
-    document
-      .getElementById("forgotPasswordBtn")
-      .addEventListener("click", resetPassword);
-
-
-    /* ================= MANAGE ACCOUNT ================= */
-
-    document
-      .getElementById("manageAccountBtn")
-      .addEventListener("click", () => {
-
-        if(!auth.currentUser){
-
-          showPage("loginPage");
-
-          return;
-
-        }
-
-        showPage("managePage");
-
-      });
-
-
-    /* ================= TIER 1 ================= */
-
-    document
-      .getElementById("tier1Btn")
-      .addEventListener("click", () => {
-
-        if(!auth.currentUser){
-
-          alert("Please login first.");
-
-          showPage("loginPage");
-
-          return;
-
-        }
-
-        showPage("tier1Page");
-
-      });
-
-
-    /* ================= WHATSAPP SUPPORT ================= */
-
-    document
-      .getElementById("supportBtn")
-      .addEventListener("click", () => {
-
-        window.open(
-          "https://wa.me/2347073160817",
-          "_blank"
-        );
-
-      });
-
-
-    /* ================= LOGOUT ================= */
-
-    document
-      .getElementById("logoutBtn")
-      .addEventListener("click", async () => {
-
-        try{
-
-          await signOut(auth);
-
-          alert("You have been logged out.");
-
-          showPage("homePage");
-
-        }catch(error){
-
-          alert(
-            friendlyError(error)
-          );
-
-        }
-
-      });
-
-
-    /* ================= TIER 1 SAVE ================= */
-
-    document
-      .getElementById("saveTier1Btn")
-      .addEventListener("click", async () => {
-
-        if(!auth.currentUser){
-
-          alert("Please login first.");
-
-          showPage("loginPage");
-
-          return;
-
-        }
-
-
-        const fullName =
-          document
-            .getElementById("tier1Name")
-            .value
-            .trim();
-
-
-        const phone =
-          document
-            .getElementById("tier1Phone")
-            .value
-            .trim();
-
-
-        const dob =
-          document
-            .getElementById("tier1Dob")
-            .value;
-
-
-        const address =
-          document
-            .getElementById("tier1Address")
-            .value
-            .trim();
-
-
-        if(
-          !fullName ||
-          !phone ||
-          !dob ||
-          !address
-        ){
-
-          alert(
-            "Please fill all Tier 1 fields."
-          );
-
-          return;
-
-        }
-
-
-        try{
-
-          await updateDoc(
-            doc(
-              db,
-              "users",
-              auth.currentUser.uid
-            ),
-            {
-              fullName:fullName,
-              phone:phone,
-              dateOfBirth:dob,
-              address:address,
-              tier:1,
-              tierUpdatedAt:serverTimestamp()
-            }
-          );
-
-
-          alert(
-            "Tier 1 information saved successfully."
-          );
-
-
-          showPage("accountPage");
-
-        }catch(error){
-
-          alert(
-            friendlyError(error)
-          );
-
-        }
-
-      });
-
-
-    /* ================= ADD MONEY ================= */
-
-    document
-      .getElementById("addMoneyBtn")
-      .addEventListener("click", () => {
-
-        alert(
-          "Add Money will be connected to a secure payment gateway after the backend is ready."
-        );
-
-      });
-
-
-    /* ================= DATA ================= */
-
-    document
-      .getElementById("buyDataBtn")
-      .addEventListener("click", async () => {
-
-        const network =
-          document
-            .getElementById("dataNetwork")
-            .value;
-
-
-        const phone =
-          document
-            .getElementById("dataPhone")
-            .value
-            .trim();
-
-
-        const plan =
-          document
-            .getElementById("dataPlan")
-            .value;
-
-
-        if(!network || !phone || !plan){
-
-          alert(
-            "Please fill all data fields."
-          );
-
-          return;
-
-        }
-
-
-        if(!auth.currentUser){
-
-          alert(
-            "Please login before placing an order."
-          );
-
-          showPage("loginPage");
-
-          return;
-
-        }
-
-
-        try{
-
-          await addDoc(
-            collection(
-              db,
-              "users",
-              auth.currentUser.uid,
-              "transactions"
-            ),
-            {
-              type:"Data",
-              network:network,
-              phone:phone,
-              plan:plan,
-              amount:0,
-              status:"Testing",
-              createdAt:serverTimestamp()
-            }
-          );
-
-
-          alert(
-            "Data order recorded. VTU API is not connected yet."
-          );
-
-        }catch(error){
-
-          alert(
-            friendlyError(error)
-          );
-
-        }
-
-      });
-    /* ================= AIRTIME ================= */
-
-    document
-      .getElementById("buyAirtimeBtn")
-      .addEventListener("click", async () => {
-
-        const network =
-          document.getElementById("airtimeNetwork").value;
-
-        const phone =
-          document.getElementById("airtimePhone").value.trim();
-
-        const amount =
-          Number(document.getElementById("airtimeAmount").value);
-
-        if(!network || !phone || !amount){
-
-          alert("Please fill all airtime fields.");
-
-          return;
-
-        }
-
-        if(amount < 50){
-
-          alert("Minimum airtime amount is ₦50.");
-
-          return;
-
-        }
-
-        if(!auth.currentUser){
-
-          alert("Please login before placing an order.");
-
-          showPage("loginPage");
-
-          return;
-
-        }
-
-        try{
-
-          await addDoc(
-            collection(
-              db,
-              "users",
-              auth.currentUser.uid,
-              "transactions"
-            ),
-            {
-              type:"Airtime",
-              network:network,
-              phone:phone,
-              amount:amount,
-              status:"Testing",
-              createdAt:serverTimestamp()
-            }
-          );
-
-          alert(
-            "Airtime order recorded. VTU API is not connected yet."
-          );
-
-        }catch(error){
-
-          alert(friendlyError(error));
-
-        }
-
-      });
-
-
-    /* ================= BILLS ================= */
-
-    document
-      .getElementById("billContinueBtn")
-      .addEventListener("click", async () => {
-
-        const service =
-          document.getElementById("billService").value;
-
-        if(!service){
-
-          alert("Please select a bill service.");
-
-          return;
-
-        }
-
-        if(!auth.currentUser){
-
-          alert("Please login before placing an order.");
-
-          showPage("loginPage");
-
-          return;
-
-        }
-
-
-        let details = {};
-        let amount = 0;
-
-
-        /* ---------- NECO ---------- */
-
-        if(service === "neco"){
-
-          const serviceName =
-            document.getElementById("necoService").value;
-
-          const number =
-            document.getElementById("necoNumber").value.trim();
-
-          amount =
-            Number(
-              document.getElementById("necoAmount").value
-            );
-
-
-          if(!serviceName || !number || !amount){
-
-            alert("Please fill all NECO fields.");
-
-            return;
-
-          }
-
-
-          details = {
-            service:serviceName,
-            registrationNumber:number
-          };
-
-        }
-
-
-        /* ---------- WAEC ---------- */
-
-        if(service === "waec"){
-
-          const serviceName =
-            document.getElementById("waecService").value;
-
-          const number =
-            document.getElementById("waecNumber").value.trim();
-
-          amount =
-            Number(
-              document.getElementById("waecAmount").value
-            );
-
-
-          if(!serviceName || !number || !amount){
-
-            alert("Please fill all WAEC fields.");
-
-            return;
-
-          }
-
-
-          details = {
-            service:serviceName,
-            candidateNumber:number
-          };
-
-        }
-
-
-        /* ---------- JAMB ---------- */
-
-        if(service === "jamb"){
-
-          const serviceName =
-            document.getElementById("jambService").value;
-
-          const number =
-            document.getElementById("jambNumber").value.trim();
-
-          amount =
-            Number(
-              document.getElementById("jambAmount").value
-            );
-
-
-          if(!serviceName || !number || !amount){
-
-            alert("Please fill all JAMB fields.");
-
-            return;
-
-          }
-
-
-          details = {
-            service:serviceName,
-            profileNumber:number
-          };
-
-        }
-
-
-        /* ---------- ELECTRICITY ---------- */
-
-        if(service === "electricity"){
-
-          const provider =
-            document
-              .getElementById("electricityProvider")
-              .value;
-
-          const meterType =
-            document
-              .getElementById("meterType")
-              .value;
-
-          const meterNumber =
-            document
-              .getElementById("meterNumber")
-              .value
-              .trim();
-
-          amount =
-            Number(
-              document
-                .getElementById("electricityAmount")
-                .value
-            );
-
-
-          if(
-            !provider ||
-            !meterType ||
-            !meterNumber ||
-            !amount
-          ){
-
-            alert(
-              "Please fill all electricity fields."
-            );
-
-            return;
-
-          }
-
-
-          details = {
-            provider:provider,
-            meterType:meterType,
-            meterNumber:meterNumber
-          };
-
-        }
-
-
-        /* ---------- CABLE ---------- */
-
-        if(service === "cable"){
-
-          const provider =
-            document
-              .getElementById("cableProvider")
-              .value;
-
-          const number =
-            document
-              .getElementById("cableNumber")
-              .value
-              .trim();
-
-          amount =
-            Number(
-              document
-                .getElementById("cableAmount")
-                .value
-            );
-
-
-          if(!provider || !number || !amount){
-
-            alert("Please fill all Cable TV fields.");
-
-            return;
-
-          }
-
-
-          details = {
-            provider:provider,
-            smartcardNumber:number
-          };
-
-        }
-
-
-        /* ---------- INTERNET ---------- */
-
-        if(service === "internet"){
-
-          const provider =
-            document
-              .getElementById("internetProvider")
-              .value;
-
-          const number =
-            document
-              .getElementById("internetNumber")
-              .value
-              .trim();
-
-          amount =
-            Number(
-              document
-                .getElementById("internetAmount")
-                .value
-            );
-
-
-          if(!provider || !number || !amount){
-
-            alert("Please fill all Internet fields.");
-
-            return;
-
-          }
-
-
-          details = {
-            provider:provider,
-            accountNumber:number
-          };
-
-        }
-
-
-        try{
-
-          await addDoc(
-            collection(
-              db,
-              "users",
-              auth.currentUser.uid,
-              "transactions"
-            ),
-            {
-              type:"Bill",
-              billService:service,
-              details:details,
-              amount:amount,
-              status:"Testing",
-              createdAt:serverTimestamp()
-            }
-          );
-
-
-          alert(
-            "Bill request recorded successfully. Real bill API is not connected yet."
-          );
-
-
-        }catch(error){
-
-          alert(friendlyError(error));
-
-        }
-
-      });
-
-
-    /* ================= HISTORY ================= */
-
-    document
-      .getElementById("historyBtn")
-      .addEventListener("click", async () => {
-
-        if(!auth.currentUser){
-
-          alert("Please login first.");
-
-          showPage("loginPage");
-
-          return;
-
-        }
-
-
-        showPage("historyPage");
-
-
-        const list =
-          document.getElementById("historyList");
-
-
-        list.innerHTML =
-          "<p class='muted'>Loading transactions...</p>";
-
-
-        try{
-
-          const transactions =
-            collection(
-              db,
-              "users",
-              auth.currentUser.uid,
-              "transactions"
-            );
-
-
-          const q =
-            query(
-              transactions,
-              orderBy("createdAt","desc")
-            );
-
-
-          const snapshot =
-            await getDocs(q);
-
-
-          if(snapshot.empty){
-
-            list.innerHTML =
-              "<p class='muted'>No transactions yet.</p>";
-
-            return;
-
-          }
-
-
-          list.innerHTML = "";
-
-
-          snapshot.forEach(item => {
-
-            const data =
-              item.data();
-
-
-            const row =
-              document.createElement("div");
-
-
-            row.className =
-              "account-item";
-
-
-            const type =
-              String(
-                data.type || "Transaction"
-              );
-
-
-            const status =
-              String(
-                data.status || "Pending"
-              );
-
-
-            const amount =
-              Number(
-                data.amount || 0
-              );
-
-
-            row.innerHTML = `
-
-              <div>
-
-                <strong>
-                  ${escapeHTML(type)}
-                </strong>
-
-                <div class="muted">
-                  ${escapeHTML(status)}
-                </div>
-
-              </div>
-
-              <strong>
-                ₦${amount.toFixed(2)}
-              </strong>
-
-            `;
-
-
-            list.appendChild(row);
-
-          });
-
-
-        }catch(error){
-
-          console.error(error);
-
-          list.innerHTML =
-            "<p class='muted'>Unable to load transaction history.</p>";
-
-        }
-
-      });
-
-
-    /* ================= AUTH STATE ================= */
-
-    onAuthStateChanged(
-      auth,
-      async (user) => {
-
-        const loggedOut =
-          document.getElementById(
-            "loggedOutAccount"
-          );
-
-
-        const loggedIn =
-          document.getElementById(
-            "loggedInAccount"
-          );
-
-
-        if(!user){
-
-          loggedOut.classList.remove("hidden");
-
-          loggedIn.classList.add("hidden");
-
-          return;
-
-        }
-
-
-        loggedOut.classList.add("hidden");
-
-        loggedIn.classList.remove("hidden");
-
-
-        const email =
-          document.getElementById(
-            "accountEmail"
-          );
-
-
-        email.textContent =
-          user.email || "-";
-
-
-        try{
-
-          const userRef =
-            doc(
-              db,
-              "users",
-              user.uid
-            );
-
-
-          const snapshot =
-            await getDoc(userRef);
-
-
-          if(snapshot.exists()){
-
-            const data =
-              snapshot.data();
-
-
-            const balance =
-              Number(
-                data.walletBalance || 0
-              );
-
-
-            document
-              .getElementById("walletBalance")
-              .textContent =
-                "₦" + balance.toFixed(2);
-
-          }
-
-        }catch(error){
-
-          console.error(error);
-
-        }
-
-      }
-    );
-
-
-    /* ================= ESCAPE HTML ================= */
-
-    function escapeHTML(value){
-
-      return String(value ?? "")
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-
-    }
-
-
-    /* ================= START PAGE ================= */
-
-    showPage("homePage");
-
-  </script>
-
-</body>
-</html>
-  
-.admin-details {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:9px;
-}
-
-.admin-detail {
-  background:#f7f7f7;
-  border-radius:10px;
-  padding:9px;
-  font-size:12px;
-}
-
-.admin-detail span {
-  display:block;
-  color:#777;
-  margin-bottom:3px;
-}
-
-.admin-detail strong {
-  word-break:break-word;
-}
-
-
-.admin-id {
-  margin-top:10px;
-  color:#999;
-  font-size:10px;
-  word-break:break-all;
-}
-
-
-.admin-loading,
-.admin-empty,
-.admin-error {
-  text-align:center;
-  padding:25px 10px;
-  color:#777;
-}
-
-
-@media(max-width:600px) {
-
-  .admin-stats {
-    grid-template-columns:1fr 1fr 1fr;
-  }
-
-  .admin-stat-card {
-    padding:13px 5px;
-  }
-
-  .admin-stat-card strong {
-    font-size:16px;
-  }
-
-  .admin-search-box {
-    flex-direction:column;
-  }
-
-  .refresh-btn {
-    padding:12px;
-  }
-
-}
-
-</style>
-
-
-<!-- ================= ADMIN JAVASCRIPT ================= -->
-
-<script type="module">
-
-import {
-  initializeApp,
-  getApps,
-  getApp
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-
-import {
-  getAuth,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
-
-import {
-  getFirestore,
-  collection,
-  getDocs
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
-
-
-/* ================= FIREBASE CONFIG ================= */
-
-const firebaseConfig = {
-
-  apiKey:
-    "AIzaSyA_x5ZYj7D5Dt_9Bq-NzlchpRPRd3QN21I",
-
-  authDomain:
-    "a-t-l-data.firebaseapp.com",
-
-  projectId:
-    "a-t-l-data",
-
-  storageBucket:
-    "a-t-l-data.firebasestorage.app",
-
-  messagingSenderId:
-    "519558305824",
-
-  appId:
-    "1:519558305824:web:cf6dd75ef20ef708c24445"
-
-};
-
-
-/* ================= START FIREBASE ================= */
-
-const adminApp =
-  getApps().length
-    ? getApp()
-    : initializeApp(firebaseConfig);
-
-const adminAuth =
-  getAuth(adminApp);
-
-const adminDB =
-  getFirestore(adminApp);
-
-
-/* ================= ADMIN EMAIL ================= */
-
-const ADMIN_EMAIL =
-  "lawanahmadt03@gmail.com";
-
-
-/* ================= VARIABLES ================= */
-
-let adminUsers = [];
-
-
-/* ================= ELEMENTS ================= */
-
-const adminPage =
-  document.getElementById("adminPage");
-
-const adminUsersList =
-  document.getElementById("adminUsersList");
-
-const totalUsers =
-  document.getElementById("totalUsers");
-
-const totalWallet =
-  document.getElementById("totalWallet");
-
-const tier1Users =
-  document.getElementById("tier1Users");
-
-const userCountLabel =
-  document.getElementById("userCountLabel");
-
-const adminSearch =
-  document.getElementById("adminSearch");
-
-const refreshUsersBtn =
-  document.getElementById("refreshUsersBtn");
-
-const adminBackBtn =
-  document.getElementById("adminBackBtn");
-
-
-/* ================= ADMIN CHECK ================= */
-
-function isAdmin() {
-
-  const user =
-    adminAuth.currentUser;
-
-  if (!user) {
-
-    alert("Please login first.");
-
-    return false;
-  }
-
-
-  const currentEmail =
-    (user.email || "")
-      .trim()
-      .toLowerCase();
-
-  const adminEmail =
-    ADMIN_EMAIL
-      .trim()
-      .toLowerCase();
-
-
-  if (currentEmail !== adminEmail) {
-
-    alert(
-      "Admin only.\n\n" +
-      "Logged in as: " +
-      (user.email || "Unknown")
-    );
-
-    return false;
-  }
-
-
-  return true;
-}
-
-
-/* ================= OPEN ADMIN ================= */
-
-function openAdminDashboard() {
-
-  if (!isAdmin()) return;
-
-
-  document
-    .querySelectorAll(".app-page")
-    .forEach(page => {
-
-      page.style.display = "none";
-
-    });
-
-
-  adminPage.style.display = "block";
-
-
-  loadAdminUsers();
-}
-
-
-/* ================= LOAD USERS ================= */
-
-async function loadAdminUsers() {
-
-  if (!isAdmin()) return;
-
-
-  adminUsersList.innerHTML = `
-    <div class="admin-loading">
-      ⏳ Loading users...
-    </div>
-  `;
-
-
-  try {
-
-    const snapshot =
-      await getDocs(
-        collection(
-          adminDB,
-          "users"
-        )
-      );
-
-
-    adminUsers = [];
-
-
-    snapshot.forEach(doc => {
-
-      adminUsers.push({
-
-        id:doc.id,
-
-        ...doc.data()
-
-      });
-
-    });
-
-
-    updateAdminStats();
-
-    displayAdminUsers(
-      adminUsers
-    );
-
-
-  } catch(error) {
-
-    console.error(error);
-
-
-    adminUsersList.innerHTML = `
-      <div class="admin-error">
-        ❌ Could not load users.
-        <br><br>
-        ${escapeAdminText(error.message)}
-      </div>
-    `;
-
-  }
-
-}
-
-
-/* ================= STATS ================= */
-
-function updateAdminStats() {
-
-  totalUsers.textContent =
-    adminUsers.length;
-
-
-  userCountLabel.textContent =
-    adminUsers.length +
-    (
-      adminUsers.length === 1
-        ? " User"
-        : " Users"
-    );
-
-
-  let wallet = 0;
-
-  let tier1 = 0;
-
-
-  adminUsers.forEach(user => {
-
-    wallet += Number(
-      user.walletBalance || 0
-    );
-
-
-    if (
-      Number(user.tier || 0) >= 1
-    ) {
-
-      tier1++;
-
-    }
-
-  });
-
-
-  totalWallet.textContent =
-    "₦" +
-    wallet.toLocaleString();
-
-
-  tier1Users.textContent =
-    tier1;
-
-}
-
-
-/* ================= DISPLAY USERS ================= */
-
-function displayAdminUsers(users) {
-
-
-  if (!users.length) {
-
-    adminUsersList.innerHTML = `
-      <div class="admin-empty">
-        👤 No users found.
-      </div>
-    `;
-
-    return;
-
-  }
-
-
-  adminUsersList.innerHTML =
-
-    users.map(user => {
-
-
-      const email =
-        user.email ||
-        "No email";
-
-
-      const name =
-        user.fullName ||
-        "Not provided";
-
-
-      const phone =
-        user.phone ||
-        "Not provided";
-
-
-      const wallet =
-        Number(
-          user.walletBalance || 0
-        );
-
-
-      const tier =
-        Number(
-          user.tier || 0
-        );
-
-
-      return `
-
-        <div class="admin-user">
-
-          <div class="admin-email">
-            📧
-            ${escapeAdminText(email)}
-          </div>
-
-
-          <div class="admin-details">
-
-            <div class="admin-detail">
-
-              <span>👤 Full Name</span>
-
-              <strong>
-                ${escapeAdminText(name)}
-              </strong>
-
-            </div>
-
-
-            <div class="admin-detail">
-
-              <span>💰 Wallet</span>
-
-              <strong>
-                ₦${wallet.toLocaleString()}
-              </strong>
-
-            </div>
-
-
-            <div class="admin-detail">
-
-              <span>⭐ Account</span>
-
-              <strong>
-                Tier ${tier}
-              </strong>
-
-            </div>
-
-
-            <div class="admin-detail">
-
-              <span>📱 Phone</span>
-
-              <strong>
-                ${escapeAdminText(phone)}
-              </strong>
-
-            </div>
-
-          </div>
-
-
-          <div class="admin-id">
-
-            User ID:
-            ${escapeAdminText(user.id)}
-
-          </div>
-
-        </div>
-
-      `;
-
-
-    }).join("");
-
-}
-
-
-/* ================= SEARCH USERS ================= */
-
-adminSearch.addEventListener(
-  "input",
-  function() {
-
-
-    const search =
-      adminSearch.value
-        .trim()
-        .toLowerCase();
-
-
-    if (!search) {
-
-      displayAdminUsers(
-        adminUsers
-      );
-
-      return;
-
-    }
-
-
-    const filtered =
-      adminUsers.filter(user => {
-
-
-        const email =
-          String(
-            user.email || ""
-          ).toLowerCase();
-
-
-        const name =
-          String(
-            user.fullName || ""
-          ).toLowerCase();
-
-
-        const phone =
-          String(
-            user.phone || ""
-          ).toLowerCase();
-
-
-        return (
-
-          email.includes(search) ||
-
-          name.includes(search) ||
-
-          phone.includes(search)
-
-        );
-
-      });
-
-
-    displayAdminUsers(
-      filtered
-    );
-
-  }
-);
-
-
-/* ================= REFRESH ================= */
-
-refreshUsersBtn.addEventListener(
-  "click",
-  loadAdminUsers
-);
-
-
-/* ================= BACK ================= */
-
-adminBackBtn.addEventListener(
-  "click",
-  function() {
-
-
-    adminPage.style.display =
-      "none";
-
-
-    const homePage =
-      document.getElementById(
-        "homePage"
-      );
-
-
-    if (homePage) {
-
-      homePage.style.display =
-        "block";
-
-    }
-
-  }
-);
-
-
-/* ================= ADMIN BUTTON ================= */
-
-/*
-  Wannan button zai bayyana
-  a Account page.
-*/
-
-const accountPage =
-  document.getElementById(
-    "accountPage"
-  );
-
-
-if (accountPage) {
-
-
-  const existingButton =
-    document.getElementById(
-      "adminDashboardBtn"
-    );
-
-
-  if (!existingButton) {
-
-
-    const button =
-      document.createElement(
-        "button"
-      );
-
-
-    button.id =
-      "adminDashboardBtn";
-
-
-    button.type =
-      "button";
-
-
-    button.className =
-      "main-btn";
-
-
-    button.style.marginTop =
-      "10px";
-
-
-    button.textContent =
-      "🛠️ Admin Dashboard";
-
-
-    button.addEventListener(
-      "click",
-      openAdminDashboard
-    );
-
-
-    accountPage.appendChild(
-      button
-    );
-
-  }
-
-}
-
-
-/* ================= AUTH ================= */
-
-onAuthStateChanged(
-  adminAuth,
-  function(user) {
-
-    if (user) {
-
-      console.log(
-        "A T L Data login:",
-        user.email
-      );
-
-    }
-
-  }
-);
-
-
-/* ================= ESCAPE TEXT ================= */
-
-function escapeAdminText(value) {
-
-  return String(value)
-
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-
-    .replace(
-      /</g,
-      "&lt;"
-    )
-
-    .replace(
-      />/g,
-      "&gt;"
-    )
-
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-
-
-    .replace(
-      /'/g,
-      "&#039;"
-    );
-
-}
-
-</script>
-</body>
-</html>
-<!-- =========================================================
-     A T L DATA — ADMIN DASHBOARD
-     ADMIN EMAIL: lawanahmadt03@gmail.com
-     ========================================================= -->
-
-<section id="adminPage" class="app-page" style="display:none;">
-
-  <div class="topbar">
-    <button id="adminBackBtn" class="back-btn" type="button">←</button>
-    <div>
-      <h2>Admin Dashboard</h2>
-      <small>A T L Data Management</small>
-    </div>
+    <button class="btn secondary" id="supportBtn">
+      💬 Contact Support
+    </button>
   </div>
 
-  <!-- DASHBOARD STATS -->
-  <div class="admin-stats">
+</section>
 
-    <div class="admin-stat-card">
-      <div>👥</div>
-      <strong id="totalUsers">0</strong>
-      <small>Total Users</small>
-    </div>
 
-    <div class="admin-stat-card">
-      <div>💰</div>
-      <strong id="totalWallet">₦0</strong>
-      <small>Total Wallet</small>
-    </div>
+<!-- TIER 1 PAGE -->
+<section id="tier1Page" class="page">
 
-    <div class="admin-stat-card">
-      <div>⭐</div>
-      <strong id="tier1Users">0</strong>
-      <small>Tier 1 Users</small>
-    </div>
+  <button class="back-btn" id="tier1BackBtn">← Back</button>
 
-  </div>
+  <div class="box">
 
-  <!-- SEARCH -->
-  <div class="admin-search">
+    <h2>⭐ Tier 1 Account</h2>
 
+    <label>Full Name</label>
     <input
-      id="adminSearch"
-      type="search"
-      placeholder="Search email, name or phone..."
+      type="text"
+      id="tier1Name"
+      placeholder="Enter your full name"
     >
 
-    <button
-      id="refreshUsersBtn"
-      type="button"
+    <label>Phone Number</label>
+    <input
+      type="tel"
+      id="tier1Phone"
+      placeholder="08012345678"
+      maxlength="11"
     >
-      🔄 Refresh
+
+    <label>Date of Birth</label>
+    <input
+      type="date"
+      id="tier1Dob"
+    >
+
+    <label>Address</label>
+    <input
+      type="text"
+      id="tier1Address"
+      placeholder="Enter your address"
+    >
+
+    <button class="btn" id="saveTier1Btn">
+      Save Tier 1 Information
     </button>
 
   </div>
 
-  <!-- USERS -->
-  <div class="admin-users-box">
+</section>
 
-    <div class="admin-heading">
-      <h3>👥 Registered Users</h3>
-      <span id="userCountLabel">0 Users</span>
-    </div>
 
-    <div id="adminUsersList">
+<!-- TRANSACTION HISTORY PAGE -->
+<section id="historyPage" class="page">
+
+  <button class="back-btn" id="historyBackBtn">← Back</button>
+
+  <div class="box">
+
+    <h2>📜 Transaction History</h2>
+
+    <div id="historyList">
       <div class="admin-loading">
-        Loading users...
+        Loading transactions...
       </div>
     </div>
 
@@ -3739,800 +864,1532 @@ function escapeAdminText(value) {
 </section>
 
 
-<!-- =========================================================
-     ADMIN CSS
-     ========================================================= -->
-
-<style>
-
-.admin-stats {
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
-  margin:15px 0;
-}
-
-.admin-stat-card {
-  background:#fff;
-  border-radius:16px;
-  padding:15px 8px;
-  text-align:center;
-  box-shadow:0 4px 15px rgba(0,0,0,.08);
-}
-
-.admin-stat-card div {
-  font-size:25px;
-  margin-bottom:6px;
-}
-
-.admin-stat-card strong {
-  display:block;
-  font-size:19px;
-}
-
-.admin-stat-card small {
-  color:#777;
-  font-size:11px;
-}
-
-
-.admin-search {
-  display:flex;
-  gap:8px;
-  margin:15px 0;
-}
-
-.admin-search input {
-  flex:1;
-  min-width:0;
-  padding:13px;
-  border:1px solid #ddd;
-  border-radius:12px;
-  outline:none;
-  font-size:14px;
-}
-
-.admin-search button {
-  border:0;
-  border-radius:12px;
-  padding:0 14px;
-  cursor:pointer;
-}
-
-
-.admin-users-box {
-  background:#fff;
-  border-radius:17px;
-  padding:15px;
-  box-shadow:0 4px 15px rgba(0,0,0,.07);
-}
-
-.admin-heading {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  margin-bottom:14px;
-}
-
-.admin-heading h3 {
-  margin:0;
-  font-size:17px;
-}
-
-.admin-heading span {
-  color:#777;
-  font-size:12px;
-}
-
-
-.admin-user-card {
-  border:1px solid #eee;
-  border-radius:14px;
-  padding:13px;
-  margin-bottom:10px;
-}
-
-.admin-user-card:last-child {
-  margin-bottom:0;
-}
-
-.admin-user-email {
-  font-weight:700;
-  word-break:break-word;
-  margin-bottom:10px;
-}
-
-.admin-user-details {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-}
-
-.admin-detail {
-  background:#f7f7f7;
-  border-radius:10px;
-  padding:9px;
-  font-size:12px;
-}
-
-.admin-detail span {
-  display:block;
-  color:#777;
-  margin-bottom:3px;
-}
-
-.admin-detail strong {
-  word-break:break-word;
-}
-
-.admin-user-id {
-  margin-top:9px;
-  color:#999;
-  font-size:10px;
-  word-break:break-all;
-}
-
-.admin-loading,
-.admin-empty,
-.admin-error {
-  text-align:center;
-  padding:25px 8px;
-  color:#777;
-}
-
-@media(max-width:600px) {
-
-  .admin-stats {
-    grid-template-columns:repeat(3,1fr);
-  }
-
-  .admin-stat-card {
-    padding:12px 5px;
-  }
-
-  .admin-stat-card strong {
-    font-size:15px;
-  }
-
-  .admin-search {
-    flex-direction:column;
-  }
-
-  .admin-search button {
-    padding:12px;
-  }
-
-}
-
-</style>
-
-
-<!-- =========================================================
-     ADMIN JAVASCRIPT
-     ========================================================= -->
-
+<!-- FIREBASE -->
 <script type="module">
 
-import {
-  initializeApp,
-  getApps,
-  getApp
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+  import {
+    initializeApp,
+    getApps,
+    getApp
+  } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
-import {
-  getAuth,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+  import {
+    getAuth,
+    onAuthStateChanged,
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    sendPasswordResetEmail,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
-import {
-  getFirestore,
-  collection,
-  getDocs
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
-
-
-/* ================= FIREBASE CONFIG ================= */
-
-const firebaseConfig = {
-
-  apiKey:
-    "AIzaSyA_x5ZYj7D5Dt_9Bq-NzlchpRPRd3QN21I",
-
-  authDomain:
-    "a-t-l-data.firebaseapp.com",
-
-  projectId:
-    "a-t-l-data",
-
-  storageBucket:
-    "a-t-l-data.firebasestorage.app",
-
-  messagingSenderId:
-    "519558305824",
-
-  appId:
-    "1:519558305824:web:cf6dd75ef20ef708c24445"
-
-};
+  import {
+    getFirestore,
+    doc,
+    setDoc,
+    getDoc,
+    addDoc,
+    collection,
+    query,
+    orderBy,
+    getDocs,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
-/* ================= FIREBASE ================= */
+  /* =========================
+     FIREBASE CONFIG
+     ========================= */
 
-const app =
-  getApps().length
+  const firebaseConfig = {
+    apiKey: "AIzaSyA_x5ZYj7D5Dt_9Bq-NzlchpRPRd3QN21I",
+    authDomain: "a-t-l-data.firebaseapp.com",
+    projectId: "a-t-l-data",
+    storageBucket: "a-t-l-data.firebasestorage.app",
+    messagingSenderId: "519558305824",
+    appId: "1:519558305824:web:cf6dd75ef20ef708c24445"
+  };
+
+
+  /* =========================
+     INITIALIZE FIREBASE
+     ========================= */
+
+  const app = getApps().length
     ? getApp()
     : initializeApp(firebaseConfig);
 
-const auth =
-  getAuth(app);
-
-const db =
-  getFirestore(app);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
 
 
-/* ================= ADMIN EMAIL ================= */
+  /* =========================
+     PAGE NAVIGATION
+     ========================= */
 
-const ADMIN_EMAIL =
-  "lawanahmadt03@gmail.com";
-
-
-/* ================= VARIABLES ================= */
-
-let allAdminUsers = [];
-
-
-/* ================= ELEMENTS ================= */
-
-const adminPage =
-  document.getElementById("adminPage");
-
-const adminUsersList =
-  document.getElementById("adminUsersList");
-
-const totalUsers =
-  document.getElementById("totalUsers");
-
-const totalWallet =
-  document.getElementById("totalWallet");
-
-const tier1Users =
-  document.getElementById("tier1Users");
-
-const userCountLabel =
-  document.getElementById("userCountLabel");
-
-const adminSearch =
-  document.getElementById("adminSearch");
-
-const refreshUsersBtn =
-  document.getElementById("refreshUsersBtn");
-
-const adminBackBtn =
-  document.getElementById("adminBackBtn");
+  const pages = [
+    "homePage",
+    "dataPage",
+    "airtimePage",
+    "billsPage",
+    "accountPage",
+    "loginPage",
+    "managePage",
+    "tier1Page",
+    "historyPage"
+  ];
 
 
-/* ================= CHECK ADMIN ================= */
+  function showPage(pageId) {
 
-function checkAdmin() {
+    pages.forEach(function(id) {
 
-  const user =
-    auth.currentUser;
+      const page = document.getElementById(id);
 
-  if (!user) {
-
-    alert("Please login first.");
-
-    return false;
-  }
-
-
-  const loggedEmail =
-    (user.email || "")
-      .trim()
-      .toLowerCase();
-
-  const adminEmail =
-    ADMIN_EMAIL
-      .trim()
-      .toLowerCase();
-
-
-  if (loggedEmail !== adminEmail) {
-
-    alert(
-      "Admin only.\n\n" +
-      "Logged in as: " +
-      (user.email || "Unknown")
-    );
-
-    return false;
-  }
-
-
-  return true;
-}
-
-
-/* ================= OPEN ADMIN ================= */
-
-function openAdminDashboard() {
-
-  if (!checkAdmin()) {
-    return;
-  }
-
-
-  document
-    .querySelectorAll(".app-page")
-    .forEach(page => {
-
-      page.style.display = "none";
+      if (page) {
+        page.classList.remove("active");
+      }
 
     });
 
 
-  adminPage.style.display =
-    "block";
+    const selectedPage = document.getElementById(pageId);
+
+    if (selectedPage) {
+      selectedPage.classList.add("active");
+    }
 
 
-  loadUsers();
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
 
-}
 
-
-/* ================= LOAD USERS ================= */
-
-async function loadUsers() {
-
-  if (!checkAdmin()) {
-    return;
+    updateBottomNav(pageId);
   }
 
 
-  adminUsersList.innerHTML = `
-    <div class="admin-loading">
-      ⏳ Loading users...
-    </div>
-  `;
+  function updateBottomNav(pageId) {
+
+    const navButtons = [
+      "navHomeBtn",
+      "navDataBtn",
+      "navAirtimeBtn",
+      "navBillsBtn",
+      "navAccountBtn"
+    ];
 
 
-  try {
+    navButtons.forEach(function(id) {
 
-    const snapshot =
-      await getDocs(
-        collection(db, "users")
-      );
+      const button = document.getElementById(id);
+
+      if (button) {
+        button.classList.remove("active");
+      }
+
+    });
 
 
-    allAdminUsers = [];
+    if (pageId === "homePage") {
+      document.getElementById("navHomeBtn").classList.add("active");
+    }
+
+    if (pageId === "dataPage") {
+      document.getElementById("navDataBtn").classList.add("active");
+    }
+
+    if (pageId === "airtimePage") {
+      document.getElementById("navAirtimeBtn").classList.add("active");
+    }
+
+    if (pageId === "billsPage") {
+      document.getElementById("navBillsBtn").classList.add("active");
+    }
+
+    if (
+      pageId === "accountPage" ||
+      pageId === "loginPage" ||
+      pageId === "managePage" ||
+      pageId === "tier1Page" ||
+      pageId === "historyPage"
+    ) {
+      document.getElementById("navAccountBtn").classList.add("active");
+    }
+
+  }
 
 
-    snapshot.forEach(doc => {
+  /* =========================
+     HOME BUTTONS
+     ========================= */
 
-      allAdminUsers.push({
+  document.getElementById("homeDataBtn")
+    .addEventListener("click", function() {
+      showPage("dataPage");
+    });
 
-        id: doc.id,
 
-        ...doc.data()
+  document.getElementById("homeAirtimeBtn")
+    .addEventListener("click", function() {
+      showPage("airtimePage");
+    });
+
+
+  document.getElementById("homeBillsBtn")
+    .addEventListener("click", function() {
+      showPage("billsPage");
+    });
+
+
+  document.getElementById("homeAccountBtn")
+    .addEventListener("click", function() {
+      showPage("accountPage");
+    });
+
+
+  /* =========================
+     BOTTOM NAV
+     ========================= */
+
+  document.getElementById("navHomeBtn")
+    .addEventListener("click", function() {
+      showPage("homePage");
+    });
+
+
+  document.getElementById("navDataBtn")
+    .addEventListener("click", function() {
+      showPage("dataPage");
+    });
+
+
+  document.getElementById("navAirtimeBtn")
+    .addEventListener("click", function() {
+      showPage("airtimePage");
+    });
+
+
+  document.getElementById("navBillsBtn")
+    .addEventListener("click", function() {
+      showPage("billsPage");
+    });
+
+
+  document.getElementById("navAccountBtn")
+    .addEventListener("click", function() {
+      showPage("accountPage");
+    });
+
+
+  /* =========================
+     BACK BUTTONS
+     ========================= */
+
+  document.getElementById("dataBackBtn")
+    .addEventListener("click", function() {
+      showPage("homePage");
+    });
+
+
+  document.getElementById("airtimeBackBtn")
+    .addEventListener("click", function() {
+      showPage("homePage");
+    });
+
+
+  document.getElementById("billsBackBtn")
+    .addEventListener("click", function() {
+      showPage("homePage");
+    });
+
+
+  document.getElementById("loginBackBtn")
+    .addEventListener("click", function() {
+      showPage("accountPage");
+    });
+
+
+  document.getElementById("manageBackBtn")
+    .addEventListener("click", function() {
+      showPage("accountPage");
+    });
+
+
+  document.getElementById("tier1BackBtn")
+    .addEventListener("click", function() {
+      showPage("managePage");
+    });
+
+
+  document.getElementById("historyBackBtn")
+    .addEventListener("click", function() {
+      showPage("accountPage");
+    });
+
+
+  /* =========================
+     BILL SERVICE SWITCH
+     ========================= */
+
+  document.getElementById("billService")
+    .addEventListener("change", function() {
+
+      const service = this.value;
+
+
+      const boxes = [
+        "necoBox",
+        "waecBox",
+        "jambBox",
+        "electricityBox",
+        "cableBox",
+        "internetBox"
+      ];
+
+
+      boxes.forEach(function(id) {
+
+        const box = document.getElementById(id);
+
+        if (box) {
+          box.classList.remove("active");
+        }
 
       });
 
+
+      if (service === "NECO") {
+        document.getElementById("necoBox").classList.add("active");
+      }
+
+      if (service === "WAEC") {
+        document.getElementById("waecBox").classList.add("active");
+      }
+
+      if (service === "JAMB") {
+        document.getElementById("jambBox").classList.add("active");
+      }
+
+      if (service === "Electricity") {
+        document.getElementById("electricityBox").classList.add("active");
+      }
+
+      if (service === "Cable TV") {
+        document.getElementById("cableBox").classList.add("active");
+      }
+
+      if (service === "Internet") {
+        document.getElementById("internetBox").classList.add("active");
+      }
+
     });
 
 
-    updateStats();
+  /* =========================
+     ACCOUNT LOGIN BUTTON
+     ========================= */
 
-    displayUsers(
-      allAdminUsers
-    );
-
-
-  } catch(error) {
-
-    console.error(error);
+  document.getElementById("accountLoginBtn")
+    .addEventListener("click", function() {
+      showPage("loginPage");
+    });
 
 
-    adminUsersList.innerHTML = `
-      <div class="admin-error">
+  /* =========================
+     LOGIN / SIGNUP SWITCH
+     ========================= */
 
-        ❌ Could not load users.
+  document.getElementById("showLoginBtn")
+    .addEventListener("click", function() {
 
-        <br><br>
+      document.getElementById("loginForm").style.display = "block";
+      document.getElementById("signupForm").style.display = "none";
 
-        ${escapeHTML(error.message)}
+      document.getElementById("authTitle").textContent = "Login";
 
-      </div>
-    `;
-
-  }
-
-}
+    });
 
 
-/* ================= STATS ================= */
+  document.getElementById("showSignupBtn")
+    .addEventListener("click", function() {
 
-function updateStats() {
+      document.getElementById("loginForm").style.display = "none";
+      document.getElementById("signupForm").style.display = "block";
 
-  totalUsers.textContent =
-    allAdminUsers.length;
+      document.getElementById("authTitle").textContent = "Create Account";
 
-
-  userCountLabel.textContent =
-    allAdminUsers.length +
-    (
-      allAdminUsers.length === 1
-        ? " User"
-        : " Users"
-    );
+    });
 
 
-  let walletTotal = 0;
+  /* =========================
+     LOGIN
+     ========================= */
 
-  let tier1Total = 0;
-
-
-  allAdminUsers.forEach(user => {
-
-    walletTotal += Number(
-      user.walletBalance || 0
-    );
-
-
-    if (
-      Number(user.tier || 0) >= 1
-    ) {
-
-      tier1Total++;
-
-    }
-
-  });
-
-
-  totalWallet.textContent =
-    "₦" +
-    walletTotal.toLocaleString();
-
-
-  tier1Users.textContent =
-    tier1Total;
-
-}
-
-
-/* ================= DISPLAY USERS ================= */
-
-function displayUsers(users) {
-
-  if (!users.length) {
-
-    adminUsersList.innerHTML = `
-      <div class="admin-empty">
-        👤 No users found.
-      </div>
-    `;
-
-    return;
-  }
-
-
-  adminUsersList.innerHTML =
-
-    users.map(user => {
-
+  document.getElementById("loginBtn")
+    .addEventListener("click", async function() {
 
       const email =
-        user.email ||
-        "No email";
+        document.getElementById("loginEmail").value.trim();
+
+      const password =
+        document.getElementById("loginPassword").value;
 
 
-      const name =
-        user.fullName ||
-        "Not provided";
+      if (!email || !password) {
+        alert("Please enter your email and password.");
+        return;
+      }
 
 
-      const phone =
-        user.phone ||
-        "Not provided";
+      try {
+
+        await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+
+        alert("Login successful!");
+
+        showPage("accountPage");
+
+      } catch (error) {
+
+        alert(getFriendlyError(error));
+
+      }
+
+    });
 
 
-      const wallet =
-        Number(
-          user.walletBalance || 0
+  /* =========================
+     CREATE ACCOUNT
+     ========================= */
+
+  document.getElementById("signupBtn")
+    .addEventListener("click", async function() {
+
+      const email =
+        document.getElementById("signupEmail").value.trim();
+
+      const password =
+        document.getElementById("signupPassword").value;
+
+      const confirmPassword =
+        document.getElementById("signupConfirmPassword").value;
+
+
+      if (!email || !password || !confirmPassword) {
+        alert("Please fill all fields.");
+        return;
+      }
+
+
+      if (password.length < 6) {
+        alert("Password must be at least 6 characters.");
+        return;
+      }
+
+
+      if (password !== confirmPassword) {
+        alert("Passwords do not match.");
+        return;
+      }
+
+
+      try {
+
+        const result =
+          await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+
+
+        const user = result.user;
+
+
+        await setDoc(
+          doc(db, "users", user.uid),
+          {
+            uid: user.uid,
+            email: user.email,
+            walletBalance: 0,
+            tier: 0,
+            createdAt: serverTimestamp()
+          }
         );
 
 
-      const tier =
-        Number(
-          user.tier || 0
-        );
+        alert("Account created successfully!");
+
+        showPage("accountPage");
+
+      } catch (error) {
+
+        alert(getFriendlyError(error));
+
+      }
+
+    });
 
 
-      return `
+  /* =========================
+     FORGOT PASSWORD
+     ========================= */
 
-        <div class="admin-user-card">
+  async function resetPassword() {
 
-          <div class="admin-user-email">
+    const emailInput =
+      document.getElementById("loginEmail");
 
-            📧
-            ${escapeHTML(email)}
-
-          </div>
-
-
-          <div class="admin-user-details">
-
-            <div class="admin-detail">
-
-              <span>👤 Name</span>
-
-              <strong>
-                ${escapeHTML(name)}
-              </strong>
-
-            </div>
+    const email = emailInput.value.trim();
 
 
-            <div class="admin-detail">
-
-              <span>💰 Wallet</span>
-
-              <strong>
-                ₦${wallet.toLocaleString()}
-              </strong>
-
-            </div>
-
-
-            <div class="admin-detail">
-
-              <span>⭐ Account</span>
-
-              <strong>
-                Tier ${tier}
-              </strong>
-
-            </div>
-
-
-            <div class="admin-detail">
-
-              <span>📱 Phone</span>
-
-              <strong>
-                ${escapeHTML(phone)}
-              </strong>
-
-            </div>
-
-          </div>
-
-
-          <div class="admin-user-id">
-
-            User ID:
-            ${escapeHTML(user.id)}
-
-          </div>
-
-        </div>
-
-      `;
-
-    }).join("");
-
-}
-
-
-/* ================= SEARCH ================= */
-
-adminSearch.addEventListener(
-  "input",
-  function() {
-
-    const search =
-      adminSearch.value
-        .trim()
-        .toLowerCase();
-
-
-    if (!search) {
-
-      displayUsers(
-        allAdminUsers
-      );
-
+    if (!email) {
+      alert("Enter your email first.");
       return;
     }
 
 
-    const filtered =
-      allAdminUsers.filter(user => {
+    try {
 
-        const email =
-          String(
-            user.email || ""
-          ).toLowerCase();
-
-        const name =
-          String(
-            user.fullName || ""
-          ).toLowerCase();
-
-        const phone =
-          String(
-            user.phone || ""
-          ).toLowerCase();
-
-
-        return (
-
-          email.includes(search) ||
-
-          name.includes(search) ||
-
-          phone.includes(search)
-
-        );
-
-      });
-
-
-    displayUsers(filtered);
-
-  }
-);
-
-
-/* ================= REFRESH ================= */
-
-refreshUsersBtn.addEventListener(
-  "click",
-  function() {
-
-    loadUsers();
-
-  }
-);
-
-
-/* ================= BACK ================= */
-
-adminBackBtn.addEventListener(
-  "click",
-  function() {
-
-    adminPage.style.display =
-      "none";
-
-
-    const homePage =
-      document.getElementById(
-        "homePage"
+      await sendPasswordResetEmail(
+        auth,
+        email
       );
 
+      alert(
+        "Password reset link has been sent to your email."
+      );
 
-    if (homePage) {
+    } catch (error) {
 
-      homePage.style.display =
-        "block";
+      alert(getFriendlyError(error));
 
     }
 
   }
-);
 
 
-/* ================= ADD ADMIN BUTTON ================= */
+  document.getElementById("loginForgotBtn")
+    .addEventListener("click", resetPassword);
 
-const accountPage =
-  document.getElementById(
-    "accountPage"
+
+  document.getElementById("forgotPasswordBtn")
+    .addEventListener("click", function() {
+
+      showPage("loginPage");
+
+      document.getElementById("loginForm").style.display = "block";
+      document.getElementById("signupForm").style.display = "none";
+
+      document.getElementById("authTitle").textContent = "Reset Password";
+
+    });
+
+
+  /* =========================
+     MANAGE ACCOUNT
+     ========================= */
+
+  document.getElementById("manageAccountBtn")
+    .addEventListener("click", function() {
+
+      if (!auth.currentUser) {
+        showPage("loginPage");
+        return;
+      }
+
+      showPage("managePage");
+
+    });
+
+
+  /* =========================
+     TIER 1
+     ========================= */
+
+  document.getElementById("tier1Btn")
+    .addEventListener("click", async function() {
+
+      if (!auth.currentUser) {
+        showPage("loginPage");
+        return;
+      }
+
+
+      try {
+
+        const userRef =
+          doc(db, "users", auth.currentUser.uid);
+
+        const snap =
+          await getDoc(userRef);
+
+
+        if (snap.exists()) {
+
+          const data = snap.data();
+
+
+          document.getElementById("tier1Name").value =
+            data.fullName || "";
+
+          document.getElementById("tier1Phone").value =
+            data.phone || "";
+
+          document.getElementById("tier1Dob").value =
+            data.dateOfBirth || "";
+
+          document.getElementById("tier1Address").value =
+            data.address || "";
+
+        }
+
+
+        showPage("tier1Page");
+
+      } catch (error) {
+
+        alert(getFriendlyError(error));
+
+      }
+
+    });
+
+
+  document.getElementById("saveTier1Btn")
+    .addEventListener("click", async function() {
+
+      if (!auth.currentUser) {
+        alert("Please login first.");
+        return;
+      }
+
+
+      const fullName =
+        document.getElementById("tier1Name").value.trim();
+
+      const phone =
+        document.getElementById("tier1Phone").value.trim();
+
+      const dateOfBirth =
+        document.getElementById("tier1Dob").value;
+
+      const address =
+        document.getElementById("tier1Address").value.trim();
+
+
+      if (!fullName || !phone || !dateOfBirth || !address) {
+        alert("Please complete all Tier 1 fields.");
+        return;
+      }
+
+
+      try {
+
+        await setDoc(
+          doc(db, "users", auth.currentUser.uid),
+          {
+            fullName: fullName,
+            phone: phone,
+            dateOfBirth: dateOfBirth,
+            address: address,
+            tier: 1,
+            tierUpdatedAt: serverTimestamp()
+          },
+          {
+            merge: true
+          }
+        );
+
+
+        alert("Tier 1 information saved successfully!");
+
+        showPage("accountPage");
+
+      } catch (error) {
+
+        alert(getFriendlyError(error));
+
+      }
+
+    });
+
+
+  /* =========================
+     SUPPORT
+     ========================= */
+
+  document.getElementById("supportBtn")
+    .addEventListener("click", function() {
+
+      window.open(
+        "https://wa.me/2347073160817",
+        "_blank"
+      );
+
+    });
+
+
+  /* =========================
+     ADD MONEY
+     ========================= */
+
+  document.getElementById("addMoneyBtn")
+    .addEventListener("click", function() {
+
+      alert(
+        "Add Money / Payment system will be connected after the payment gateway is added."
+      );
+
+    });
+
+
+  /* =========================
+     LOGOUT
+     ========================= */
+
+  document.getElementById("logoutBtn")
+    .addEventListener("click", async function() {
+
+      try {
+
+        await signOut(auth);
+
+        alert("You have been logged out.");
+
+        showPage("homePage");
+
+      } catch (error) {
+
+        alert(getFriendlyError(error));
+
+      }
+
+    });
+
+
+  /* =========================
+     DATA BUTTON
+     ========================= */
+
+  document.getElementById("buyDataBtn")
+    .addEventListener("click", async function() {
+
+      if (!auth.currentUser) {
+        alert("Please login first.");
+        showPage("loginPage");
+        return;
+      }
+
+
+      const network =
+        document.getElementById("dataNetwork").value;
+
+      const phone =
+        document.getElementById("dataPhone").value.trim();
+
+      const plan =
+        document.getElementById("dataPlan").value;
+
+
+      if (!network || !phone || !plan) {
+        alert("Please complete all data fields.");
+        return;
+      }
+
+
+      alert(
+        "Data order form is ready. Real VTU delivery will be connected later."
+      );
+
+    });
+
+
+  /* =========================
+     FRIENDLY FIREBASE ERRORS
+     ========================= */
+
+  function getFriendlyError(error) {
+
+    const code = error && error.code
+      ? error.code
+      : "";
+
+
+    if (code.includes("auth/invalid-credential")) {
+      return "Email or password is incorrect.";
+    }
+
+    if (code.includes("auth/user-not-found")) {
+      return "No account was found with this email.";
+    }
+
+    if (code.includes("auth/wrong-password")) {
+      return "Incorrect password.";
+    }
+
+    if (code.includes("auth/email-already-in-use")) {
+      return "This email already has an account.";
+    }
+
+    if (code.includes("auth/invalid-email")) {
+      return "Please enter a valid email address.";
+    }
+
+    if (code.includes("auth/weak-password")) {
+      return "Password is too weak. Use at least 6 characters.";
+    }
+
+    if (code.includes("permission-denied")) {
+      return "Firebase permission denied. Firestore Security Rules need to be configured.";
+    }
+
+    return error && error.message
+      ? error.message
+      : "Something went wrong. Please try again.";
+
+  }
+
+      </script>
+      <!-- =========================
+     PART 3 — AIRTIME + BILLS + HISTORY + AUTH
+     ========================= -->
+
+<script type="module">
+
+  import {
+    initializeApp,
+    getApps,
+    getApp
+  } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+  import {
+    getAuth,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+  import {
+    getFirestore,
+    doc,
+    getDoc,
+    addDoc,
+    collection,
+    query,
+    orderBy,
+    getDocs,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+  /* =========================
+     FIREBASE CONFIG
+     ========================= */
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyA_x5ZYj7D5Dt_9Bq-NzlchpRPRd3QN21I",
+    authDomain: "a-t-l-data.firebaseapp.com",
+    projectId: "a-t-l-data",
+    storageBucket: "a-t-l-data.firebasestorage.app",
+    messagingSenderId: "519558305824",
+    appId: "1:519558305824:web:cf6dd75ef20ef708c24445"
+  };
+
+
+  /* =========================
+     FIREBASE
+     ========================= */
+
+  const app = getApps().length
+    ? getApp()
+    : initializeApp(firebaseConfig);
+
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+
+  /* =========================
+     HELPER
+     ========================= */
+
+  function requireLogin() {
+
+    if (!auth.currentUser) {
+      alert("Please login first.");
+
+      document
+        .querySelectorAll(".page")
+        .forEach(function(page) {
+          page.classList.remove("active");
+        });
+
+      const loginPage =
+        document.getElementById("loginPage");
+
+      if (loginPage) {
+        loginPage.classList.add("active");
+      }
+
+      return false;
+    }
+
+    return true;
+  }
+
+
+  /* =========================
+     AIRTIME
+     ========================= */
+
+  const airtimeButton =
+    document.getElementById("buyAirtimeBtn");
+
+
+  if (airtimeButton) {
+
+    airtimeButton.addEventListener(
+      "click",
+      async function() {
+
+        if (!requireLogin()) {
+          return;
+        }
+
+
+        const network =
+          document.getElementById("airtimeNetwork").value;
+
+        const phone =
+          document.getElementById("airtimePhone").value.trim();
+
+        const amount =
+          Number(
+            document.getElementById("airtimeAmount").value
+          );
+
+
+        if (!network) {
+          alert("Please select a network.");
+          return;
+        }
+
+
+        if (!/^0\d{10}$/.test(phone)) {
+          alert("Enter a valid 11-digit Nigerian phone number.");
+          return;
+        }
+
+
+        if (!amount || amount < 50) {
+          alert("Minimum airtime amount is ₦50.");
+          return;
+        }
+
+
+        try {
+
+          await addDoc(
+            collection(
+              db,
+              "users",
+              auth.currentUser.uid,
+              "transactions"
+            ),
+            {
+              type: "Airtime",
+              network: network,
+              phone: phone,
+              amount: amount,
+              status: "Testing",
+              createdAt: serverTimestamp()
+            }
+          );
+
+
+          alert(
+            "Airtime order recorded successfully. Real airtime delivery will be connected after VTU API/payment setup."
+          );
+
+
+          document.getElementById("airtimePhone").value = "";
+          document.getElementById("airtimeAmount").value = "";
+
+
+        } catch (error) {
+
+          alert(
+            error && error.message
+              ? error.message
+              : "Could not save airtime order."
+          );
+
+        }
+
+      }
+    );
+
+  }
+
+
+  /* =========================
+     BILLS
+     ========================= */
+
+  const billButton =
+    document.getElementById("billContinueBtn");
+
+
+  if (billButton) {
+
+    billButton.addEventListener(
+      "click",
+      async function() {
+
+        if (!requireLogin()) {
+          return;
+        }
+
+
+        const service =
+          document.getElementById("billService").value;
+
+
+        if (!service) {
+          alert("Please select a bill service.");
+          return;
+        }
+
+
+        let details = {};
+        let amount = 0;
+
+
+        /* NECO */
+
+        if (service === "NECO") {
+
+          const necoService =
+            document.getElementById("necoService").value;
+
+          const necoNumber =
+            document.getElementById("necoNumber").value.trim();
+
+          amount =
+            Number(
+              document.getElementById("necoAmount").value
+            );
+
+
+          if (!necoService || !necoNumber || !amount) {
+            alert("Please complete the NECO form.");
+            return;
+          }
+
+
+          details = {
+            service: necoService,
+            number: necoNumber
+          };
+
+        }
+
+
+        /* WAEC */
+
+        if (service === "WAEC") {
+
+          const waecService =
+            document.getElementById("waecService").value;
+
+          const waecNumber =
+            document.getElementById("waecNumber").value.trim();
+
+          amount =
+            Number(
+              document.getElementById("waecAmount").value
+            );
+
+
+          if (!waecService || !waecNumber || !amount) {
+            alert("Please complete the WAEC form.");
+            return;
+          }
+
+
+          details = {
+            service: waecService,
+            number: waecNumber
+          };
+
+        }
+
+
+        /* JAMB */
+
+        if (service === "JAMB") {
+
+          const jambService =
+            document.getElementById("jambService").value;
+
+          const jambNumber =
+            document.getElementById("jambNumber").value.trim();
+
+          amount =
+            Number(
+              document.getElementById("jambAmount").value
+            );
+
+
+          if (!jambService || !jambNumber || !amount) {
+            alert("Please complete the JAMB form.");
+            return;
+          }
+
+
+          details = {
+            service: jambService,
+            number: jambNumber
+          };
+
+        }
+
+
+        /* ELECTRICITY */
+
+        if (service === "Electricity") {
+
+          const provider =
+            document.getElementById("electricityProvider").value;
+
+          const meterType =
+            document.getElementById("meterType").value;
+
+          const meterNumber =
+            document.getElementById("meterNumber").value.trim();
+
+          amount =
+            Number(
+              document.getElementById("electricityAmount").value
+            );
+
+
+          if (
+            !provider ||
+            !meterType ||
+            !meterNumber ||
+            !amount
+          ) {
+
+            alert(
+              "Please complete the electricity form."
+            );
+
+            return;
+          }
+
+
+          details = {
+            provider: provider,
+            meterType: meterType,
+            meterNumber: meterNumber
+          };
+
+        }
+
+
+        /* CABLE TV */
+
+        if (service === "Cable TV") {
+
+          const provider =
+            document.getElementById("cableProvider").value;
+
+          const number =
+            document.getElementById("cableNumber").value.trim();
+
+          amount =
+            Number(
+              document.getElementById("cableAmount").value
+            );
+
+
+          if (!provider || !number || !amount) {
+
+            alert(
+              "Please complete the Cable TV form."
+            );
+
+            return;
+          }
+
+
+          details = {
+            provider: provider,
+            number: number
+          };
+
+        }
+
+
+        /* INTERNET */
+
+        if (service === "Internet") {
+
+          const provider =
+            document.getElementById("internetProvider").value;
+
+          const number =
+            document.getElementById("internetNumber").value.trim();
+
+          amount =
+            Number(
+              document.getElementById("internetAmount").value
+            );
+
+
+          if (!provider || !number || !amount) {
+
+            alert(
+              "Please complete the Internet form."
+            );
+
+            return;
+          }
+
+
+          details = {
+            provider: provider,
+            number: number
+          };
+
+        }
+
+
+        try {
+
+          await addDoc(
+            collection(
+              db,
+              "users",
+              auth.currentUser.uid,
+              "transactions"
+            ),
+            {
+              type: "Bill",
+              billService: service,
+              details: details,
+              amount: amount,
+              status: "Testing",
+              createdAt: serverTimestamp()
+            }
+          );
+
+
+          alert(
+            service +
+            " order recorded successfully. Real bill payment will be connected after the payment/API setup."
+          );
+
+
+        } catch (error) {
+
+          alert(
+            error && error.message
+              ? error.message
+              : "Could not save bill order."
+          );
+
+        }
+
+      }
+    );
+
+  }
+
+
+  /* =========================
+     TRANSACTION HISTORY
+     ========================= */
+
+  const historyButton =
+    document.getElementById("historyBtn");
+
+
+  if (historyButton) {
+
+    historyButton.addEventListener(
+      "click",
+      async function() {
+
+        if (!requireLogin()) {
+          return;
+        }
+
+
+        const historyList =
+          document.getElementById("historyList");
+
+
+        historyList.innerHTML =
+          '<div class="admin-loading">Loading transactions...</div>';
+
+
+        const pages =
+          document.querySelectorAll(".page");
+
+
+        pages.forEach(function(page) {
+          page.classList.remove("active");
+        });
+
+
+        document
+          .getElementById("historyPage")
+          .classList.add("active");
+
+
+        try {
+
+          const transactionsRef =
+            collection(
+              db,
+              "users",
+              auth.currentUser.uid,
+              "transactions"
+            );
+
+
+          const transactionQuery =
+            query(
+              transactionsRef,
+              orderBy("createdAt", "desc")
+            );
+
+
+          const snapshot =
+            await getDocs(transactionQuery);
+
+
+          if (snapshot.empty) {
+
+            historyList.innerHTML =
+              '<div class="admin-empty">No transactions yet.</div>';
+
+            return;
+          }
+
+
+          let html = "";
+
+
+          snapshot.forEach(function(item) {
+
+            const data = item.data();
+
+
+            const type =
+              escapeText(data.type || "Transaction");
+
+            const status =
+              escapeText(data.status || "Unknown");
+
+            const amount =
+              Number(data.amount || 0);
+
+
+            let extra = "";
+
+
+            if (data.network) {
+              extra +=
+                "<div>Network: " +
+                escapeText(data.network) +
+                "</div>";
+            }
+
+
+            if (data.phone) {
+              extra +=
+                "<div>Phone: " +
+                escapeText(data.phone) +
+                "</div>";
+            }
+
+
+            if (data.billService) {
+              extra +=
+                "<div>Service: " +
+                escapeText(data.billService) +
+                "</div>";
+            }
+
+
+            html +=
+              '<div style="background:#f7f7f7; padding:13px; border-radius:10px; margin-bottom:10px;">' +
+
+              '<strong>' +
+              type +
+              '</strong>' +
+
+              '<div style="margin-top:5px; color:#555;">' +
+              extra +
+              '</div>' +
+
+              '<div style="margin-top:7px;">Amount: ₦' +
+              amount.toLocaleString() +
+              '</div>' +
+
+              '<div style="margin-top:5px; color:#777;">Status: ' +
+              status +
+              '</div>' +
+
+              '</div>';
+
+          });
+
+
+          historyList.innerHTML = html;
+
+
+        } catch (error) {
+
+          historyList.innerHTML =
+            '<div class="admin-error">' +
+            escapeText(
+              error && error.message
+                ? error.message
+                : "Could not load transactions."
+            ) +
+            '</div>';
+
+        }
+
+      }
+    );
+
+  }
+
+
+  /* =========================
+     LOAD ACCOUNT INFORMATION
+     ========================= */
+
+  onAuthStateChanged(
+    auth,
+    async function(user) {
+
+      const loggedOut =
+        document.getElementById("loggedOutAccount");
+
+      const loggedIn =
+        document.getElementById("loggedInAccount");
+
+      const accountEmail =
+        document.getElementById("accountEmail");
+
+      const walletBalance =
+        document.getElementById("walletBalance");
+
+
+      if (!user) {
+
+        if (loggedOut) {
+          loggedOut.style.display = "block";
+        }
+
+        if (loggedIn) {
+          loggedIn.style.display = "none";
+        }
+
+        return;
+      }
+
+
+      if (loggedOut) {
+        loggedOut.style.display = "none";
+      }
+
+      if (loggedIn) {
+        loggedIn.style.display = "block";
+      }
+
+
+      if (accountEmail) {
+        accountEmail.textContent =
+          user.email || "No email";
+      }
+
+
+      try {
+
+        const userSnap =
+          await getDoc(
+            doc(db, "users", user.uid)
+          );
+
+
+        if (userSnap.exists()) {
+
+          const data =
+            userSnap.data();
+
+
+          const balance =
+            Number(
+              data.walletBalance || 0
+            );
+
+
+          if (walletBalance) {
+
+            walletBalance.textContent =
+              "₦" +
+              balance.toLocaleString(
+                "en-NG",
+                {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2
+                }
+              );
+
+          }
+
+        }
+
+      } catch (error) {
+
+        console.log(
+          "Could not load account:",
+          error
+        );
+
+      }
+
+    }
   );
 
 
-if (accountPage) {
+  /* =========================
+     ESCAPE TEXT
+     ========================= */
 
-  const oldButton =
-    document.getElementById(
-      "adminDashboardBtn"
-    );
+  function escapeText(value) {
 
-
-  if (!oldButton) {
-
-    const button =
-      document.createElement(
-        "button"
-      );
-
-
-    button.id =
-      "adminDashboardBtn";
-
-
-    button.type =
-      "button";
-
-
-    button.className =
-      "main-btn";
-
-
-    button.style.marginTop =
-      "10px";
-
-
-    button.textContent =
-      "🛠️ Admin Dashboard";
-
-
-    button.addEventListener(
-      "click",
-      openAdminDashboard
-    );
-
-
-    accountPage.appendChild(
-      button
-    );
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
 
   }
 
-}
+</script>
 
 
-/* ================= AUTH ================= */
-
-onAuthStateChanged(
-  auth,
-  function(user) {
-
-    if (user) {
-
-      console.log(
-        "A T L Data logged in:",
-        user.email
-      );
-
-    }
-
-  }
-);
-
-
-/* ================= ESCAPE ================= */
-
-function escapeHTML(value) {
-
-  return String(value)
-
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-
-    .replace(
-      /</g,
-      "&lt;"
-    )
-
-    .replace(
-      />/g,
-      "&gt;"
-    )
-
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-
-    .replace(
-      /'/g,
-      "&#039;"
-    );
-
-}
-
-  </script>
+</body>
+  </html>
