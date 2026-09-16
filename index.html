@@ -1592,13 +1592,15 @@
      ========================= */
 
   document.getElementById("addMoneyBtn")
-    .addEventListener("click", function() {
+  .addEventListener("click", function() {
+    showPage("addMoneyPage");
+  });
 
-      alert(
-        "Add Money / Payment system will be connected after the payment gateway is added."
-      );
+document.getElementById("addMoneyBackBtn")
+  .addEventListener("click", function() {
+    showPage("accountPage");
+  });
 
-    });
 
 
   /* =========================
