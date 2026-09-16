@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>A T L Data — Admin Dashboard</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f3f7f5;
+      color: #222;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #087443;
+      color: white;
+      padding: 20px 15px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 24px;
+      margin-bottom: 5px;
+    }
+
+    header p {
+      font-size: 13px;
+      opacity: .9;
+    }
+
+    main {
+      width: 100%;
+      max-width: 900px;
+      margin: auto;
+      padding: 15px;
+    }
+
+    .top-buttons {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .top-buttons button {
+      flex: 1;
+      border: none;
+      border-radius: 10px;
+      padding: 13px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #backBtn {
+      background: #e5f3eb;
+      color: #087443;
+    }
+
+    #refreshBtn {
+      background: #087443;
+      color: white;
+    }
+
+    .admin-login {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.06);
+      margin-bottom: 15px;
+    }
+
+    .admin-login h2 {
+      color: #087443;
+      margin-bottom: 8px;
+    }
+
+    #adminStatus {
+      font-size: 13px;
+      color: #777;
+      line-height: 1.5;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: 14px;
+      padding: 18px 10px;
+      text-align: center;
+      box-shadow: 0 3px 12px rgba(0,0,0,.06);
+    }
+
+    .stat-card span {
+      display: block;
+      font-size: 12px;
+      color: #777;
+      margin-bottom: 7px;
+    }
+
+    .stat-card strong {
+      display: block;
+      color: #087443;
+      font-size: 21px;
+    }
+
+    .search-box {
+      background: white;
+      padding: 15px;
+      border-radius: 14px;
+      margin-bottom: 15px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.06);
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      outline: none;
+      font-size: 14px;
+    }
+
+    .search-box input:focus {
+      border-color: #087443;
+    }
+
+    .users-box {
+      background: white;
+      border-radius: 14px;
+      padding: 15px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.06);
+    }
+
+    .users-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .users-title h2 {
+      color: #087443;
+      font-size: 19px;
+    }
+
+    #userCount {
+      color: #777;
+      font-size: 12px;
+    }
+
+    .user-card {
+      border: 1px solid #e5e5e5;
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 12px;
+      background: #fff;
+    }
+
+    .user-card:last-child {
+      margin-bottom: 0;
+    }
+
+    .user-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .user-header strong {
+      color: #087443;
+      word-break: break-word;
+    }
+
+    .tier {
+      background: #e8f5ee;
+      color: #087443;
+      border-radius: 20px;
+      padding: 5px 9px;
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+    }
+
+    .detail {
+      background: #f7f7f7;
+      border-radius: 9px;
+      padding: 9px;
+      font-size: 12px;
+    }
+
+    .detail span {
+      display: block;
+      color: #777;
+      margin-bottom: 3px;
+    }
+
+    .detail strong {
+      display: block;
+      word-break: break-word;
+    }
+
+    .user-id {
+      margin-top: 10px;
+      color: #999;
+      font-size: 10px;
+      word-break: break-all;
+    }
+
+    .loading,
+    .empty,
+    .error {
+      text-align: center;
+      padding: 30px 10px;
+      color: #777;
+      line-height: 1.5;
+    }
+
+    .error {
+      color: #b00020;
+    }
+
+    @media (max-width: 600px) {
+
+      .stats {
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 7px;
+      }
+
+      .stat-card {
+        padding: 14px 5px;
+      }
+
+      .stat-card strong {
+        font-size: 16px;
+      }
+
+      .details {
+        grid-template-columns: 1fr 1fr;
+      }
+
+    }
+
+    @media (max-width: 350px) {
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+  <h1>🛠️ A T L Data</h1>
+
+  <p>Admin Dashboard</p>
+
+</header>
+
+
+<main>
+
+
+  <div class="top-buttons">
+
+    <button id="backBtn">
+      ← Back to Website
+    </button>
+
+    <button id="refreshBtn">
+      🔄 Refresh
+    </button>
+
+  </div>
+
+
+  <div class="admin-login">
+
+    <h2>Admin Access</h2>
+
+    <p id="adminStatus">
+      Checking administrator access...
+    </p>
+
+  </div>
+
+
+  <div class="stats">
+
+    <div class="stat-card">
+
+      <span>Total Users</span>
+
+      <strong id="totalUsers">
+        0
+      </strong>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <span>Total Wallet</span>
+
+      <strong id="totalWallet">
+        ₦0
+      </strong>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <span>Tier 1 Users</span>
+
+      <strong id="tier1Users">
+        0
+      </strong>
+
+    </div>
+
+  </div>
+
+
+  <div class="search-box">
+
+    <input
+      type="search"
+      id="adminSearch"
+      placeholder="🔎 Search email, name, phone or User ID..."
+    >
+
+  </div>
+
+
+  <div class="users-box">
+
+    <div class="users-title">
+
+      <h2>Registered Users</h2>
+
+      <span id="userCount">
+        0 users
+      </span>
+
+    </div>
+
+
+    <div id="usersList">
+
+      <div class="loading">
+        Loading users...
+      </div>
+
+    </div>
+
+  </div>
+
+
+</main>
+
+
+
+<script type="module">
+
+
+  /* =========================
+     FIREBASE IMPORTS
+     ========================= */
+
+  import {
+    initializeApp,
+    getApps,
+    getApp
+  } from
+  "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+
+  import {
+    getAuth,
+    onAuthStateChanged
+  } from
+  "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+
+  import {
+    getFirestore,
+    collection,
+    getDocs
+  } from
+  "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+
+  /* =========================
+     FIREBASE CONFIG
+     ========================= */
+
+  const firebaseConfig = {
+
+    apiKey:
+      "AIzaSyA_x5ZYj7D5Dt_9Bq-NzlchpRPRd3QN21I",
+
+    authDomain:
+      "a-t-l-data.firebaseapp.com",
+
+    projectId:
+      "a-t-l-data",
+
+    storageBucket:
+      "a-t-l-data.firebasestorage.app",
+
+    messagingSenderId:
+      "519558305824",
+
+    appId:
+      "1:519558305824:web:cf6dd75ef20ef708c24445"
+
+  };
+
+
+
+  /* =========================
+     FIREBASE START
+     ========================= */
+
+  const app =
+    getApps().length
+      ? getApp()
+      : initializeApp(firebaseConfig);
+
+
+  const auth =
+    getAuth(app);
+
+
+  const db =
+    getFirestore(app);
+
+
+
+  /* =========================
+     ADMIN EMAIL
+     ========================= */
+
+  const ADMIN_EMAIL =
+    "lawanahmadt03@gmail.com";
+
+
+
+  /* =========================
+     VARIABLES
+     ========================= */
+
+  let allUsers = [];
+
+
+
+  const statusBox =
+    document.getElementById("adminStatus");
+
+  const usersList =
+    document.getElementById("usersList");
+
+  const totalUsers =
+    document.getElementById("totalUsers");
+
+  const totalWallet =
+    document.getElementById("totalWallet");
+
+  const tier1Users =
+    document.getElementById("tier1Users");
+
+  const userCount =
+    document.getElementById("userCount");
+
+  const searchBox =
+    document.getElementById("adminSearch");
+
+
+
+  /* =========================
+     BACK BUTTON
+     ========================= */
+
+  document
+    .getElementById("backBtn")
+    .addEventListener("click", function() {
+
+      window.location.href =
+        "index.html";
+
+    });
+
+
+
+  /* =========================
+     ESCAPE HTML
+     ========================= */
+
+  function escapeHTML(value) {
+
+    return String(value || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+
+
+  /* =========================
+     LOAD USERS
+     ========================= */
+
+  async function loadUsers() {
+
+    usersList.innerHTML =
+      '<div class="loading">Loading users...</div>';
+
+
+    try {
+
+      const snapshot =
+        await getDocs(
+          collection(db, "users")
+        );
+
+
+      allUsers = [];
+
+
+      snapshot.forEach(function(docSnap) {
+
+        allUsers.push({
+
+          id: docSnap.id,
+
+          ...docSnap.data()
+
+        });
+
+      });
+
+
+      updateStats();
+
+      displayUsers(allUsers);
+
+
+      statusBox.textContent =
+        "Admin access granted: " +
+        ADMIN_EMAIL;
+
+
+    } catch (error) {
+
+      console.error(error);
+
+
+      usersList.innerHTML =
+        '<div class="error">' +
+        'Could not load users.<br><br>' +
+        escapeHTML(error.message) +
+        '</div>';
+
+
+      statusBox.textContent =
+        "Admin access detected, but Firestore permission was denied.";
+
+    }
+
+  }
+
+
+
+  /* =========================
+     UPDATE STATISTICS
+     ========================= */
+
+  function updateStats() {
+
+    const count =
+      allUsers.length;
+
+
+    let wallet =
+      0;
+
+
+    let tier1 =
+      0;
+
+
+    allUsers.forEach(function(user) {
+
+      wallet +=
+        Number(user.walletBalance || 0);
+
+
+      if (
+        Number(user.tier || 0) >= 1
+      ) {
+
+        tier1++;
+
+      }
+
+    });
+
+
+    totalUsers.textContent =
+      count;
+
+
+    totalWallet.textContent =
+      "₦" +
+      wallet.toLocaleString(
+        "en-NG",
+        {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        }
+      );
+
+
+    tier1Users.textContent =
+      tier1;
+
+
+    userCount.textContent =
+      count +
+      (count === 1 ? " user" : " users");
+
+  }
+
+
+
+  /* =========================
+     DISPLAY USERS
+     ========================= */
+
+  function displayUsers(users) {
+
+    if (!users.length) {
+
+      usersList.innerHTML =
+        '<div class="empty">No users found.</div>';
+
+      return;
+
+    }
+
+
+    let html = "";
+
+
+    users.forEach(function(user) {
+
+      const email =
+        escapeHTML(
+          user.email || "No email"
+        );
+
+
+      const name =
+        escapeHTML(
+          user.fullName || "Not provided"
+        );
+
+
+      const phone =
+        escapeHTML(
+          user.phone || "Not provided"
+        );
+
+
+      const wallet =
+        Number(
+          user.walletBalance || 0
+        );
+
+
+      const tier =
+        Number(
+          user.tier || 0
+        );
+
+
+      const uid =
+        escapeHTML(
+          user.id || user.uid || ""
+        );
+
+
+      html += `
+
+        <div class="user-card">
+
+          <div class="user-header">
+
+            <strong>
+              ${email}
+            </strong>
+
+            <span class="tier">
+              Tier ${tier}
+            </span>
+
+          </div>
+
+
+          <div class="details">
+
+
+            <div class="detail">
+
+              <span>Name</span>
+
+              <strong>
+                ${name}
+              </strong>
+
+            </div>
+
+
+            <div class="detail">
+
+              <span>Phone</span>
+
+              <strong>
+                ${phone}
+              </strong>
+
+            </div>
+
+
+            <div class="detail">
+
+              <span>Wallet</span>
+
+              <strong>
+                ₦${wallet.toLocaleString(
+                  "en-NG",
+                  {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                  }
+                )}
+              </strong>
+
+            </div>
+
+
+            <div class="detail">
+
+              <span>Tier</span>
+
+              <strong>
+                ${tier}
+              </strong>
+
+            </div>
+
+
+          </div>
+
+
+          <div class="user-id">
+
+            User ID:
+            ${uid}
+
+          </div>
+
+        </div>
+
+      `;
+
+    });
+
+
+    usersList.innerHTML =
+      html;
+
+
+    userCount.textContent =
+      users.length +
+      (users.length === 1
+        ? " user"
+        : " users");
+
+  }
+
+
+
+  /* =========================
+     SEARCH
+     ========================= */
+
+  searchBox
+    .addEventListener("input", function() {
+
+      const search =
+        this.value
+          .trim()
+          .toLowerCase();
+
+
+      if (!search) {
+
+        displayUsers(allUsers);
+
+        return;
+
+      }
+
+
+      const filtered =
+        allUsers.filter(function(user) {
+
+          const email =
+            String(
+              user.email || ""
+            ).toLowerCase();
+
+
+          const name =
+            String(
+              user.fullName || ""
+            ).toLowerCase();
+
+
+          const phone =
+            String(
+              user.phone || ""
+            ).toLowerCase();
+
+
+          const uid =
+            String(
+              user.uid ||
+              user.id ||
+              ""
+            ).toLowerCase();
+
+
+          return (
+            email.includes(search) ||
+            name.includes(search) ||
+            phone.includes(search) ||
+            uid.includes(search)
+          );
+
+        });
+
+
+      displayUsers(filtered);
+
+    });
+
+
+
+  /* =========================
+     REFRESH
+     ========================= */
+
+  document
+    .getElementById("refreshBtn")
+    .addEventListener("click", function() {
+
+      if (
+        auth.currentUser &&
+        auth.currentUser.email === ADMIN_EMAIL
+      ) {
+
+        loadUsers();
+
+      }
+
+    });
+
+
+
+  /* =========================
+     CHECK ADMIN LOGIN
+     ========================= */
+
+  onAuthStateChanged(
+    auth,
+    function(user) {
+
+      if (!user) {
+
+        statusBox.innerHTML =
+          "Please login first.<br>" +
+          '<a href="index.html">Go to A T L Data Login</a>';
+
+        usersList.innerHTML =
+          '<div class="error">' +
+          'You must login with the administrator account.' +
+          '</div>';
+
+        return;
+
+      }
+
+
+      if (
+        user.email.toLowerCase() !==
+        ADMIN_EMAIL.toLowerCase()
+      ) {
+
+        statusBox.textContent =
+          "Access denied. This account is not the administrator account.";
+
+
+        usersList.innerHTML =
+          '<div class="error">' +
+          'Admin access is restricted.' +
+          '</div>';
+
+        return;
+
+      }
+
+
+      statusBox.textContent =
+        "Admin access granted. Loading users...";
+
+
+      loadUsers();
+
+    }
+  );
+
+
+</script>
+
+
+</body>
+                      </html>
