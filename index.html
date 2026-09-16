@@ -787,15 +787,21 @@
           Don't have an account?
         </span>
 
-        <button id="authSwitchBtn" type="button">
-          Create Account
-        </button>
+        document.getElementById("authSwitchBtn")
+  .addEventListener("click", (e) => {
+    e.preventDefault();
 
-      </div>
+    const loginBox = document.getElementById("loginBox");
+    const signupBox = document.getElementById("signupBox");
 
-    </div>
+    if (loginBox) {
+      loginBox.style.display = "none";
+    }
 
-  </section>
+    if (signupBox) {
+      signupBox.style.display = "block";
+    }
+  });
 
 
   <!-- ACCOUNT -->
