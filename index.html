@@ -2470,5 +2470,27 @@ document.getElementById("addMoneyBackBtn")
     showPage("accountPage");
   });
   </script>
+  <script>
+document.querySelectorAll(".wallet-amount").forEach(function(button) {
+  button.addEventListener("click", function() {
+    document.getElementById("customAmount").value =
+      this.getAttribute("data-amount");
+  });
+});
+
+document.getElementById("continueAddMoneyBtn")
+  .addEventListener("click", function() {
+    const amount = Number(
+      document.getElementById("customAmount").value
+    );
+
+    if (!amount || amount < 100) {
+      alert("Please enter an amount of at least ₦100.");
+      return;
+    }
+
+    alert("Amount selected: ₦" + amount.toLocaleString());
+  });
+  </script>
 </body>
   </html>
