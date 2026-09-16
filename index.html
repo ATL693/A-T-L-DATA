@@ -2961,3 +2961,581 @@
 
 </body>
 </html>
+<!-- ================= ADMIN DASHBOARD ================= -->
+<section id="adminPage" class="app-page">
+
+  <div class="topbar">
+    <button id="adminBackBtn" class="back-btn" type="button">←</button>
+    <div>
+      <h2>Admin Dashboard</h2>
+      <small>A T L Data Management</small>
+    </div>
+  </div>
+
+  <!-- ADMIN STATS -->
+  <div class="admin-stats">
+
+    <div class="admin-stat-card">
+      <span>👥</span>
+      <strong id="totalUsers">0</strong>
+      <small>Total Users</small>
+    </div>
+
+    <div class="admin-stat-card">
+      <span>💰</span>
+      <strong id="totalWallet">₦0</strong>
+      <small>Total Wallet</small>
+    </div>
+
+    <div class="admin-stat-card">
+      <span>⭐</span>
+      <strong id="tier1Users">0</strong>
+      <small>Tier 1 Users</small>
+    </div>
+
+  </div>
+
+  <!-- SEARCH -->
+  <div class="admin-search">
+    <input
+      id="adminSearch"
+      type="search"
+      placeholder="Search user by email..."
+    >
+  </div>
+
+  <!-- USERS -->
+  <div class="admin-section">
+    <div class="section-title">
+      <h3>Registered Users</h3>
+      <button id="refreshUsersBtn" class="small-btn" type="button">
+        Refresh
+      </button>
+    </div>
+
+    <div id="adminUsersList" class="admin-users-list">
+      <div class="loading-box">
+        Loading users...
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<style>
+/* ================= ADMIN STYLE ================= */
+
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 15px 0;
+}
+
+.admin-stat-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 16px 10px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,.08);
+}
+
+.admin-stat-card span {
+  display: block;
+  font-size: 25px;
+  margin-bottom: 6px;
+}
+
+.admin-stat-card strong {
+  display: block;
+  font-size: 19px;
+  margin-bottom: 4px;
+}
+
+.admin-stat-card small {
+  color: #777;
+}
+
+.admin-search {
+  margin: 15px 0;
+}
+
+.admin-search input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  font-size: 15px;
+  outline: none;
+}
+
+.admin-section {
+  background: #fff;
+  border-radius: 16px;
+  padding: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,.06);
+}
+
+.section-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.section-title h3 {
+  margin: 0;
+}
+
+.small-btn {
+  border: none;
+  border-radius: 10px;
+  padding: 9px 13px;
+  cursor: pointer;
+}
+
+.admin-user-card {
+  border: 1px solid #eee;
+  border-radius: 13px;
+  padding: 13px;
+  margin-bottom: 10px;
+}
+
+.admin-user-email {
+  font-weight: 700;
+  word-break: break-word;
+  margin-bottom: 8px;
+}
+
+.admin-user-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+  font-size: 13px;
+  color: #555;
+}
+
+.loading-box,
+.empty-box {
+  padding: 25px 10px;
+  text-align: center;
+  color: #777;
+}
+
+@media (max-width: 600px) {
+  .admin-stats {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+<script type="module">
+
+/* ================= FIREBASE ================= */
+
+import {
+  initializeApp,
+  getApps,
+  getApp
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+import {
+  getAuth,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+import {
+  getFirestore,
+  collection,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+/* ================= FIREBASE CONFIG ================= */
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA_x5ZYj7D5Dt_9Bq-NzlchpRPRd3QN21I",
+  authDomain: "a-t-l-data.firebaseapp.com",
+  projectId: "a-t-l-data",
+  storageBucket: "a-t-l-data.firebasestorage.app",
+  messagingSenderId: "519558305824",
+  appId: "1:519558305824:web:cf6dd75ef20ef708c24445"
+};
+
+const app = getApps().length
+  ? getApp()
+  : initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+
+/* ================= ADMIN EMAIL ================= */
+
+/*
+  lawanahmadt03@gmail.com
+*/
+
+const ADMIN_EMAIL = "YOUR-ADMIN-EMAIL@gmail.com";
+
+
+/* ================= ELEMENTS ================= */
+
+const adminPage = document.getElementById("adminPage");
+const adminUsersList = document.getElementById("adminUsersList");
+const totalUsers = document.getElementById("totalUsers");
+const totalWallet = document.getElementById("totalWallet");
+const tier1Users = document.getElementById("tier1Users");
+const adminSearch = document.getElementById("adminSearch");
+const refreshUsersBtn = document.getElementById("refreshUsersBtn");
+const adminBackBtn = document.getElementById("adminBackBtn");
+
+
+let allUsers = [];
+
+
+/* ================= OPEN ADMIN PAGE ================= */
+
+function openAdminPage() {
+
+  document.querySelectorAll(".app-page").forEach(page => {
+    page.style.display = "none";
+  });
+
+  adminPage.style.display = "block";
+
+  loadUsers();
+}
+
+
+/* ================= CHECK ADMIN ================= */
+
+function checkAdmin() {
+
+  const user = auth.currentUser;
+
+  if (!user) {
+    alert("Please login first.");
+    return false;
+  }
+
+  if (user.email !== ADMIN_EMAIL) {
+    alert("Access denied. Admin only.");
+    return false;
+  }
+
+  return true;
+}
+
+
+/* ================= LOAD USERS ================= */
+
+async function loadUsers() {
+
+  if (!checkAdmin()) return;
+
+  adminUsersList.innerHTML = `
+    <div class="loading-box">
+      Loading users...
+    </div>
+  `;
+
+  try {
+
+    const snapshot = await getDocs(
+      collection(db, "users")
+    );
+
+    allUsers = [];
+
+    snapshot.forEach(doc => {
+
+      const data = doc.data();
+
+      allUsers.push({
+        id: doc.id,
+        ...data
+      });
+
+    });
+
+    updateAdminStats();
+    displayUsers(allUsers);
+
+  } catch (error) {
+
+    console.error(error);
+
+    adminUsersList.innerHTML = `
+      <div class="empty-box">
+        ❌ Unable to load users.<br><br>
+        Check your Firebase Firestore Rules.
+      </div>
+    `;
+  }
+}
+
+
+/* ================= ADMIN STATS ================= */
+
+function updateAdminStats() {
+
+  totalUsers.textContent = allUsers.length;
+
+  let wallet = 0;
+  let tier1 = 0;
+
+  allUsers.forEach(user => {
+
+    wallet += Number(user.walletBalance || 0);
+
+    if (
+      Number(user.tier || 0) >= 1
+    ) {
+      tier1++;
+    }
+
+  });
+
+  totalWallet.textContent =
+    "₦" + wallet.toLocaleString();
+
+  tier1Users.textContent = tier1;
+}
+
+
+/* ================= DISPLAY USERS ================= */
+
+function displayUsers(users) {
+
+  if (!users.length) {
+
+    adminUsersList.innerHTML = `
+      <div class="empty-box">
+        No users found.
+      </div>
+    `;
+
+    return;
+  }
+
+
+  adminUsersList.innerHTML = users.map(user => {
+
+    const email =
+      user.email || "No email";
+
+    const wallet =
+      Number(user.walletBalance || 0);
+
+    const tier =
+      Number(user.tier || 0);
+
+    const name =
+      user.fullName || "Not provided";
+
+    const phone =
+      user.phone || "Not provided";
+
+
+    return `
+
+      <div class="admin-user-card">
+
+        <div class="admin-user-email">
+          📧 ${escapeAdminHTML(email)}
+        </div>
+
+        <div class="admin-user-info">
+
+          <div>
+            👤 Name:<br>
+            <strong>
+              ${escapeAdminHTML(name)}
+            </strong>
+          </div>
+
+          <div>
+            💰 Wallet:<br>
+            <strong>
+              ₦${wallet.toLocaleString()}
+            </strong>
+          </div>
+
+          <div>
+            ⭐ Tier:<br>
+            <strong>
+              Tier ${tier}
+            </strong>
+          </div>
+
+          <div>
+            📱 Phone:<br>
+            <strong>
+              ${escapeAdminHTML(phone)}
+            </strong>
+          </div>
+
+        </div>
+
+        <div style="
+          margin-top:10px;
+          font-size:11px;
+          color:#888;
+          word-break:break-all;
+        ">
+          User ID: ${escapeAdminHTML(user.id)}
+        </div>
+
+      </div>
+
+    `;
+
+  }).join("");
+}
+
+
+/* ================= SEARCH ================= */
+
+adminSearch.addEventListener(
+  "input",
+  function() {
+
+    const search =
+      adminSearch.value
+        .trim()
+        .toLowerCase();
+
+    if (!search) {
+
+      displayUsers(allUsers);
+      return;
+
+    }
+
+    const filtered =
+      allUsers.filter(user => {
+
+        const email =
+          String(user.email || "")
+            .toLowerCase();
+
+        const name =
+          String(user.fullName || "")
+            .toLowerCase();
+
+        const phone =
+          String(user.phone || "")
+            .toLowerCase();
+
+        return (
+          email.includes(search) ||
+          name.includes(search) ||
+          phone.includes(search)
+        );
+
+      });
+
+    displayUsers(filtered);
+
+  }
+);
+
+
+/* ================= REFRESH ================= */
+
+refreshUsersBtn.addEventListener(
+  "click",
+  loadUsers
+);
+
+
+/* ================= BACK ================= */
+
+adminBackBtn.addEventListener(
+  "click",
+  function() {
+
+    adminPage.style.display = "none";
+
+    const home =
+      document.getElementById("homePage");
+
+    if (home) {
+      home.style.display = "block";
+    }
+
+  }
+);
+
+
+/* ================= ADMIN BUTTON ================= */
+
+/*
+  Wannan yana kirkirar button din Admin
+  a Account page.
+*/
+
+const accountPage =
+  document.getElementById("accountPage");
+
+if (accountPage) {
+
+  const adminButton =
+    document.createElement("button");
+
+  adminButton.type = "button";
+  adminButton.textContent = "🛠️ Admin Dashboard";
+
+  adminButton.className = "main-btn";
+
+  adminButton.style.marginTop = "10px";
+
+  adminButton.addEventListener(
+    "click",
+    function() {
+
+      if (checkAdmin()) {
+        openAdminPage();
+      }
+
+    }
+  );
+
+  accountPage.appendChild(adminButton);
+}
+
+
+/* ================= AUTH CHECK ================= */
+
+onAuthStateChanged(
+  auth,
+  function(user) {
+
+    if (!user) return;
+
+    console.log(
+      "Logged in:",
+      user.email
+    );
+
+  }
+);
+
+
+/* ================= SECURITY HELPER ================= */
+
+function escapeAdminHTML(value) {
+
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+  </script>
+</body>
+</html>
