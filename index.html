@@ -652,7 +652,59 @@
     </div>
 
   </section>
+<!-- ADD MONEY PAGE -->
+<section id="addMoneyPage" class="page">
 
+  <div class="box">
+
+    <h2>💰 Add Money</h2>
+
+    <p style="color:#777; margin:8px 0 20px;">
+      Choose the amount you want to add to your wallet.
+    </p>
+
+    <button class="btn wallet-amount" data-amount="500">
+      ₦500
+    </button>
+
+    <button class="btn wallet-amount" data-amount="1000">
+      ₦1,000
+    </button>
+
+    <button class="btn wallet-amount" data-amount="2000">
+      ₦2,000
+    </button>
+
+    <button class="btn wallet-amount" data-amount="5000">
+      ₦5,000
+    </button>
+
+    <input
+      type="number"
+      id="customAmount"
+      placeholder="Enter amount"
+      min="100"
+      style="
+        width:100%;
+        padding:14px;
+        margin-top:10px;
+        border:1px solid #ddd;
+        border-radius:8px;
+        box-sizing:border-box;
+      "
+    >
+
+    <button class="btn" id="continueAddMoneyBtn">
+      Continue
+    </button>
+
+    <button class="btn secondary" id="addMoneyBackBtn">
+      ← Back
+    </button>
+
+  </div>
+
+</section>
 
   <!-- LOGIN PAGE -->
   <section id="loginPage" class="page">
