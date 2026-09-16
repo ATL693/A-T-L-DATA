@@ -1244,11 +1244,54 @@ document.getElementById("logoutBtn")
    LOGIN / SIGNUP SWITCH
    ========================= */
 
-document.getElementById("openLogin")
-  .addEventListener("click", () => {
+document.getElementById("openSignup")
+  .addEventListener("click", (e) => {
+    e.preventDefault();
+
     showPage("loginPage");
-    document.getElementById("loginBox").style.display = "block";
-    document.getElementById("signupBox").style.display = "none";
+
+    const loginBox = document.getElementById("loginBox");
+    const signupBox = document.getElementById("signupBox");
+
+    if (loginBox) {
+      loginBox.style.display = "none";
+    }
+
+    if (signupBox) {
+      signupBox.style.display = "block";
+    }
+  });
+
+document.getElementById("showSignup")
+  .addEventListener("click", (e) => {
+    e.preventDefault();
+
+    const loginBox = document.getElementById("loginBox");
+    const signupBox = document.getElementById("signupBox");
+
+    if (loginBox) {
+      loginBox.style.display = "none";
+    }
+
+    if (signupBox) {
+      signupBox.style.display = "block";
+    }
+  });
+
+document.getElementById("showLogin")
+  .addEventListener("click", (e) => {
+    e.preventDefault();
+
+    const signupBox = document.getElementById("signupBox");
+    const loginBox = document.getElementById("loginBox");
+
+    if (signupBox) {
+      signupBox.style.display = "none";
+    }
+
+    if (loginBox) {
+      loginBox.style.display = "block";
+    }
   });
 
 document.getElementById("openSignup")
