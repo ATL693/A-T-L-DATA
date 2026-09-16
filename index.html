@@ -3128,56 +3128,17 @@
     grid-template-columns: 1fr;
   }
 }
+
+}
 </style>
+
 <script type="module">
 
-/* ================= FIREBASE ================= */
+/* FIREBASE */
 
-import {
-  initializeApp,
-  getApps,
-  getApp
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+...
 
-import {
-  getAuth,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
-
-import {
-  getFirestore,
-  collection,
-  getDocs
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
-
-
-/* ================= FIREBASE CONFIG ================= */
-
-const firebaseConfig = {
-  apiKey: "AIzaSyA_x5ZYj7D5Dt_9Bq-NzlchpRPRd3QN21I",
-  authDomain: "a-t-l-data.firebaseapp.com",
-  projectId: "a-t-l-data",
-  storageBucket: "a-t-l-data.firebasestorage.app",
-  messagingSenderId: "519558305824",
-  appId: "1:519558305824:web:cf6dd75ef20ef708c24445"
-};
-
-const app = getApps().length
-  ? getApp()
-  : initializeApp(firebaseConfig);
-
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-
-/* ================= ADMIN EMAIL ================= */
-
-/*
-  lawanahmadt03@gmail.com
-*/
-
-const ADMIN_EMAIL = "YOUR-ADMIN-EMAIL@gmail.com";
-
+const ADMIN_EMAIL = "lawanahmadt03@gmail.com";
 
 /* ================= ELEMENTS ================= */
 
@@ -3219,7 +3180,7 @@ function checkAdmin() {
     return false;
   }
 
-  if (user.email !== lawanahmadt03@gmail.com) {
+  if (user.email !== User@gmail.com) {
     alert("Access denied. Admin only.");
     return false;
   }
