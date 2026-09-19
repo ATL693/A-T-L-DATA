@@ -4260,61 +4260,52 @@
 
             }
 
+const userRef =
+  db.collection("users").doc(deposit.uid);
 
-            const userRef =
-              db.collection("users")
-                .doc(deposit.uid);
+const userSnap =
+  await transaction.get(userRef);
 
+const oldBalance =
+  userSnap.exists
+    ? Number(userSnap.data().balance || 0)
+    : 0;
 
-            const userSnap =
-              await transaction.get(
-                userRef
-              );
+const amount =
+  Number(deposit.amount || 0);
 
+if(!Number.isFinite(amount) || amount <= 0){
+  throw new Error("Invalid deposit amount.");
+}
 
-            if(!userSnap.exists){
+const newBalance =
+  oldBalance + amount;
 
-              throw new Error(
-                "User account not found."
-              );
+transaction.set(
+  userRef,
+  {
+    balance: newBalance,
+    email: deposit.userEmail || "",
+    name: deposit.userName || "",
+    updatedAt:
+      firebase.firestore.FieldValue.serverTimestamp()
+  },
+  {merge:true}
+);
 
-            }
+transaction.update(
+  depositRef,
+  {
+    status: "approved",
 
+    approvedAt:
+      firebase.firestore.FieldValue.serverTimestamp(),
 
-            const oldBalance =
-              Number(
-                userSnap.data().balance || 0
-              );
-
-
-            const amount =
-              Number(deposit.amount || 0);
-
-
-            const newBalance =
-              oldBalance + amount;
-
-
-            transaction.update(
-              userRef,
-              {
-                balance:newBalance
-              }
-            );
-
-
-            transaction.update(
-              depositRef,
-              {
-                status:"approved",
-
-                approvedAt:
-                  firebase.firestore.FieldValue.serverTimestamp(),
-
-                approvedBy:
-                  currentUser.email
-              }
-            );
+    approvedBy:
+      currentUser.email
+  }
+);
+            
 
 
             const transactionRef =
