@@ -8,462 +8,692 @@
 
 <style>
 
+/* =====================================================
+   RESET
+===================================================== */
+
 *{
- box-sizing:border-box;
- margin:0;
- padding:0;
- font-family:Arial,sans-serif;
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+html{
+  scroll-behavior:smooth;
 }
 
 body{
- background:#f4f7f6;
- color:#17221d;
+  background:#f4f7f5;
+  color:#17221d;
+  min-height:100vh;
+}
+
+button,
+input,
+select{
+  font:inherit;
 }
 
 button{
- cursor:pointer;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
 }
 
+button:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
 header{
- background:#087443;
- color:white;
- padding:15px 5%;
- display:flex;
- justify-content:space-between;
- align-items:center;
+  background:#087443;
+  color:#fff;
+  padding:15px 5%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  position:relative;
+  z-index:50;
 }
 
 .logo{
- font-size:22px;
- font-weight:bold;
+  font-size:22px;
+  font-weight:800;
+  letter-spacing:.5px;
 }
 
 .logo span{
- color:#ffd700;
+  color:#ffd700;
+}
+
+.header-buttons{
+  display:flex;
+  gap:7px;
 }
 
 .header-buttons button{
- padding:10px 15px;
- border:0;
- border-radius:7px;
- margin-left:5px;
- font-weight:bold;
+  border:0;
+  padding:10px 15px;
+  border-radius:8px;
+  font-weight:bold;
+  min-height:42px;
 }
 
 .login-btn{
- background:white;
- color:#087443;
+  background:#fff;
+  color:#087443;
 }
 
 .register-btn{
- background:#ffd700;
+  background:#ffd700;
+  color:#17221d;
+}
+
+
+/* =====================================================
+   LANDING
+===================================================== */
+
+#landingPage{
+  min-height:100vh;
 }
 
 .hero{
- min-height:75vh;
- display:flex;
- align-items:center;
- justify-content:center;
- text-align:center;
- padding:30px 20px;
+  min-height:75vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:45px 20px;
 }
 
 .hero-content{
- max-width:700px;
+  width:100%;
+  max-width:720px;
 }
 
 .hero h1{
- font-size:42px;
- color:#087443;
- margin-bottom:15px;
+  font-size:44px;
+  line-height:1.15;
+  color:#087443;
+  margin-bottom:18px;
 }
 
 .hero h1 span{
- color:#d4aa00;
+  color:#c49b00;
 }
 
 .hero p{
- color:#555;
- line-height:1.7;
- margin-bottom:25px;
+  color:#59635e;
+  line-height:1.8;
+  font-size:16px;
+  margin-bottom:28px;
 }
 
 .hero button{
- padding:14px 25px;
- border:0;
- border-radius:8px;
- margin:5px;
- font-weight:bold;
+  border:0;
+  padding:14px 24px;
+  border-radius:9px;
+  font-weight:bold;
+  margin:5px;
+  min-height:48px;
 }
 
 .main-btn{
- background:#087443;
- color:white;
+  background:#087443;
+  color:#fff;
 }
 
 .second-btn{
- background:#ffd700;
+  background:#ffd700;
+  color:#17221d;
 }
 
 footer{
- background:#10251c;
- color:white;
- padding:20px;
- text-align:center;
+  background:#10251c;
+  color:#fff;
+  padding:22px 15px;
+  text-align:center;
+  font-size:13px;
 }
 
 
-/* AUTH */
+/* =====================================================
+   AUTH MODAL
+===================================================== */
 
 .auth-overlay{
- display:none;
- position:fixed;
- inset:0;
- background:rgba(0,0,0,.7);
- z-index:1000;
- align-items:center;
- justify-content:center;
- padding:20px;
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.72);
+  z-index:9999;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
 }
 
 .auth-box{
- background:white;
- width:100%;
- max-width:410px;
- padding:25px;
- border-radius:14px;
- position:relative;
+  background:#fff;
+  width:100%;
+  max-width:420px;
+  padding:27px 22px;
+  border-radius:16px;
+  position:relative;
+  box-shadow:0 15px 50px rgba(0,0,0,.25);
 }
 
 .close{
- position:absolute;
- right:15px;
- top:8px;
- font-size:28px;
- color:#555;
+  position:absolute;
+  right:14px;
+  top:8px;
+  width:38px;
+  height:38px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+  color:#555;
+  cursor:pointer;
+  border-radius:50%;
+}
+
+.close:hover{
+  background:#f1f1f1;
 }
 
 .auth-box h2{
- text-align:center;
- color:#087443;
- margin-bottom:18px;
+  text-align:center;
+  color:#087443;
+  margin-bottom:20px;
 }
 
-input,select{
- width:100%;
- padding:13px;
- border:1px solid #ddd;
- border-radius:7px;
- margin-bottom:12px;
- outline:none;
+input,
+select{
+  width:100%;
+  padding:13px 14px;
+  border:1px solid #d9dfdc;
+  border-radius:8px;
+  margin-bottom:13px;
+  outline:none;
+  background:#fff;
+  color:#17221d;
+  min-height:47px;
 }
 
-input:focus,select:focus{
- border-color:#087443;
+input:focus,
+select:focus{
+  border-color:#087443;
+  box-shadow:0 0 0 2px rgba(8,116,67,.08);
 }
 
 .action-btn{
- width:100%;
- padding:13px;
- border:0;
- border-radius:7px;
- background:#087443;
- color:white;
- font-weight:bold;
+  width:100%;
+  padding:13px;
+  min-height:47px;
+  border:0;
+  border-radius:8px;
+  background:#087443;
+  color:#fff;
+  font-weight:bold;
+  margin-bottom:10px;
 }
 
 .message{
- display:none;
- padding:11px;
- border-radius:7px;
- margin-bottom:12px;
- font-size:14px;
+  display:none;
+  padding:11px;
+  border-radius:8px;
+  margin-bottom:13px;
+  font-size:14px;
+  line-height:1.5;
 }
 
 .error{
- background:#ffe1e1;
- color:#a00000;
+  background:#ffe3e3;
+  color:#a00000;
 }
 
 .success{
- background:#def7e9;
- color:#087443;
+  background:#def7e9;
+  color:#087443;
 }
 
 .auth-switch{
- text-align:center;
- margin-top:14px;
- font-size:14px;
+  text-align:center;
+  margin-top:8px;
+  font-size:14px;
+  color:#555;
 }
 
 .auth-switch span{
- color:#087443;
- font-weight:bold;
- cursor:pointer;
+  color:#087443;
+  font-weight:bold;
+  cursor:pointer;
 }
 
 
-/* VERIFY */
+/* =====================================================
+   VERIFY
+===================================================== */
 
 #verifyPage{
- display:none;
- min-height:100vh;
- align-items:center;
- justify-content:center;
- padding:20px;
- text-align:center;
+  display:none;
+  min-height:100vh;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
 }
 
 .verify-box{
- max-width:430px;
- background:white;
- padding:30px;
- border-radius:15px;
- box-shadow:0 4px 18px rgba(0,0,0,.1);
+  width:100%;
+  max-width:440px;
+  background:#fff;
+  padding:30px 23px;
+  border-radius:16px;
+  box-shadow:0 5px 25px rgba(0,0,0,.08);
+  text-align:center;
 }
 
 .verify-box h2{
- color:#087443;
- margin-bottom:12px;
+  color:#087443;
+  margin-bottom:12px;
 }
 
 .verify-box p{
- color:#666;
- line-height:1.6;
- margin-bottom:20px;
+  color:#666;
+  line-height:1.7;
+  margin-bottom:20px;
 }
 
 
-/* APP */
+/* =====================================================
+   APP
+===================================================== */
 
 #appPage{
- display:none;
+  display:none;
+  min-height:100vh;
 }
 
 .dashboard{
- padding:25px 5%;
+  padding:25px 5%;
+  max-width:1200px;
+  margin:auto;
 }
 
 .welcome{
- margin-bottom:20px;
+  margin-bottom:20px;
 }
 
 .welcome h2{
- color:#087443;
- margin-bottom:5px;
+  color:#087443;
+  margin-bottom:5px;
 }
 
+.welcome p{
+  color:#68726d;
+}
+
+
+/* =====================================================
+   BALANCE
+===================================================== */
+
 .balance-card{
- background:linear-gradient(135deg,#087443,#0a9b59);
- color:white;
- padding:24px;
- border-radius:15px;
- margin-bottom:20px;
+  background:linear-gradient(
+    135deg,
+    #087443,
+    #0a9b59
+  );
+  color:#fff;
+  padding:25px;
+  border-radius:16px;
+  margin-bottom:22px;
+  box-shadow:0 8px 25px rgba(8,116,67,.18);
 }
 
 .balance{
- font-size:34px;
- font-weight:bold;
- margin:8px 0;
+  font-size:35px;
+  font-weight:800;
+  margin:8px 0;
 }
 
+
+/* =====================================================
+   SERVICES
+===================================================== */
+
 .services{
- display:grid;
- grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
- gap:14px;
- margin-bottom:20px;
+  display:grid;
+  grid-template-columns:
+    repeat(auto-fit,minmax(145px,1fr));
+  gap:14px;
+  margin-bottom:22px;
 }
 
 .service-card{
- background:white;
- padding:20px;
- border-radius:12px;
- text-align:center;
- box-shadow:0 3px 12px rgba(0,0,0,.07);
- cursor:pointer;
+  background:#fff;
+  padding:20px 12px;
+  border-radius:13px;
+  text-align:center;
+  box-shadow:0 3px 13px rgba(0,0,0,.07);
+  cursor:pointer;
+  transition:.15s;
+  user-select:none;
+}
+
+.service-card:active{
+  transform:scale(.97);
 }
 
 .service-card h3{
- color:#087443;
- margin:8px 0;
+  color:#087443;
+  margin:8px 0 5px;
 }
 
+.service-card p{
+  color:#707872;
+  font-size:13px;
+}
+
+
+/* =====================================================
+   PANELS
+===================================================== */
+
 .panel{
- display:none;
- background:white;
- padding:22px;
- border-radius:12px;
- margin-bottom:20px;
- box-shadow:0 3px 12px rgba(0,0,0,.07);
+  display:none;
+  background:#fff;
+  padding:23px;
+  border-radius:14px;
+  margin-bottom:20px;
+  box-shadow:0 3px 13px rgba(0,0,0,.07);
 }
 
 .panel.active{
- display:block;
+  display:block;
 }
 
 .panel h2{
- color:#087443;
- margin-bottom:17px;
-}
-
-.back-btn{
- border:0;
- background:#555;
- color:white;
- padding:10px 15px;
- border-radius:7px;
- margin-top:15px;
-}
-
-.plan-grid{
- display:grid;
- grid-template-columns:repeat(auto-fit,minmax(145px,1fr));
- gap:12px;
-}
-
-.plan{
- border:1px solid #ddd;
- padding:15px;
- border-radius:10px;
-}
-
-.plan strong{
- display:block;
- color:#087443;
- font-size:18px;
-}
-
-.plan button{
- width:100%;
- border:0;
- background:#087443;
- color:white;
- padding:9px;
- border-radius:6px;
- margin-top:10px;
-}
-
-.confirm-box{
- background:#f5f8f6;
- padding:18px;
- border-radius:10px;
-}
-
-.confirm-box p{
- margin-bottom:10px;
+  color:#087443;
+  margin-bottom:18px;
 }
 
 .notice{
- background:#fff8d9;
- padding:12px;
- border-radius:7px;
- margin-bottom:15px;
- font-size:13px;
+  background:#fff8d9;
+  color:#665400;
+  padding:13px;
+  border-radius:8px;
+  margin-bottom:15px;
+  font-size:13px;
+  line-height:1.6;
 }
 
-.logout-btn{
- border:0;
- background:#c62828;
- color:white;
- padding:10px 15px;
- border-radius:7px;
+.back-btn{
+  border:0;
+  background:#555;
+  color:#fff;
+  padding:11px 16px;
+  min-height:44px;
+  border-radius:8px;
+  margin-top:4px;
+  font-weight:bold;
 }
+
+
+/* =====================================================
+   DATA PLANS
+===================================================== */
+
+.plan-grid{
+  display:grid;
+  grid-template-columns:
+    repeat(auto-fit,minmax(140px,1fr));
+  gap:12px;
+  margin-top:5px;
+}
+
+.plan{
+  border:1px solid #e0e5e2;
+  padding:16px;
+  border-radius:11px;
+  background:#fff;
+}
+
+.plan strong{
+  display:block;
+  color:#087443;
+  font-size:18px;
+  margin-bottom:5px;
+}
+
+.plan div{
+  color:#555;
+}
+
+.plan button{
+  width:100%;
+  border:0;
+  background:#087443;
+  color:#fff;
+  padding:10px;
+  min-height:42px;
+  border-radius:7px;
+  margin-top:11px;
+  font-weight:bold;
+}
+
+
+/* =====================================================
+   CONFIRM
+===================================================== */
+
+.confirm-box{
+  background:#f5f8f6;
+  padding:18px;
+  border-radius:10px;
+  margin-bottom:15px;
+}
+
+.confirm-box p{
+  margin-bottom:10px;
+  line-height:1.5;
+}
+
+.confirm-box p:last-child{
+  margin-bottom:0;
+}
+
+
+/* =====================================================
+   TRANSACTIONS
+===================================================== */
 
 .table-wrap{
- overflow-x:auto;
+  overflow-x:auto;
+  margin-bottom:15px;
 }
 
 table{
- width:100%;
- border-collapse:collapse;
- min-width:650px;
+  width:100%;
+  border-collapse:collapse;
+  min-width:650px;
 }
 
-th,td{
- padding:11px;
- border-bottom:1px solid #eee;
- text-align:left;
+th,
+td{
+  padding:12px;
+  border-bottom:1px solid #eee;
+  text-align:left;
+  font-size:14px;
 }
 
 th{
- background:#f0f4f2;
+  background:#f0f4f2;
+  color:#087443;
+}
+
+.status{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:12px;
+  background:#fff1bd;
+  color:#665000;
 }
 
 
-/* ADMIN */
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+.logout-btn{
+  border:0;
+  background:#c62828;
+  color:#fff;
+  padding:10px 15px;
+  min-height:42px;
+  border-radius:8px;
+  font-weight:bold;
+}
+
+
+/* =====================================================
+   ADMIN
+===================================================== */
 
 #adminPage{
- display:none;
+  display:none;
+  min-height:100vh;
 }
 
 .admin-container{
- padding:25px 5%;
+  padding:25px 5%;
+  max-width:1100px;
+  margin:auto;
 }
 
 .admin-title{
- color:#087443;
- margin-bottom:20px;
+  color:#087443;
+  margin-bottom:20px;
 }
 
 .admin-card{
- background:white;
- padding:20px;
- border-radius:12px;
- margin-bottom:20px;
- box-shadow:0 3px 12px rgba(0,0,0,.07);
+  background:#fff;
+  padding:20px;
+  border-radius:13px;
+  margin-bottom:20px;
+  box-shadow:0 3px 13px rgba(0,0,0,.07);
 }
 
 .admin-card h3{
- color:#087443;
- margin-bottom:15px;
+  color:#087443;
+  margin-bottom:15px;
 }
 
 .user-row,
 .deposit-row{
- border-bottom:1px solid #eee;
- padding:15px 0;
+  border-bottom:1px solid #eee;
+  padding:15px 0;
+  line-height:1.7;
 }
 
 .user-row:last-child,
 .deposit-row:last-child{
- border-bottom:0;
+  border-bottom:0;
 }
 
 .small-btn{
- border:0;
- padding:9px 12px;
- border-radius:6px;
- background:#087443;
- color:white;
- margin-right:5px;
+  border:0;
+  padding:9px 12px;
+  min-height:40px;
+  border-radius:7px;
+  background:#087443;
+  color:#fff;
+  margin-right:5px;
+  font-weight:bold;
 }
 
 .reject-btn{
- background:#c62828;
+  background:#c62828;
 }
 
-.status{
- display:inline-block;
- padding:5px 9px;
- border-radius:20px;
- font-size:12px;
- background:#fff1bd;
-}
+
+/* =====================================================
+   MOBILE
+===================================================== */
 
 @media(max-width:600px){
 
- .hero h1{
-  font-size:32px;
- }
+  header{
+    padding:13px 15px;
+  }
 
- .logo{
-  font-size:18px;
- }
+  .logo{
+    font-size:18px;
+  }
 
- .header-buttons button{
-  padding:8px 10px;
- }
+  .header-buttons button{
+    padding:8px 10px;
+    min-height:39px;
+    font-size:13px;
+  }
 
+  .hero{
+    min-height:70vh;
+    padding:35px 18px;
+  }
+
+  .hero h1{
+    font-size:32px;
+  }
+
+  .hero p{
+    font-size:15px;
+  }
+
+  .hero button{
+    width:100%;
+    margin:5px 0;
+  }
+
+  .dashboard,
+  .admin-container{
+    padding:20px 15px;
+  }
+
+  .balance{
+    font-size:30px;
+  }
+
+  .panel{
+    padding:18px 15px;
+  }
+
+  .services{
+    grid-template-columns:
+      repeat(2,1fr);
+    gap:10px;
+  }
+
+  .service-card{
+    padding:17px 8px;
+  }
+
+  .plan-grid{
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+  .auth-box{
+    padding:25px 18px;
+  }
 }
 
 </style>
@@ -473,727 +703,842 @@ th{
 <body>
 
 
-<!-- =========================
+<!-- =====================================================
      LANDING PAGE
-========================= -->
+===================================================== -->
 
 <div id="landingPage">
 
 <header>
 
- <div class="logo">
-  A-T-L <span>DATA</span>
- </div>
+  <div class="logo">
+    A-T-L <span>DATA</span>
+  </div>
 
- <div class="header-buttons">
+  <div class="header-buttons">
 
-  <button
-   class="login-btn"
-   onclick="openAuth('login')">
-   Login
-  </button>
+    <button
+      type="button"
+      class="login-btn"
+      onclick="openAuth('login')">
+      Login
+    </button>
 
-  <button
-   class="register-btn"
-   onclick="openAuth('register')">
-   Register
-  </button>
+    <button
+      type="button"
+      class="register-btn"
+      onclick="openAuth('register')">
+      Register
+    </button>
 
- </div>
+  </div>
 
 </header>
 
 
 <section class="hero">
 
- <div class="hero-content">
+  <div class="hero-content">
 
-  <h1>
-   Your <span>Digital Service</span> Platform
-  </h1>
+    <h1>
+      Your <span>Digital Service</span> Platform
+    </h1>
 
-  <p>
-   Buy Data, Airtime and pay your bills
-   from one simple and secure platform.
-  </p>
+    <p>
+      Buy Data, Airtime and pay your bills
+      from one simple and secure platform.
+    </p>
 
-  <button
-   class="main-btn"
-   onclick="openAuth('login')">
-   Login
-  </button>
+    <button
+      type="button"
+      class="main-btn"
+      onclick="openAuth('login')">
+      Login
+    </button>
 
-  <button
-   class="second-btn"
-   onclick="openAuth('register')">
-   Create Account
-  </button>
+    <button
+      type="button"
+      class="second-btn"
+      onclick="openAuth('register')">
+      Create Account
+    </button>
 
- </div>
+  </div>
 
 </section>
 
 
 <footer>
- © 2026 A-T-L DATA. All Rights Reserved.
+  © 2026 A-T-L DATA. All Rights Reserved.
 </footer>
 
 </div>
 
 
 
-<!-- =========================
+<!-- =====================================================
      VERIFY PAGE
-========================= -->
+===================================================== -->
 
 <div id="verifyPage">
 
- <div class="verify-box">
+  <div class="verify-box">
 
-  <h2>Verify Your Email</h2>
+    <h2>Verify Your Email</h2>
 
-  <p>
-   We sent a verification link to
-   <strong id="verifyEmail"></strong>.
-   Verify your email before entering
-   your dashboard.
-  </p>
+    <p>
+      We sent a verification link to
+      <strong id="verifyEmail"></strong>.
+      Please verify your email before using
+      your dashboard.
+    </p>
 
-  <button
-   class="action-btn"
-   onclick="checkVerification()">
-   I Have Verified My Email
-  </button>
+    <button
+      type="button"
+      class="action-btn"
+      onclick="checkVerification()">
+      I Have Verified My Email
+    </button>
 
-  <br><br>
+    <button
+      type="button"
+      class="action-btn"
+      onclick="resendVerification()">
+      Resend Verification Email
+    </button>
 
-  <button
-   class="action-btn"
-   onclick="resendVerification()">
-   Resend Verification Email
-  </button>
+    <button
+      type="button"
+      onclick="logoutUser()"
+      style="
+        border:0;
+        background:none;
+        color:#087443;
+        font-weight:bold;
+        padding:8px;
+      ">
+      Logout
+    </button>
 
-  <br><br>
+    <div
+      id="verifyMessage"
+      class="message">
+    </div>
 
-  <button
-   onclick="logoutUser()"
-   style="
-    border:0;
-    background:none;
-    color:#087443;
-    font-weight:bold;
-   ">
-   Logout
-  </button>
-
-  <div
-   id="verifyMessage"
-   class="message">
   </div>
-
- </div>
 
 </div>
 
 
 
-<!-- =========================
+<!-- =====================================================
      USER APP
-========================= -->
+===================================================== -->
 
 <div id="appPage">
 
 <header>
 
- <div class="logo">
-  A-T-L <span>DATA</span>
- </div>
+  <div class="logo">
+    A-T-L <span>DATA</span>
+  </div>
 
- <button
-  class="logout-btn"
-  onclick="logoutUser()">
-  Logout
- </button>
+  <button
+    type="button"
+    class="logout-btn"
+    onclick="logoutUser()">
+    Logout
+  </button>
 
 </header>
 
 
 <div class="dashboard">
 
- <div class="welcome">
 
-  <h2 id="welcomeName">
-   Welcome
-  </h2>
+  <div class="welcome">
 
-  <p>
-   Manage your A-T-L DATA account.
-  </p>
+    <h2 id="welcomeName">
+      Welcome
+    </h2>
 
- </div>
+    <p>
+      Manage your A-T-L DATA account.
+    </p>
+
+  </div>
 
 
- <!-- BALANCE -->
+  <!-- BALANCE -->
 
- <div class="balance-card">
+  <div class="balance-card">
 
-  <small>Wallet Balance</small>
+    <small>Wallet Balance</small>
+
+    <div
+      class="balance"
+      id="walletBalance">
+      ₦0.00
+    </div>
+
+    <small>
+      Fund your wallet through Deposit Request.
+    </small>
+
+  </div>
+
+
+  <!-- SERVICES -->
+
+  <div class="services">
+
+    <div
+      class="service-card"
+      onclick="openService('dataPanel')">
+
+      <div style="font-size:30px;">
+        📶
+      </div>
+
+      <h3>Data</h3>
+
+      <p>Buy Data</p>
+
+    </div>
+
+
+    <div
+      class="service-card"
+      onclick="openService('airtimePanel')">
+
+      <div style="font-size:30px;">
+        📱
+      </div>
+
+      <h3>Airtime</h3>
+
+      <p>Buy Airtime</p>
+
+    </div>
+
+
+    <div
+      class="service-card"
+      onclick="openService('billsPanel')">
+
+      <div style="font-size:30px;">
+        💡
+      </div>
+
+      <h3>Bills</h3>
+
+      <p>Pay Bills</p>
+
+    </div>
+
+
+    <div
+      class="service-card"
+      onclick="openService('depositPanel')">
+
+      <div style="font-size:30px;">
+        💳
+      </div>
+
+      <h3>Deposit</h3>
+
+      <p>Fund Wallet</p>
+
+    </div>
+
+
+    <div
+      class="service-card"
+      onclick="openService('transactionsPanel')">
+
+      <div style="font-size:30px;">
+        📋
+      </div>
+
+      <h3>Transactions</h3>
+
+      <p>History</p>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =================================================
+       DATA
+  ================================================== -->
 
   <div
-   class="balance"
-   id="walletBalance">
-   ₦0.00
+    id="dataPanel"
+    class="panel">
+
+    <h2>Buy Data</h2>
+
+    <div class="notice">
+      TEST MODE: Data purchase is not connected
+      to a real provider yet.
+    </div>
+
+    <select
+      id="dataNetwork"
+      onchange="renderPlans()">
+
+      <option value="MTN">
+        MTN
+      </option>
+
+      <option value="Airtel">
+        Airtel
+      </option>
+
+      <option value="Glo">
+        Glo
+      </option>
+
+      <option value="9mobile">
+        9mobile
+      </option>
+
+    </select>
+
+
+    <input
+      id="dataPhone"
+      type="tel"
+      inputmode="numeric"
+      placeholder="Phone Number">
+
+
+    <div
+      id="plans"
+      class="plan-grid">
+    </div>
+
+
+    <button
+      type="button"
+      class="back-btn"
+      onclick="backToDashboard()">
+      ← Back to Dashboard
+    </button>
+
   </div>
 
-  <small>
-   Add money through Deposit Request.
-  </small>
-
- </div>
 
 
- <!-- SERVICES -->
-
- <div class="services">
+  <!-- DATA CONFIRM -->
 
   <div
-   class="service-card"
-   onclick="openService('dataPanel')">
+    id="dataConfirmPanel"
+    class="panel">
 
-   <div style="font-size:30px;">📶</div>
+    <h2>
+      Confirm Data Purchase
+    </h2>
 
-   <h3>Data</h3>
+    <div
+      id="dataConfirm"
+      class="confirm-box">
+    </div>
 
-   <p>Buy Data</p>
+    <button
+      type="button"
+      class="action-btn"
+      onclick="completeDemoData()">
+      Continue
+    </button>
+
+    <button
+      type="button"
+      class="back-btn"
+      onclick="openService('dataPanel')">
+      ← Back
+    </button>
 
   </div>
 
+
+
+  <!-- =================================================
+       AIRTIME
+  ================================================== -->
 
   <div
-   class="service-card"
-   onclick="openService('airtimePanel')">
+    id="airtimePanel"
+    class="panel">
 
-   <div style="font-size:30px;">📱</div>
+    <h2>Buy Airtime</h2>
 
-   <h3>Airtime</h3>
+    <select id="airtimeNetwork">
 
-   <p>Buy Airtime</p>
+      <option>
+        MTN
+      </option>
+
+      <option>
+        Airtel
+      </option>
+
+      <option>
+        Glo
+      </option>
+
+      <option>
+        9mobile
+      </option>
+
+    </select>
+
+
+    <input
+      id="airtimePhone"
+      type="tel"
+      inputmode="numeric"
+      placeholder="Phone Number">
+
+
+    <input
+      id="airtimeAmount"
+      type="number"
+      inputmode="numeric"
+      placeholder="Amount">
+
+
+    <button
+      type="button"
+      class="action-btn"
+      onclick="continueAirtime()">
+      Continue
+    </button>
+
+
+    <button
+      type="button"
+      class="back-btn"
+      onclick="backToDashboard()">
+      ← Back to Dashboard
+    </button>
 
   </div>
 
+
+
+  <!-- AIRTIME CONFIRM -->
 
   <div
-   class="service-card"
-   onclick="openService('billsPanel')">
+    id="airtimeConfirmPanel"
+    class="panel">
 
-   <div style="font-size:30px;">💡</div>
+    <h2>
+      Confirm Airtime
+    </h2>
 
-   <h3>Bills</h3>
+    <div
+      id="airtimeConfirm"
+      class="confirm-box">
+    </div>
 
-   <p>Pay Bills</p>
+    <button
+      type="button"
+      class="action-btn"
+      onclick="completeDemoAirtime()">
+      Continue
+    </button>
+
+    <button
+      type="button"
+      class="back-btn"
+      onclick="openService('airtimePanel')">
+      ← Back
+    </button>
 
   </div>
 
+
+
+  <!-- =================================================
+       BILLS
+  ================================================== -->
 
   <div
-   class="service-card"
-   onclick="openService('depositPanel')">
+    id="billsPanel"
+    class="panel">
 
-   <div style="font-size:30px;">💳</div>
+    <h2>Pay Bills</h2>
 
-   <h3>Deposit</h3>
+    <div class="notice">
+      TEST MODE: Bill payment is not connected
+      to a real provider yet.
+    </div>
 
-   <p>Fund Wallet</p>
+
+    <select
+      id="billService"
+      onchange="changeBillForm()">
+
+      <option value="">
+        Select Service
+      </option>
+
+      <option value="electricity">
+        Electricity
+      </option>
+
+      <option value="neco">
+        NECO
+      </option>
+
+      <option value="tv">
+        TV Subscription
+      </option>
+
+      <option value="internet">
+        Internet
+      </option>
+
+    </select>
+
+
+    <!-- ELECTRICITY -->
+
+    <div
+      id="electricityForm"
+      style="display:none;">
+
+      <input
+        id="meterNumber"
+        placeholder="Meter Number">
+
+      <input
+        id="electricityAmount"
+        type="number"
+        inputmode="numeric"
+        placeholder="Amount">
+
+      <button
+        type="button"
+        class="action-btn"
+        onclick="continueBill('Electricity')">
+        Continue
+      </button>
+
+    </div>
+
+
+    <!-- NECO -->
+
+    <div
+      id="necoForm"
+      style="display:none;">
+
+      <input
+        id="necoNumber"
+        placeholder="NECO Registration Number">
+
+      <input
+        id="necoAmount"
+        type="number"
+        inputmode="numeric"
+        placeholder="Amount">
+
+      <button
+        type="button"
+        class="action-btn"
+        onclick="continueBill('NECO')">
+        Continue
+      </button>
+
+    </div>
+
+
+    <!-- TV -->
+
+    <div
+      id="tvForm"
+      style="display:none;">
+
+      <select id="tvProvider">
+
+        <option>
+          DSTV
+        </option>
+
+        <option>
+          GOTV
+        </option>
+
+        <option>
+          Startimes
+        </option>
+
+      </select>
+
+      <input
+        id="smartcard"
+        placeholder="Smartcard / IUC Number">
+
+      <input
+        id="tvAmount"
+        type="number"
+        inputmode="numeric"
+        placeholder="Amount">
+
+      <button
+        type="button"
+        class="action-btn"
+        onclick="continueBill('TV')">
+        Continue
+      </button>
+
+    </div>
+
+
+    <!-- INTERNET -->
+
+    <div
+      id="internetForm"
+      style="display:none;">
+
+      <input
+        id="internetPhone"
+        placeholder="Account Number">
+
+      <input
+        id="internetAmount"
+        type="number"
+        inputmode="numeric"
+        placeholder="Amount">
+
+      <button
+        type="button"
+        class="action-btn"
+        onclick="continueBill('Internet')">
+        Continue
+      </button>
+
+    </div>
+
+
+    <button
+      type="button"
+      class="back-btn"
+      onclick="backToDashboard()">
+      ← Back to Dashboard
+    </button>
 
   </div>
 
+
+
+  <!-- BILL CONFIRM -->
 
   <div
-   class="service-card"
-   onclick="openService('transactionsPanel')">
+    id="billConfirmPanel"
+    class="panel">
 
-   <div style="font-size:30px;">📋</div>
+    <h2>
+      Confirm Bill Payment
+    </h2>
 
-   <h3>Transactions</h3>
+    <div
+      id="billConfirm"
+      class="confirm-box">
+    </div>
 
-   <p>History</p>
+    <button
+      type="button"
+      class="action-btn"
+      onclick="completeDemoBill()">
+      Continue
+    </button>
+
+    <button
+      type="button"
+      class="back-btn"
+      onclick="openService('billsPanel')">
+      ← Back
+    </button>
 
   </div>
 
- </div>
 
 
-
- <!-- =====================
-      DATA PANEL
- ====================== -->
-
- <div
-  id="dataPanel"
-  class="panel">
-
-  <h2>Buy Data</h2>
-
-  <div class="notice">
-   TEST MODE — Real VTpass purchase will be
-   connected through secure backend.
-  </div>
-
-
-  <select
-   id="dataNetwork"
-   onchange="renderPlans()">
-
-   <option value="MTN">MTN</option>
-   <option value="Airtel">Airtel</option>
-   <option value="Glo">Glo</option>
-   <option value="9mobile">9mobile</option>
-
-  </select>
-
-
-  <input
-   id="dataPhone"
-   type="tel"
-   placeholder="Phone Number">
-
+  <!-- =================================================
+       DEPOSIT
+  ================================================== -->
 
   <div
-   id="plans"
-   class="plan-grid">
+    id="depositPanel"
+    class="panel">
+
+    <h2>Deposit</h2>
+
+    <div class="notice">
+
+      Choose how much you want to deposit.
+
+      <br>
+
+      Your wallet will NOT increase automatically.
+
+      The administrator must confirm your payment
+      first.
+
+    </div>
+
+
+    <select id="depositAmount">
+
+      <option value="">
+        Select Deposit Amount
+      </option>
+
+      <option value="1000">
+        ₦1,000
+      </option>
+
+      <option value="2000">
+        ₦2,000
+      </option>
+
+      <option value="5000">
+        ₦5,000
+      </option>
+
+      <option value="10000">
+        ₦10,000
+      </option>
+
+      <option value="20000">
+        ₦20,000
+      </option>
+
+      <option value="50000">
+        ₦50,000
+      </option>
+
+    </select>
+
+
+    <button
+      type="button"
+      class="action-btn"
+      onclick="continueDeposit()">
+      Continue
+    </button>
+
+
+    <button
+      type="button"
+      class="back-btn"
+      onclick="backToDashboard()">
+      ← Back to Dashboard
+    </button>
+
   </div>
 
 
-  <button
-   class="back-btn"
-   onclick="backToDashboard()">
-   ← Back to Dashboard
-  </button>
 
- </div>
-
-
-
- <!-- =====================
-      DATA CONFIRM
- ====================== -->
-
- <div
-  id="dataConfirmPanel"
-  class="panel">
-
-  <h2>Confirm Data Purchase</h2>
+  <!-- DEPOSIT CONFIRM -->
 
   <div
-   id="dataConfirm"
-   class="confirm-box">
+    id="depositConfirmPanel"
+    class="panel">
+
+    <h2>
+      Deposit Request
+    </h2>
+
+    <div
+      id="depositConfirm"
+      class="confirm-box">
+    </div>
+
+    <button
+      type="button"
+      class="action-btn"
+      onclick="submitDepositRequest()">
+      I Have Paid
+    </button>
+
+    <button
+      type="button"
+      class="back-btn"
+      onclick="openService('depositPanel')">
+      ← Back
+    </button>
+
   </div>
 
-  <button
-   class="action-btn"
-   onclick="completeDemoData()">
-   Continue
-  </button>
-
-  <button
-   class="back-btn"
-   onclick="openService('dataPanel')">
-   ← Back
-  </button>
-
- </div>
 
 
-
- <!-- =====================
-      AIRTIME
- ====================== -->
-
- <div
-  id="airtimePanel"
-  class="panel">
-
-  <h2>Buy Airtime</h2>
-
-  <select id="airtimeNetwork">
-
-   <option>MTN</option>
-   <option>Airtel</option>
-   <option>Glo</option>
-   <option>9mobile</option>
-
-  </select>
-
-
-  <input
-   id="airtimePhone"
-   type="tel"
-   placeholder="Phone Number">
-
-
-  <input
-   id="airtimeAmount"
-   type="number"
-   placeholder="Amount">
-
-
-  <button
-   class="action-btn"
-   onclick="continueAirtime()">
-   Continue
-  </button>
-
-
-  <button
-   class="back-btn"
-   onclick="backToDashboard()">
-   ← Back to Dashboard
-  </button>
-
- </div>
-
-
-
- <!-- AIRTIME CONFIRM -->
-
- <div
-  id="airtimeConfirmPanel"
-  class="panel">
-
-  <h2>Confirm Airtime</h2>
+  <!-- =================================================
+       TRANSACTIONS
+  ================================================== -->
 
   <div
-   id="airtimeConfirm"
-   class="confirm-box">
-  </div>
+    id="transactionsPanel"
+    class="panel">
 
-  <button
-   class="action-btn"
-   onclick="completeDemoAirtime()">
-   Continue
-  </button>
+    <h2>
+      Transactions
+    </h2>
 
-  <button
-   class="back-btn"
-   onclick="openService('airtimePanel')">
-   ← Back
-  </button>
+    <div class="table-wrap">
 
- </div>
+      <table>
 
+        <thead>
 
+          <tr>
 
- <!-- =====================
-      BILLS
- ====================== -->
+            <th>
+              Service
+            </th>
 
- <div
-  id="billsPanel"
-  class="panel">
+            <th>
+              Details
+            </th>
 
-  <h2>Pay Bills</h2>
+            <th>
+              Amount
+            </th>
 
-  <select
-   id="billService"
-   onchange="changeBillForm()">
+            <th>
+              Status
+            </th>
 
-   <option value="">
-    Select Service
-   </option>
+            <th>
+              Date
+            </th>
 
-   <option value="electricity">
-    Electricity
-   </option>
+          </tr>
 
-   <option value="neco">
-    NECO
-   </option>
+        </thead>
 
-   <option value="tv">
-    TV Subscription
-   </option>
+        <tbody
+          id="transactionTable">
+        </tbody>
 
-   <option value="internet">
-    Internet
-   </option>
+      </table>
 
-  </select>
+    </div>
 
 
-  <div
-   id="electricityForm"
-   style="display:none;">
-
-   <input
-    id="meterNumber"
-    placeholder="Meter Number">
-
-   <input
-    id="electricityAmount"
-    type="number"
-    placeholder="Amount">
-
-   <button
-    class="action-btn"
-    onclick="continueBill('Electricity')">
-    Continue
-   </button>
+    <button
+      type="button"
+      class="back-btn"
+      onclick="backToDashboard()">
+      ← Back to Dashboard
+    </button>
 
   </div>
-
-
-  <div
-   id="necoForm"
-   style="display:none;">
-
-   <input
-    id="necoNumber"
-    placeholder="NECO Registration Number">
-
-   <input
-    id="necoAmount"
-    type="number"
-    placeholder="Amount">
-
-   <button
-    class="action-btn"
-    onclick="continueBill('NECO')">
-    Continue
-   </button>
-
-  </div>
-
-
-  <div
-   id="tvForm"
-   style="display:none;">
-
-   <select id="tvProvider">
-
-    <option>DSTV</option>
-    <option>GOTV</option>
-    <option>Startimes</option>
-
-   </select>
-
-   <input
-    id="smartcard"
-    placeholder="Smartcard / IUC Number">
-
-   <input
-    id="tvAmount"
-    type="number"
-    placeholder="Amount">
-
-   <button
-    class="action-btn"
-    onclick="continueBill('TV')">
-    Continue
-   </button>
-
-  </div>
-
-
-  <div
-   id="internetForm"
-   style="display:none;">
-
-   <input
-    id="internetPhone"
-    placeholder="Account Number">
-
-   <input
-    id="internetAmount"
-    type="number"
-    placeholder="Amount">
-
-   <button
-    class="action-btn"
-    onclick="continueBill('Internet')">
-    Continue
-   </button>
-
-  </div>
-
-
-  <button
-   class="back-btn"
-   onclick="backToDashboard()">
-   ← Back to Dashboard
-  </button>
-
- </div>
-
-
-
- <!-- BILL CONFIRM -->
-
- <div
-  id="billConfirmPanel"
-  class="panel">
-
-  <h2>Confirm Bill Payment</h2>
-
-  <div
-   id="billConfirm"
-   class="confirm-box">
-  </div>
-
-  <button
-   class="action-btn"
-   onclick="completeDemoBill()">
-   Continue
-  </button>
-
-  <button
-   class="back-btn"
-   onclick="openService('billsPanel')">
-   ← Back
-  </button>
-
- </div>
-
-
-
- <!-- =====================
-      DEPOSIT
- ====================== -->
-
- <div
-  id="depositPanel"
-  class="panel">
-
-  <h2>Deposit</h2>
-
-  <div class="notice">
-
-   Choose the amount you want to deposit.
-   This request will NOT increase your balance
-   automatically.
-
-  </div>
-
-
-  <select id="depositAmount">
-
-   <option value="">
-    Select Deposit Amount
-   </option>
-
-   <option value="1000">
-    ₦1,000
-   </option>
-
-   <option value="2000">
-    ₦2,000
-   </option>
-
-   <option value="5000">
-    ₦5,000
-   </option>
-
-   <option value="10000">
-    ₦10,000
-   </option>
-
-   <option value="20000">
-    ₦20,000
-   </option>
-
-   <option value="50000">
-    ₦50,000
-   </option>
-
-  </select>
-
-
-  <button
-   class="action-btn"
-   onclick="continueDeposit()">
-   Continue
-  </button>
-
-
-  <button
-   class="back-btn"
-   onclick="backToDashboard()">
-   ← Back to Dashboard
-  </button>
-
- </div>
-
-
-
- <!-- DEPOSIT CONFIRM -->
-
- <div
-  id="depositConfirmPanel"
-  class="panel">
-
-  <h2>Deposit Request</h2>
-
-  <div
-   id="depositConfirm"
-   class="confirm-box">
-  </div>
-
-  <button
-   class="action-btn"
-   onclick="submitDepositRequest()">
-   I Have Paid
-  </button>
-
-  <button
-   class="back-btn"
-   onclick="openService('depositPanel')">
-   ← Back
-  </button>
-
- </div>
-
-
-
- <!-- =====================
-      TRANSACTIONS
- ====================== -->
-
- <div
-  id="transactionsPanel"
-  class="panel">
-
-  <h2>Transactions</h2>
-
-  <div class="table-wrap">
-
-   <table>
-
-    <thead>
-
-     <tr>
-      <th>Service</th>
-      <th>Details</th>
-      <th>Amount</th>
-      <th>Status</th>
-      <th>Date</th>
-     </tr>
-
-    </thead>
-
-    <tbody id="transactionTable">
-    </tbody>
-
-   </table>
-
-  </div>
-
-
-  <button
-   class="back-btn"
-   onclick="backToDashboard()">
-   ← Back to Dashboard
-  </button>
-
- </div>
 
 </div>
 
@@ -1201,166 +1546,173 @@ th{
 
 
 
-<!-- =========================
-     ADMIN
-========================= -->
+<!-- =====================================================
+     ADMIN PAGE
+===================================================== -->
 
 <div id="adminPage">
 
 <header>
 
- <div class="logo">
-  A-T-L <span>ADMIN</span>
- </div>
+  <div class="logo">
+    A-T-L <span>ADMIN</span>
+  </div>
 
- <button
-  class="logout-btn"
-  onclick="logoutUser()">
-  Logout
- </button>
+  <button
+    type="button"
+    class="logout-btn"
+    onclick="logoutUser()">
+    Logout
+  </button>
 
 </header>
 
 
 <div class="admin-container">
 
- <h2 class="admin-title">
-  Admin Dashboard
- </h2>
-
-
- <div class="admin-card">
-
-  <h3>
-   Deposit Requests
-  </h3>
-
-  <div id="depositRequests">
-   Loading...
-  </div>
-
- </div>
-
-
- <div class="admin-card">
-
-  <h3>
-   Users
-  </h3>
-
-  <div id="usersList">
-   Loading...
-  </div>
-
- </div>
-
-</div>
-
-</div>
-
-
-
-<!-- =========================
-     AUTH
-========================= -->
-
-<div
- id="authOverlay"
- class="auth-overlay">
-
- <div class="auth-box">
-
-  <div
-   class="close"
-   onclick="closeAuth()">
-   ×
-  </div>
-
-
-  <h2 id="authTitle">
-   Login
+  <h2 class="admin-title">
+    Admin Dashboard
   </h2>
 
 
-  <div
-   id="authMessage"
-   class="message">
-  </div>
+  <div class="admin-card">
 
+    <h3>
+      Deposit Requests
+    </h3>
 
-  <div
-   id="nameField"
-   style="display:none;">
-
-   <input
-    id="authName"
-    type="text"
-    placeholder="Full Name">
+    <div id="depositRequests">
+      Loading...
+    </div>
 
   </div>
 
 
-  <input
-   id="authEmail"
-   type="email"
-   placeholder="Email Address">
+  <div class="admin-card">
 
+    <h3>
+      Users
+    </h3>
 
-  <input
-   id="authPassword"
-   type="password"
-   placeholder="Password">
-
-
-  <button
-   id="authSubmit"
-   class="action-btn"
-   onclick="submitAuth()">
-   Login
-  </button>
-
-
-  <div
-   id="forgotArea"
-   style="
-    text-align:center;
-    margin-top:12px;
-   ">
-
-   <span
-    onclick="forgotPassword()"
-    style="
-     color:#087443;
-     font-weight:bold;
-     cursor:pointer;
-     font-size:14px;
-    ">
-    Forgot Password?
-   </span>
+    <div id="usersList">
+      Loading...
+    </div>
 
   </div>
 
-
-  <div
-   class="auth-switch"
-   id="authSwitch">
-
-   Don't have an account?
-
-   <span
-    onclick="switchAuth('register')">
-    Register
-   </span>
-
-  </div>
-
- </div>
+</div>
 
 </div>
 
 
 
-<!-- FIREBASE -->
+<!-- =====================================================
+     AUTH MODAL
+===================================================== -->
+
+<div
+  id="authOverlay"
+  class="auth-overlay">
+
+  <div
+    class="auth-box"
+    onclick="event.stopPropagation()">
+
+    <div
+      class="close"
+      onclick="closeAuth()">
+      ×
+    </div>
+
+
+    <h2 id="authTitle">
+      Login
+    </h2>
+
+
+    <div
+      id="authMessage"
+      class="message">
+    </div>
+
+
+    <div
+      id="nameField"
+      style="display:none;">
+
+      <input
+        id="authName"
+        type="text"
+        placeholder="Full Name">
+
+    </div>
+
+
+    <input
+      id="authEmail"
+      type="email"
+      placeholder="Email Address">
+
+
+    <input
+      id="authPassword"
+      type="password"
+      placeholder="Password">
+
+
+    <button
+      id="authSubmit"
+      type="button"
+      class="action-btn"
+      onclick="submitAuth()">
+      Login
+    </button>
+
+
+    <div
+      id="forgotArea"
+      style="
+        text-align:center;
+        margin-top:3px;
+        margin-bottom:12px;
+      ">
+
+      <span
+        onclick="forgotPassword()"
+        style="
+          color:#087443;
+          font-weight:bold;
+          cursor:pointer;
+          font-size:14px;
+        ">
+        Forgot Password?
+      </span>
+
+    </div>
+
+
+    <div
+      class="auth-switch"
+      id="authSwitch">
+
+      Don't have an account?
+
+      <span
+        onclick="switchAuth('register')">
+        Register
+      </span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     FIREBASE
+===================================================== -->
 
 <script src="https://www.gstatic.com/firebasejs/12.2.1/firebase-app-compat.js"></script>
 
@@ -1371,42 +1723,54 @@ th{
 
 <script>
 
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
+
 const firebaseConfig = {
 
- apiKey:
- "AIzaSyA_x5ZYj7D5Dt_9Bq-NzlchpRPRd3QN21I",
+  apiKey:
+    "AIzaSyA_x5ZYj7D5Dt_9Bq-NzlchpRPRd3QN21I",
 
- authDomain:
- "a-t-l-data.firebaseapp.com",
+  authDomain:
+    "a-t-l-data.firebaseapp.com",
 
- projectId:
- "a-t-l-data",
+  projectId:
+    "a-t-l-data",
 
- storageBucket:
- "a-t-l-data.firebasestorage.app",
+  storageBucket:
+    "a-t-l-data.firebasestorage.app",
 
- messagingSenderId:
- "519558305824",
+  messagingSenderId:
+    "519558305824",
 
- appId:
- "1:519558305824:web:cf6dd75ef20ef708c24445"
+  appId:
+    "1:519558305824:web:cf6dd75ef20ef708c24445"
 
 };
 
 
-firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(
+  firebaseConfig
+);
+
 
 const auth =
- firebase.auth();
+  firebase.auth();
+
 
 const db =
- firebase.firestore();
+  firebase.firestore();
 
 
 auth.setPersistence(
- firebase.auth.Auth.Persistence.LOCAL
+  firebase.auth.Auth.Persistence.LOCAL
 );
 
+
+/* =====================================================
+   GLOBAL VARIABLES
+===================================================== */
 
 let authMode = "login";
 
@@ -1421,2084 +1785,2633 @@ let selectedBill = null;
 let selectedDeposit = null;
 
 
+/* =====================================================
+   SHORT ID FUNCTION
+===================================================== */
 
-/* AUTH */
+function $(id){
+  return document.getElementById(id);
+}
+
+
+/* =====================================================
+   AUTH
+===================================================== */
 
 window.openAuth = function(mode){
 
- authMode = mode;
+  authMode = mode;
 
- document.getElementById(
-  "authOverlay"
- ).style.display="flex";
+  $("authOverlay").style.display =
+    "flex";
 
+  $("authMessage").style.display =
+    "none";
 
- document.getElementById(
-  "authMessage"
- ).style.display="none";
+  if(mode === "login"){
 
+    $("authTitle").textContent =
+      "Login";
 
- if(mode==="login"){
+    $("authSubmit").textContent =
+      "Login";
 
-  document.getElementById(
-   "authTitle"
-  ).textContent="Login";
+    $("nameField").style.display =
+      "none";
 
-  document.getElementById(
-   "authSubmit"
-  ).textContent="Login";
+    $("forgotArea").style.display =
+      "block";
 
-  document.getElementById(
-   "nameField"
-  ).style.display="none";
+    $("authSwitch").innerHTML =
+      `
+      Don't have an account?
 
-  document.getElementById(
-   "forgotArea"
-  ).style.display="block";
-
-
-  document.getElementById(
-   "authSwitch"
-  ).innerHTML=
-  `Don't have an account?
-   <span onclick="switchAuth('register')">
-   Register
-   </span>`;
-
- }else{
-
-  document.getElementById(
-   "authTitle"
-  ).textContent="Create Account";
-
-  document.getElementById(
-   "authSubmit"
-  ).textContent="Register";
-
-  document.getElementById(
-   "nameField"
-  ).style.display="block";
-
-  document.getElementById(
-   "forgotArea"
-  ).style.display="none";
-
-
-  document.getElementById(
-   "authSwitch"
-  ).innerHTML=
-  `Already have an account?
-   <span onclick="switchAuth('login')">
-   Login
-   </span>`;
-
- }
-
-};
-
-
-window.switchAuth=function(mode){
-
- openAuth(mode);
-
-};
-
-
-window.closeAuth=function(){
-
- document.getElementById(
-  "authOverlay"
- ).style.display="none";
-
-};
-
-
-function showAuthMessage(
- message,
- type
-){
-
- const box =
- document.getElementById(
-  "authMessage"
- );
-
- box.textContent=message;
-
- box.className=
- "message "+type;
-
- box.style.display="block";
-
-}
-
-
-
-/* REGISTER / LOGIN */
-
-window.submitAuth=async function(){
-
- const email =
- document.getElementById(
-  "authEmail"
- ).value.trim();
-
- const password =
- document.getElementById(
-  "authPassword"
- ).value;
-
- const name =
- document.getElementById(
-  "authName"
- ).value.trim();
-
-
- if(!email || !password){
-
-  showAuthMessage(
-   "Enter email and password.",
-   "error"
-  );
-
-  return;
-
- }
-
-
- if(
-  authMode==="register"
-  &&
-  !name
- ){
-
-  showAuthMessage(
-   "Enter your full name.",
-   "error"
-  );
-
-  return;
-
- }
-
-
- const button =
- document.getElementById(
-  "authSubmit"
- );
-
- button.disabled=true;
-
- button.textContent=
- "Please wait...";
-
-
- try{
-
-  if(authMode==="register"){
-
-   const result =
-    await auth
-    .createUserWithEmailAndPassword(
-     email,
-     password
-    );
-
-
-   const user =
-    result.user;
-
-
-   await db
-    .collection("users")
-    .doc(user.uid)
-    .set({
-
-     name:name,
-
-     email:email,
-
-     role:"user",
-
-     balance:0,
-
-     transactions:[],
-
-     createdAt:
-      firebase.firestore
-      .FieldValue
-      .serverTimestamp()
-
-    });
-
-
-   await user.sendEmailVerification();
-
-
-   closeAuth();
-
-
-   document.getElementById(
-    "landingPage"
-   ).style.display="none";
-
-
-   document.getElementById(
-    "verifyPage"
-   ).style.display="flex";
-
-
-   document.getElementById(
-    "verifyEmail"
-   ).textContent=email;
-
+      <span onclick="switchAuth('register')">
+        Register
+      </span>
+      `;
 
   }else{
 
-   const result =
-    await auth
-    .signInWithEmailAndPassword(
-     email,
-     password
-    );
+    $("authTitle").textContent =
+      "Create Account";
 
+    $("authSubmit").textContent =
+      "Register";
 
-   await result.user.reload();
+    $("nameField").style.display =
+      "block";
 
+    $("forgotArea").style.display =
+      "none";
 
-   if(
-    !result.user.emailVerified
-   ){
+    $("authSwitch").innerHTML =
+      `
+      Already have an account?
 
-    await auth.signOut();
-
-    showAuthMessage(
-     "Please verify your email first.",
-     "error"
-    );
-
-    return;
-
-   }
+      <span onclick="switchAuth('login')">
+        Login
+      </span>
+      `;
 
   }
-
-
- }catch(error){
-
-  let msg=error.message;
-
-
-  if(
-   error.code==="auth/email-already-in-use"
-  )
-   msg="This email is already registered.";
-
-
-  if(
-   error.code==="auth/invalid-email"
-  )
-   msg="Invalid email address.";
-
-
-  if(
-   error.code==="auth/weak-password"
-  )
-   msg="Password must be at least 6 characters.";
-
-
-  if(
-   error.code==="auth/invalid-credential"
-  )
-   msg="Incorrect email or password.";
-
-
-  showAuthMessage(
-   msg,
-   "error"
-  );
-
-
- }finally{
-
-  button.disabled=false;
-
-  button.textContent=
-   authMode==="login"
-   ? "Login"
-   : "Register";
-
- }
 
 };
 
 
+window.switchAuth = function(mode){
 
-/* FORGOT PASSWORD */
-
-window.forgotPassword=async function(){
-
- const email =
-  document.getElementById(
-   "authEmail"
-  ).value.trim();
-
-
- if(!email){
-
-  showAuthMessage(
-   "Enter your email first.",
-   "error"
-  );
-
-  return;
-
- }
-
-
- try{
-
-  await auth.sendPasswordResetEmail(
-   email
-  );
-
-
-  showAuthMessage(
-   "Password reset email sent. Check your inbox.",
-   "success"
-  );
-
-
- }catch(error){
-
-  showAuthMessage(
-   error.message,
-   "error"
-  );
-
- }
+  openAuth(mode);
 
 };
 
 
+window.closeAuth = function(){
 
-/* VERIFICATION */
-
-window.resendVerification=async function(){
-
- if(!auth.currentUser)
-  return;
-
-
- try{
-
-  await auth.currentUser
-   .sendEmailVerification();
-
-
-  document.getElementById(
-   "verifyMessage"
-  ).textContent=
-  "Verification email sent again.";
-
-
-  document.getElementById(
-   "verifyMessage"
-  ).className=
-  "message success";
-
-
-  document.getElementById(
-   "verifyMessage"
-  ).style.display="block";
-
-
- }catch(error){
-
-  alert(error.message);
-
- }
+  $("authOverlay").style.display =
+    "none";
 
 };
 
 
+/* Close when clicking outside */
 
-window.checkVerification=async function(){
+$("authOverlay").addEventListener(
+  "click",
+  function(event){
 
- if(!auth.currentUser)
-  return;
+    if(event.target === this){
 
+      closeAuth();
 
- await auth.currentUser.reload();
-
-
- if(
-  auth.currentUser.emailVerified
- ){
-
-  location.reload();
-
- }else{
-
-  document.getElementById(
-   "verifyMessage"
-  ).textContent=
-  "Email is not verified yet.";
-
-
-  document.getElementById(
-   "verifyMessage"
-  ).className=
-  "message error";
-
-
-  document.getElementById(
-   "verifyMessage"
-  ).style.display="block";
-
- }
-
-};
-
-
-
-/* AUTH STATE */
-
-auth.onAuthStateChanged(
- async function(user){
-
-  currentUser=user;
-
-
-  if(!user){
-
-   document.getElementById(
-    "landingPage"
-   ).style.display="block";
-
-   document.getElementById(
-    "verifyPage"
-   ).style.display="none";
-
-   document.getElementById(
-    "appPage"
-   ).style.display="none";
-
-   document.getElementById(
-    "adminPage"
-   ).style.display="none";
-
-   return;
+    }
 
   }
+);
 
 
-  await user.reload();
+/* =====================================================
+   AUTH MESSAGE
+===================================================== */
 
+function showAuthMessage(
+  message,
+  type
+){
 
-  if(!user.emailVerified){
+  const box =
+    $("authMessage");
 
-   document.getElementById(
-    "landingPage"
-   ).style.display="none";
+  box.textContent =
+    message;
 
-   document.getElementById(
-    "appPage"
-   ).style.display="none";
+  box.className =
+    "message " + type;
 
-   document.getElementById(
-    "adminPage"
-   ).style.display="none";
-
-   document.getElementById(
-    "verifyPage"
-   ).style.display="flex";
-
-   document.getElementById(
-    "verifyEmail"
-   ).textContent=user.email;
-
-   return;
-
-  }
-
-
-  loadAccount();
-
- });
-
-
-
-/* ACCOUNT */
-
-async function loadAccount(){
-
- if(!currentUser)
-  return;
-
-
- const ref =
-  db
-  .collection("users")
-  .doc(currentUser.uid);
-
-
- const snap =
-  await ref.get();
-
-
- if(!snap.exists){
-
-  await ref.set({
-
-   name:
-   currentUser.email
-   .split("@")[0],
-
-   email:
-   currentUser.email,
-
-   role:"user",
-
-   balance:0,
-
-   transactions:[]
-
-  });
-
-  return loadAccount();
-
- }
-
-
- const data =
-  snap.data();
-
-
- document.getElementById(
-  "landingPage"
- ).style.display="none";
-
-
- document.getElementById(
-  "verifyPage"
- ).style.display="none";
-
-
- document.getElementById(
-  "welcomeName"
- ).textContent=
- "Welcome, "+
- (data.name || "User");
-
-
- document.getElementById(
-  "walletBalance"
- ).textContent=
- "₦"+
- Number(
-  data.balance || 0
- ).toLocaleString(
-  "en-NG",
-  {
-   minimumFractionDigits:2
-  }
- );
-
-
- renderTransactions(
-  data.transactions || []
- );
-
-
- if(data.role==="admin"){
-
-  document.getElementById(
-   "appPage"
-  ).style.display="none";
-
-  document.getElementById(
-   "adminPage"
-  ).style.display="block";
-
-  loadUsers();
-
-  loadDepositRequests();
-
- }else{
-
-  document.getElementById(
-   "appPage"
-  ).style.display="block";
-
-  document.getElementById(
-   "adminPage"
-  ).style.display="none";
-
- }
-
-
- renderPlans();
+  box.style.display =
+    "block";
 
 }
 
 
+/* =====================================================
+   FIREBASE ERROR
+===================================================== */
 
-/* LOGOUT */
+function firebaseError(error){
 
-window.logoutUser=async function(){
+  switch(error.code){
 
- await auth.signOut();
+    case "auth/email-already-in-use":
+      return "This email is already registered.";
+
+    case "auth/invalid-email":
+      return "Please enter a valid email address.";
+
+    case "auth/weak-password":
+      return "Password must be at least 6 characters.";
+
+    case "auth/user-not-found":
+      return "No account was found with this email.";
+
+    case "auth/wrong-password":
+    case "auth/invalid-credential":
+      return "Email or password is incorrect.";
+
+    case "auth/too-many-requests":
+      return "Too many attempts. Try again later.";
+
+    case "auth/network-request-failed":
+      return "Network error. Check your internet.";
+
+    default:
+      return "Something went wrong. Please try again.";
+  }
+
+}
+
+
+/* =====================================================
+   LOGIN / REGISTER
+===================================================== */
+
+window.submitAuth =
+async function(){
+
+  const email =
+    $("authEmail")
+      .value
+      .trim();
+
+  const password =
+    $("authPassword")
+      .value;
+
+  const name =
+    $("authName")
+      .value
+      .trim();
+
+
+  if(!email || !password){
+
+    showAuthMessage(
+      "Enter email and password.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if(
+    authMode === "register" &&
+    !name
+  ){
+
+    showAuthMessage(
+      "Enter your full name.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  const button =
+    $("authSubmit");
+
+  button.disabled =
+    true;
+
+  button.textContent =
+    "Please wait...";
+
+
+  try{
+
+    /* REGISTER */
+
+    if(authMode === "register"){
+
+      const result =
+        await auth
+          .createUserWithEmailAndPassword(
+            email,
+            password
+          );
+
+
+      currentUser =
+        result.user;
+
+
+      await result.user.updateProfile({
+
+        displayName:
+          name
+
+      });
+
+
+      await db
+        .collection("users")
+        .doc(result.user.uid)
+        .set({
+
+          uid:
+            result.user.uid,
+
+          name:
+            name,
+
+          email:
+            email,
+
+          balance:
+            0,
+
+          role:
+            "user",
+
+          createdAt:
+            firebase.firestore.FieldValue
+              .serverTimestamp()
+
+        });
+
+
+      await result.user
+        .sendEmailVerification();
+
+
+      closeAuth();
+
+      showVerifyPage();
+
+
+    }
+
+    /* LOGIN */
+
+    else{
+
+      const result =
+        await auth
+          .signInWithEmailAndPassword(
+            email,
+            password
+          );
+
+
+      currentUser =
+        result.user;
+
+
+      if(!result.user.emailVerified){
+
+        closeAuth();
+
+        showVerifyPage();
+
+      }else{
+
+        closeAuth();
+
+        await routeUser(
+          result.user
+        );
+
+      }
+
+    }
+
+  }catch(error){
+
+    console.error(error);
+
+    showAuthMessage(
+      firebaseError(error),
+      "error"
+    );
+
+  }finally{
+
+    button.disabled =
+      false;
+
+    button.textContent =
+      authMode === "login"
+        ? "Login"
+        : "Register";
+
+  }
 
 };
 
 
+/* =====================================================
+   FORGOT PASSWORD
+===================================================== */
 
-/* SERVICE NAVIGATION */
+window.forgotPassword =
+async function(){
 
-window.openService=function(id){
+  const email =
+    $("authEmail")
+      .value
+      .trim();
 
- document
- .querySelectorAll(".panel")
- .forEach(
-  function(panel){
-   panel.classList.remove("active");
+
+  if(!email){
+
+    showAuthMessage(
+      "Enter your email address first.",
+      "error"
+    );
+
+    return;
   }
- );
 
 
- const panel=
- document.getElementById(id);
+  try{
+
+    await auth
+      .sendPasswordResetEmail(
+        email
+      );
 
 
- if(panel){
+    showAuthMessage(
+      "Password reset email sent. Check your inbox.",
+      "success"
+    );
 
-  panel.classList.add("active");
+  }catch(error){
 
-  panel.scrollIntoView({
-   behavior:"smooth",
-   block:"start"
+    showAuthMessage(
+      firebaseError(error),
+      "error"
+    );
+
+  }
+
+};
+
+
+/* =====================================================
+   VERIFY
+===================================================== */
+
+function showVerifyPage(){
+
+  $("landingPage").style.display =
+    "none";
+
+  $("appPage").style.display =
+    "none";
+
+  $("adminPage").style.display =
+    "none";
+
+  $("verifyPage").style.display =
+    "flex";
+
+
+  if(currentUser){
+
+    $("verifyEmail").textContent =
+      currentUser.email || "";
+
+  }
+
+}
+
+
+window.checkVerification =
+async function(){
+
+  if(!auth.currentUser){
+
+    return;
+  }
+
+
+  try{
+
+    await auth.currentUser.reload();
+
+    currentUser =
+      auth.currentUser;
+
+
+    if(currentUser.emailVerified){
+
+      $("verifyMessage").textContent =
+        "Email verified successfully.";
+
+      $("verifyMessage").className =
+        "message success";
+
+      $("verifyMessage").style.display =
+        "block";
+
+
+      setTimeout(
+        function(){
+
+          routeUser(
+            currentUser
+          );
+
+        },
+        700
+      );
+
+
+    }else{
+
+      $("verifyMessage").textContent =
+        "Email is not verified yet.";
+
+      $("verifyMessage").className =
+        "message error";
+
+      $("verifyMessage").style.display =
+        "block";
+
+    }
+
+  }catch(error){
+
+    console.error(error);
+
+  }
+
+};
+
+
+window.resendVerification =
+async function(){
+
+  if(!auth.currentUser){
+
+    return;
+  }
+
+
+  try{
+
+    await auth.currentUser
+      .sendEmailVerification();
+
+
+    $("verifyMessage").textContent =
+      "Verification email sent again.";
+
+    $("verifyMessage").className =
+      "message success";
+
+    $("verifyMessage").style.display =
+      "block";
+
+
+  }catch(error){
+
+    $("verifyMessage").textContent =
+      "Please wait before requesting another email.";
+
+    $("verifyMessage").className =
+      "message error";
+
+    $("verifyMessage").style.display =
+      "block";
+
+  }
+
+};
+
+
+/* =====================================================
+   ROUTE USER
+===================================================== */
+
+async function routeUser(user){
+
+  try{
+
+    const userDoc =
+      await db
+        .collection("users")
+        .doc(user.uid)
+        .get();
+
+
+    if(
+      userDoc.exists &&
+      userDoc.data().role === "admin"
+    ){
+
+      showAdminPage();
+
+    }else{
+
+      await loadUserApp(
+        user
+      );
+
+    }
+
+  }catch(error){
+
+    console.error(error);
+
+    await loadUserApp(
+      user
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   USER APP
+===================================================== */
+
+async function loadUserApp(user){
+
+  currentUser =
+    user;
+
+
+  $("landingPage").style.display =
+    "none";
+
+  $("verifyPage").style.display =
+    "none";
+
+  $("adminPage").style.display =
+    "none";
+
+  $("appPage").style.display =
+    "block";
+
+
+  $("welcomeName").textContent =
+    "Welcome, " +
+    (
+      user.displayName ||
+      "User"
+    );
+
+
+  await loadWallet();
+
+  await loadTransactions();
+
+  renderPlans();
+
+  backToDashboard();
+
+}
+
+
+/* =====================================================
+   WALLET
+===================================================== */
+
+async function loadWallet(){
+
+  if(!currentUser){
+
+    return;
+  }
+
+
+  try{
+
+    const doc =
+      await db
+        .collection("users")
+        .doc(currentUser.uid)
+        .get();
+
+
+    if(doc.exists){
+
+      const data =
+        doc.data();
+
+
+      const balance =
+        Number(
+          data.balance || 0
+        );
+
+
+      $("walletBalance").textContent =
+        "₦" +
+        balance.toLocaleString(
+          "en-NG",
+          {
+            minimumFractionDigits:2
+          }
+        );
+
+    }else{
+
+      $("walletBalance").textContent =
+        "₦0.00";
+
+    }
+
+  }catch(error){
+
+    console.error(
+      "Wallet error:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   SERVICE NAVIGATION
+===================================================== */
+
+window.openService =
+function(panelId){
+
+  document
+    .querySelectorAll(".panel")
+    .forEach(function(panel){
+
+      panel.classList.remove(
+        "active"
+      );
+
+    });
+
+
+  const panel =
+    $(panelId);
+
+
+  if(panel){
+
+    panel.classList.add(
+      "active"
+    );
+
+
+    setTimeout(
+      function(){
+
+        panel.scrollIntoView({
+          behavior:"smooth",
+          block:"start"
+        });
+
+      },
+      50
+    );
+
+  }
+
+};
+
+
+window.backToDashboard =
+function(){
+
+  document
+    .querySelectorAll(".panel")
+    .forEach(function(panel){
+
+      panel.classList.remove(
+        "active"
+      );
+
+    });
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
   });
 
- }
+};
+
+
+/* =====================================================
+   DATA PLANS
+===================================================== */
+
+const dataPlans = {
+
+  MTN:[
+    {
+      name:"500MB",
+      price:150
+    },
+    {
+      name:"1GB",
+      price:300
+    },
+    {
+      name:"2GB",
+      price:600
+    },
+    {
+      name:"3GB",
+      price:900
+    },
+    {
+      name:"5GB",
+      price:1500
+    },
+    {
+      name:"10GB",
+      price:3000
+    }
+  ],
+
+  Airtel:[
+    {
+      name:"500MB",
+      price:150
+    },
+    {
+      name:"1GB",
+      price:300
+    },
+    {
+      name:"2GB",
+      price:600
+    },
+    {
+      name:"3GB",
+      price:900
+    },
+    {
+      name:"5GB",
+      price:1500
+    },
+    {
+      name:"10GB",
+      price:3000
+    }
+  ],
+
+  Glo:[
+    {
+      name:"500MB",
+      price:150
+    },
+    {
+      name:"1GB",
+      price:300
+    },
+    {
+      name:"2GB",
+      price:600
+    },
+    {
+      name:"3GB",
+      price:900
+    },
+    {
+      name:"5GB",
+      price:1500
+    },
+    {
+      name:"10GB",
+      price:3000
+    }
+  ],
+
+  "9mobile":[
+    {
+      name:"500MB",
+      price:150
+    },
+    {
+      name:"1GB",
+      price:300
+    },
+    {
+      name:"2GB",
+      price:600
+    },
+    {
+      name:"3GB",
+      price:900
+    },
+    {
+      name:"5GB",
+      price:1500
+    },
+    {
+      name:"10GB",
+      price:3000
+    }
+  ]
 
 };
 
 
-window.backToDashboard=function(){
+/* =====================================================
+   RENDER DATA PLANS
+===================================================== */
 
- document
- .querySelectorAll(".panel")
- .forEach(
-  function(panel){
-   panel.classList.remove("active");
-  }
- );
+window.renderPlans =
+function(){
 
+  const network =
+    $("dataNetwork").value;
 
- window.scrollTo({
-  top:0,
-  behavior:"smooth"
- });
 
-};
+  const container =
+    $("plans");
 
 
+  container.innerHTML =
+    "";
 
-/* DATA */
 
-const dataPlans={
+  const plans =
+    dataPlans[network] || [];
 
- MTN:[
-  ["100MB","₦100","24 Hours"],
-  ["200MB","₦200","2 Days"],
-  ["1.5GB","₦1,000","30 Days"],
-  ["3GB","₦1,500","30 Days"],
-  ["4.5GB","₦2,000","30 Days"],
-  ["6GB","₦2,500","30 Days"],
-  ["8GB","₦3,000","30 Days"],
-  ["10GB","₦3,500","30 Days"]
- ],
 
- Airtel:[
-  ["25MB","₦49.99","1 Day"],
-  ["75MB","₦99","1 Day"],
-  ["200MB","₦199.03","3 Days"],
-  ["350MB","₦299.02","7 Days"],
-  ["750MB","₦499","14 Days"],
-  ["1.5GB","₦999","30 Days"],
-  ["3GB","₦1,499.01","30 Days"],
-  ["4.5GB","₦1,999","30 Days"],
-  ["8GB","₦2,999.02","30 Days"],
-  ["11GB","₦3,999.01","30 Days"],
-  ["15GB","₦4,999","30 Days"]
- ],
+  plans.forEach(
+    function(plan){
 
- Glo:[
-  ["105MB","₦100","2 Days"],
-  ["350MB","₦200","4 Days"],
-  ["1.05GB","₦500","14 Days"],
-  ["2.5GB","₦1,000","30 Days"],
-  ["4.1GB","₦1,500","30 Days"],
-  ["5.8GB","₦2,000","30 Days"],
-  ["7.7GB","₦2,500","30 Days"],
-  ["10GB","₦3,000","30 Days"]
- ],
-
- "9mobile":[
-  ["100MB","₦100","1 Day"],
-  ["650MB","₦200","1 Day"],
-  ["500MB","₦500","30 Days"],
-  ["1.5GB","₦1,000","30 Days"],
-  ["4.5GB","₦2,000","30 Days"],
-  ["15GB","₦5,000","30 Days"],
-  ["40GB","₦10,000","30 Days"],
-  ["75GB","₦15,000","30 Days"]
- ]
-
-};
-
-
-window.renderPlans=function(){
-
- const network=
- document.getElementById(
-  "dataNetwork"
- ).value;
-
-
- const container=
- document.getElementById(
-  "plans"
- );
-
-
- container.innerHTML="";
-
-
- dataPlans[network]
- .forEach(
-  function(plan){
-
-   const div=
-   document.createElement("div");
-
-   div.className="plan";
-
-
-   div.innerHTML=`
-   <strong>${plan[0]}</strong>
-
-<div>${plan[1]}</div>
-
-<small>${plan[2]}</small>
-
-<button>
- Continue
-</button>
-
-`;
-    div.querySelector("button")
-.onclick=function(){
-
- continueData(
-  network,
-  plan[0],
-  plan[1],
-  plan[2]
- );
-
-};
-
-container.appendChild(div);
-    });
-};
-  window.continueData=function(
- network,
- plan,
- price,
- validity
-){
-
- const phone=
- document.getElementById(
-  "dataPhone"
- ).value.trim();
-
-
- if(!phone){
-
-  alert(
-   "Please enter phone number first."
-  );
-
-  return;
-
- }
-
-
- selectedData={
-  network,
-  plan,
-  price,
-  validity,
-  phone
- };
-
-
- document.getElementById(
-  "dataConfirm"
- ).innerHTML=`
-
-  <p><strong>Network:</strong> ${network}</p>
-
-  <p><strong>Plan:</strong> ${plan}</p>
-
-  <p><strong>Validity:</strong> ${validity}</p>
-
-  <p><strong>Phone:</strong> ${phone}</p>
-
-  <p><strong>Price:</strong> ${price}</p>
-
- `;
-
-
- openService(
-  "dataConfirmPanel"
- );
-
-};
-  <script>
-
-/* =========================
-   DATA PURCHASE DEMO
-========================= */
-
-window.completeDemoData = async function(){
-
-    if(!selectedData || !currentUser) return;
-
-    const tx = {
-        service: "Data",
-        details:
-            selectedData.network +
-            " " +
-            selectedData.plan +
-            " → " +
-            selectedData.phone,
-        amount: Number(
-            selectedData.price.replace(/[₦,]/g,"")
-        ),
-        status: "DEMO",
-        date: new Date().toLocaleString("en-NG")
-    };
-
-    try{
-
-        await db
-        .collection("users")
-        .doc(currentUser.uid)
-        .update({
-            transactions:
-                firebase.firestore.FieldValue.arrayUnion(tx)
-        });
-
-        alert("DEMO: Data purchase completed successfully.");
-
-        selectedData = null;
-
-        await loadAccount();
-
-        backToDashboard();
-
-    }catch(error){
-
-        console.error(error);
-
-        alert("Unable to complete demo transaction.");
-
-    }
-
-};
-
-
-/* =========================
-   AIRTIME
-========================= */
-
-window.continueAirtime = function(){
-
-    const network =
-        document.getElementById("airtimeNetwork").value;
-
-    const phone =
-        document.getElementById("airtimePhone").value.trim();
-
-    const amount =
-        Number(
-            document.getElementById("airtimeAmount").value
-        );
-
-    if(!phone){
-
-        alert("Please enter phone number.");
-
-        return;
-
-    }
-
-    if(!amount || amount <= 0){
-
-        alert("Please enter a valid amount.");
-
-        return;
-
-    }
-
-    selectedAirtime = {
-        network: network,
-        phone: phone,
-        amount: amount
-    };
-
-    document.getElementById("airtimeConfirm").innerHTML = `
-
-        <p>
-            <strong>Network:</strong>
-            ${network}
-        </p>
-
-        <p>
-            <strong>Phone:</strong>
-            ${phone}
-        </p>
-
-        <p>
-            <strong>Amount:</strong>
-            ₦${amount.toLocaleString("en-NG")}
-        </p>
-
-    `;
-
-    openService("airtimeConfirmPanel");
-
-};
-
-
-window.completeDemoAirtime = async function(){
-
-    if(!selectedAirtime || !currentUser) return;
-
-    const tx = {
-
-        service: "Airtime",
-
-        details:
-            selectedAirtime.network +
-            " → " +
-            selectedAirtime.phone,
-
-        amount:
-            selectedAirtime.amount,
-
-        status: "DEMO",
-
-        date:
-            new Date().toLocaleString("en-NG")
-
-    };
-
-    try{
-
-        await db
-        .collection("users")
-        .doc(currentUser.uid)
-        .update({
-
-            transactions:
-                firebase.firestore.FieldValue.arrayUnion(tx)
-
-        });
-
-        alert(
-            "DEMO: Airtime purchase completed successfully."
-        );
-
-        selectedAirtime = null;
-
-        await loadAccount();
-
-        backToDashboard();
-
-    }catch(error){
-
-        console.error(error);
-
-        alert("Unable to complete demo transaction.");
-
-    }
-
-};
-
-
-/* =========================
-   BILLS
-========================= */
-
-window.changeBillForm = function(){
-
-    const service =
-        document.getElementById("billService").value;
-
-    const forms = [
-        "electricityForm",
-        "necoForm",
-        "tvForm",
-        "internetForm"
-    ];
-
-    forms.forEach(function(id){
-
-        document.getElementById(id)
-        .style.display = "none";
-
-    });
-
-
-    if(service === "electricity"){
-
-        document.getElementById(
-            "electricityForm"
-        ).style.display = "block";
-
-    }
-
-
-    if(service === "neco"){
-
-        document.getElementById(
-            "necoForm"
-        ).style.display = "block";
-
-    }
-
-
-    if(service === "tv"){
-
-        document.getElementById(
-            "tvForm"
-        ).style.display = "block";
-
-    }
-
-
-    if(service === "internet"){
-
-        document.getElementById(
-            "internetForm"
-        ).style.display = "block";
-
-    }
-
-};
-
-
-window.continueBill = function(service){
-
-    let amount = 0;
-    let details = "";
-
-
-    if(service === "Electricity"){
-
-        const meter =
-            document.getElementById(
-                "meterNumber"
-            ).value.trim();
-
-        amount =
-            Number(
-                document.getElementById(
-                    "electricityAmount"
-                ).value
-            );
-
-        if(!meter){
-
-            alert("Enter meter number.");
-
-            return;
-
-        }
-
-        details =
-            "Meter: " + meter;
-
-    }
-
-
-    if(service === "NECO"){
-
-        const number =
-            document.getElementById(
-                "necoNumber"
-            ).value.trim();
-
-        amount =
-            Number(
-                document.getElementById(
-                    "necoAmount"
-                ).value
-            );
-
-        if(!number){
-
-            alert(
-                "Enter NECO registration number."
-            );
-
-            return;
-
-        }
-
-        details =
-            "NECO: " + number;
-
-    }
-
-
-    if(service === "TV"){
-
-        const provider =
-            document.getElementById(
-                "tvProvider"
-            ).value;
-
-        const smartcard =
-            document.getElementById(
-                "smartcard"
-            ).value.trim();
-
-        amount =
-            Number(
-                document.getElementById(
-                    "tvAmount"
-                ).value
-            );
-
-        if(!smartcard){
-
-            alert(
-                "Enter Smartcard / IUC number."
-            );
-
-            return;
-
-        }
-
-        details =
-            provider +
-            " / " +
-            smartcard;
-
-    }
-
-
-    if(service === "Internet"){
-
-        const account =
-            document.getElementById(
-                "internetPhone"
-            ).value.trim();
-
-        amount =
-            Number(
-                document.getElementById(
-                    "internetAmount"
-                ).value
-            );
-
-        if(!account){
-
-            alert(
-                "Enter account number."
-            );
-
-            return;
-
-        }
-
-        details =
-            "Account: " +
-            account;
-
-    }
-
-
-    if(!amount || amount <= 0){
-
-        alert("Enter a valid amount.");
-
-        return;
-
-    }
-
-
-    selectedBill = {
-
-        service: service,
-
-        details: details,
-
-        amount: amount
-
-    };
-
-
-    document.getElementById(
-        "billConfirm"
-    ).innerHTML = `
-
-        <p>
-            <strong>Service:</strong>
-            ${service}
-        </p>
-
-        <p>
-            <strong>Details:</strong>
-            ${details}
-        </p>
-
-        <p>
-            <strong>Amount:</strong>
-            ₦${amount.toLocaleString("en-NG")}
-        </p>
-
-    `;
-
-
-    openService(
-        "billConfirmPanel"
-    );
-
-};
-
-
-window.completeDemoBill = async function(){
-
-    if(!selectedBill || !currentUser) return;
-
-
-    const tx = {
-
-        service:
-            selectedBill.service,
-
-        details:
-            selectedBill.details,
-
-        amount:
-            selectedBill.amount,
-
-        status:
-            "DEMO",
-
-        date:
-            new Date().toLocaleString("en-NG")
-
-    };
-
-
-    try{
-
-        await db
-        .collection("users")
-        .doc(currentUser.uid)
-        .update({
-
-            transactions:
-                firebase.firestore.FieldValue.arrayUnion(tx)
-
-        });
-
-
-        alert(
-            "DEMO: Bill payment completed successfully."
+      const div =
+        document.createElement(
+          "div"
         );
 
 
-        selectedBill = null;
-
-        await loadAccount();
-
-        backToDashboard();
+      div.className =
+        "plan";
 
 
-    }catch(error){
+      div.innerHTML = `
 
-        console.error(error);
+        <strong>
+          ${plan.name}
+        </strong>
 
-        alert(
-            "Unable to complete demo transaction."
-        );
-
-    }
-
-};
-
-
-/* =========================
-   DEPOSIT
-========================= */
-
-window.continueDeposit = function(){
-
-    const amount =
-        Number(
-            document.getElementById(
-                "depositAmount"
-            ).value
-        );
-
-
-    if(!amount || amount <= 0){
-
-        alert(
-            "Please select deposit amount."
-        );
-
-        return;
-
-    }
-
-
-    selectedDeposit = amount;
-
-
-    document.getElementById(
-        "depositConfirm"
-    ).innerHTML = `
-
-        <p>
-            <strong>Deposit Amount:</strong>
-            ₦${amount.toLocaleString("en-NG")}
-        </p>
-
-        <br>
-
-        <div class="notice">
-
-            <strong>DEMO PAYMENT</strong>
-
-            <br><br>
-
-            Payment Method:
-            Bank Transfer
-
-            <br><br>
-
-            This is only a demo request.
-
-            <br><br>
-
-            Your wallet balance will
-            <strong>NOT</strong>
-            increase automatically.
-
-            <br><br>
-
-            Admin must approve the request
-            before the balance changes.
-
+        <div>
+          ₦${plan.price.toLocaleString()}
         </div>
 
-    `;
+        <button
+          type="button"
+          onclick="selectData(
+            '${network}',
+            '${plan.name}',
+            ${plan.price}
+          )">
+
+          Buy Now
+
+        </button>
+
+      `;
 
 
-    openService(
-        "depositConfirmPanel"
-    );
+      container.appendChild(
+        div
+      );
+
+    }
+  );
 
 };
 
 
-window.submitDepositRequest = async function(){
+/* =====================================================
+   SELECT DATA
+===================================================== */
 
-    if(!selectedDeposit || !currentUser){
-
-        return;
-
-    }
-
-
-    const amount =
-        selectedDeposit;
-
-
-    const request = {
-
-        uid:
-            currentUser.uid,
-
-        name:
-            currentUser.email
-            .split("@")[0],
-
-        email:
-            currentUser.email,
-
-        amount:
-            amount,
-
-        status:
-            "PENDING",
-
-        createdAt:
-            firebase.firestore
-            .FieldValue
-            .serverTimestamp()
-
-    };
-
-
-    try{
-
-        await db
-        .collection("depositRequests")
-        .add(request);
-
-
-        await db
-        .collection("users")
-        .doc(currentUser.uid)
-        .update({
-
-            transactions:
-                firebase.firestore
-                .FieldValue
-                .arrayUnion({
-
-                    service:
-                        "Wallet",
-
-                    details:
-                        "Deposit Request",
-
-                    amount:
-                        amount,
-
-                    status:
-                        "PENDING",
-
-                    date:
-                        new Date()
-                        .toLocaleString("en-NG")
-
-                })
-
-        });
-
-
-        alert(
-            "Deposit request submitted. " +
-            "Your balance is still pending Admin approval."
-        );
-
-
-        selectedDeposit = null;
-
-
-        await loadAccount();
-
-        backToDashboard();
-
-
-    }catch(error){
-
-        console.error(error);
-
-        alert(
-            "Unable to submit deposit request."
-        );
-
-    }
-
-};
-
-
-/* =========================
-   TRANSACTIONS
-========================= */
-
-function renderTransactions(
-    transactions
+window.selectData =
+function(
+  network,
+  plan,
+  price
 ){
 
-    const table =
-        document.getElementById(
-            "transactionTable"
-        );
+  const phone =
+    $("dataPhone")
+      .value
+      .trim();
 
 
-    table.innerHTML = "";
+  if(!phone){
+
+    alert(
+      "Enter phone number first."
+    );
+
+    $("dataPhone").focus();
+
+    return;
+  }
 
 
-    if(!transactions.length){
+  if(
+    !/^[0-9]{10,15}$/.test(
+      phone
+    )
+  ){
 
-        table.innerHTML = `
+    alert(
+      "Enter a valid phone number."
+    );
 
-            <tr>
+    $("dataPhone").focus();
 
-                <td colspan="5">
-                    No transactions yet.
-                </td>
+    return;
+  }
 
-            </tr>
 
-        `;
+  selectedData = {
 
-        return;
+    network:
+      network,
 
+    plan:
+      plan,
+
+    price:
+      price,
+
+    phone:
+      phone
+
+  };
+
+
+  $("dataConfirm").innerHTML = `
+
+    <p>
+      <strong>Network:</strong>
+      ${network}
+    </p>
+
+    <p>
+      <strong>Plan:</strong>
+      ${plan}
+    </p>
+
+    <p>
+      <strong>Phone:</strong>
+      ${phone}
+    </p>
+
+    <p>
+      <strong>Amount:</strong>
+      ₦${price.toLocaleString()}
+    </p>
+
+  `;
+
+
+  openService(
+    "dataConfirmPanel"
+  );
+
+};
+
+
+/* =====================================================
+   DATA DEMO
+===================================================== */
+
+window.completeDemoData =
+async function(){
+
+  if(
+    !currentUser ||
+    !selectedData
+  ){
+
+    alert(
+      "Please select a data plan."
+    );
+
+    return;
+  }
+
+
+  const button =
+    document.querySelector(
+      "#dataConfirmPanel .action-btn"
+    );
+
+
+  button.disabled =
+    true;
+
+  button.textContent =
+    "Processing...";
+
+
+  try{
+
+    await db
+      .collection("transactions")
+      .add({
+
+        uid:
+          currentUser.uid,
+
+        service:
+          "Data",
+
+        details:
+          selectedData.network +
+          " " +
+          selectedData.plan +
+          " - " +
+          selectedData.phone,
+
+        amount:
+          selectedData.price,
+
+        status:
+          "Demo",
+
+        createdAt:
+          firebase.firestore.FieldValue
+            .serverTimestamp()
+
+      });
+
+
+    alert(
+      "Demo data transaction recorded."
+    );
+
+
+    selectedData =
+      null;
+
+
+    await loadTransactions();
+
+    backToDashboard();
+
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      "Transaction could not be recorded."
+    );
+
+  }finally{
+
+    button.disabled =
+      false;
+
+    button.textContent =
+      "Continue";
+
+  }
+
+};
+
+
+/* =====================================================
+   AIRTIME
+===================================================== */
+
+window.continueAirtime =
+function(){
+
+  const network =
+    $("airtimeNetwork").value;
+
+  const phone =
+    $("airtimePhone")
+      .value
+      .trim();
+
+  const amount =
+    Number(
+      $("airtimeAmount").value
+    );
+
+
+  if(!phone){
+
+    alert(
+      "Enter phone number."
+    );
+
+    return;
+  }
+
+
+  if(
+    !/^[0-9]{10,15}$/.test(
+      phone
+    )
+  ){
+
+    alert(
+      "Enter a valid phone number."
+    );
+
+    return;
+  }
+
+
+  if(
+    !amount ||
+    amount < 50
+  ){
+
+    alert(
+      "Enter an amount of at least ₦50."
+    );
+
+    return;
+  }
+
+
+  selectedAirtime = {
+
+    network:
+      network,
+
+    phone:
+      phone,
+
+    amount:
+      amount
+
+  };
+
+
+  $("airtimeConfirm").innerHTML = `
+
+    <p>
+      <strong>Network:</strong>
+      ${network}
+    </p>
+
+    <p>
+      <strong>Phone:</strong>
+      ${phone}
+    </p>
+
+    <p>
+      <strong>Amount:</strong>
+      ₦${amount.toLocaleString()}
+    </p>
+
+  `;
+
+
+  openService(
+    "airtimeConfirmPanel"
+  );
+
+};
+
+
+/* =====================================================
+   AIRTIME DEMO
+===================================================== */
+
+window.completeDemoAirtime =
+async function(){
+
+  if(
+    !currentUser ||
+    !selectedAirtime
+  ){
+
+    alert(
+      "Please enter airtime details."
+    );
+
+    return;
+  }
+
+
+  const button =
+    document.querySelector(
+      "#airtimeConfirmPanel .action-btn"
+    );
+
+
+  button.disabled =
+    true;
+
+  button.textContent =
+    "Processing...";
+
+
+  try{
+
+    await db
+      .collection("transactions")
+      .add({
+
+        uid:
+          currentUser.uid,
+
+        service:
+          "Airtime",
+
+        details:
+          selectedAirtime.network +
+          " - " +
+          selectedAirtime.phone,
+
+        amount:
+          selectedAirtime.amount,
+
+        status:
+          "Demo",
+
+        createdAt:
+          firebase.firestore.FieldValue
+            .serverTimestamp()
+
+      });
+
+
+    alert(
+      "Demo airtime transaction recorded."
+    );
+
+
+    selectedAirtime =
+      null;
+
+
+    await loadTransactions();
+
+    backToDashboard();
+
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      "Transaction could not be recorded."
+    );
+
+  }finally{
+
+    button.disabled =
+      false;
+
+    button.textContent =
+      "Continue";
+
+  }
+
+};
+
+
+/* =====================================================
+   BILLS
+===================================================== */
+
+window.changeBillForm =
+function(){
+
+  const value =
+    $("billService").value;
+
+
+  [
+    "electricityForm",
+    "necoForm",
+    "tvForm",
+    "internetForm"
+  ].forEach(
+    function(id){
+
+      $(id).style.display =
+        "none";
+
+    }
+  );
+
+
+  if(value === "electricity"){
+
+    $("electricityForm")
+      .style.display =
+      "block";
+
+  }
+
+  else if(value === "neco"){
+
+    $("necoForm")
+      .style.display =
+      "block";
+
+  }
+
+  else if(value === "tv"){
+
+    $("tvForm")
+      .style.display =
+      "block";
+
+  }
+
+  else if(value === "internet"){
+
+    $("internetForm")
+      .style.display =
+      "block";
+
+  }
+
+};
+
+
+/* =====================================================
+   CONTINUE BILL
+===================================================== */
+
+window.continueBill =
+function(service){
+
+  let details =
+    "";
+
+  let amount =
+    0;
+
+
+  if(
+    service === "Electricity"
+  ){
+
+    details =
+      $("meterNumber")
+        .value
+        .trim();
+
+    amount =
+      Number(
+        $("electricityAmount")
+          .value
+      );
+
+  }
+
+
+  if(
+    service === "NECO"
+  ){
+
+    details =
+      $("necoNumber")
+        .value
+        .trim();
+
+    amount =
+      Number(
+        $("necoAmount")
+          .value
+      );
+
+  }
+
+
+  if(
+    service === "TV"
+  ){
+
+    const provider =
+      $("tvProvider").value;
+
+    const smartcard =
+      $("smartcard")
+        .value
+        .trim();
+
+
+    details =
+      provider +
+      " - " +
+      smartcard;
+
+
+    amount =
+      Number(
+        $("tvAmount").value
+      );
+
+  }
+
+
+  if(
+    service === "Internet"
+  ){
+
+    details =
+      $("internetPhone")
+        .value
+        .trim();
+
+    amount =
+      Number(
+        $("internetAmount")
+          .value
+      );
+
+  }
+
+
+  if(!details){
+
+    alert(
+      "Enter the required details."
+    );
+
+    return;
+  }
+
+
+  if(
+    !amount ||
+    amount < 50
+  ){
+
+    alert(
+      "Enter a valid amount."
+    );
+
+    return;
+  }
+
+
+  selectedBill = {
+
+    service:
+      service,
+
+    details:
+      details,
+
+    amount:
+      amount
+
+  };
+
+
+  $("billConfirm").innerHTML = `
+
+    <p>
+      <strong>Service:</strong>
+      ${service}
+    </p>
+
+    <p>
+      <strong>Details:</strong>
+      ${details}
+    </p>
+
+    <p>
+      <strong>Amount:</strong>
+      ₦${amount.toLocaleString()}
+    </p>
+
+  `;
+
+
+  openService(
+    "billConfirmPanel"
+  );
+
+};
+
+
+/* =====================================================
+   BILL DEMO
+===================================================== */
+
+window.completeDemoBill =
+async function(){
+
+  if(
+    !currentUser ||
+    !selectedBill
+  ){
+
+    alert(
+      "Please select a bill."
+    );
+
+    return;
+  }
+
+
+  const button =
+    document.querySelector(
+      "#billConfirmPanel .action-btn"
+    );
+
+
+  button.disabled =
+    true;
+
+  button.textContent =
+    "Processing...";
+
+
+  try{
+
+    await db
+      .collection("transactions")
+      .add({
+
+        uid:
+          currentUser.uid,
+
+        service:
+          selectedBill.service,
+
+        details:
+          selectedBill.details,
+
+        amount:
+          selectedBill.amount,
+
+        status:
+          "Demo",
+
+        createdAt:
+          firebase.firestore.FieldValue
+            .serverTimestamp()
+
+      });
+
+
+    alert(
+      "Demo bill transaction recorded."
+    );
+
+
+    selectedBill =
+      null;
+
+
+    await loadTransactions();
+
+    backToDashboard();
+
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      "Transaction could not be recorded."
+    );
+
+  }finally{
+
+    button.disabled =
+      false;
+
+    button.textContent =
+      "Continue";
+
+  }
+
+};
+
+
+/* =====================================================
+   DEPOSIT
+===================================================== */
+
+window.continueDeposit =
+function(){
+
+  const amount =
+    Number(
+      $("depositAmount").value
+    );
+
+
+  if(!amount){
+
+    alert(
+      "Select a deposit amount."
+    );
+
+    return;
+  }
+
+
+  selectedDeposit = {
+
+    amount:
+      amount
+
+  };
+
+
+  $("depositConfirm").innerHTML = `
+
+    <div class="notice">
+
+      Your deposit request will be sent
+      to the administrator.
+
+      Your wallet balance will NOT increase
+      automatically.
+
+    </div>
+
+
+    <p>
+      <strong>
+        Requested Amount:
+      </strong>
+
+      ₦${amount.toLocaleString()}
+    </p>
+
+
+    <p>
+      After you make payment using the
+      payment instructions provided by
+      A-T-L DATA, press
+      <strong>I Have Paid</strong>.
+    </p>
+
+  `;
+
+
+  openService(
+    "depositConfirmPanel"
+  );
+
+};
+
+
+/* =====================================================
+   SUBMIT DEPOSIT
+===================================================== */
+
+window.submitDepositRequest =
+async function(){
+
+  if(
+    !currentUser ||
+    !selectedDeposit
+  ){
+
+    alert(
+      "Please select a deposit amount."
+    );
+
+    return;
+  }
+
+
+  const button =
+    document.querySelector(
+      "#depositConfirmPanel .action-btn"
+    );
+
+
+  button.disabled =
+    true;
+
+  button.textContent =
+    "Submitting...";
+
+
+  try{
+
+    await db
+      .collection("depositRequests")
+      .add({
+
+        uid:
+          currentUser.uid,
+
+        name:
+          currentUser.displayName ||
+          "User",
+
+        email:
+          currentUser.email,
+
+        amount:
+          selectedDeposit.amount,
+
+        status:
+          "Pending",
+
+        createdAt:
+          firebase.firestore.FieldValue
+            .serverTimestamp()
+
+      });
+
+
+    alert(
+      "Deposit request submitted successfully."
+    );
+
+
+    selectedDeposit =
+      null;
+
+
+    backToDashboard();
+
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      "Deposit request could not be submitted."
+    );
+
+  }finally{
+
+    button.disabled =
+      false;
+
+    button.textContent =
+      "I Have Paid";
+
+  }
+
+};
+
+
+/* =====================================================
+   TRANSACTIONS
+===================================================== */
+
+async function loadTransactions(){
+
+  if(!currentUser){
+
+    return;
+  }
+
+
+  const table =
+    $("transactionTable");
+
+
+  table.innerHTML = `
+
+    <tr>
+
+      <td colspan="5">
+        Loading transactions...
+      </td>
+
+    </tr>
+
+  `;
+
+
+  try{
+
+    const snapshot =
+      await db
+        .collection("transactions")
+        .where(
+          "uid",
+          "==",
+          currentUser.uid
+        )
+        .get();
+
+
+    table.innerHTML =
+      "";
+
+
+    if(snapshot.empty){
+
+      table.innerHTML = `
+
+        <tr>
+
+          <td colspan="5">
+            No transactions yet.
+          </td>
+
+        </tr>
+
+      `;
+
+      return;
     }
 
 
-    [...transactions]
-    .reverse()
-    .forEach(function(tx){
+    const docs =
+      snapshot.docs.sort(
+        function(a,b){
+
+          const aTime =
+            a.data()
+              .createdAt
+              ?.toMillis?.() || 0;
+
+
+          const bTime =
+            b.data()
+              .createdAt
+              ?.toMillis?.() || 0;
+
+
+          return bTime - aTime;
+
+        }
+      );
+
+
+    docs.forEach(
+      function(doc){
+
+        const data =
+          doc.data();
+
+
+        const date =
+          data.createdAt
+            ?.toDate
+            ? data.createdAt
+                .toDate()
+                .toLocaleString()
+            : "Pending";
+
 
         const row =
-            document.createElement("tr");
+          document.createElement(
+            "tr"
+          );
 
 
         row.innerHTML = `
 
-            <td>
-                ${tx.service || "-"}
-            </td>
+          <td>
+            ${data.service || "-"}
+          </td>
 
-            <td>
-                ${tx.details || "-"}
-            </td>
+          <td>
+            ${data.details || "-"}
+          </td>
 
-            <td>
-                ₦${Number(
-                    tx.amount || 0
-                ).toLocaleString("en-NG")}
-            </td>
+          <td>
+            ₦${Number(
+              data.amount || 0
+            ).toLocaleString()}
+          </td>
 
-            <td>
-                ${tx.status || "-"}
-            </td>
+          <td>
 
-            <td>
-                ${tx.date || "-"}
-            </td>
+            <span class="status">
+              ${data.status || "Pending"}
+            </span>
+
+          </td>
+
+          <td>
+            ${date}
+          </td>
 
         `;
 
 
-        table.appendChild(row);
+        table.appendChild(
+          row
+        );
 
+      }
+    );
+
+  }catch(error){
+
+    console.error(error);
+
+    table.innerHTML = `
+
+      <tr>
+
+        <td colspan="5">
+          Unable to load transactions.
+        </td>
+
+      </tr>
+
+    `;
+
+  }
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+window.logoutUser =
+async function(){
+
+  try{
+
+    await auth.signOut();
+
+
+    currentUser =
+      null;
+
+
+    selectedData =
+      null;
+
+    selectedAirtime =
+      null;
+
+    selectedBill =
+      null;
+
+    selectedDeposit =
+      null;
+
+
+    $("landingPage").style.display =
+      "block";
+
+    $("verifyPage").style.display =
+      "none";
+
+    $("appPage").style.display =
+      "none";
+
+    $("adminPage").style.display =
+      "none";
+
+    $("authOverlay").style.display =
+      "none";
+
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
     });
 
-}
 
+  }catch(error){
 
-/* =========================
-   ADMIN USERS
-========================= */
+    console.error(error);
 
-async function loadUsers(){
+    alert(
+      "Unable to logout."
+    );
 
-    const list =
-        document.getElementById(
-            "usersList"
-        );
-
-
-    list.innerHTML =
-        "Loading users...";
-
-
-    try{
-
-        const snapshot =
-            await db
-            .collection("users")
-            .get();
-
-
-        list.innerHTML = "";
-
-
-        if(snapshot.empty){
-
-            list.innerHTML =
-                "No users found.";
-
-            return;
-
-        }
-
-
-        snapshot.forEach(function(doc){
-
-            const user =
-                doc.data();
-
-
-            const div =
-                document.createElement("div");
-
-
-            div.className =
-                "user-row";
-
-
-            div.innerHTML = `
-
-                <strong>
-                    ${user.name || "No Name"}
-                </strong>
-
-                <br>
-
-                <small>
-                    ${user.email || ""}
-                </small>
-
-                <br><br>
-
-                Role:
-                <strong>
-                    ${user.role || "user"}
-                </strong>
-
-                <br><br>
-
-                Balance:
-                <strong>
-                    ₦${Number(
-                        user.balance || 0
-                    ).toLocaleString("en-NG")}
-                </strong>
-
-            `;
-
-
-            list.appendChild(div);
-
-        });
-
-
-    }catch(error){
-
-        console.error(error);
-
-        list.innerHTML =
-            "Unable to load users.";
-
-    }
-
-}
-
-
-/* =========================
-   ADMIN DEPOSIT REQUESTS
-========================= */
-
-async function loadDepositRequests(){
-
-    const box =
-        document.getElementById(
-            "depositRequests"
-        );
-
-
-    box.innerHTML =
-        "Loading requests...";
-
-
-    try{
-
-        const snapshot =
-            await db
-            .collection("depositRequests")
-            .orderBy(
-                "createdAt",
-                "desc"
-            )
-            .get();
-
-
-        box.innerHTML = "";
-
-
-        if(snapshot.empty){
-
-            box.innerHTML =
-                "No deposit requests.";
-
-            return;
-
-        }
-
-
-        snapshot.forEach(function(doc){
-
-            const request =
-                doc.data();
-
-
-            const div =
-                document.createElement("div");
-
-
-            div.className =
-                "deposit-row";
-
-
-            let buttons = "";
-
-
-            if(
-                request.status === "PENDING"
-            ){
-
-                buttons = `
-
-                    <button
-                        class="small-btn"
-                        onclick="
-                        approveDeposit(
-                            '${doc.id}',
-                            '${request.uid}',
-                            ${request.amount}
-                        )">
-
-                        Approve
-
-                    </button>
-
-                    <button
-                        class="small-btn reject-btn"
-                        onclick="
-                        rejectDeposit(
-                            '${doc.id}'
-                        )">
-
-                        Reject
-
-                    </button>
-
-                `;
-
-            }
-
-
-            div.innerHTML = `
-
-                <strong>
-                    ${request.name || "User"}
-                </strong>
-
-                <br>
-
-                <small>
-                    ${request.email || ""}
-                </small>
-
-                <br><br>
-
-                Amount:
-
-                <strong>
-                    ₦${Number(
-                        request.amount || 0
-                    ).toLocaleString("en-NG")}
-                </strong>
-
-                <br><br>
-
-                <span class="status">
-                    ${request.status || "PENDING"}
-                </span>
-
-                <br><br>
-
-                ${buttons}
-
-            `;
-
-
-            box.appendChild(div);
-
-        });
-
-
-    }catch(error){
-
-        console.error(error);
-
-        box.innerHTML =
-            "Unable to load deposit requests.";
-
-    }
-
-}
-
-
-/* =========================
-   ADMIN APPROVE
-========================= */
-
-window.approveDeposit =
-async function(
-    requestId,
-    uid,
-    amount
-){
-
-    if(!confirm(
-        "Approve this deposit?"
-    )){
-
-        return;
-
-    }
-
-
-    try{
-
-        const userRef =
-            db
-            .collection("users")
-            .doc(uid);
-
-
-        const requestRef =
-            db
-            .collection("depositRequests")
-            .doc(requestId);
-
-
-        const userSnap =
-            await userRef.get();
-
-
-        const requestSnap =
-            await requestRef.get();
-
-
-        if(
-            !userSnap.exists ||
-            !requestSnap.exists
-        ){
-
-            alert(
-                "User or deposit request not found."
-            );
-
-            return;
-
-        }
-
-
-        const user =
-            userSnap.data();
-
-
-        const request =
-            requestSnap.data();
-
-
-        if(
-            request.status !== "PENDING"
-        ){
-
-            alert(
-                "This request has already been processed."
-            );
-
-            return;
-
-        }
-
-
-        const oldBalance =
-            Number(
-                user.balance || 0
-            );
-
-
-        const newBalance =
-            oldBalance +
-            Number(amount);
-
-
-        await userRef.update({
-
-            balance:
-                newBalance,
-
-            transactions:
-                firebase.firestore
-                .FieldValue
-                .arrayUnion({
-
-                    service:
-                        "Wallet",
-
-                    details:
-                        "Deposit Approved",
-
-                    amount:
-                        Number(amount),
-
-                    status:
-                        "SUCCESS",
-
-                    date:
-                        new Date()
-                        .toLocaleString("en-NG")
-
-                })
-
-        });
-
-
-        await requestRef.update({
-
-            status:
-                "APPROVED",
-
-            approvedAt:
-                firebase.firestore
-                .FieldValue
-                .serverTimestamp()
-
-        });
-
-
-        alert(
-            "Deposit approved successfully."
-        );
-
-
-        loadDepositRequests();
-
-        loadUsers();
-
-
-    }catch(error){
-
-        console.error(error);
-
-        alert(
-            "Approval failed. We will secure this fully with Firestore Rules in PART 2."
-        );
-
-    }
+  }
 
 };
 
 
-/* =========================
-   ADMIN REJECT
-========================= */
+/* =====================================================
+   ADMIN
+===================================================== */
 
-window.rejectDeposit =
-async function(requestId){
+function showAdminPage(){
 
-    if(!confirm(
-        "Reject this deposit request?"
-    )){
+  $("landingPage").style.display =
+    "none";
 
-        return;
+  $("verifyPage").style.display =
+    "none";
 
+  $("appPage").style.display =
+    "none";
+
+  $("adminPage").style.display =
+    "block";
+
+
+  loadAdminDeposits();
+
+  loadAdminUsers();
+
+}
+
+
+/* =====================================================
+   ADMIN DEPOSITS
+===================================================== */
+
+async function loadAdminDeposits(){
+
+  const box =
+    $("depositRequests");
+
+
+  box.innerHTML =
+    "Loading deposit requests...";
+
+
+  try{
+
+    const snapshot =
+      await db
+        .collection(
+          "depositRequests"
+        )
+        .get();
+
+
+    if(snapshot.empty){
+
+      box.innerHTML =
+        "No deposit requests.";
+
+      return;
     }
 
 
-    try{
+    box.innerHTML =
+      "";
 
-        const requestRef =
-            db
-            .collection("depositRequests")
-            .doc(requestId);
 
+    snapshot.forEach(
+      function(doc){
+
+        const data =
+          doc.data();
+
+
+        const row =
+          document.createElement(
+            "div"
+          );
+
+
+        row.className =
+          "deposit-row";
+
+
+        row.innerHTML = `
+
+          <strong>
+            ${data.name || "User"}
+          </strong>
+
+          <br>
+
+          ${data.email || ""}
+
+          <br>
+
+          Amount:
+          <strong>
+            ₦${Number(
+              data.amount || 0
+            ).toLocaleString()}
+          </strong>
+
+          <br>
+
+          Status:
+
+          <span class="status">
+            ${data.status || "Pending"}
+          </span>
+
+          <br><br>
+
+          ${
+            data.status === "Pending"
+            ?
+
+            `
+
+            <button
+              type="button"
+              class="small-btn"
+              onclick="approveDeposit('${doc.id}')">
+
+              Approve
+
+            </button>
+
+
+            <button
+              type="button"
+              class="small-btn reject-btn"
+              onclick="rejectDeposit('${doc.id}')">
+
+              Reject
+
+            </button>
+
+            `
+
+            :
+
+            ""
+          }
+
+        `;
+
+
+        box.appendChild(
+          row
+        );
+
+      }
+    );
+
+
+  }catch(error){
+
+    console.error(error);
+
+    box.innerHTML =
+      "Unable to load requests.";
+
+  }
+
+}
+
+
+/* =====================================================
+   ADMIN USERS
+===================================================== */
+
+async function loadAdminUsers(){
+
+  const box =
+    $("usersList");
+
+
+  box.innerHTML =
+    "Loading users...";
+
+
+  try{
+
+    const snapshot =
+      await db
+        .collection("users")
+        .get();
+
+
+    if(snapshot.empty){
+
+      box.innerHTML =
+        "No users found.";
+
+      return;
+    }
+
+
+    box.innerHTML =
+      "";
+
+
+    snapshot.forEach(
+      function(doc){
+
+        const data =
+          doc.data();
+
+
+        const row =
+          document.createElement(
+            "div"
+          );
+
+
+        row.className =
+          "user-row";
+
+
+        row.innerHTML = `
+
+          <strong>
+            ${data.name || "User"}
+          </strong>
+
+          <br>
+
+          ${data.email || ""}
+
+          <br>
+
+          Balance:
+
+          <strong>
+            ₦${Number(
+              data.balance || 0
+            ).toLocaleString()}
+          </strong>
+
+        `;
+
+
+        box.appendChild(
+          row
+        );
+
+      }
+    );
+
+
+  }catch(error){
+
+    console.error(error);
+
+    box.innerHTML =
+      "Unable to load users.";
+
+  }
+
+}
+
+
+/* =====================================================
+   APPROVE DEPOSIT
+===================================================== */
+
+window.approveDeposit =
+async function(requestId){
+
+  const confirmApprove =
+    confirm(
+      "Approve this deposit request?"
+    );
+
+
+  if(!confirmApprove){
+
+    return;
+  }
+
+
+  try{
+
+    const requestRef =
+      db
+        .collection(
+          "depositRequests"
+        )
+        .doc(requestId);
+
+
+    await db.runTransaction(
+      async function(transaction){
 
         const requestSnap =
-            await requestRef.get();
+          await transaction.get(
+            requestRef
+          );
 
 
         if(!requestSnap.exists){
 
-            alert(
-                "Request not found."
-            );
-
-            return;
+          throw new Error(
+            "Deposit request not found."
+          );
 
         }
 
 
         const request =
-            requestSnap.data();
+          requestSnap.data();
 
 
         if(
-            request.status !== "PENDING"
+          request.status !==
+          "Pending"
         ){
 
-            alert(
-                "This request has already been processed."
-            );
-
-            return;
+          throw new Error(
+            "This request has already been processed."
+          );
 
         }
 
 
-        await requestRef.update({
+        const userRef =
+          db
+            .collection("users")
+            .doc(request.uid);
+
+
+        const userSnap =
+          await transaction.get(
+            userRef
+          );
+
+
+        if(!userSnap.exists){
+
+          throw new Error(
+            "User account not found."
+          );
+
+        }
+
+
+        const currentBalance =
+          Number(
+            userSnap.data()
+              .balance || 0
+          );
+
+
+        const newBalance =
+          currentBalance +
+          Number(
+            request.amount || 0
+          );
+
+
+        transaction.update(
+          userRef,
+          {
+            balance:
+              newBalance
+          }
+        );
+
+
+        transaction.update(
+          requestRef,
+          {
 
             status:
-                "REJECTED",
+              "Approved",
 
-            rejectedAt:
-                firebase.firestore
+            approvedAt:
+              firebase.firestore
                 .FieldValue
                 .serverTimestamp()
 
-        });
-
-
-        alert(
-            "Deposit request rejected."
+          }
         );
 
 
-        loadDepositRequests();
+        const transactionRef =
+          db
+            .collection(
+              "transactions"
+            )
+            .doc();
 
 
-    }catch(error){
+        transaction.set(
+          transactionRef,
+          {
 
-        console.error(error);
+            uid:
+              request.uid,
 
-        alert(
-            "Unable to reject request."
+            service:
+              "Deposit",
+
+            details:
+              "Wallet Deposit",
+
+            amount:
+              Number(
+                request.amount || 0
+              ),
+
+            status:
+              "Approved",
+
+            createdAt:
+              firebase.firestore
+                .FieldValue
+                .serverTimestamp()
+
+          }
         );
 
-    }
+      }
+    );
+
+
+    alert(
+      "Deposit approved successfully."
+    );
+
+
+    loadAdminDeposits();
+
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      error.message ||
+      "Unable to approve deposit."
+    );
+
+  }
 
 };
 
 
-/* =========================
-   INITIAL DATA PLANS
-========================= */
+/* =====================================================
+   REJECT DEPOSIT
+===================================================== */
+
+window.rejectDeposit =
+async function(requestId){
+
+  const confirmReject =
+    confirm(
+      "Reject this deposit request?"
+    );
+
+
+  if(!confirmReject){
+
+    return;
+  }
+
+
+  try{
+
+    await db
+      .collection(
+        "depositRequests"
+      )
+      .doc(requestId)
+      .update({
+
+        status:
+          "Rejected",
+
+        rejectedAt:
+          firebase.firestore
+            .FieldValue
+            .serverTimestamp()
+
+      });
+
+
+    alert(
+      "Deposit request rejected."
+    );
+
+
+    loadAdminDeposits();
+
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      "Unable to reject request."
+    );
+
+  }
+
+};
+
+
+/* =====================================================
+   AUTH STATE
+===================================================== */
+
+auth.onAuthStateChanged(
+  async function(user){
+
+    if(!user){
+
+      currentUser =
+        null;
+
+
+      $("landingPage").style.display =
+        "block";
+
+      $("verifyPage").style.display =
+        "none";
+
+      $("appPage").style.display =
+        "none";
+
+      $("adminPage").style.display =
+        "none";
+
+
+      return;
+
+    }
+
+
+    currentUser =
+      user;
+
+
+    if(!user.emailVerified){
+
+      showVerifyPage();
+
+      return;
+
+    }
+
+
+    await routeUser(
+      user
+    );
+
+  }
+);
+
+
+/* =====================================================
+   KEYBOARD
+===================================================== */
+
+document.addEventListener(
+  "keydown",
+  function(event){
+
+    if(
+      event.key === "Escape" &&
+      $("authOverlay").style.display === "flex"
+    ){
+
+      closeAuth();
+
+    }
+
+
+    if(
+      event.key === "Enter" &&
+      $("authOverlay").style.display === "flex"
+    ){
+
+      submitAuth();
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   START
+===================================================== */
 
 renderPlans();
 
 </script>
+
 </body>
 </html>
