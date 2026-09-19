@@ -4408,62 +4408,91 @@ async function approveDeposit(depositId){
 
       balance: newBalance,
 
-      updatedAt:
-        firebase.firestore.FieldValue.serverTimestamp()
+async function approveDeposit(depositId){
 
-    },{merge:true});
+  if(!currentUser){
+    showAlert("Please login first.","error");
+    return;
+  }
 
+  if(currentUser.email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()){
+    showAlert("Admin access only.","error");
+    return;
+  }
 
-    // UPDATE DEPOSIT
+  try{
+
+    const depositRef = db.collection("deposits").doc(depositId);
+
+    const depositSnap = await depositRef.get();
+
+    if(!depositSnap.exists){
+      throw new Error("Deposit not found.");
+    }
+
+    const deposit = depositSnap.data();
+
+    if(deposit.status !== "pending"){
+      throw new Error("This deposit has already been processed.");
+    }
+
+    const amount = Number(deposit.amount);
+
+    if(!Number.isFinite(amount) || amount <= 0){
+      throw new Error("Invalid deposit amount.");
+    }
+
+    const uid = deposit.uid;
+
+    if(!uid){
+      throw new Error("Deposit user ID is missing.");
+    }
+
+    const userRef = db.collection("users").doc(uid);
+
+    const userSnap = await userRef.get();
+
+    let balance = 0;
+
+    if(userSnap.exists){
+      balance = Number(userSnap.data().balance || 0);
+    }
+
+    const newBalance = balance + amount;
+
+    await userRef.set({
+      balance: newBalance,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }, {merge:true});
+
     await depositRef.update({
-
       status: "approved",
-
-      approvedAt:
-        firebase.firestore.FieldValue.serverTimestamp(),
-
+      approvedAt: firebase.firestore.FieldValue.serverTimestamp(),
       approvedBy: currentUser.email
-
     });
 
-
-    // CREATE TRANSACTION
     await db.collection("transactions").add({
-
       uid: uid,
-
       type: "deposit",
-
       amount: amount,
-
       description: "Wallet deposit approved",
-
       status: "successful",
-
       depositId: depositId,
-
-      createdAt:
-        firebase.firestore.FieldValue.serverTimestamp()
-
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
-
 
     showAlert(
       "Deposit approved and wallet credited.",
       "success"
     );
 
-
     await loadAdminDeposits();
-
     await loadAdminUsers();
-
     await loadDashboard();
-
 
   }catch(error){
 
-    console.error("APPROVE ERROR:",error);
+    console.error("APPROVE ERROR:", error);
 
     showAlert(
       "Approve failed: " + error.message,
