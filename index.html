@@ -2,2461 +2,1470 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>A-T-L DATA | Digital Services</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>A-T-L DATA</title>
 
 <style>
+
 *{
-box-sizing:border-box;
-margin:0;
-padding:0;
-font-family:Arial,sans-serif
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
 }
 
 body{
-background:#f4f7f8;
-color:#17211b
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f5f8f6;
+  color:#18251e;
+  min-height:100vh;
 }
+
+button,
+input,
+select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+  border:0;
+}
+
+.hidden{
+  display:none!important;
+}
+
+/* HEADER */
 
 header{
-background:linear-gradient(135deg,#075e3b,#0b8f59);
-color:#fff;
-padding:16px 5%;
-position:sticky;
-top:0;
-z-index:100
-}
-
-.nav{
-max-width:1100px;
-margin:auto;
-display:flex;
-justify-content:space-between;
-align-items:center
+  background:#075b35;
+  color:white;
+  padding:15px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:100;
+  box-shadow:0 3px 15px rgba(0,0,0,.15);
 }
 
 .logo{
-font-size:23px;
-font-weight:800
+  display:flex;
+  align-items:center;
+  gap:10px;
 }
 
-.logo span{
-color:#ffd65a
+.logo-icon{
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  background:#d9ad35;
+  color:#075b35;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+  font-size:16px;
 }
 
-.nav-actions{
-display:flex;
-gap:8px
+.logo h2{
+  font-size:18px;
 }
 
-.nav button{
-padding:9px 14px;
-border-radius:8px;
-border:1px solid #fff;
-background:transparent;
-color:#fff;
-cursor:pointer
+.logo small{
+  display:block;
+  font-size:10px;
+  opacity:.8;
 }
 
-.container{
-max-width:1100px;
-margin:auto;
-padding:25px 5% 50px
+.header-buttons{
+  display:flex;
+  gap:7px;
+}
+
+.header-buttons button{
+  padding:9px 12px;
+  border-radius:8px;
+  font-size:13px;
+}
+
+.login-btn{
+  background:white;
+  color:#075b35;
+}
+
+.register-btn{
+  background:#d9ad35;
+  color:#18251e;
+}
+
+.logout-btn{
+  background:#b42318;
+  color:white;
+}
+
+/* LANDING */
+
+.landing{
+  max-width:1000px;
+  margin:auto;
+  padding:45px 18px;
 }
 
 .hero{
-background:linear-gradient(135deg,#063f29,#0b8250);
-color:white;
-padding:32px;
-border-radius:20px;
-margin-bottom:25px
+  background:linear-gradient(135deg,#075b35,#0b7b48);
+  color:white;
+  border-radius:22px;
+  padding:35px 22px;
+  text-align:center;
+  box-shadow:0 10px 30px rgba(0,0,0,.12);
 }
 
-.demo{
-display:inline-block;
-background:#fff3bd;
-color:#624d00;
-padding:7px 12px;
-border-radius:20px;
-font-size:12px;
-font-weight:bold
+.badge{
+  display:inline-block;
+  background:#d9ad35;
+  color:#18251e;
+  padding:6px 12px;
+  border-radius:30px;
+  font-size:11px;
+  font-weight:bold;
+  margin-bottom:15px;
 }
 
 .hero h1{
-margin:15px 0 8px;
-font-size:30px
+  font-size:34px;
+  margin-bottom:10px;
 }
 
 .hero p{
-opacity:.9;
-line-height:1.6
+  max-width:600px;
+  margin:auto;
+  line-height:1.6;
+  opacity:.92;
 }
 
-.dashboard{
-display:none;
-background:#fff;
-border-radius:18px;
-padding:22px;
-margin-bottom:25px;
-box-shadow:0 5px 20px rgba(0,0,0,.06)
+.hero-actions{
+  margin-top:24px;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
 }
 
-.dashboard.active{
-display:block
+.hero-actions button{
+  padding:13px 20px;
+  border-radius:10px;
+  font-weight:bold;
 }
 
-.balance{
-background:#063f29;
-color:white;
-padding:20px;
-border-radius:15px;
-margin-bottom:20px
+.hero-login{
+  background:white;
+  color:#075b35;
 }
 
-.balance small{
-opacity:.8
+.hero-register{
+  background:#d9ad35;
+  color:#18251e;
 }
 
-.balance h2{
-margin-top:8px;
-font-size:30px
+/* FEATURES */
+
+.features{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  margin-top:20px;
 }
 
-.stats{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:12px
+.feature{
+  background:white;
+  border-radius:15px;
+  padding:20px 12px;
+  text-align:center;
+  box-shadow:0 4px 18px rgba(0,0,0,.06);
 }
 
-.stat{
-background:#f5f8f6;
-padding:15px;
-border-radius:12px
+.feature-icon{
+  font-size:28px;
+  margin-bottom:8px;
 }
 
-.stat strong{
-display:block;
-font-size:19px;
-margin-top:5px
+.feature h3{
+  font-size:14px;
+  margin-bottom:5px;
 }
 
-.services{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:15px;
-margin-top:15px
+.feature p{
+  font-size:11px;
+  color:#66736c;
 }
 
-.service{
-background:#fff;
-padding:22px;
-border-radius:15px;
-cursor:pointer;
-border:1px solid #e1e7e3;
-transition:.2s
-}
-
-.service:hover,
-.service.active{
-border-color:#0b8f59;
-transform:translateY(-2px);
-box-shadow:0 7px 20px rgba(0,0,0,.08)
-}
-
-.icon{
-font-size:29px;
-margin-bottom:9px
-}
-
-.service p{
-color:#69736d;
-font-size:14px;
-margin-top:5px
-}
-
-.panel{
-display:none;
-background:#fff;
-padding:25px;
-margin-top:25px;
-border-radius:18px;
-box-shadow:0 5px 20px rgba(0,0,0,.06)
-}
-
-.panel.active{
-display:block
-}
-
-.panel-title{
-font-size:22px;
-margin-bottom:20px
-}
-
-.networks{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:10px;
-margin-bottom:18px
-}
-
-.network{
-padding:12px 8px;
-border:1px solid #d8dfdb;
-border-radius:9px;
-background:#fff;
-cursor:pointer;
-font-weight:bold
-}
-
-.network.active{
-background:#087f4f;
-color:white;
-border-color:#087f4f
-}
-
-.plans{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:12px;
-margin-top:15px
-}
-
-.plan{
-border:1px solid #dce3df;
-padding:16px;
-border-radius:12px;
-cursor:pointer;
-background:#fff
-}
-
-.plan:hover,
-.plan.selected{
-border-color:#087f4f;
-background:#f1faf5
-}
-
-.plan h3{
-color:#087f4f;
-margin-bottom:6px
-}
-
-.plan p{
-font-size:13px;
-color:#68726c;
-line-height:1.5
-}
-
-label{
-display:block;
-margin:14px 0 7px;
-font-weight:600;
-font-size:14px
-}
-
-input,
-select{
-width:100%;
-padding:13px;
-border:1px solid #d5ddd8;
-border-radius:9px;
-outline:none;
-background:#fff
-}
-
-input:focus,
-select:focus{
-border-color:#087f4f
-}
-
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:15px
-}
-
-.submit-btn{
-width:100%;
-margin-top:20px;
-padding:14px;
-background:#087f4f;
-color:white;
-border:none;
-border-radius:9px;
-font-size:16px;
-font-weight:bold;
-cursor:pointer
-}
-
-.submit-btn:hover{
-background:#066b42
-}
-
-.notice{
-margin-top:15px;
-padding:12px;
-background:#f0f7f3;
-color:#17633f;
-border-radius:8px;
-font-size:13px
-}
-
-.form-section{
-display:none
-}
-
-.form-section.active{
-display:block
-}
+/* AUTH */
 
 .auth-overlay{
-display:none;
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.55);
-z-index:500;
-align-items:center;
-justify-content:center;
-padding:20px
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index:500;
 }
 
-.auth-overlay.active{
-display:flex
+.auth-overlay.show{
+  display:flex;
 }
 
 .auth-box{
-background:white;
-width:100%;
-max-width:420px;
-padding:25px;
-border-radius:18px;
-position:relative
+  background:white;
+  width:100%;
+  max-width:410px;
+  border-radius:20px;
+  padding:25px;
+  position:relative;
+  box-shadow:0 20px 50px rgba(0,0,0,.3);
 }
 
-.close{
-position:absolute;
-right:18px;
-top:15px;
-background:none;
-border:0;
-font-size:25px;
-cursor:pointer
+.close-auth{
+  position:absolute;
+  right:15px;
+  top:12px;
+  background:#eee;
+  width:32px;
+  height:32px;
+  border-radius:50%;
 }
 
 .auth-box h2{
-margin-bottom:8px
+  color:#075b35;
+  margin-bottom:5px;
 }
 
-.auth-box p{
-color:#69736d;
-font-size:14px;
-margin-bottom:18px
+.auth-box > p{
+  color:#68746e;
+  font-size:13px;
+  margin-bottom:20px;
+}
+
+.form-group{
+  margin-bottom:14px;
+}
+
+.form-group label{
+  display:block;
+  font-size:13px;
+  font-weight:bold;
+  margin-bottom:6px;
+}
+
+.form-group input,
+.form-group select{
+  width:100%;
+  padding:12px;
+  border:1px solid #d9dfdb;
+  border-radius:9px;
+  outline:none;
+  background:white;
+}
+
+.form-group input:focus,
+.form-group select:focus{
+  border-color:#075b35;
+}
+
+.auth-submit{
+  width:100%;
+  background:#075b35;
+  color:white;
+  padding:13px;
+  border-radius:9px;
+  font-weight:bold;
+  margin-top:5px;
 }
 
 .auth-switch{
-text-align:center;
-margin-top:18px;
-font-size:14px
+  text-align:center;
+  font-size:13px;
+  margin-top:15px;
+  color:#66736c;
 }
 
 .auth-switch button{
-border:0;
-background:none;
-color:#087f4f;
-font-weight:bold;
-cursor:pointer
+  background:none;
+  color:#075b35;
+  font-weight:bold;
 }
 
-.user-name{
-font-weight:bold
+/* APP */
+
+.app{
+  display:none;
+  max-width:1100px;
+  margin:auto;
+  padding:20px 15px 50px;
 }
 
-.logout{
-background:#9d2929!important;
-border-color:#9d2929!important
+.app.show{
+  display:block;
 }
 
-.history{
-margin-top:22px;
-overflow-x:auto
+/* DASHBOARD */
+
+.welcome{
+  background:white;
+  border-radius:16px;
+  padding:20px;
+  box-shadow:0 4px 18px rgba(0,0,0,.06);
+  margin-bottom:15px;
 }
 
-.history table{
-width:100%;
-border-collapse:collapse;
-min-width:550px
+.welcome h2{
+  color:#075b35;
+  margin-bottom:5px;
 }
 
-.history th,
-.history td{
-padding:11px;
-text-align:left;
-border-bottom:1px solid #e5e9e6;
-font-size:13px
-}
-
-.history th{
-background:#f5f8f6
-}
-
-footer{
-background:#09271c;
-color:white;
-text-align:center;
-padding:25px
-}
-
-footer small{
-color:#b8c9c1
-}
-
-@media(max-width:750px){
-
-.services{
-grid-template-columns:1fr 1fr
-}
-
-.plans{
-grid-template-columns:1fr 1fr
+.welcome p{
+  color:#68746e;
+  font-size:13px;
 }
 
 .stats{
-grid-template-columns:1fr
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-bottom:20px;
 }
 
-.networks{
-grid-template-columns:1fr 1fr
+.stat{
+  background:white;
+  border-radius:15px;
+  padding:18px;
+  box-shadow:0 4px 18px rgba(0,0,0,.06);
 }
 
-.grid{
-grid-template-columns:1fr
+.stat small{
+  color:#68746e;
+  font-size:11px;
 }
 
+.stat h3{
+  margin-top:7px;
+  color:#075b35;
+  font-size:20px;
 }
 
-@media(max-width:480px){
+/* SERVICES */
 
-.services{
-grid-template-columns:1fr
+.services-title{
+  margin-bottom:12px;
+}
+
+.services-title h2{
+  color:#075b35;
+}
+
+.services-title p{
+  color:#68746e;
+  font-size:13px;
+  margin-top:4px;
+}
+
+.service-menu{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.service-menu button{
+  background:white;
+  border:1px solid #e0e5e2;
+  border-radius:13px;
+  padding:15px 8px;
+  color:#075b35;
+  font-weight:bold;
+  box-shadow:0 3px 12px rgba(0,0,0,.04);
+}
+
+.service-menu button.active{
+  background:#075b35;
+  color:white;
+}
+
+.service-panel{
+  display:none;
+  background:white;
+  border-radius:18px;
+  padding:20px;
+  box-shadow:0 5px 20px rgba(0,0,0,.07);
+}
+
+.service-panel.active{
+  display:block;
+}
+
+.panel-title{
+  margin-bottom:18px;
+}
+
+.panel-title h2{
+  color:#075b35;
+}
+
+.panel-title p{
+  color:#68746e;
+  font-size:12px;
+  margin-top:5px;
+}
+
+/* PLANS */
+
+.network-select{
+  margin-bottom:18px;
+}
+
+.network-select label{
+  display:block;
+  font-size:13px;
+  font-weight:bold;
+  margin-bottom:6px;
+}
+
+.network-select select{
+  width:100%;
+  max-width:400px;
+  padding:12px;
+  border:1px solid #d9dfdb;
+  border-radius:9px;
 }
 
 .plans{
-grid-template-columns:1fr
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
 }
 
-.hero h1{
-font-size:25px
+.plan{
+  border:1px solid #e1e7e3;
+  border-radius:14px;
+  padding:16px;
+  text-align:center;
 }
 
-.nav{
-align-items:flex-start;
-gap:10px
+.plan h3{
+  color:#075b35;
+  margin-bottom:5px;
 }
 
-.nav-actions{
-flex-wrap:wrap;
-justify-content:flex-end
+.plan .validity{
+  color:#7a857f;
+  font-size:11px;
+  margin-bottom:10px;
 }
 
+.plan strong{
+  display:block;
+  font-size:18px;
+  margin-bottom:12px;
 }
+
+.plan button,
+.primary-btn{
+  background:#075b35;
+  color:white;
+  width:100%;
+  padding:11px;
+  border-radius:8px;
+  font-weight:bold;
+}
+
+/* FORM GRID */
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.full{
+  grid-column:1/-1;
+}
+
+/* BILLS */
+
+.bill-tabs{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  margin-bottom:18px;
+}
+
+.bill-tabs button{
+  padding:11px 5px;
+  border-radius:8px;
+  background:#eef3ef;
+  color:#075b35;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.bill-tabs button.active{
+  background:#075b35;
+  color:white;
+}
+
+.bill-form{
+  display:none;
+}
+
+.bill-form.active{
+  display:block;
+}
+
+/* TRANSACTIONS */
+
+.transactions{
+  background:white;
+  border-radius:18px;
+  margin-top:20px;
+  padding:20px;
+  box-shadow:0 5px 20px rgba(0,0,0,.06);
+  overflow:hidden;
+}
+
+.transactions h2{
+  color:#075b35;
+  margin-bottom:15px;
+}
+
+.table-wrap{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:650px;
+}
+
+th,
+td{
+  text-align:left;
+  padding:12px 10px;
+  border-bottom:1px solid #edf0ee;
+  font-size:12px;
+}
+
+th{
+  background:#f4f7f5;
+  color:#075b35;
+}
+
+.status{
+  background:#e6f6ed;
+  color:#08753f;
+  padding:4px 8px;
+  border-radius:20px;
+  font-size:10px;
+  font-weight:bold;
+}
+
+/* MOBILE */
+
+@media(max-width:750px){
+
+  .features{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .stats{
+    grid-template-columns:1fr 1fr 1fr;
+  }
+
+  .service-menu{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .plans{
+    grid-template-columns:1fr 1fr;
+  }
+
+}
+
+@media(max-width:500px){
+
+  header{
+    padding:12px;
+  }
+
+  .logo h2{
+    font-size:15px;
+  }
+
+  .logo-icon{
+    width:36px;
+    height:36px;
+  }
+
+  .header-buttons button{
+    padding:7px 8px;
+    font-size:11px;
+  }
+
+  .landing{
+    padding:25px 12px;
+  }
+
+  .hero{
+    padding:28px 15px;
+  }
+
+  .hero h1{
+    font-size:27px;
+  }
+
+  .features{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  .plans{
+    grid-template-columns:1fr;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .full{
+    grid-column:auto;
+  }
+
+  .bill-tabs{
+    grid-template-columns:1fr 1fr;
+  }
+
+}
+
 </style>
 </head>
 
 <body>
 
+<!-- HEADER -->
+
 <header>
 
-<div class="nav">
+  <div class="logo">
 
-<div class="logo">
-A-T-L <span>DATA</span>
-</div>
+    <div class="logo-icon">
+      ATL
+    </div>
 
-<div class="nav-actions">
+    <div>
+      <h2>A-T-L DATA</h2>
+      <small>Digital Services</small>
+    </div>
 
-<button id="loginButton"
-onclick="openAuth('login')">
-Login
-</button>
+  </div>
 
-<button id="registerButton"
-onclick="openAuth('register')">
-Register
-</button>
+  <div class="header-buttons">
 
-<button id="logoutButton"
-class="logout"
-style="display:none"
-onclick="logout()">
-Logout
-</button>
+    <button
+      id="loginBtn"
+      class="login-btn"
+      onclick="openAuth('login')">
+      Login
+    </button>
 
-</div>
+    <button
+      id="registerBtn"
+      class="register-btn"
+      onclick="openAuth('register')">
+      Register
+    </button>
 
-</div>
+    <button
+      id="logoutBtn"
+      class="logout-btn hidden"
+      onclick="logoutUser()">
+      Logout
+    </button>
+
+  </div>
 
 </header>
 
 
-<main class="container">
+<!-- LANDING PAGE -->
+
+<section id="landing" class="landing">
+
+  <div class="hero">
+
+    <span class="badge">
+      A-T-L DATA
+    </span>
+
+    <h1>
+      Your Digital Service Platform
+    </h1>
+
+    <p>
+      Buy Data, Airtime and pay for digital services
+      easily from one secure platform.
+    </p>
+
+    <div class="hero-actions">
+
+      <button
+        class="hero-login"
+        onclick="openAuth('login')">
+        Login
+      </button>
+
+      <button
+        class="hero-register"
+        onclick="openAuth('register')">
+        Create Account
+      </button>
+
+    </div>
+
+  </div>
 
 
-<section class="hero">
+  <div class="features">
 
-<span class="demo">
-DEMO / TEST MODE
-</span>
+    <div class="feature">
+      <div class="feature-icon">📱</div>
+      <h3>Data</h3>
+      <p>MTN, Airtel, Glo & 9mobile</p>
+    </div>
 
-<h1>
-Fast & Simple Digital Services
-</h1>
+    <div class="feature">
+      <div class="feature-icon">☎️</div>
+      <h3>Airtime</h3>
+      <p>Fast airtime purchase</p>
+    </div>
 
-<p>
-Buy data, airtime and pay bills from one secure platform.
-</p>
+    <div class="feature">
+      <div class="feature-icon">💡</div>
+      <h3>Bills</h3>
+      <p>Pay different services</p>
+    </div>
 
-</section>
+    <div class="feature">
+      <div class="feature-icon">💰</div>
+      <h3>Wallet</h3>
+      <p>Manage your balance</p>
+    </div>
 
-
-<!-- DASHBOARD -->
-
-<section class="dashboard" id="dashboard">
-
-<div class="balance">
-
-<small>
-Wallet Balance
-</small>
-
-<h2 id="balance">
-₦0.00
-</h2>
-
-<p style="margin-top:8px">
-
-Welcome,
-<span class="user-name" id="userName">
-User
-</span>
-
-</p>
-
-</div>
-
-
-<div class="stats">
-
-<div class="stat">
-
-<small>
-Total Transactions
-</small>
-
-<strong id="transactionCount">
-0
-</strong>
-
-</div>
-
-
-<div class="stat">
-
-<small>
-Successful
-</small>
-
-<strong id="successfulCount">
-0
-</strong>
-
-</div>
-
-
-<div class="stat">
-
-<small>
-Account Status
-</small>
-
-<strong id="accountStatus">
-Active
-</strong>
-
-</div>
-
-</div>
-
-
-<div class="history">
-
-<h3 style="margin-bottom:12px">
-Recent Transactions
-</h3>
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>
-Service
-</th>
-
-<th>
-Amount
-</th>
-
-<th>
-Status
-</th>
-
-<th>
-Date
-</th>
-
-</tr>
-
-</thead>
-
-<tbody id="transactionTable">
-
-<tr>
-
-<td colspan="4">
-No transactions yet.
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
-
-</div>
+  </div>
 
 </section>
 
 
-<h2>
-Our Services
-</h2>
+<!-- APPLICATION -->
 
+<main id="app" class="app">
 
-<div class="services">
+  <div class="welcome">
 
+    <h2>
+      Welcome, <span id="userName">User</span>
+    </h2>
 
-<div class="service active"
-onclick="openPanel('dataPanel',this)">
+    <p id="userEmail">
+      Loading...
+    </p>
 
-<div class="icon">
-📶
-</div>
+  </div>
 
-<h3>
-Buy Data
-</h3>
 
-<p>
-MTN • Airtel • Glo • 9mobile
-</p>
+  <div class="stats">
 
-</div>
+    <div class="stat">
+      <small>Wallet Balance</small>
+      <h3 id="balance">₦0</h3>
+    </div>
 
+    <div class="stat">
+      <small>Transactions</small>
+      <h3 id="transactionCount">0</h3>
+    </div>
 
-<div class="service"
-onclick="openPanel('airtimePanel',this)">
+    <div class="stat">
+      <small>Successful</small>
+      <h3 id="successCount">0</h3>
+    </div>
 
-<div class="icon">
-📱
-</div>
+  </div>
 
-<h3>
-Buy Airtime
-</h3>
 
-<p>
-Recharge any supported network
-</p>
+  <div class="services-title">
 
-</div>
+    <h2>Services</h2>
 
+    <p>
+      Select a service below.
+    </p>
 
-<div class="service"
-onclick="openPanel('billsPanel',this)">
+  </div>
 
-<div class="icon">
-💳
-</div>
 
-<h3>
-Pay Bills
-</h3>
+  <!-- SERVICE MENU -->
 
-<p>
-Electricity • NECO • TV • Internet
-</p>
+  <div class="service-menu">
 
-</div>
+    <button
+      id="dataMenu"
+      onclick="openService('dataPanel')">
+      📱 Data
+    </button>
 
-</div>
+    <button
+      id="airtimeMenu"
+      onclick="openService('airtimePanel')">
+      ☎️ Airtime
+    </button>
 
+    <button
+      id="billsMenu"
+      onclick="openService('billsPanel')">
+      💡 Bills
+    </button>
 
-<!-- DATA PANEL -->
+    <button
+      id="walletMenu"
+      onclick="openService('walletPanel')">
+      💰 Wallet
+    </button>
 
-<div class="panel active" id="dataPanel">
+  </div>
 
-<h2 class="panel-title">
-Buy Data
-</h2>
 
-<label>
-Select Network
-</label>
+  <!-- DATA PANEL -->
 
-<div class="networks">
+  <section
+    id="dataPanel"
+    class="service-panel">
 
-<button class="network active"
-onclick="selectNetwork('mtn',this)">
-MTN
-</button>
+    <div class="panel-title">
 
-<button class="network"
-onclick="selectNetwork('airtel',this)">
-Airtel
-</button>
+      <h2>Buy Data</h2>
 
-<button class="network"
-onclick="selectNetwork('glo',this)">
-Glo
-</button>
+      <p>
+        Select network and data plan.
+      </p>
 
-<button class="network"
-onclick="selectNetwork('9mobile',this)">
-9mobile
-</button>
+    </div>
 
-</div>
 
+    <div class="network-select">
 
-<h3 id="plansTitle">
-MTN Data Plans
-</h3>
+      <label>
+        Network
+      </label>
 
-<div class="plans"
-id="plansContainer">
-</div>
+      <select
+        id="dataNetwork"
+        onchange="renderPlans()">
 
+        <option value="MTN">
+          MTN
+        </option>
 
-<label>
-Phone Number
-</label>
+        <option value="Airtel">
+          Airtel
+        </option>
 
-<input
-id="dataPhone"
-type="tel"
-inputmode="numeric"
-placeholder="08012345678"
->
+        <option value="Glo">
+          Glo
+        </option>
 
+        <option value="9mobile">
+          9mobile
+        </option>
 
-<button class="submit-btn"
-onclick="buyData()">
-Continue
-</button>
+      </select>
 
+    </div>
 
-<div class="notice">
-🔒 Demo mode — no real data purchase will happen.
-</div>
 
-</div>
+    <div
+      class="form-group"
+      style="max-width:400px">
 
+      <label>
+        Phone Number
+      </label>
 
-<!-- AIRTIME PANEL -->
+      <input
+        id="dataPhone"
+        type="tel"
+        placeholder="08012345678">
 
-<div class="panel"
-id="airtimePanel">
+    </div>
 
-<h2 class="panel-title">
-Buy Airtime
-</h2>
 
-<label>
-Select Network
-</label>
+    <div
+      id="plans"
+      class="plans">
+    </div>
 
-<div class="networks">
+  </section>
 
-<button class="network active"
-onclick="selectAirtimeNetwork('mtn',this)">
-MTN
-</button>
 
-<button class="network"
-onclick="selectAirtimeNetwork('airtel',this)">
-Airtel
-</button>
+  <!-- AIRTIME PANEL -->
 
-<button class="network"
-onclick="selectAirtimeNetwork('glo',this)">
-Glo
-</button>
+  <section
+    id="airtimePanel"
+    class="service-panel">
 
-<button class="network"
-onclick="selectAirtimeNetwork('9mobile',this)">
-9mobile
-</button>
+    <div class="panel-title">
 
-</div>
+      <h2>Buy Airtime</h2>
 
+      <p>
+        Enter phone number and amount.
+      </p>
 
-<label>
-Phone Number
-</label>
+    </div>
 
-<input
-id="airtimePhone"
-type="tel"
-inputmode="numeric"
-placeholder="08012345678"
->
 
+    <div class="form-grid">
 
-<label>
-Amount
-</label>
+      <div class="form-group">
 
-<select id="airtimeAmount">
+        <label>
+          Network
+        </label>
 
-<option value="">
-Select Amount
-</option>
+        <select id="airtimeNetwork">
 
-<option value="100">
-₦100
-</option>
+          <option value="MTN">
+            MTN
+          </option>
 
-<option value="200">
-₦200
-</option>
+          <option value="Airtel">
+            Airtel
+          </option>
 
-<option value="500">
-₦500
-</option>
+          <option value="Glo">
+            Glo
+          </option>
 
-<option value="1000">
-₦1,000
-</option>
+          <option value="9mobile">
+            9mobile
+          </option>
 
-<option value="2000">
-₦2,000
-</option>
+        </select>
 
-<option value="5000">
-₦5,000
-</option>
+      </div>
 
-</select>
 
+      <div class="form-group">
 
-<button class="submit-btn"
-onclick="buyAirtime()">
-Continue
-</button>
+        <label>
+          Phone Number
+        </label>
 
+        <input
+          id="airtimePhone"
+          type="tel"
+          placeholder="08012345678">
 
-<div class="notice">
-🔒 Demo mode — no real airtime purchase will happen.
-</div>
+      </div>
 
-</div>
 
+      <div class="form-group full">
 
-<!-- BILLS PANEL -->
+        <label>
+          Amount (₦)
+        </label>
 
-<div class="panel"
-id="billsPanel">
+        <input
+          id="airtimeAmount"
+          type="number"
+          min="50"
+          placeholder="500">
 
-<h2 class="panel-title">
-Pay Bills
-</h2>
+      </div>
 
-<label>
-Select Bill Service
-</label>
+    </div>
 
-<select id="billType"
-onchange="changeBillService()">
 
-<option value="electricity">
-⚡ Electricity
-</option>
+    <button
+      class="primary-btn"
+      onclick="buyAirtime()">
 
-<option value="neco">
-🎓 NECO
-</option>
+      Buy Airtime
 
-<option value="tv">
-📺 TV Subscription
-</option>
+    </button>
 
-<option value="internet">
-🌐 Internet
-</option>
+  </section>
 
-</select>
 
+  <!-- BILLS PANEL -->
 
-<!-- ELECTRICITY -->
+  <section
+    id="billsPanel"
+    class="service-panel">
 
-<div class="form-section active"
-id="electricityForm">
+    <div class="panel-title">
 
-<h3 style="margin-top:22px">
-Electricity Payment
-</h3>
+      <h2>Pay Bills</h2>
 
-<div class="grid">
+      <p>
+        Select the service you want to pay for.
+      </p>
 
-<div>
+    </div>
 
-<label>
-Electricity Provider
-</label>
 
-<select id="electricityProvider">
+    <div class="bill-tabs">
 
-<option value="">
-Select Provider
-</option>
+      <button
+        onclick="openBill('electricityForm',this)">
+        Electricity
+      </button>
 
-<option>KEDCO</option>
-<option>IKEDC</option>
-<option>EKEDC</option>
-<option>JED</option>
-<option>KAEDCO</option>
+      <button
+        onclick="openBill('necoForm',this)">
+        NECO
+      </button>
 
-</select>
+      <button
+        onclick="openBill('tvForm',this)">
+        TV
+      </button>
 
-</div>
+      <button
+        onclick="openBill('internetForm',this)">
+        Internet
+      </button>
 
+    </div>
 
-<div>
 
-<label>
-Meter Type
-</label>
+    <!-- ELECTRICITY -->
 
-<select id="meterType">
+    <div
+      id="electricityForm"
+      class="bill-form">
 
-<option>
-Prepaid
-</option>
+      <div class="form-group">
 
-<option>
-Postpaid
-</option>
+        <label>
+          Meter Number
+        </label>
 
-</select>
+        <input
+          id="electricityMeter"
+          placeholder="Enter meter number">
 
-</div>
+      </div>
 
-</div>
+      <div class="form-group">
 
+        <label>
+          Amount
+        </label>
 
-<label>
-Meter Number
-</label>
+        <input
+          id="electricityAmount"
+          type="number"
+          placeholder="5000">
 
-<input
-id="meterNumber"
-inputmode="numeric"
-placeholder="Enter meter number"
->
+      </div>
 
+      <button
+        class="primary-btn"
+        onclick="demoBill('Electricity')">
 
-<label>
-Amount
-</label>
+        Pay Electricity
 
-<input
-id="electricityAmount"
-type="number"
-min="1"
-placeholder="₦ Enter amount"
->
+      </button>
 
+    </div>
 
-<button class="submit-btn"
-onclick="demoBill('Electricity')">
-Continue
-</button>
 
-</div>
+    <!-- NECO -->
 
+    <div
+      id="necoForm"
+      class="bill-form">
 
-<!-- NECO -->
+      <div class="form-group">
 
-<div class="form-section"
-id="necoForm">
+        <label>
+          Registration / Token Number
+        </label>
 
-<h3 style="margin-top:22px">
-NECO
-</h3>
+        <input
+          id="necoNumber"
+          placeholder="Enter number">
 
-<label>
-Exam Type
-</label>
+      </div>
 
-<select id="necoExamType">
+      <div class="form-group">
 
-<option value="">
-Select Exam Type
-</option>
+        <label>
+          Amount
+        </label>
 
-<option>
-SSCE Internal
-</option>
+        <input
+          id="necoAmount"
+          type="number"
+          placeholder="5000">
 
-<option>
-SSCE External
-</option>
+      </div>
 
-</select>
+      <button
+        class="primary-btn"
+        onclick="demoBill('NECO')">
 
+        Pay NECO
 
-<label>
-Exam Year
-</label>
+      </button>
 
-<select id="necoYear">
+    </div>
 
-<option value="">
-Select Year
-</option>
 
-<option>
-2026
-</option>
+    <!-- TV -->
 
-<option>
-2025
-</option>
+    <div
+      id="tvForm"
+      class="bill-form">
 
-<option>
-2024
-</option>
+      <div class="form-group">
 
-</select>
+        <label>
+          Smartcard Number
+        </label>
 
+        <input
+          id="tvNumber"
+          placeholder="Enter smartcard number">
 
-<label>
-Quantity
-</label>
+      </div>
 
-<input
-id="necoQuantity"
-type="number"
-min="1"
-value="1"
->
+      <div class="form-group">
 
+        <label>
+          Amount
+        </label>
 
-<button class="submit-btn"
-onclick="demoBill('NECO')">
-Continue
-</button>
+        <input
+          id="tvAmount"
+          type="number"
+          placeholder="5000">
 
-</div>
+      </div>
 
+      <button
+        class="primary-btn"
+        onclick="demoBill('TV')">
 
-<!-- TV -->
+        Pay TV
 
-<div class="form-section"
-id="tvForm">
+      </button>
 
-<h3 style="margin-top:22px">
-TV Subscription
-</h3>
+    </div>
 
-<label>
-TV Provider
-</label>
 
-<select id="tvProvider">
+    <!-- INTERNET -->
 
-<option value="">
-Select Provider
-</option>
+    <div
+      id="internetForm"
+      class="bill-form">
 
-<option>
-DStv
-</option>
+      <div class="form-group">
 
-<option>
-GOtv
-</option>
+        <label>
+          Internet Account Number
+        </label>
 
-<option>
-Startimes
-</option>
+        <input
+          id="internetNumber"
+          placeholder="Enter account number">
 
-</select>
+      </div>
 
+      <div class="form-group">
 
-<label>
-Smartcard / IUC Number
-</label>
+        <label>
+          Amount
+        </label>
 
-<input
-id="tvNumber"
-inputmode="numeric"
-placeholder="Enter number"
->
+        <input
+          id="internetAmount"
+          type="number"
+          placeholder="5000">
 
+      </div>
 
-<label>
-Package
-</label>
+      <button
+        class="primary-btn"
+        onclick="demoBill('Internet')">
 
-<select id="tvPackage">
+        Pay Internet
 
-<option value="">
-Select Package
-</option>
+      </button>
 
-<option>
-Basic
-</option>
+    </div>
 
-<option>
-Standard
-</option>
+  </section>
 
-<option>
-Premium
-</option>
 
-</select>
+  <!-- WALLET PANEL -->
 
+  <section
+    id="walletPanel"
+    class="service-panel">
 
-<button class="submit-btn"
-onclick="demoBill('TV Subscription')">
-Continue
-</button>
+    <div class="panel-title">
 
-</div>
+      <h2>My Wallet</h2>
 
+      <p>
+        Your current wallet balance.
+      </p>
 
-<!-- INTERNET -->
+    </div>
 
-<div class="form-section"
-id="internetForm">
+    <div class="stat">
 
-<h3 style="margin-top:22px">
-Internet Subscription
-</h3>
+      <small>
+        Available Balance
+      </small>
 
-<label>
-Internet Provider
-</label>
+      <h3 id="walletBalance">
+        ₦0
+      </h3>
 
-<select id="internetProvider">
+    </div>
 
-<option value="">
-Select Provider
-</option>
+    <p
+      style="margin-top:15px;color:#68746e;font-size:13px">
 
-<option>
-Smile
-</option>
+      Wallet funding will be connected to a secure
+      payment gateway in the next stage.
 
-<option>
-Spectranet
-</option>
+    </p>
 
-</select>
+  </section>
 
 
-<label>
-Customer / Account Number
-</label>
+  <!-- TRANSACTIONS -->
 
-<input
-id="internetNumber"
-placeholder="Enter account number"
->
+  <section class="transactions">
 
+    <h2>
+      Recent Transactions
+    </h2>
 
-<label>
-Plan
-</label>
+    <div class="table-wrap">
 
-<select id="internetPlan">
+      <table>
 
-<option value="">
-Select Plan
-</option>
+        <thead>
 
-<option>
-Weekly
-</option>
+          <tr>
 
-<option>
-Monthly
-</option>
+            <th>Type</th>
+            <th>Service</th>
+            <th>Phone</th>
+            <th>Amount</th>
+            <th>Status</th>
 
-</select>
+          </tr>
 
+        </thead>
 
-<button class="submit-btn"
-onclick="demoBill('Internet')">
-Continue
-</button>
+        <tbody id="transactionTable">
 
-</div>
+          <tr>
 
+            <td colspan="5">
+              No transactions yet.
+            </td>
 
-<div class="notice">
-🔒 Demo mode — secure backend/API will be connected later.
-</div>
+          </tr>
 
-</div>
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </section>
 
 </main>
 
 
 <!-- AUTH MODAL -->
 
-<div class="auth-overlay"
-id="authOverlay">
+<div
+  id="authModal"
+  class="auth-overlay">
 
-<div class="auth-box">
+  <div class="auth-box">
 
-<button class="close"
-onclick="closeAuth()">
-×
-</button>
+    <button
+      class="close-auth"
+      onclick="closeAuth()">
+      ×
+    </button>
 
+    <h2 id="authTitle">
+      Login
+    </h2>
 
-<!-- LOGIN -->
+    <p id="authDescription">
+      Login to access A-T-L DATA services.
+    </p>
 
-<div id="loginForm">
 
-<h2>
-Welcome Back
-</h2>
+    <div
+      id="nameGroup"
+      class="form-group hidden">
 
-<p>
-Login to your A-T-L DATA account.
-</p>
+      <label>
+        Full Name
+      </label>
 
-<label>
-Email
-</label>
+      <input
+        id="name"
+        type="text"
+        placeholder="Your full name">
 
-<input
-id="loginEmail"
-type="email"
-autocomplete="email"
-placeholder="you@example.com"
->
+    </div>
 
 
-<label>
-Password
-</label>
+    <div class="form-group">
 
-<input
-id="loginPassword"
-type="password"
-autocomplete="current-password"
-placeholder="Password"
->
+      <label>
+        Email
+      </label>
 
+      <input
+        id="email"
+        type="email"
+        placeholder="you@example.com">
 
-<button class="submit-btn"
-onclick="login()">
-Login
-</button>
+    </div>
 
 
-<div class="auth-switch">
+    <div class="form-group">
 
-Don't have an account?
+      <label>
+        Password
+      </label>
 
-<button onclick="switchAuth('register')">
-Create Account
-</button>
+      <input
+        id="password"
+        type="password"
+        placeholder="Minimum 6 characters">
 
-</div>
+    </div>
 
-</div>
 
+    <button
+      id="authSubmit"
+      class="auth-submit"
+      onclick="submitAuth()">
 
-<!-- REGISTER -->
+      Login
 
-<div id="registerForm"
-style="display:none">
+    </button>
 
-<h2>
-Create Account
-</h2>
 
-<p>
-Register your A-T-L DATA account.
-</p>
+    <div class="auth-switch">
 
+      <span id="authSwitchText">
+        Don't have an account?
+      </span>
 
-<label>
-Full Name
-</label>
+      <button
+        id="authSwitchButton"
+        onclick="switchAuth()">
 
-<input
-id="registerName"
-type="text"
-autocomplete="name"
-placeholder="Your full name"
->
+        Register
 
-
-<label>
-Email
-</label>
-
-<input
-id="registerEmail"
-type="email"
-autocomplete="email"
-placeholder="you@example.com"
->
-
-
-<label>
-Password
-</label>
-
-<input
-id="registerPassword"
-type="password"
-autocomplete="new-password"
-placeholder="Create password"
->
-
-
-<button class="submit-btn"
-onclick="register()">
-Create Account
-</button>
-
-
-<div class="auth-switch">
-
-Already have an account?
-
-<button onclick="switchAuth('login')">
-Login
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<footer>
-
-<strong>
-A-T-L DATA
-</strong>
-
-<br>
-
-<small>
-Data • Airtime • Bills • Digital Services
-</small>
-
-</footer>
-
-
-<!-- FIREBASE -->
-
-<script type="module">
-
-import {initializeApp}
-from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-
-import {
-getAuth,
-createUserWithEmailAndPassword,
-signInWithEmailAndPassword,
-signOut,
-onAuthStateChanged,
-updateProfile
-}
-from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
-
-import {
-getFirestore,
-doc,
-setDoc,
-getDoc,
-updateDoc,
-arrayUnion
-}
-from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
-
-
-/* FIREBASE CONFIG */
-
-const firebaseConfig={
-
-apiKey:
-"AIzaSyA_x5ZYj7D5Dt_9Bq-NzlchpRPRd3QN21I",
-
-authDomain:
-"a-t-l-data.firebaseapp.com",
-
-projectId:
-"a-t-l-data",
-
-storageBucket:
-"a-t-l-data.firebasestorage.app",
-
-messagingSenderId:
-"519558305824",
-
-appId:
-"1:519558305824:web:cf6dd75ef20ef708c24445"
-
-};
-
-
-/* INITIALIZE */
-
-const app=initializeApp(firebaseConfig);
-
-const auth=getAuth(app);
-
-const db=getFirestore(app);
-
-let currentUser=null;
-
-
-/* DATA PLANS */
-
-const dataPlans={
-
-mtn:[
-
-["500MB","₦150","30 Days"],
-["1GB","₦300","30 Days"],
-["2GB","₦600","30 Days"],
-["3GB","₦900","30 Days"],
-["5GB","₦1,500","30 Days"],
-["10GB","₦3,000","30 Days"]
-
-],
-
-airtel:[
-
-["500MB","₦150","30 Days"],
-["1GB","₦300","30 Days"],
-["2GB","₦600","30 Days"],
-["5GB","₁,500","30 Days"],
-["10GB","₦3,000","30 Days"],
-["20GB","₦5,000","30 Days"]
-
-],
-
-glo:[
-
-["500MB","₦150","30 Days"],
-["1GB","₦300","30 Days"],
-["2GB","₦600","30 Days"],
-["5GB","₦1,500","30 Days"],
-["10GB","₦3,000","30 Days"],
-["20GB","₦5,000","30 Days"]
-
-],
-
-"9mobile":[
-
-["500MB","₦150","30 Days"],
-["1GB","₦300","30 Days"],
-["2GB","₦600","30 Days"],
-["5GB","₦1,500","30 Days"],
-["10GB","₦3,000","30 Days"],
-["20GB","₦5,000","30 Days"]
-
-]
-
-};
-
-
-let selectedNetwork="mtn";
-let selectedAirtimeNetwork="mtn";
-let selectedPlan=null;
-
-
-/* AUTH MODAL */
-
-window.openAuth=function(type){
-
-document
-.getElementById("authOverlay")
-.classList.add("active");
-
-switchAuth(type);
-
-};
-
-
-window.closeAuth=function(){
-
-document
-.getElementById("authOverlay")
-.classList.remove("active");
-
-};
-
-
-window.switchAuth=function(type){
-
-document.getElementById("loginForm").style.display=
-type==="login"?"block":"none";
-
-document.getElementById("registerForm").style.display=
-type==="register"?"block":"none";
-
-};
-
-
-/* REGISTER */
-
-window.register=async function(){
-
-const name=
-document.getElementById("registerName")
-.value.trim();
-
-const email=
-document.getElementById("registerEmail")
-.value.trim()
-.toLowerCase();
-
-const password=
-document.getElementById("registerPassword")
-.value;
-
-
-if(!name||!email||!password){
-
-alert("Please complete all fields.");
-
-return;
-
-}
-
-
-if(password.length<6){
-
-alert(
-"Password must be at least 6 characters."
-);
-
-return;
-
-}
-
-
-try{
-
-const credential=
-await createUserWithEmailAndPassword(
-auth,
-email,
-password
-);
-
-
-await updateProfile(
-credential.user,
-{
-displayName:name
-}
-);
-
-
-await setDoc(
-doc(db,"users",credential.user.uid),
-{
-
-name:name,
-
-email:email,
-
-balance:0,
-
-transactions:[],
-
-createdAt:new Date().toISOString()
-
-}
-);
-
-
-alert(
-"Account created successfully."
-);
-
-closeAuth();
-
-}
-
-catch(error){
-
-console.error(error);
-
-alert(
-firebaseError(error.code)
-);
-
-}
-
-};
-
-
-/* LOGIN */
-
-window.login=async function(){
-
-const email=
-document.getElementById("loginEmail")
-.value.trim()
-.toLowerCase();
-
-const password=
-document.getElementById("loginPassword")
-.value;
-
-
-if(!email||!password){
-
-alert(
-"Please enter your email and password."
-);
-
-return;
-
-}
-
-
-try{
-
-await signInWithEmailAndPassword(
-auth,
-email,
-password
-);
-
-closeAuth();
-
-}
-
-catch(error){
-
-console.error(error);
-
-alert(
-firebaseError(error.code)
-);
-
-}
-
-};
-
-
-/* LOGOUT */
-
-window.logout=async function(){
-
-try{
-
-await signOut(auth);
-
-}
-
-catch(error){
-
-console.error(error);
-
-alert(
-"Unable to logout."
-);
-
-}
-
-};
-
-
-/* FIREBASE ERROR */
-
-function firebaseError(code){
-
-switch(code){
-
-case "auth/email-already-in-use":
-return "This email is already registered.";
-
-case "auth/invalid-email":
-return "Please enter a valid email address.";
-
-case "auth/weak-password":
-return "Password is too weak. Use at least 6 characters.";
-
-case "auth/invalid-credential":
-return "Incorrect email or password.";
-
-case "auth/user-not-found":
-return "No account found with this email.";
-
-case "auth/wrong-password":
-return "Incorrect password.";
-
-case "auth/too-many-requests":
-return "Too many attempts. Please try again later.";
-
-default:
-return "Something went wrong. Please try again.";
-
-}
-
-}
-
-
-/* AUTH STATE */
-
-onAuthStateChanged(
-auth,
-async(user)=>{
-
-currentUser=user;
-
-if(user){
-
-await loadUser();
-
-}else{
-
-showLoggedOut();
-
-}
-
-}
-);
-
-
-/* LOAD USER */
-
-async function loadUser(){
-
-if(!currentUser)return;
-
-
-let userData={
-
-name:
-currentUser.displayName||"User",
-
-email:
-currentUser.email||"",
-
-balance:0,
-
-transactions:[]
-
-};
-
-
-try{
-
-const snap=
-await getDoc(
-doc(db,"users",currentUser.uid)
-);
-
-
-if(snap.exists()){
-
-userData={
-...userData,
-...snap.data()
-};
-
-}
-
-}
-catch(error){
-
-console.error(error);
-
-}
-
-
-document
-.getElementById("dashboard")
-.classList.add("active");
-
-
-document
-.getElementById("userName")
-.textContent=
-userData.name;
-
-
-document
-.getElementById("balance")
-.textContent=
-"₦"+
-Number(userData.balance||0)
-.toLocaleString(
-"en-NG",
-{
-minimumFractionDigits:2
-}
-);
-
-
-document
-.getElementById("loginButton")
-.style.display="none";
-
-
-document
-.getElementById("registerButton")
-.style.display="none";
-
-
-document
-.getElementById("logoutButton")
-.style.display="block";
-
-
-document
-.getElementById("accountStatus")
-.textContent="Active";
-
-
-renderTransactions(userData);
-
-}
-
-
-/* LOGGED OUT */
-
-function showLoggedOut(){
-
-document.getElementById("dashboard").classList.add("show");
-document.getElementById("authModal").classList.remove("show");
-}
-
-function closeAuth(){
-  document.getElementById("authModal").classList.remove("show");
-}
-
-function switchAuth(type){
-  const title = document.getElementById("authTitle");
-  const btn = document.getElementById("authBtn");
-  const nameBox = document.getElementById("nameBox");
-  const switchText = document.getElementById("switchText");
-
-  if(type === "register"){
-    title.textContent = "Create Account";
-    btn.textContent = "Register";
-    nameBox.style.display = "block";
-    switchText.innerHTML =
-      'Already have an account? <button onclick="switchAuth(\'login\')">Login</button>';
-  }else{
-    title.textContent = "Login";
-    btn.textContent = "Login";
-    nameBox.style.display = "none";
-    switchText.innerHTML =
-      'Don’t have an account? <button onclick="switchAuth(\'register\')">Register</button>';
-  }
-
-  document.getElementById("authMode").value = type;
-}
-
-async function submitAuth(){
-  const mode = document.getElementById("authMode").value;
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
-  const name = document.getElementById("name").value.trim();
-
-  if(!email || !password){
-    alert("Please enter your email and password.");
-    return;
-  }
-
-  try{
-
-    if(mode === "register"){
-
-      if(!name){
-        alert("Please enter your name.");
-        return;
-      }
-
-      const userCredential =
-        await createUserWithEmailAndPassword(auth, email, password);
-
-      const user = userCredential.user;
-
-      await updateProfile(user,{
-        displayName:name
-      });
-
-      await setDoc(doc(db,"users",user.uid),{
-        name:name,
-        email:email,
-        balance:0,
-        transactions:[],
-        createdAt:new Date().toISOString()
-      });
-
-      alert("Account created successfully!");
-
-    }else{
-
-      await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-
-      alert("Login successful!");
-
-    }
-
-  }catch(error){
-    alert(firebaseError(error));
-  }
-}
-
-async function logoutUser(){
-
-  try{
-
-    await signOut(auth);
-
-    document.getElementById("dashboard").classList.remove("show");
-
-    alert("You have been logged out.");
-
-  }catch(error){
-
-    alert(firebaseError(error));
-
-  }
-}
-
-function firebaseError(error){
-
-  switch(error.code){
-
-    case "auth/email-already-in-use":
-      return "This email is already registered.";
-
-    case "auth/invalid-email":
-      return "Please enter a valid email address.";
-
-    case "auth/weak-password":
-      return "Password is too weak. Use at least 6 characters.";
-
-    case "auth/invalid-credential":
-      return "Email or password is incorrect.";
-
-    case "auth/user-not-found":
-      return "Account not found.";
-
-    case "auth/wrong-password":
-      return "Incorrect password.";
-
-    case "auth/too-many-requests":
-      return "Too many attempts. Please try again later.";
-
-    default:
-      return error.message || "Something went wrong.";
-  }
-}
-
-
-// ===============================
-// AUTH STATE
-// ===============================
-
-onAuthStateChanged(auth, async (user)=>{
-
-  const loginBtn = document.getElementById("loginBtn");
-  const registerBtn = document.getElementById("registerBtn");
-  const logoutBtn = document.getElementById("logoutBtn");
-  const dashboard = document.getElementById("dashboard");
-
-  if(user){
-
-    loginBtn.style.display = "none";
-    registerBtn.style.display = "none";
-    logoutBtn.style.display = "inline-block";
-
-    dashboard.classList.add("show");
-
-    const userRef = doc(db,"users",user.uid);
-    const userSnap = await getDoc(userRef);
-
-    if(userSnap.exists()){
-
-      const data = userSnap.data();
-
-      document.getElementById("userName").textContent =
-        data.name || user.displayName || "User";
-
-      document.getElementById("userEmail").textContent =
-        data.email || user.email;
-
-      document.getElementById("balance").textContent =
-        "₦" + Number(data.balance || 0).toLocaleString();
-
-      const transactions = data.transactions || [];
-
-      document.getElementById("transactionCount").textContent =
-        transactions.length;
-
-      document.getElementById("successCount").textContent =
-        transactions.filter(t => t.status === "Successful").length;
-
-      renderTransactions(transactions);
-
-    }
-
-  }else{
-
-    loginBtn.style.display = "inline-block";
-    registerBtn.style.display = "inline-block";
-    logoutBtn.style.display = "none";
-
-    dashboard.classList.remove("show");
-
-  }
-
-});
-
-
-// ===============================
-// TRANSACTION DISPLAY
-// ===============================
-
-function renderTransactions(transactions){
-
-  const table = document.getElementById("transactionTable");
-
-  if(!transactions || transactions.length === 0){
-
-    table.innerHTML = `
-      <tr>
-        <td colspan="5">
-          No transactions yet.
-        </td>
-      </tr>
-    `;
-
-    return;
-  }
-
-  table.innerHTML = transactions
-    .slice()
-    .reverse()
-    .map(t => `
-
-      <tr>
-
-        <td>${t.type || "-"}</td>
-
-        <td>${t.network || "-"}</td>
-
-        <td>${t.phone || "-"}</td>
-
-        <td>₦${Number(t.amount || 0).toLocaleString()}</td>
-
-        <td>
-          <span class="status">
-            ${t.status || "Successful"}
-          </span>
-        </td>
-
-      </tr>
-
-    `)
-    .join("");
-}
-
-
-// ===============================
-// DATA PLANS
-// ===============================
-
-const dataPlans = {
-
-  MTN:[
-    ["500MB","₦150","30 Days"],
-    ["1GB","₦300","30 Days"],
-    ["2GB","₦600","30 Days"],
-    ["5GB","₦1,500","30 Days"],
-    ["10GB","₦3,000","30 Days"]
-  ],
-
-  Airtel:[
-    ["500MB","₦150","30 Days"],
-    ["1GB","₦300","30 Days"],
-    ["2GB","₦600","30 Days"],
-    ["5GB","₦1,500","30 Days"],
-    ["10GB","₦3,000","30 Days"]
-  ],
-
-  Glo:[
-    ["500MB","₦150","30 Days"],
-    ["1GB","₦300","30 Days"],
-    ["2GB","₦600","30 Days"],
-    ["5GB","₦1,500","30 Days"],
-    ["10GB","₦3,000","30 Days"]
-  ],
-
-  "9mobile":[
-    ["500MB","₦150","30 Days"],
-    ["1GB","₦300","30 Days"],
-    ["2GB","₦600","30 Days"],
-    ["5GB","₦1,500","30 Days"],
-    ["10GB","₦3,000","30 Days"]
-  ]
-
-};
-
-function renderPlans(network){
-
-  const container =
-    document.getElementById("dataPlans");
-
-  const plans = dataPlans[network] || [];
-
-  container.innerHTML = plans.map(plan => `
-
-    <div class="plan-card">
-
-      <h3>${plan[0]}</h3>
-
-      <p>${plan[2]}</p>
-
-      <strong>${plan[1]}</strong>
-
-      <button onclick="buyData('${network}','${plan[0]}','${plan[1]}')">
-        Buy Now
       </button>
 
     </div>
 
-  `).join("");
-}
+  </div>
 
-function selectNetwork(){
+</div>
 
-  const network =
-    document.getElementById("dataNetwork").value;
 
-  renderPlans(network);
-}
+<script type="module">
 
-async function buyData(network,plan,price){
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
-  const user = auth.currentUser;
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+  updateProfile
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
-  if(!user){
-    alert("Please login first.");
-    openAuth("login");
-    return;
-  }
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc,
+  updateDoc,
+  arrayUnion
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
-  const phone =
-    document.getElementById("dataPhone").value.trim();
 
-  if(!phone){
-    alert("Enter phone number.");
-    return;
-  }
+const firebaseConfig = {
 
-  const transaction = {
+  apiKey:
+  "AIzaSyA_x5ZYj7D5Dt_9Bq-NzlchpRPRd3QN21I",
 
-    type:"Data",
-    network:network,
-    plan:plan,
-    phone:phone,
-    amount:Number(
-      price.replace("₦","").replace(/,/g,"")
-    ),
-    status:"Successful",
-    mode:"DEMO",
-    date:new Date().toISOString()
+  authDomain:
+  "a-t-l-data.firebaseapp.com",
 
-  };
+  projectId:
+  "a-t-l-data",
 
-  try{
+  storageBucket:
+  "a-t-l-data.firebasestorage.app",
 
-    await updateDoc(
-      doc(db,"users",user.uid),
-      {
-        transactions:arrayUnion(transaction)
-      }
-    );
+  messagingSenderId:
+  "519558305824",
 
-    alert(
-      `DEMO: ${plan} ${network} data purchase recorded successfully.`
-    );
+  appId:
+  "1:519558305824:web:cf6dd75ef20ef708c24445"
 
-  }catch(error){
+};
 
-    alert(firebaseError(error));
 
-  }
+const app = initializeApp(firebaseConfig);
 
-}
+const auth = getAuth(app);
 
+const db = getFirestore(app);
 
-// ===============================
-// AIRTIME
-// ===============================
 
-function selectAirtimeNetwork(){
+let authMode = "login";
 
-  const network =
-    document.getElementById("airtimeNetwork").value;
 
-  document.getElementById("airtimeSelectedNetwork").textContent =
-    network;
-}
-
-async function buyAirtime(){
-
-  const user = auth.currentUser;
-
-  if(!user){
-    alert("Please login first.");
-    openAuth("login");
-    return;
-  }
-
-  const network =
-    document.getElementById("airtimeNetwork").value;
-
-  const phone =
-    document.getElementById("airtimePhone").value.trim();
-
-  const amount =
-    Number(document.getElementById("airtimeAmount").value);
-
-  if(!phone){
-    alert("Enter phone number.");
-    return;
-  }
-
-  if(!amount || amount < 50){
-    alert("Enter a valid airtime amount.");
-    return;
-  }
-
-  const transaction = {
-
-    type:"Airtime",
-    network:network,
-    phone:phone,
-    amount:amount,
-    status:"Successful",
-    mode:"DEMO",
-    date:new Date().toISOString()
-
-  };
-
-  try{
-
-    await updateDoc(
-      doc(db,"users",user.uid),
-      {
-        transactions:arrayUnion(transaction)
-      }
-    );
-
-    alert(
-      `DEMO: ₦${amount.toLocaleString()} airtime purchase recorded.`
-    );
-
-    document.getElementById("airtimeAmount").value = "";
-
-  }catch(error){
-
-    alert(firebaseError(error));
-
-  }
-
-}
-
-
-// ===============================
-// BILLS
-// ===============================
-
-function changeBillService(){
-
-  const service =
-    document.getElementById("billService").value;
-
-  const forms = document.querySelectorAll(".bill-form");
-
-  forms.forEach(form=>{
-    form.style.display = "none";
-  });
-
-  const selected =
-    document.getElementById(service + "Form");
-
-  if(selected){
-    selected.style.display = "block";
-  }
-
-}
-
-async function demoBill(service){
-
-  const user = auth.currentUser;
-
-  if(!user){
-    alert("Please login first.");
-    openAuth("login");
-    return;
-  }
-
-  let amount = 0;
-
-  const amountInput =
-    document.getElementById(service + "Amount");
-
-  if(amountInput){
-    amount = Number(amountInput.value || 0);
-  }
-
-  const transaction = {
-
-    type:"Bill",
-    service:service,
-    amount:amount,
-    status:"Successful",
-    mode:"DEMO",
-    date:new Date().toISOString()
-
-  };
-
-  try{
-
-    await updateDoc(
-      doc(db,"users",user.uid),
-      {
-        transactions:arrayUnion(transaction)
-      }
-    );
-
-    alert(
-      `DEMO: ${service} payment recorded successfully.`
-    );
-
-  }catch(error){
-
-    alert(firebaseError(error));
-
-  }
-
-}
-
-
-// ===============================
-// OPEN PANELS
-// ===============================
-
-function openPanel(panel){
-
-  document
-    .querySelectorAll(".service-panel")
-    .forEach(p=>{
-      p.style.display = "none";
-    });
-
-  const selected =
-    document.getElementById(panel);
-
-  if(selected){
-    selected.style.display = "block";
-  }
-
-}
-
-function openAuth(type="login"){
-
-  document
-    .getElementById("authModal")
-    .classList.add("show");
-
-  switchAuth(type);
-
-}
-
-function closeAuth(){
-
-  document
-    .getElementById("authModal")
-    .classList.remove("show");
-
-}
-
-
-// ===============================
-// INITIAL LOAD
-// ===============================
-
-renderPlans("MTN");
-
-selectAirtimeNetwork();
-
-changeBillService();
-
-
-// Make functions available to HTML buttons
-
-window.openPanel = openPanel;
-window.openAuth = openAuth;
-window.closeAuth = closeAuth;
-window.switchAuth = switchAuth;
-window.submitAuth = submitAuth;
-window.logoutUser = logoutUser;
-
-window.selectNetwork = selectNetwork;
-window.buyData = buyData;
-
-window.selectAirtimeNetwork = selectAirtimeNetwork;
-window.buyAirtime = buyAirtime;
-
-window.changeBillService = changeBillService;
-window.demoBill = demoBill;
-
-</script>
-
-</body>
-</html>
+/* =========================
+   
