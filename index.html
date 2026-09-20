@@ -2,16 +2,49 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>A T L DATA | Data, Airtime & Bills</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-  <!-- Firebase -->
+  <meta
+    name="theme-color"
+    content="#087443"
+  >
+
+  <meta
+    name="description"
+    content="A T L DATA - Data, Airtime, Bills and Digital Services"
+  >
+
+  <title>A T L DATA</title>
+
+  <!-- =========================
+       FIREBASE
+  ========================== -->
+
   <script src="https://www.gstatic.com/firebasejs/12.2.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/12.2.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore-compat.js"></script>
 
+
+  <!-- =========================
+       ICONS
+  ========================== -->
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+  >
+
+
+  <!-- =========================
+       CSS
+  ========================== -->
+
   <style>
+
     *{
       box-sizing:border-box;
       margin:0;
@@ -19,32 +52,50 @@
     }
 
     :root{
-      --primary:#087f5b;
-      --primary-dark:#056044;
-      --green:#0ca678;
-      --gold:#d4a017;
-      --dark:#10231d;
-      --text:#24332e;
-      --muted:#71807b;
-      --bg:#f4f8f6;
+      --green:#087443;
+      --green-dark:#055b35;
+      --green-light:#0ca65d;
+      --gold:#d7a928;
+      --gold-light:#f5d77a;
       --white:#ffffff;
-      --danger:#d6336c;
-      --warning:#e67700;
-      --border:#e2ebe7;
-      --shadow:0 12px 35px rgba(0,0,0,.07);
+      --cream:#f8faf7;
+      --dark:#10231a;
+      --gray:#64748b;
+      --light-gray:#e7eee9;
+      --danger:#dc3545;
+      --success:#198754;
+      --warning:#d99a00;
+      --shadow:0 10px 35px rgba(0,0,0,.08);
       --radius:18px;
     }
 
+    html{
+      scroll-behavior:smooth;
+    }
+
     body{
-      font-family:Arial,Helvetica,sans-serif;
-      background:var(--bg);
-      color:var(--text);
-      line-height:1.5;
+      font-family:
+        Inter,
+        Arial,
+        Helvetica,
+        sans-serif;
+
+      background:
+        linear-gradient(
+          180deg,
+          #f7faf8 0%,
+          #ffffff 50%,
+          #f5f8f6 100%
+        );
+
+      color:var(--dark);
+      min-height:100vh;
     }
 
     button,
     input,
-    select{
+    select,
+    textarea{
       font:inherit;
     }
 
@@ -57,215 +108,249 @@
       color:inherit;
     }
 
-    .hidden{
-      display:none !important;
-    }
 
     /* =========================
-       TOP NAVBAR
-    ========================= */
+       TOPBAR
+    ========================== */
 
     .topbar{
       position:sticky;
       top:0;
       z-index:1000;
-      background:rgba(255,255,255,.96);
-      backdrop-filter:blur(12px);
-      border-bottom:1px solid var(--border);
+
+      background:
+        rgba(255,255,255,.96);
+
+      backdrop-filter:blur(15px);
+
+      border-bottom:
+        1px solid
+        rgba(8,116,67,.10);
     }
 
     .nav{
       max-width:1200px;
       margin:auto;
+
       min-height:72px;
-      padding:0 20px;
+
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:20px;
+
+      padding:0 18px;
     }
 
     .brand{
       display:flex;
       align-items:center;
       gap:10px;
+
+      font-size:18px;
       font-weight:900;
-      font-size:21px;
-      color:var(--primary);
+
+      color:var(--green);
+
+      white-space:nowrap;
     }
 
     .brand-icon{
-      width:42px;
-      height:42px;
-      border-radius:13px;
-      display:grid;
-      place-items:center;
-      color:#fff;
-      background:linear-gradient(135deg,var(--primary),var(--green));
-      box-shadow:0 8px 20px rgba(8,127,91,.22);
+      width:44px;
+      height:44px;
+
+      border-radius:14px;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--green),
+          var(--green-light)
+        );
+
+      color:white;
+
+      font-size:13px;
       font-weight:900;
+
+      box-shadow:
+        0 7px 18px
+        rgba(8,116,67,.22);
     }
 
     .nav-links{
       display:flex;
       align-items:center;
-      gap:8px;
+      gap:5px;
     }
 
     .nav-links button{
       border:0;
       background:transparent;
-      padding:10px 14px;
+
+      padding:10px 13px;
+
       border-radius:10px;
-      color:var(--text);
+
+      color:#334155;
+
       font-weight:700;
+
+      transition:.2s;
     }
 
     .nav-links button:hover{
-      background:#eaf6f1;
-      color:var(--primary);
+      background:#edf7f1;
+      color:var(--green);
     }
 
     .menu-btn{
       display:none;
+
+      width:44px;
+      height:44px;
+
       border:0;
-      background:#eaf6f1;
-      color:var(--primary);
-      width:43px;
-      height:43px;
       border-radius:12px;
+
+      background:#edf7f1;
+      color:var(--green);
+
       font-size:21px;
     }
 
+
     /* =========================
-       MAIN PAGES
-    ========================= */
+       PAGE SYSTEM
+    ========================== */
 
     .page{
-      min-height:calc(100vh - 72px);
+      display:none;
+    }
+
+    .page.active{
+      display:block;
     }
 
     .container{
-      max-width:1200px;
+      width:min(1200px, calc(100% - 30px));
       margin:auto;
-      padding:30px 20px;
     }
+
 
     /* =========================
        HERO
-    ========================= */
+    ========================== */
 
     .hero{
-      padding:65px 20px 55px;
-      background:
-        radial-gradient(circle at 90% 10%,rgba(12,166,120,.15),transparent 30%),
-        linear-gradient(135deg,#f4fbf8,#ffffff);
+      padding:75px 0 55px;
     }
 
-    .hero-inner{
-      max-width:1200px;
-      margin:auto;
+    .hero-grid{
       display:grid;
-      grid-template-columns:1.15fr .85fr;
-      gap:40px;
+      grid-template-columns:
+        1.25fr
+        .75fr;
+
+      gap:30px;
+
       align-items:center;
     }
 
+    .hero-content{
+      padding:15px 0;
+    }
+
+    .test-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+
+      padding:8px 13px;
+
+      border-radius:999px;
+
+      background:#fff8dc;
+      border:1px solid #f0d77b;
+
+      color:#8a6500;
+
+      font-size:12px;
+      font-weight:900;
+
+      margin-bottom:18px;
+    }
+
+    .test-dot{
+      width:8px;
+      height:8px;
+
+      border-radius:50%;
+
+      background:#e0a400;
+    }
+
     .hero h1{
-      font-size:clamp(38px,6vw,68px);
-      line-height:1.05;
-      color:var(--dark);
+      font-size:
+        clamp(38px, 6vw, 66px);
+
+      line-height:1.02;
+
+      letter-spacing:-2px;
+
       margin-bottom:20px;
     }
 
     .hero h1 span{
-      color:var(--primary);
+      color:var(--green);
     }
 
     .hero p{
       max-width:650px;
-      color:var(--muted);
-      font-size:18px;
+
+      color:var(--gray);
+
+      font-size:17px;
+      line-height:1.75;
+
       margin-bottom:28px;
     }
 
     .hero-actions{
       display:flex;
-      gap:12px;
       flex-wrap:wrap;
-    }
-
-    .hero-card{
-      background:#fff;
-      border:1px solid var(--border);
-      border-radius:28px;
-      padding:28px;
-      box-shadow:var(--shadow);
-    }
-
-    .hero-card-top{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin-bottom:22px;
-    }
-
-    .hero-balance{
-      font-size:34px;
-      font-weight:900;
-      color:var(--primary);
-    }
-
-    .mini-icon{
-      width:50px;
-      height:50px;
-      border-radius:15px;
-      background:#e9f7f2;
-      color:var(--primary);
-      display:grid;
-      place-items:center;
-      font-size:23px;
-    }
-
-    .feature-list{
-      display:grid;
-      gap:13px;
-    }
-
-    .feature{
-      display:flex;
-      align-items:center;
       gap:12px;
-      padding:13px;
-      background:#f7faf9;
-      border-radius:13px;
     }
 
-    .feature-icon{
-      width:36px;
-      height:36px;
-      border-radius:10px;
-      background:#e1f4ed;
-      color:var(--primary);
-      display:grid;
-      place-items:center;
-      font-weight:900;
-    }
 
     /* =========================
        BUTTONS
-    ========================= */
+    ========================== */
 
     .btn{
       border:0;
+
+      min-height:46px;
+
+      padding:0 18px;
+
       border-radius:12px;
-      padding:12px 18px;
-      font-weight:800;
-      transition:.2s;
+
       display:inline-flex;
-      justify-content:center;
       align-items:center;
-      gap:8px;
+      justify-content:center;
+
+      gap:9px;
+
+      font-weight:800;
+
+      transition:
+        transform .18s,
+        box-shadow .18s,
+        background .18s;
     }
 
     .btn:hover{
@@ -273,185 +358,330 @@
     }
 
     .btn-primary{
-      background:var(--primary);
-      color:#fff;
-      box-shadow:0 8px 18px rgba(8,127,91,.18);
+      background:
+        linear-gradient(
+          135deg,
+          var(--green),
+          var(--green-light)
+        );
+
+      color:white;
+
+      box-shadow:
+        0 8px 20px
+        rgba(8,116,67,.20);
     }
 
-    .btn-primary:hover{
-      background:var(--primary-dark);
-    }
+    .btn-secondary{
+      background:white;
+      color:var(--green);
 
-    .btn-outline{
-      background:#fff;
-      color:var(--primary);
-      border:1px solid #b9ddd0;
+      border:
+        1px solid
+        rgba(8,116,67,.18);
     }
 
     .btn-danger{
-      background:#fff0f3;
+      background:#fff0f1;
       color:var(--danger);
     }
 
     .btn-warning{
-      background:#fff4df;
-      color:var(--warning);
+      background:#fff8df;
+      color:#8a6500;
     }
 
     .btn-dark{
-      background:var(--dark);
-      color:#fff;
+      background:#10231a;
+      color:white;
     }
 
-    .btn-full{
-      width:100%;
+    .btn-small{
+      min-height:38px;
+      padding:0 13px;
+      font-size:13px;
     }
+
 
     /* =========================
-       SECTION
-    ========================= */
+       HERO CARD
+    ========================== */
+
+    .hero-card{
+      background:
+        linear-gradient(
+          145deg,
+          var(--green-dark),
+          var(--green),
+          #0b9554
+        );
+
+      border-radius:28px;
+
+      padding:28px;
+
+      color:white;
+
+      box-shadow:
+        0 25px 60px
+        rgba(8,116,67,.20);
+
+      position:relative;
+      overflow:hidden;
+    }
+
+    .hero-card::after{
+      content:"";
+
+      position:absolute;
+
+      width:180px;
+      height:180px;
+
+      border-radius:50%;
+
+      background:
+        rgba(255,255,255,.07);
+
+      right:-65px;
+      top:-60px;
+    }
+
+    .hero-card-icon{
+      width:58px;
+      height:58px;
+
+      border-radius:18px;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      background:
+        rgba(255,255,255,.13);
+
+      font-size:25px;
+
+      margin-bottom:22px;
+    }
+
+    .hero-card h3{
+      font-size:24px;
+      margin-bottom:10px;
+    }
+
+    .hero-card p{
+      color:rgba(255,255,255,.78);
+      font-size:14px;
+      line-height:1.7;
+    }
+
+
+    /* =========================
+       FEATURES
+    ========================== */
 
     .section{
-      padding:50px 20px;
+      padding:55px 0;
     }
 
     .section-title{
       text-align:center;
-      margin-bottom:30px;
+      margin-bottom:32px;
     }
 
     .section-title h2{
-      font-size:32px;
-      color:var(--dark);
-      margin-bottom:8px;
+      font-size:30px;
+      margin-bottom:9px;
     }
 
     .section-title p{
-      color:var(--muted);
-    }
-
-    .services-grid{
-      max-width:1200px;
-      margin:auto;
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:18px;
-    }
-
-    .service-card{
-      background:#fff;
-      border:1px solid var(--border);
-      border-radius:20px;
-      padding:24px;
-      box-shadow:0 6px 20px rgba(0,0,0,.035);
-      transition:.2s;
-    }
-
-    .service-card:hover{
-      transform:translateY(-4px);
-      box-shadow:var(--shadow);
-    }
-
-    .service-icon{
-      width:52px;
-      height:52px;
-      border-radius:15px;
-      background:#eaf7f2;
-      color:var(--primary);
-      display:grid;
-      place-items:center;
-      font-size:24px;
-      margin-bottom:17px;
-    }
-
-    .service-card h3{
-      margin-bottom:7px;
-    }
-
-    .service-card p{
-      color:var(--muted);
+      color:var(--gray);
       font-size:14px;
     }
 
+    .feature-grid{
+      display:grid;
+
+      grid-template-columns:
+        repeat(4,1fr);
+
+      gap:17px;
+    }
+
+    .feature-card{
+      background:white;
+
+      border:
+        1px solid
+        var(--light-gray);
+
+      border-radius:var(--radius);
+
+      padding:22px;
+
+      box-shadow:var(--shadow);
+
+      transition:.2s;
+    }
+
+    .feature-card:hover{
+      transform:translateY(-3px);
+    }
+
+    .feature-icon{
+      width:48px;
+      height:48px;
+
+      border-radius:14px;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      background:#edf8f2;
+      color:var(--green);
+
+      font-size:19px;
+
+      margin-bottom:17px;
+    }
+
+    .feature-card h3{
+      font-size:16px;
+      margin-bottom:7px;
+    }
+
+    .feature-card p{
+      color:var(--gray);
+      font-size:13px;
+      line-height:1.65;
+    }
+
+
     /* =========================
-       AUTH MODAL
-    ========================= */
+       AUTH
+    ========================== */
 
     .modal{
       position:fixed;
       inset:0;
-      z-index:3000;
-      background:rgba(7,26,20,.58);
+
+      z-index:2000;
+
       display:none;
+
       align-items:center;
       justify-content:center;
-      padding:20px;
+
+      padding:18px;
+
+      background:
+        rgba(2,18,10,.58);
+
+      backdrop-filter:blur(6px);
     }
 
     .modal.show{
       display:flex;
     }
 
-    .modal-box{
-      width:min(460px,100%);
-      max-height:90vh;
+    .modal-card{
+      width:min(440px,100%);
+
+      max-height:
+        calc(100vh - 30px);
+
       overflow:auto;
-      background:#fff;
+
+      background:white;
+
       border-radius:24px;
+
       padding:27px;
-      box-shadow:0 25px 70px rgba(0,0,0,.22);
+
+      box-shadow:
+        0 30px 80px
+        rgba(0,0,0,.25);
+
       position:relative;
     }
 
     .modal-close{
       position:absolute;
-      right:17px;
+
       top:15px;
+      right:15px;
+
+      width:38px;
+      height:38px;
+
       border:0;
+      border-radius:11px;
+
       background:#f1f5f3;
-      width:35px;
-      height:35px;
-      border-radius:10px;
-      font-size:20px;
+      color:#475569;
+
+      font-size:18px;
     }
 
-    .modal-title{
-      margin-bottom:20px;
+    .auth-head{
+      margin-bottom:22px;
     }
 
-    .modal-title h2{
-      color:var(--dark);
-      margin-bottom:5px;
+    .auth-head h2{
+      font-size:25px;
+      margin-bottom:7px;
     }
 
-    .modal-title p{
-      color:var(--muted);
-      font-size:14px;
+    .auth-head p{
+      color:var(--gray);
+      font-size:13px;
+      line-height:1.6;
     }
 
-    .tabs{
+    .auth-switch{
       display:flex;
-      background:#f1f6f4;
-      padding:4px;
+      gap:7px;
+
+      margin-bottom:18px;
+
+      background:#f2f6f4;
+
+      padding:5px;
+
       border-radius:12px;
-      margin-bottom:20px;
     }
 
-    .tab{
+    .auth-switch button{
       flex:1;
+
       border:0;
+
       padding:10px;
+
       border-radius:9px;
+
       background:transparent;
+
       font-weight:800;
-      color:var(--muted);
+
+      color:#64748b;
     }
 
-    .tab.active{
-      background:#fff;
-      color:var(--primary);
-      box-shadow:0 2px 8px rgba(0,0,0,.06);
+    .auth-switch button.active{
+      background:white;
+      color:var(--green);
+
+      box-shadow:
+        0 3px 10px
+        rgba(0,0,0,.06);
     }
+
+
+    /* =========================
+       FORMS
+    ========================== */
 
     .form-group{
       margin-bottom:15px;
@@ -459,751 +689,1291 @@
 
     .form-group label{
       display:block;
+
       font-size:13px;
       font-weight:800;
+
       margin-bottom:7px;
+
+      color:#334155;
     }
 
-    .input{
+    .form-control{
       width:100%;
-      padding:13px 14px;
-      border:1px solid #dce7e2;
+
+      height:48px;
+
+      border:
+        1px solid
+        #dbe5df;
+
       border-radius:12px;
+
+      padding:0 14px;
+
       outline:none;
-      background:#fff;
-      color:var(--text);
-    }
 
-    .input:focus{
-      border-color:var(--green);
-      box-shadow:0 0 0 3px rgba(12,166,120,.1);
-    }
-
-    .form-note{
-      font-size:12px;
-      color:var(--muted);
-      margin-top:8px;
-    }
-
-    /* =========================
-       ALERT
-    ========================= */
-
-    #alertBox{
-      position:fixed;
-      top:85px;
-      right:18px;
-      z-index:5000;
-      width:min(390px,calc(100% - 36px));
-    }
-
-    .alert{
-      background:#fff;
-      border-left:5px solid var(--primary);
-      border-radius:14px;
-      padding:15px 16px;
-      margin-bottom:10px;
-      box-shadow:0 12px 30px rgba(0,0,0,.13);
-      font-size:14px;
-      font-weight:700;
-    }
-
-    .alert.error{
-      border-color:var(--danger);
-    }
-
-    .alert.warning{
-      border-color:var(--warning);
-    }
-
-    /* =========================
-       DASHBOARD
-    ========================= */
-
-    .dashboard-head{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:20px;
-      margin-bottom:25px;
-    }
-
-    .welcome h1{
       color:var(--dark);
-      margin-bottom:4px;
-    }
 
-    .welcome p{
-      color:var(--muted);
-    }
+      background:white;
 
-    .balance-card{
-      background:linear-gradient(135deg,var(--primary-dark),var(--green));
-      color:#fff;
-      border-radius:22px;
-      padding:25px;
-      margin-bottom:22px;
-      box-shadow:0 15px 35px rgba(8,127,91,.2);
-    }
-
-    .balance-label{
-      opacity:.82;
-      font-size:14px;
-    }
-
-    .balance-value{
-      font-size:39px;
-      font-weight:900;
-      margin:7px 0 18px;
-    }
-
-    .balance-actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-
-    .balance-actions .btn{
-      background:rgba(255,255,255,.15);
-      color:#fff;
-      border:1px solid rgba(255,255,255,.25);
-    }
-
-    .dashboard-grid{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:16px;
-      margin-bottom:25px;
-    }
-
-    .stat-card{
-      background:#fff;
-      border:1px solid var(--border);
-      border-radius:18px;
-      padding:20px;
-      display:flex;
-      align-items:center;
-      gap:14px;
-    }
-
-    .stat-icon{
-      width:46px;
-      height:46px;
-      border-radius:13px;
-      background:#edf8f4;
-      color:var(--primary);
-      display:grid;
-      place-items:center;
-      font-size:20px;
-    }
-
-    .stat-card small{
-      color:var(--muted);
-      display:block;
-      margin-bottom:3px;
-    }
-
-    .stat-card strong{
-      font-size:20px;
-    }
-
-    .quick-grid{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:16px;
-    }
-
-    .quick-card{
-      background:#fff;
-      border:1px solid var(--border);
-      border-radius:18px;
-      padding:23px;
-      cursor:pointer;
       transition:.2s;
     }
 
-    .quick-card:hover{
-      border-color:#a8d7c8;
-      transform:translateY(-3px);
-      box-shadow:var(--shadow);
+    textarea.form-control{
+      height:100px;
+      padding:13px 14px;
+      resize:vertical;
     }
 
-    .quick-card h3{
-      margin:12px 0 5px;
+    .form-control:focus{
+      border-color:var(--green);
+
+      box-shadow:
+        0 0 0 3px
+        rgba(8,116,67,.09);
     }
 
-    .quick-card p{
-      color:var(--muted);
+    .form-note{
+      color:#64748b;
+      font-size:11px;
+      line-height:1.5;
+      margin-top:5px;
+    }
+
+
+    /* =========================
+       ALERT
+    ========================== */
+
+    #alertBox{
+      position:fixed;
+
+      z-index:5000;
+
+      top:85px;
+      right:16px;
+
+      width:min(390px,calc(100% - 32px));
+
+      display:none;
+    }
+
+    .alert{
+      padding:15px 17px;
+
+      border-radius:14px;
+
+      box-shadow:
+        0 15px 35px
+        rgba(0,0,0,.12);
+
+      font-size:13px;
+      font-weight:700;
+
+      line-height:1.5;
+
+      background:white;
+    }
+
+    .alert.success{
+      border-left:4px solid var(--success);
+      color:#176b40;
+    }
+
+    .alert.error{
+      border-left:4px solid var(--danger);
+      color:#a51f2b;
+    }
+
+    .alert.warning{
+      border-left:4px solid var(--warning);
+      color:#7b5a00;
+    }
+
+
+    /* =========================
+       DASHBOARD
+    ========================== */
+
+    .dashboard-header{
+      padding:35px 0 22px;
+    }
+
+    .dashboard-header-row{
+      display:flex;
+
+      justify-content:space-between;
+      align-items:center;
+
+      gap:20px;
+    }
+
+    .dashboard-header h1{
+      font-size:30px;
+      margin-bottom:6px;
+    }
+
+    .dashboard-header p{
+      color:var(--gray);
       font-size:13px;
     }
 
+    .test-mode{
+      display:inline-flex;
+      align-items:center;
+      gap:7px;
+
+      padding:8px 12px;
+
+      border-radius:999px;
+
+      background:#fff8dc;
+
+      border:
+        1px solid
+        #efd576;
+
+      color:#876300;
+
+      font-size:11px;
+      font-weight:900;
+    }
+
+    .wallet-grid{
+      display:grid;
+
+      grid-template-columns:
+        1.15fr
+        repeat(2,1fr);
+
+      gap:16px;
+
+      margin-bottom:22px;
+    }
+
+    .wallet-card{
+      background:white;
+
+      border:
+        1px solid
+        var(--light-gray);
+
+      border-radius:20px;
+
+      padding:22px;
+
+      box-shadow:var(--shadow);
+    }
+
+    .wallet-card.main{
+      color:white;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--green-dark),
+          var(--green)
+        );
+    }
+
+    .wallet-label{
+      font-size:12px;
+      font-weight:800;
+
+      opacity:.8;
+
+      margin-bottom:9px;
+    }
+
+    .wallet-balance{
+      font-size:31px;
+      font-weight:900;
+
+      margin-bottom:17px;
+    }
+
+    .wallet-card:not(.main) .wallet-balance{
+      color:var(--green);
+    }
+
+
+    /* =========================
+       SERVICE TABS
+    ========================== */
+
+    .service-tabs{
+      display:flex;
+
+      gap:8px;
+
+      overflow-x:auto;
+
+      padding-bottom:5px;
+
+      margin-bottom:18px;
+    }
+
+    .service-tab{
+      flex:0 0 auto;
+
+      border:1px solid #dce7e1;
+
+      background:white;
+
+      color:#475569;
+
+      border-radius:12px;
+
+      padding:11px 15px;
+
+      font-weight:800;
+
+      font-size:13px;
+    }
+
+    .service-tab.active{
+      background:var(--green);
+      color:white;
+
+      border-color:var(--green);
+    }
+
+
     /* =========================
        PANELS
-    ========================= */
+    ========================== */
 
     .panel{
       display:none;
+
+      background:white;
+
+      border:
+        1px solid
+        var(--light-gray);
+
+      border-radius:20px;
+
+      padding:23px;
+
+      box-shadow:var(--shadow);
+
+      margin-bottom:20px;
     }
 
     .panel.active{
       display:block;
     }
 
-    .panel-header{
+    .panel-head{
       display:flex;
+
       align-items:center;
       justify-content:space-between;
+
       gap:15px;
+
       margin-bottom:20px;
     }
 
-    .panel-header h2{
-      color:var(--dark);
+    .panel-head h2{
+      font-size:20px;
     }
 
-    .panel-card{
-      background:#fff;
-      border:1px solid var(--border);
-      border-radius:20px;
-      padding:22px;
-      box-shadow:0 5px 18px rgba(0,0,0,.035);
-      margin-bottom:18px;
+    .panel-head p{
+      color:var(--gray);
+      font-size:12px;
+      margin-top:4px;
     }
+
 
     /* =========================
-       NETWORK BUTTONS
-    ========================= */
+       NETWORKS
+    ========================== */
 
     .network-grid{
       display:grid;
-      grid-template-columns:repeat(4,1fr);
+
+      grid-template-columns:
+        repeat(4,1fr);
+
       gap:10px;
+
       margin-bottom:20px;
     }
 
     .network-btn{
-      border:1px solid var(--border);
-      background:#fff;
-      border-radius:13px;
+      border:1px solid #dbe6df;
+
+      background:white;
+
+      border-radius:14px;
+
       padding:14px 10px;
+
       font-weight:900;
-      color:var(--text);
+
+      color:#334155;
+
+      transition:.2s;
+    }
+
+    .network-btn:hover{
+      border-color:var(--green);
     }
 
     .network-btn.active{
-      background:#e7f7f1;
-      color:var(--primary);
-      border-color:#9fd5c3;
+      background:#eaf7f0;
+
+      color:var(--green);
+
+      border-color:var(--green);
     }
+
+
+    /* =========================
+       DATA PLANS
+    ========================== */
 
     .plans-grid{
       display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:13px;
+
+      grid-template-columns:
+        repeat(4,1fr);
+
+      gap:12px;
     }
 
-    .plan{
-      border:1px solid var(--border);
+    .plan-card{
+      border:
+        1px solid
+        #dce7e1;
+
       border-radius:15px;
-      padding:17px;
+
+      padding:16px;
+
       background:#fff;
+
+      transition:.2s;
     }
 
-    .plan:hover{
-      border-color:#9ed4c2;
-      box-shadow:0 8px 22px rgba(0,0,0,.05);
+    .plan-card:hover{
+      border-color:var(--green);
+
+      box-shadow:
+        0 8px 20px
+        rgba(8,116,67,.08);
     }
 
     .plan-size{
       font-size:18px;
       font-weight:900;
-      color:var(--dark);
+
+      color:var(--green);
+
+      margin-bottom:5px;
+    }
+
+    .plan-validity{
+      font-size:11px;
+      color:var(--gray);
+
+      margin-bottom:14px;
     }
 
     .plan-price{
-      color:var(--primary);
-      font-weight:900;
       font-size:20px;
-      margin:6px 0 12px;
+      font-weight:900;
+
+      margin-bottom:13px;
     }
+
+
+    /* =========================
+       QUICK GRID
+    ========================== */
+
+    .quick-grid{
+      display:grid;
+
+      grid-template-columns:
+        repeat(3,1fr);
+
+      gap:13px;
+    }
+
+    .quick-card{
+      border:1px solid #dfe8e2;
+
+      border-radius:15px;
+
+      padding:17px;
+
+      background:white;
+    }
+
+    .quick-card i{
+      color:var(--green);
+      font-size:20px;
+      margin-bottom:12px;
+    }
+
+    .quick-card h3{
+      font-size:15px;
+      margin-bottom:5px;
+    }
+
+    .quick-card p{
+      color:var(--gray);
+      font-size:12px;
+      line-height:1.55;
+    }
+
+
+    /* =========================
+       DEPOSIT
+    ========================== */
+
+    .deposit-layout{
+      display:grid;
+
+      grid-template-columns:
+        .9fr
+        1.1fr;
+
+      gap:18px;
+    }
+
+    .bank-box{
+      background:
+        linear-gradient(
+          145deg,
+          #f0faf4,
+          #ffffff
+        );
+
+      border:
+        1px solid
+        #d9e9df;
+
+      border-radius:18px;
+
+      padding:20px;
+    }
+
+    .bank-box h3{
+      color:var(--green);
+
+      margin-bottom:17px;
+    }
+
+    .bank-row{
+      padding:11px 0;
+
+      border-bottom:
+        1px solid
+        #e5eee8;
+    }
+
+    .bank-row:last-child{
+      border-bottom:0;
+    }
+
+    .bank-label{
+      display:block;
+
+      font-size:10px;
+
+      color:var(--gray);
+
+      margin-bottom:3px;
+
+      text-transform:uppercase;
+
+      font-weight:800;
+    }
+
+    .bank-value{
+      font-weight:900;
+      font-size:15px;
+    }
+
 
     /* =========================
        TRANSACTIONS
-    ========================= */
+    ========================== */
 
-    .transaction{
+    .transaction-list{
       display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:15px;
-      padding:15px 0;
-      border-bottom:1px solid var(--border);
+
+      flex-direction:column;
+
+      gap:10px;
     }
 
-    .transaction:last-child{
-      border-bottom:0;
+    .transaction-item{
+      display:flex;
+
+      align-items:center;
+      justify-content:space-between;
+
+      gap:15px;
+
+      padding:15px;
+
+      border:
+        1px solid
+        #e2ebe5;
+
+      border-radius:14px;
     }
 
     .transaction-left{
       display:flex;
+
       align-items:center;
+
       gap:12px;
+
       min-width:0;
     }
 
     .transaction-icon{
       width:42px;
       height:42px;
+
+      flex:0 0 42px;
+
       border-radius:12px;
-      background:#edf8f4;
-      color:var(--primary);
-      display:grid;
-      place-items:center;
-      flex-shrink:0;
+
+      background:#edf8f2;
+
+      color:var(--green);
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
     }
 
-    .transaction-name{
+    .transaction-title{
       font-weight:800;
+      font-size:13px;
+
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
 
     .transaction-date{
-      color:var(--muted);
-      font-size:12px;
+      color:var(--gray);
+      font-size:11px;
+
+      margin-top:3px;
     }
 
     .transaction-amount{
       font-weight:900;
+
       white-space:nowrap;
     }
 
-    .credit{
-      color:var(--primary);
-    }
 
-    .debit{
-      color:var(--danger);
-    }
+    /* =========================
+       STATUS
+    ========================== */
 
     .status{
-      display:inline-block;
-      padding:4px 8px;
-      border-radius:8px;
-      font-size:11px;
+      display:inline-flex;
+
+      padding:5px 8px;
+
+      border-radius:999px;
+
+      font-size:10px;
+
       font-weight:900;
-      background:#edf8f4;
-      color:var(--primary);
+
+      text-transform:uppercase;
     }
 
     .status.pending{
-      background:#fff4df;
-      color:var(--warning);
+      background:#fff7dc;
+      color:#8a6500;
     }
 
-    .status.rejected{
-      background:#fff0f3;
-      color:var(--danger);
+    .status.approved,
+    .status.success{
+      background:#eaf8f0;
+      color:#13723f;
     }
 
-    /* =========================
-       DEPOSIT
-    ========================= */
-
-    .account-box{
-      background:linear-gradient(135deg,#f0faf6,#fff);
-      border:1px dashed #9dcfbe;
-      border-radius:17px;
-      padding:20px;
-      margin-bottom:20px;
+    .status.rejected,
+    .status.failed{
+      background:#fff0f1;
+      color:#b4232f;
     }
 
-    .account-row{
-      display:flex;
-      justify-content:space-between;
-      gap:15px;
-      padding:10px 0;
-      border-bottom:1px solid #deebe6;
-    }
-
-    .account-row:last-child{
-      border-bottom:0;
-    }
-
-    .account-row span:first-child{
-      color:var(--muted);
-    }
-
-    .account-row strong{
-      color:var(--dark);
-    }
 
     /* =========================
        BILLS
-    ========================= */
+    ========================== */
 
-    .bill-categories{
+    .bill-grid{
       display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:10px;
+
+      grid-template-columns:
+        repeat(3,1fr);
+
+      gap:12px;
+
       margin-bottom:20px;
     }
 
-    .bill-cat{
-      border:1px solid var(--border);
-      background:#fff;
-      border-radius:13px;
-      padding:14px 10px;
-      font-weight:800;
-      text-align:center;
+    .bill-type{
+      border:1px solid #dfe8e2;
+
+      background:white;
+
+      border-radius:14px;
+
+      padding:16px;
+
+      text-align:left;
+
+      font-weight:900;
+
+      color:#334155;
     }
 
-    .bill-cat.active{
-      background:#e7f7f1;
-      border-color:#9fd5c3;
-      color:var(--primary);
+    .bill-type.active{
+      border-color:var(--green);
+
+      background:#edf8f2;
+
+      color:var(--green);
     }
+
 
     /* =========================
        ADMIN
-    ========================= */
-
-    .admin-banner{
-      background:linear-gradient(135deg,#132d25,#087f5b);
-      color:#fff;
-      border-radius:20px;
-      padding:23px;
-      margin-bottom:20px;
-    }
+    ========================== */
 
     .admin-grid{
       display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:16px;
+
+      grid-template-columns:
+        repeat(3,1fr);
+
+      gap:15px;
+
       margin-bottom:20px;
     }
 
-    .admin-table{
-      width:100%;
-      border-collapse:collapse;
-      min-width:650px;
+    .admin-stat{
+      background:white;
+
+      border:
+        1px solid
+        var(--light-gray);
+
+      border-radius:17px;
+
+      padding:19px;
+
+      box-shadow:var(--shadow);
     }
 
-    .table-wrap{
-      overflow-x:auto;
+    .admin-stat span{
+      color:var(--gray);
+      font-size:11px;
+      font-weight:800;
     }
 
-    .admin-table th,
-    .admin-table td{
-      text-align:left;
-      padding:13px;
-      border-bottom:1px solid var(--border);
-      font-size:13px;
+    .admin-stat strong{
+      display:block;
+
+      font-size:25px;
+
+      margin-top:7px;
+
+      color:var(--green);
     }
 
-    .admin-table th{
-      background:#f5f8f7;
-      font-weight:900;
+    .admin-list{
+      display:flex;
+
+      flex-direction:column;
+
+      gap:10px;
+    }
+
+    .admin-item{
+      background:white;
+
+      border:
+        1px solid
+        #e0e9e4;
+
+      border-radius:15px;
+
+      padding:16px;
+    }
+
+    .admin-item-top{
+      display:flex;
+
+      justify-content:space-between;
+
+      gap:10px;
+
+      margin-bottom:9px;
+    }
+
+    .admin-item strong{
+      font-size:14px;
+    }
+
+    .admin-meta{
+      color:var(--gray);
+
+      font-size:11px;
+
+      line-height:1.6;
+
+      margin-bottom:12px;
     }
 
     .admin-actions{
       display:flex;
-      gap:7px;
+
+      gap:8px;
+
       flex-wrap:wrap;
     }
 
-    .admin-actions .btn{
-      padding:8px 11px;
-      font-size:12px;
-    }
-
-    /* =========================
-       FOOTER
-    ========================= */
-
-    footer{
-      margin-top:50px;
-      background:#10231d;
-      color:#d9e6e1;
-      padding:30px 20px;
-      text-align:center;
-    }
-
-    footer strong{
-      color:#fff;
-    }
 
     /* =========================
        EMPTY STATE
-    ========================= */
+    ========================== */
 
     .empty{
+      padding:35px 20px;
+
       text-align:center;
-      padding:35px 15px;
-      color:var(--muted);
+
+      color:var(--gray);
     }
+
+    .empty i{
+      font-size:32px;
+
+      margin-bottom:10px;
+
+      color:#a8b8af;
+    }
+
+    .empty h3{
+      color:#475569;
+
+      font-size:15px;
+
+      margin-bottom:5px;
+    }
+
+    .empty p{
+      font-size:12px;
+      line-height:1.6;
+    }
+
+
+    /* =========================
+       LOADER
+    ========================== */
+
+    .loader{
+      width:24px;
+      height:24px;
+
+      border-radius:50%;
+
+      border:
+        3px solid
+        #dce9e2;
+
+      border-top-color:
+        var(--green);
+
+      animation:
+        spin .8s linear infinite;
+
+      margin:auto;
+    }
+
+    @keyframes spin{
+      to{
+        transform:rotate(360deg);
+      }
+    }
+
+
+    /* =========================
+       FOOTER
+    ========================== */
+
+    footer{
+      margin-top:60px;
+
+      background:
+        #092c1c;
+
+      color:white;
+
+      padding:35px 0 20px;
+    }
+
+    .footer-grid{
+      display:grid;
+
+      grid-template-columns:
+        1.4fr
+        1fr
+        1fr;
+
+      gap:25px;
+    }
+
+    footer h3{
+      margin-bottom:10px;
+    }
+
+    footer p{
+      color:
+        rgba(255,255,255,.65);
+
+      font-size:12px;
+
+      line-height:1.7;
+    }
+
+    .footer-bottom{
+      border-top:
+        1px solid
+        rgba(255,255,255,.10);
+
+      margin-top:25px;
+
+      padding-top:16px;
+
+      text-align:center;
+
+      color:
+        rgba(255,255,255,.50);
+
+      font-size:11px;
+    }
+
 
     /* =========================
        MOBILE
-    ========================= */
+    ========================== */
 
     @media(max-width:900px){
 
-      .hero-inner{
+      .hero-grid{
         grid-template-columns:1fr;
       }
 
-      .services-grid{
-        grid-template-columns:repeat(2,1fr);
+      .feature-grid{
+        grid-template-columns:
+          repeat(2,1fr);
       }
 
-      .dashboard-grid{
-        grid-template-columns:repeat(2,1fr);
+      .wallet-grid{
+        grid-template-columns:
+          1fr 1fr;
       }
 
-      .quick-grid{
-        grid-template-columns:repeat(2,1fr);
+      .wallet-card.main{
+        grid-column:
+          1 / -1;
       }
 
       .plans-grid{
-        grid-template-columns:repeat(2,1fr);
+        grid-template-columns:
+          repeat(2,1fr);
+      }
+
+      .deposit-layout{
+        grid-template-columns:1fr;
       }
 
       .admin-grid{
-        grid-template-columns:1fr;
+        grid-template-columns:
+          repeat(2,1fr);
+      }
+
+      .footer-grid{
+        grid-template-columns:1fr 1fr;
       }
     }
 
-    @media(max-width:650px){
+
+    @media(max-width:680px){
 
       .nav{
         min-height:64px;
       }
 
-      .nav-links{
-        display:none;
-        position:absolute;
-        top:64px;
-        left:0;
-        right:0;
-        background:#fff;
-        padding:12px 20px 18px;
-        border-bottom:1px solid var(--border);
-        box-shadow:0 10px 25px rgba(0,0,0,.06);
-        flex-direction:column;
-        align-items:stretch;
+      .brand{
+        font-size:15px;
       }
 
-      .nav-links.open{
-        display:flex;
-      }
-
-      .nav-links button{
-        text-align:left;
+      .brand-icon{
+        width:40px;
+        height:40px;
       }
 
       .menu-btn{
         display:block;
       }
 
+      .nav-links{
+        position:absolute;
+
+        top:64px;
+        left:15px;
+        right:15px;
+
+        display:none;
+
+        flex-direction:column;
+        align-items:stretch;
+
+        background:white;
+
+        padding:10px;
+
+        border-radius:16px;
+
+        box-shadow:
+          0 20px 40px
+          rgba(0,0,0,.13);
+
+        border:
+          1px solid
+          #e2ebe5;
+      }
+
+      .nav-links.show{
+        display:flex;
+      }
+
+      .nav-links button{
+        width:100%;
+        text-align:left;
+      }
+
       .hero{
-        padding-top:40px;
+        padding:45px 0 30px;
       }
 
       .hero h1{
-        font-size:43px;
+        letter-spacing:-1px;
       }
 
       .hero p{
-        font-size:16px;
+        font-size:14px;
       }
 
-      .services-grid{
+      .feature-grid,
+      .wallet-grid,
+      .admin-grid,
+      .quick-grid,
+      .bill-grid{
         grid-template-columns:1fr;
       }
 
-      .dashboard-head{
+      .wallet-card.main{
+        grid-column:auto;
+      }
+
+      .network-grid{
+        grid-template-columns:
+          repeat(2,1fr);
+      }
+
+      .plans-grid{
+        grid-template-columns:
+          repeat(2,1fr);
+      }
+
+      .panel{
+        padding:17px;
+      }
+
+      .dashboard-header-row{
         align-items:flex-start;
         flex-direction:column;
       }
 
-      .dashboard-grid{
-        grid-template-columns:1fr 1fr;
-      }
-
-      .quick-grid{
+      .footer-grid{
         grid-template-columns:1fr;
       }
 
-      .network-grid{
-        grid-template-columns:1fr 1fr;
+      .transaction-item{
+        align-items:flex-start;
       }
 
-      .plans-grid{
-        grid-template-columns:1fr 1fr;
+      .transaction-item{
+        flex-direction:column;
       }
 
-      .bill-categories{
-        grid-template-columns:1fr 1fr;
+      .transaction-left{
+        width:100%;
       }
 
-      .balance-value{
-        font-size:31px;
+      .transaction-amount{
+        width:100%;
       }
+
+    }
+
+
+    @media(max-width:420px){
 
       .container{
-        padding:23px 15px;
+        width:
+          calc(100% - 22px);
       }
-
-      .panel-card{
-        padding:17px;
-      }
-    }
-
-    @media(max-width:400px){
 
       .plans-grid{
         grid-template-columns:1fr;
       }
 
-      .dashboard-grid{
-        grid-template-columns:1fr;
+      .hero-actions{
+        flex-direction:column;
       }
 
-      .bill-categories{
-        grid-template-columns:1fr;
+      .hero-actions .btn{
+        width:100%;
       }
+
     }
+
   </style>
 </head>
 
+
 <body>
+
 
   <!-- =========================
        ALERT
-  ========================= -->
+  ========================== -->
 
   <div id="alertBox"></div>
 
+
   <!-- =========================
        NAVBAR
-  ========================= -->
+  ========================== -->
 
   <header class="topbar">
+
     <nav class="nav">
 
       <div class="brand">
-        <div class="brand-icon">ATL</div>
-        <span>A T L DATA</span>
+
+        <div class="brand-icon">
+          ATL
+        </div>
+
+        <span>
+          A T L DATA
+        </span>
+
       </div>
 
-      <button class="menu-btn" onclick="toggleMenu()">☰</button>
 
-      <div class="nav-links" id="navLinks">
-        <button onclick="showPage('home');closeMenu()">Home</button>
-        <button onclick="openAuth('login');closeMenu()" id="navLoginBtn">Login</button>
-        <button onclick="openAuth('register');closeMenu()" id="navRegisterBtn">Register</button>
-        <button onclick="showPage('dashboard');closeMenu()" id="navDashboardBtn" class="hidden">Dashboard</button>
-        <button onclick="openPanel('deposit');closeMenu()" id="navDepositBtn" class="hidden">Deposit</button>
-        <button onclick="openPanel('transactions');closeMenu()" id="navTransactionsBtn" class="hidden">Transactions</button>
-        <button onclick="openPanel('admin');closeMenu()" id="navAdminBtn" class="hidden">Admin</button>
-        <button onclick="logout();closeMenu()" id="navLogoutBtn" class="hidden">Logout</button>
+      <button
+        class="menu-btn"
+        onclick="toggleMenu()"
+        aria-label="Menu"
+      >
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+
+      <div
+        class="nav-links"
+        id="navLinks"
+      >
+
+        <button
+          onclick="showPage('home');closeMenu()"
+        >
+          <i class="fa-solid fa-house"></i>
+          Home
+        </button>
+
+        <button
+          onclick="openAuth('login');closeMenu()"
+          id="navLoginBtn"
+        >
+          <i class="fa-solid fa-right-to-bracket"></i>
+          Login
+        </button>
+
+        <button
+          onclick="openAuth('register');closeMenu()"
+          id="navRegisterBtn"
+        >
+          <i class="fa-solid fa-user-plus"></i>
+          Register
+        </button>
+
+        <button
+          onclick="showPage('dashboard');closeMenu()"
+          id="navDashboardBtn"
+          style="display:none"
+        >
+          <i class="fa-solid fa-chart-line"></i>
+          Dashboard
+        </button>
+
+        <button
+          onclick="showPage('admin');closeMenu()"
+          id="navAdminBtn"
+          style="display:none"
+        >
+          <i class="fa-solid fa-shield-halved"></i>
+          Admin
+        </button>
+
+        <button
+          onclick="logoutUser();closeMenu()"
+          id="navLogoutBtn"
+          style="display:none"
+        >
+          <i class="fa-solid fa-right-from-bracket"></i>
+          Logout
+        </button>
+
       </div>
 
     </nav>
+
   </header>
 
 
   <!-- =========================
        HOME PAGE
-  ========================= -->
+  ========================== -->
 
-  <main id="homePage" class="page">
+  <main
+    class="page active"
+    id="homePage"
+  >
 
     <section class="hero">
 
-      <div class="hero-inner">
+      <div class="container">
 
-        <div>
+        <div class="hero-grid">
 
-          <div style="display:inline-block;background:#e5f7f0;color:#087f5b;padding:8px 13px;border-radius:30px;font-size:13px;font-weight:900;margin-bottom:16px;">
-            ⚡ FAST • SIMPLE • SECURE
+
+          <div class="hero-content">
+
+            <div class="test-badge">
+
+              <span class="test-dot"></span>
+
+              SANDBOX / TEST MODE
+
+            </div>
+
+
+            <h1>
+              Simple.
+              <span>Fast.</span>
+              Reliable.
+            </h1>
+
+
+            <p>
+              A T L DATA is a modern digital service
+              platform for data, airtime, bills and
+              other supported services.
+              This version is connected to a sandbox
+              environment for safe testing.
+            </p>
+
+
+            <div class="hero-actions">
+
+              <button
+                class="btn btn-primary"
+                onclick="openAuth('register')"
+              >
+                <i class="fa-solid fa-user-plus"></i>
+                Create Account
+              </button>
+
+
+              <button
+                class="btn btn-secondary"
+                onclick="openAuth('login')"
+              >
+                <i class="fa-solid fa-right-to-bracket"></i>
+                Login
+              </button>
+
+            </div>
+
           </div>
 
-          <h1>
-            Your trusted
-            <span>digital service</span>
-            platform.
-          </h1>
 
-          <p>
-            Buy data, airtime and pay supported bills from one simple
-            dashboard. Manage your wallet and transactions easily with
-            A T L DATA.
-          </p>
+          <div class="hero-card">
 
-          <div class="hero-actions">
-            <button class="btn btn-primary" onclick="openAuth('register')">
-              Get Started
-            </button>
-
-            <button class="btn btn-outline" onclick="openAuth('login')">
-              Login
-            </button>
-          </div>
-
-        </div>
-
-
-        <div class="hero-card">
-
-          <div class="hero-card-top">
-
-            <div>
-              <div style="font-size:13px;color:#71807b;">
-                Wallet Balance
-              </div>
-
-              <div class="hero-balance">
-                ₦0.00
-              </div>
+            <div class="hero-card-icon">
+              <i class="fa-solid fa-bolt"></i>
             </div>
 
-            <div class="mini-icon">
-              ₦
-            </div>
+            <h3>
+              A T L DATA
+            </h3>
 
-          </div>
+            <p>
+              Your digital service dashboard
+              for testing data, airtime and
+              bill-payment workflows.
+            </p>
 
+            <div
+              style="
+                margin-top:22px;
+                display:flex;
+                gap:8px;
+                flex-wrap:wrap;
+              "
+            >
 
-          <div class="feature-list">
+              <span class="status approved">
+                TEST API
+              </span>
 
-            <div class="feature">
-              <div class="feature-icon">✓</div>
-              <div>
-                <strong>Data</strong>
-                <div style="font-size:12px;color:#71807b;">
-                  MTN • Airtel • Glo • 9mobile
-                </div>
-              </div>
-            </div>
+              <span
+                class="status"
+                style="
+                  background:rgba(255,255,255,.12);
+                  color:white;
+                "
+              >
+                SECURE WORKER
+              </span>
 
-            <div class="feature">
-              <div class="feature-icon">✓</div>
-              <div>
-                <strong>Airtime</strong>
-                <div style="font-size:12px;color:#71807b;">
-                  Recharge supported networks
-                </div>
-              </div>
-            </div>
-
-            <div class="feature">
-              <div class="feature-icon">✓</div>
-              <div>
-                <strong>Bills</strong>
-                <div style="font-size:12px;color:#71807b;">
-                  Education, electricity & more
-                </div>
-              </div>
             </div>
 
           </div>
@@ -1215,46 +1985,101 @@
     </section>
 
 
+    <!-- FEATURES -->
+
     <section class="section">
 
-      <div class="section-title">
-        <h2>Our Services</h2>
-        <p>Everything you need in one place.</p>
-      </div>
+      <div class="container">
 
-      <div class="services-grid">
+        <div class="section-title">
 
-        <div class="service-card">
-          <div class="service-icon">📶</div>
-          <h3>Data Plans</h3>
+          <h2>
+            Everything in one place
+          </h2>
+
           <p>
-            Choose data plans from MTN, Airtel, Glo and 9mobile.
+            Built for a clean and professional
+            customer experience.
           </p>
+
         </div>
 
-        <div class="service-card">
-          <div class="service-icon">📱</div>
-          <h3>Airtime</h3>
-          <p>
-            Recharge your phone quickly using your wallet balance.
-          </p>
-        </div>
 
-        <div class="service-card">
-          <div class="service-icon">💳</div>
-          <h3>Wallet</h3>
-          <p>
-            Fund your wallet and keep track of your account balance.
-          </p>
-        </div>
+        <div class="feature-grid">
 
-        <div class="service-card">
-          <div class="service-icon">🧾</div>
-          <h3>Pay Bills</h3>
-          <p>
-            Access supported electricity, education, cable and internet
-            services.
-          </p>
+
+          <div class="feature-card">
+
+            <div class="feature-icon">
+              <i class="fa-solid fa-signal"></i>
+            </div>
+
+            <h3>
+              Data
+            </h3>
+
+            <p>
+              MTN, Airtel, Glo and 9mobile
+              plan catalogue and sandbox testing.
+            </p>
+
+          </div>
+
+
+          <div class="feature-card">
+
+            <div class="feature-icon">
+              <i class="fa-solid fa-mobile-screen"></i>
+            </div>
+
+            <h3>
+              Airtime
+            </h3>
+
+            <p>
+              Airtime purchase workflow prepared
+              for sandbox testing.
+            </p>
+
+          </div>
+
+
+          <div class="feature-card">
+
+            <div class="feature-icon">
+              <i class="fa-solid fa-wallet"></i>
+            </div>
+
+            <h3>
+              Wallet
+            </h3>
+
+            <p>
+              Customer wallet, deposits and
+              transaction records.
+            </p>
+
+          </div>
+
+
+          <div class="feature-card">
+
+            <div class="feature-icon">
+              <i class="fa-solid fa-receipt"></i>
+            </div>
+
+            <h3>
+              Bills
+            </h3>
+
+            <p>
+              Electricity, cable and education
+              service workflow.
+            </p>
+
+          </div>
+
+
         </div>
 
       </div>
@@ -1266,204 +2091,255 @@
 
   <!-- =========================
        DASHBOARD PAGE
-  ========================= -->
+  ========================== -->
 
-  <main id="dashboardPage" class="page hidden">
+  <main
+    class="page"
+    id="dashboardPage"
+  >
 
     <div class="container">
 
-      <div class="dashboard-head">
 
-        <div class="welcome">
-          <h1>Dashboard</h1>
-          <p id="welcomeText">Welcome back.</p>
+      <section class="dashboard-header">
+
+        <div class="dashboard-header-row">
+
+          <div>
+
+            <h1>
+              Dashboard
+            </h1>
+
+            <p id="welcomeText">
+              Welcome to A T L DATA.
+            </p>
+
+          </div>
+
+
+          <div class="test-mode">
+
+            <span class="test-dot"></span>
+
+            SANDBOX / TEST MODE
+
+          </div>
+
         </div>
 
-        <button class="btn btn-outline" onclick="logout()">
-          Logout
+      </section>
+
+
+      <!-- WALLET -->
+
+      <div class="wallet-grid">
+
+
+        <div class="wallet-card main">
+
+          <div class="wallet-label">
+            Wallet Balance
+          </div>
+
+          <div
+            class="wallet-balance"
+            id="walletBalance"
+          >
+            ₦0.00
+          </div>
+
+          <button
+            class="btn"
+            style="
+              background:white;
+              color:var(--green);
+            "
+            onclick="switchDashboardPanel('deposit')"
+          >
+            <i class="fa-solid fa-plus"></i>
+            Deposit
+          </button>
+
+        </div>
+
+
+        <div class="wallet-card">
+
+          <div class="wallet-label">
+            Account
+          </div>
+
+          <div
+            class="wallet-balance"
+            style="font-size:18px"
+            id="dashboardUserEmail"
+          >
+            —
+          </div>
+
+          <span class="status approved">
+            ACTIVE
+          </span>
+
+        </div>
+
+
+        <div class="wallet-card">
+
+          <div class="wallet-label">
+            Account Type
+          </div>
+
+          <div
+            class="wallet-balance"
+            style="font-size:18px"
+          >
+            Customer
+          </div>
+
+          <span class="test-mode">
+            TEST
+          </span>
+
+        </div>
+
+
+      </div>
+
+
+      <!-- SERVICE TABS -->
+
+      <div class="service-tabs">
+
+        <button
+          class="service-tab active"
+          onclick="switchDashboardPanel('data')"
+          id="tabData"
+        >
+          <i class="fa-solid fa-signal"></i>
+          Data
         </button>
 
-      </div>
+        <button
+          class="service-tab"
+          onclick="switchDashboardPanel('airtime')"
+          id="tabAirtime"
+        >
+          <i class="fa-solid fa-mobile-screen"></i>
+          Airtime
+        </button>
 
+        <button
+          class="service-tab"
+          onclick="switchDashboardPanel('bills')"
+          id="tabBills"
+        >
+          <i class="fa-solid fa-file-invoice"></i>
+          Bills
+        </button>
 
-      <div class="balance-card">
+        <button
+          class="service-tab"
+          onclick="switchDashboardPanel('deposit')"
+          id="tabDeposit"
+        >
+          <i class="fa-solid fa-wallet"></i>
+          Deposit
+        </button>
 
-        <div class="balance-label">
-          Available Wallet Balance
-        </div>
-
-        <div class="balance-value" id="walletBalance">
-          ₦0.00
-        </div>
-
-        <div class="balance-actions">
-
-          <button class="btn" onclick="openPanel('deposit')">
-            + Deposit
-          </button>
-
-          <button class="btn" onclick="openPanel('transactions')">
-            Transactions
-          </button>
-
-        </div>
-
-      </div>
-
-
-      <div class="dashboard-grid">
-
-        <div class="stat-card">
-          <div class="stat-icon">📶</div>
-          <div>
-            <small>Data</small>
-            <strong>Buy Data</strong>
-          </div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-icon">📱</div>
-          <div>
-            <small>Airtime</small>
-            <strong>Recharge</strong>
-          </div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-icon">🧾</div>
-          <div>
-            <small>Bills</small>
-            <strong>Pay Bills</strong>
-          </div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-icon">💰</div>
-          <div>
-            <small>Wallet</small>
-            <strong id="smallBalance">₦0.00</strong>
-          </div>
-        </div>
-
-      </div>
-
-
-      <!-- QUICK SERVICES -->
-
-      <div class="quick-grid">
-
-        <div class="quick-card" onclick="openPanel('data')">
-          <div class="service-icon">📶</div>
-          <h3>Buy Data</h3>
-          <p>
-            Select your network and choose a data plan.
-          </p>
-        </div>
-
-        <div class="quick-card" onclick="openPanel('airtime')">
-          <div class="service-icon">📱</div>
-          <h3>Buy Airtime</h3>
-          <p>
-            Recharge any supported network.
-          </p>
-        </div>
-
-        <div class="quick-card" onclick="openPanel('bills')">
-          <div class="service-icon">🧾</div>
-          <h3>Pay Bills</h3>
-          <p>
-            Electricity, NECO, WAEC, JAMB and more.
-          </p>
-        </div>
-
-        <div class="quick-card" onclick="openPanel('deposit')">
-          <div class="service-icon">💳</div>
-          <h3>Fund Wallet</h3>
-          <p>
-            Send your deposit request for admin approval.
-          </p>
-        </div>
-
-        <div class="quick-card" onclick="openPanel('transactions')">
-          <div class="service-icon">📊</div>
-          <h3>Transactions</h3>
-          <p>
-            View your wallet activity.
-          </p>
-        </div>
-
-        <div class="quick-card hidden" id="adminQuickCard" onclick="openPanel('admin')">
-          <div class="service-icon">⚙️</div>
-          <h3>Admin Panel</h3>
-          <p>
-            Manage users and deposit requests.
-          </p>
-        </div>
+        <button
+          class="service-tab"
+          onclick="switchDashboardPanel('transactions')"
+          id="tabTransactions"
+        >
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          Transactions
+        </button>
 
       </div>
 
 
       <!-- =========================
            DATA PANEL
-      ========================= -->
+      ========================== -->
 
-      <section id="dataPanel" class="panel panel-card">
+      <section
+        class="panel active"
+        id="dataPanel"
+      >
 
-        <div class="panel-header">
-          <h2>Buy Data</h2>
+        <div class="panel-head">
 
-          <button class="btn btn-outline" onclick="backDashboard()">
-            ← Dashboard
-          </button>
+          <div>
+
+            <h2>
+              Data Bundles
+            </h2>
+
+            <p>
+              Select a network to load available
+              test plans.
+            </p>
+
+          </div>
+
+          <span class="status pending">
+            SANDBOX
+          </span>
+
         </div>
+
 
         <div class="network-grid">
 
-          <button class="network-btn active"
-                  id="network-MTN"
-                  onclick="changeNetwork('MTN')">
+          <button
+            class="network-btn active"
+            id="networkMTN"
+            onclick="selectNetwork('MTN')"
+          >
             MTN
           </button>
 
-          <button class="network-btn"
-                  id="network-Airtel"
-                  onclick="changeNetwork('Airtel')">
+          <button
+            class="network-btn"
+            id="networkAirtel"
+            onclick="selectNetwork('Airtel')"
+          >
             Airtel
           </button>
 
-          <button class="network-btn"
-                  id="network-Glo"
-                  onclick="changeNetwork('Glo')">
+          <button
+            class="network-btn"
+            id="networkGlo"
+            onclick="selectNetwork('Glo')"
+          >
             Glo
           </button>
 
-          <button class="network-btn"
-                  id="network-9mobile"
-                  onclick="changeNetwork('9mobile')">
+          <button
+            class="network-btn"
+            id="network9mobile"
+            onclick="selectNetwork('9mobile')"
+          >
             9mobile
           </button>
 
         </div>
 
 
-        <div class="form-group">
+        <div id="dataPlans">
 
-          <label>Phone Number</label>
+          <div class="empty">
 
-          <input
-            id="dataPhone"
-            class="input"
-            type="tel"
-            maxlength="11"
-            placeholder="08012345678"
-          >
+            <div class="loader"></div>
 
-        </div>
+            <p style="margin-top:12px">
+              Loading test plans...
+            </p>
 
+          </div>
 
-        <div
-          id="plansGrid"
-          class="plans-grid">
         </div>
 
       </section>
@@ -1471,356 +2347,534 @@
 
       <!-- =========================
            AIRTIME PANEL
-      ========================= -->
+      ========================== -->
 
-      <section id="airtimePanel" class="panel panel-card">
+      <section
+        class="panel"
+        id="airtimePanel"
+      >
 
-        <div class="panel-header">
+        <div class="panel-head">
 
-          <h2>Buy Airtime</h2>
+          <div>
 
-          <button class="btn btn-outline" onclick="backDashboard()">
-            ← Dashboard
+            <h2>
+              Airtime
+            </h2>
+
+            <p>
+              Sandbox airtime transaction.
+            </p>
+
+          </div>
+
+          <span class="status pending">
+            TEST
+          </span>
+
+        </div>
+
+
+        <div class="quick-grid">
+
+          <div class="quick-card">
+
+            <i class="fa-solid fa-mobile-screen"></i>
+
+            <h3>
+              Airtime Purchase
+            </h3>
+
+            <p>
+              Enter a phone number and amount
+              to test the airtime workflow.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div
+          style="
+            max-width:550px;
+            margin-top:20px;
+          "
+        >
+
+          <div class="form-group">
+
+            <label>
+              Network
+            </label>
+
+            <select
+              class="form-control"
+              id="airtimeNetwork"
+            >
+
+              <option value="MTN">
+                MTN
+              </option>
+
+              <option value="Airtel">
+                Airtel
+              </option>
+
+              <option value="Glo">
+                Glo
+              </option>
+
+              <option value="9mobile">
+                9mobile
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Phone Number
+            </label>
+
+            <input
+              class="form-control"
+              id="airtimePhone"
+              type="tel"
+              placeholder="08012345678"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Amount
+            </label>
+
+            <input
+              class="form-control"
+              id="airtimeAmount"
+              type="number"
+              min="50"
+              placeholder="100"
+            >
+
+          </div>
+
+
+          <button
+            class="btn btn-primary"
+            onclick="buyAirtime()"
+          >
+            <i class="fa-solid fa-bolt"></i>
+            Test Airtime Purchase
           </button>
 
         </div>
-
-
-        <div class="form-group">
-
-          <label>Network</label>
-
-          <select id="airtimeNetwork" class="input">
-
-            <option value="MTN">MTN</option>
-            <option value="Airtel">Airtel</option>
-            <option value="Glo">Glo</option>
-            <option value="9mobile">9mobile</option>
-
-          </select>
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label>Phone Number</label>
-
-          <input
-            id="airtimePhone"
-            class="input"
-            type="tel"
-            maxlength="11"
-            placeholder="08012345678"
-          >
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label>Amount</label>
-
-          <input
-            id="airtimeAmount"
-            class="input"
-            type="number"
-            min="50"
-            placeholder="Enter amount"
-          >
-
-        </div>
-
-
-        <button
-          class="btn btn-primary btn-full"
-          onclick="buyAirtime()">
-          Buy Airtime
-        </button>
 
       </section>
 
 
       <!-- =========================
            BILLS PANEL
-      ========================= -->
+      ========================== -->
 
-      <section id="billsPanel" class="panel panel-card">
+      <section
+        class="panel"
+        id="billsPanel"
+      >
 
-        <div class="panel-header">
+        <div class="panel-head">
 
-          <h2>Pay Bills</h2>
+          <div>
 
-          <button class="btn btn-outline" onclick="backDashboard()">
-            ← Dashboard
+            <h2>
+              Bills & Education
+            </h2>
+
+            <p>
+              Test supported bill-payment workflows.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="bill-grid">
+
+          <button
+            class="bill-type active"
+            onclick="selectBill('electricity')"
+            id="billElectricity"
+          >
+            <i class="fa-solid fa-bolt"></i>
+            Electricity
+          </button>
+
+          <button
+            class="bill-type"
+            onclick="selectBill('cable')"
+            id="billCable"
+          >
+            <i class="fa-solid fa-tv"></i>
+            Cable TV
+          </button>
+
+          <button
+            class="bill-type"
+            onclick="selectBill('education')"
+            id="billEducation"
+          >
+            <i class="fa-solid fa-graduation-cap"></i>
+            Education
           </button>
 
         </div>
 
 
-        <div class="bill-categories">
+        <div id="billForm">
 
-          <button
-            class="bill-cat active"
-            onclick="selectBill('Electricity',this)">
-            ⚡ Electricity
-          </button>
-
-          <button
-            class="bill-cat"
-            onclick="selectBill('NECO',this)">
-            🎓 NECO
-          </button>
-
-          <button
-            class="bill-cat"
-            onclick="selectBill('WAEC',this)">
-            🎓 WAEC
-          </button>
-
-          <button
-            class="bill-cat"
-            onclick="selectBill('JAMB',this)">
-            🎓 JAMB
-          </button>
-
-          <button
-            class="bill-cat"
-            onclick="selectBill('Cable TV',this)">
-            📺 Cable TV
-          </button>
-
-          <button
-            class="bill-cat"
-            onclick="selectBill('Internet',this)">
-            🌐 Internet
-          </button>
+          <!-- Part 2 will render the form -->
 
         </div>
-
-
-        <div id="billFormArea"></div>
 
       </section>
 
 
       <!-- =========================
            DEPOSIT PANEL
-      ========================= -->
+      ========================== -->
 
-      <section id="depositPanel" class="panel panel-card">
+      <section
+        class="panel"
+        id="depositPanel"
+      >
 
-        <div class="panel-header">
+        <div class="panel-head">
 
-          <h2>Fund Wallet</h2>
+          <div>
 
-          <button class="btn btn-outline" onclick="backDashboard()">
-            ← Dashboard
-          </button>
+            <h2>
+              Fund Wallet
+            </h2>
 
-        </div>
+            <p>
+              Submit your deposit for admin review.
+              Wallet is not credited automatically.
+            </p>
 
-
-        <div class="account-box">
-
-          <h3 style="margin-bottom:12px;">
-            Deposit Account
-          </h3>
-
-          <div class="account-row">
-            <span>Bank</span>
-            <strong>Palmpay</strong>
           </div>
 
-          <div class="account-row">
-            <span>Account Name</span>
-            <strong>A T L Data</strong>
+          <span class="status pending">
+            ADMIN APPROVAL
+          </span>
+
+        </div>
+
+
+        <div class="deposit-layout">
+
+
+          <div class="bank-box">
+
+            <h3>
+              <i class="fa-solid fa-building-columns"></i>
+              Payment Account
+            </h3>
+
+
+            <div class="bank-row">
+
+              <span class="bank-label">
+                Bank
+              </span>
+
+              <span class="bank-value">
+                PalmPay
+              </span>
+
+            </div>
+
+
+            <div class="bank-row">
+
+              <span class="bank-label">
+                Account Name
+              </span>
+
+              <span class="bank-value">
+                A T L Data
+              </span>
+
+            </div>
+
+
+            <div class="bank-row">
+
+              <span class="bank-label">
+                Account Number
+              </span>
+
+              <span class="bank-value">
+                7073160817
+              </span>
+
+            </div>
+
+
+            <div class="bank-row">
+
+              <span class="bank-label">
+                Minimum Deposit
+              </span>
+
+              <span class="bank-value">
+                ₦100
+              </span>
+
+            </div>
+
           </div>
 
-          <div class="account-row">
-            <span>Account Number</span>
-            <strong>7073160817</strong>
+
+          <div>
+
+            <div class="form-group">
+
+              <label>
+                Amount
+              </label>
+
+              <input
+                class="form-control"
+                id="depositAmount"
+                type="number"
+                min="100"
+                placeholder="Enter amount"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>
+                Payment Reference
+              </label>
+
+              <input
+                class="form-control"
+                id="depositReference"
+                type="text"
+                placeholder="Enter transfer reference"
+              >
+
+            </div>
+
+
+            <button
+              class="btn btn-primary"
+              onclick="submitDeposit()"
+            >
+              <i class="fa-solid fa-paper-plane"></i>
+              Submit Deposit
+            </button>
+
           </div>
 
         </div>
-
-
-        <div class="form-group">
-
-          <label>Amount Deposited</label>
-
-          <input
-            id="depositAmount"
-            class="input"
-            type="number"
-            min="100"
-            placeholder="Enter amount"
-          >
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label>Payment Reference / Note</label>
-
-          <input
-            id="depositReference"
-            class="input"
-            type="text"
-            placeholder="Optional transaction reference"
-          >
-
-        </div>
-
-
-        <button
-          class="btn btn-primary btn-full"
-          onclick="submitDeposit()">
-          Submit Deposit Request
-        </button>
-
-
-        <p class="form-note">
-          Your wallet balance will not increase automatically.
-          The deposit must be reviewed and approved by the admin.
-        </p>
 
       </section>
 
 
       <!-- =========================
            TRANSACTIONS PANEL
-      ========================= -->
+      ========================== -->
 
-      <section id="transactionsPanel" class="panel panel-card">
+      <section
+        class="panel"
+        id="transactionsPanel"
+      >
 
-        <div class="panel-header">
+        <div class="panel-head">
 
-          <h2>Transactions</h2>
+          <div>
 
-          <button class="btn btn-outline" onclick="backDashboard()">
-            ← Dashboard
+            <h2>
+              Transactions
+            </h2>
+
+            <p>
+              Your account activity.
+            </p>
+
+          </div>
+
+          <button
+            class="btn btn-secondary btn-small"
+            onclick="loadTransactions()"
+          >
+            <i class="fa-solid fa-rotate"></i>
+            Refresh
           </button>
 
         </div>
 
-        <div id="transactionsList"></div>
+
+        <div
+          class="transaction-list"
+          id="transactionList"
+        >
+
+          <div class="empty">
+
+            <i class="fa-solid fa-clock-rotate-left"></i>
+
+            <h3>
+              No transactions yet
+            </h3>
+
+            <p>
+              Your transactions will appear here.
+            </p>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <!-- =========================
+       ADMIN PAGE
+  ========================== -->
+
+  <main
+    class="page"
+    id="adminPage"
+  >
+
+    <div class="container">
+
+      <section class="dashboard-header">
+
+        <div class="dashboard-header-row">
+
+          <div>
+
+            <h1>
+              Admin Panel
+            </h1>
+
+            <p>
+              Manage A T L DATA deposits and users.
+            </p>
+
+          </div>
+
+          <span class="status approved">
+            ADMIN
+          </span>
+
+        </div>
 
       </section>
 
 
-      <!-- =========================
-           ADMIN PANEL
-      ========================= -->
-
-      <section id="adminPanel" class="panel">
-
-        <div class="admin-banner">
-
-          <h2>Admin Dashboard</h2>
-
-          <p style="opacity:.8;margin-top:4px;">
-            Manage deposit requests and registered users.
-          </p>
-
-        </div>
+      <div class="admin-grid">
 
 
-        <div class="admin-grid">
+        <div class="admin-stat">
 
-          <div class="stat-card">
-            <div class="stat-icon">👥</div>
-            <div>
-              <small>Users</small>
-              <strong id="adminUsersCount">0</strong>
-            </div>
-          </div>
+          <span>
+            Pending Deposits
+          </span>
 
-          <div class="stat-card">
-            <div class="stat-icon">💳</div>
-            <div>
-              <small>Pending Deposits</small>
-              <strong id="adminPendingCount">0</strong>
-            </div>
-          </div>
-
-          <div class="stat-card">
-            <div class="stat-icon">₦</div>
-            <div>
-              <small>Approved Deposits</small>
-              <strong id="adminApprovedTotal">₦0</strong>
-            </div>
-          </div>
+          <strong id="adminPending">
+            0
+          </strong>
 
         </div>
 
 
-        <div class="panel-card">
+        <div class="admin-stat">
 
-          <div class="panel-header">
+          <span>
+            Approved Deposits
+          </span>
 
-            <h2>Deposit Requests</h2>
-
-            <button
-              class="btn btn-outline"
-              onclick="loadAdminDeposits()">
-              Refresh
-            </button>
-
-          </div>
-
-          <div class="table-wrap">
-            <table class="admin-table">
-
-              <thead>
-                <tr>
-                  <th>User</th>
-                  <th>Amount</th>
-                  <th>Reference</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-
-              <tbody id="adminDepositsBody"></tbody>
-
-            </table>
-          </div>
+          <strong id="adminApproved">
+            0
+          </strong>
 
         </div>
 
 
-        <div class="panel-card">
+        <div class="admin-stat">
 
-          <div class="panel-header">
+          <span>
+            Deposit Volume
+          </span>
 
-            <h2>Registered Users</h2>
+          <strong id="adminVolume">
+            ₦0
+          </strong>
 
-            <button
-              class="btn btn-outline"
-              onclick="loadAdminUsers()">
-              Refresh
-            </button>
+        </div>
+
+
+      </div>
+
+
+      <section class="panel active">
+
+        <div class="panel-head">
+
+          <div>
+
+            <h2>
+              Deposit Requests
+            </h2>
+
+            <p>
+              Review customer deposit submissions.
+            </p>
 
           </div>
 
-          <div class="table-wrap">
+          <button
+            class="btn btn-secondary btn-small"
+            onclick="loadAdminDeposits()"
+          >
+            <i class="fa-solid fa-rotate"></i>
+            Refresh
+          </button>
 
-            <table class="admin-table">
+        </div>
 
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Balance</th>
-                  <th>Created</th>
-                </tr>
-              </thead>
 
-              <tbody id="adminUsersBody"></tbody>
+        <div
+          class="admin-list"
+          id="adminDepositList"
+        >
 
-            </table>
+          <div class="empty">
+
+            <div class="loader"></div>
+
+            <p style="margin-top:12px">
+              Loading deposits...
+            </p>
 
           </div>
 
@@ -1835,20 +2889,26 @@
 
   <!-- =========================
        AUTH MODAL
-  ========================= -->
+  ========================== -->
 
-  <div id="authModal" class="modal">
+  <div
+    class="modal"
+    id="authModal"
+  >
 
-    <div class="modal-box">
+    <div class="modal-card">
+
 
       <button
         class="modal-close"
-        onclick="closeAuth()">
-        ×
+        onclick="closeAuth()"
+        aria-label="Close"
+      >
+        <i class="fa-solid fa-xmark"></i>
       </button>
 
 
-      <div class="modal-title">
+      <div class="auth-head">
 
         <h2 id="authTitle">
           Welcome Back
@@ -1861,38 +2921,47 @@
       </div>
 
 
-      <div class="tabs">
+      <div class="auth-switch">
 
         <button
           id="loginTab"
-          class="tab active"
-          onclick="switchAuth('login')">
+          class="active"
+          onclick="switchAuth('login')"
+        >
           Login
         </button>
 
         <button
           id="registerTab"
-          class="tab"
-          onclick="switchAuth('register')">
+          onclick="switchAuth('register')"
+        >
           Register
         </button>
 
       </div>
 
 
-      <!-- LOGIN -->
+      <form
+        id="authForm"
+        onsubmit="submitAuth(event)"
+      >
 
-      <div id="loginForm">
 
-        <div class="form-group">
+        <div
+          class="form-group"
+          id="nameGroup"
+          style="display:none"
+        >
 
-          <label>Email</label>
+          <label>
+            Full Name
+          </label>
 
           <input
-            id="loginEmail"
-            class="input"
-            type="email"
-            placeholder="Enter your email"
+            class="form-control"
+            id="authName"
+            type="text"
+            placeholder="Your full name"
           >
 
         </div>
@@ -1900,102 +2969,65 @@
 
         <div class="form-group">
 
-          <label>Password</label>
+          <label>
+            Email
+          </label>
 
           <input
-            id="loginPassword"
-            class="input"
+            class="form-control"
+            id="authEmail"
+            type="email"
+            placeholder="you@example.com"
+            required
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            Password
+          </label>
+
+          <input
+            class="form-control"
+            id="authPassword"
             type="password"
-            placeholder="Enter your password"
+            placeholder="Minimum 6 characters"
+            minlength="6"
+            required
           >
 
         </div>
 
 
         <button
-          class="btn btn-primary btn-full"
-          onclick="login()">
+          class="btn btn-primary"
+          style="width:100%"
+          id="authSubmitBtn"
+          type="submit"
+        >
+          <i class="fa-solid fa-right-to-bracket"></i>
           Login
         </button>
 
 
-        <button
-          class="btn btn-outline btn-full"
-          style="margin-top:10px;"
-          onclick="forgotPassword()">
-          Forgot Password?
-        </button>
+      </form>
 
 
-        <button
-          id="verifyAgainBtn"
-          class="btn btn-warning btn-full hidden"
-          style="margin-top:10px;"
-          onclick="refreshVerification()">
-          I've Verified My Email
-        </button>
-
-      </div>
-
-
-      <!-- REGISTER -->
-
-      <div id="registerForm" class="hidden">
-
-        <div class="form-group">
-
-          <label>Full Name</label>
-
-          <input
-            id="registerName"
-            class="input"
-            type="text"
-            placeholder="Enter your full name"
-          >
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label>Email</label>
-
-          <input
-            id="registerEmail"
-            class="input"
-            type="email"
-            placeholder="Enter your email"
-          >
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label>Password</label>
-
-          <input
-            id="registerPassword"
-            class="input"
-            type="password"
-            placeholder="Minimum 6 characters"
-          >
-
-        </div>
-
-
-        <button
-          class="btn btn-primary btn-full"
-          onclick="register()">
-          Create Account
-        </button>
-
-
-        <p class="form-note">
-          A verification email will be sent after registration.
-        </p>
-
-      </div>
+      <p
+        style="
+          margin-top:15px;
+          text-align:center;
+          color:#64748b;
+          font-size:11px;
+          line-height:1.6;
+        "
+      >
+        A T L DATA is currently running in
+        Sandbox/Test mode.
+      </p>
 
     </div>
 
@@ -2004,340 +3036,370 @@
 
   <!-- =========================
        FOOTER
-  ========================= -->
+  ========================== -->
 
   <footer>
 
-    <strong>A T L DATA</strong>
+    <div class="container">
 
-    <p style="margin-top:7px;font-size:13px;">
-      Data • Airtime • Bills • Wallet
-    </p>
+      <div class="footer-grid">
 
-    <p style="margin-top:15px;font-size:12px;opacity:.65;">
-      © 2026 A T L DATA. All rights reserved.
-    </p>
+
+        <div>
+
+          <h3>
+            A T L DATA
+          </h3>
+
+          <p>
+            A professional digital service platform
+            for data, airtime and supported bills.
+          </p>
+
+        </div>
+
+
+        <div>
+
+          <h3>
+            Services
+          </h3>
+
+          <p>
+            Data<br>
+            Airtime<br>
+            Electricity<br>
+            Cable TV<br>
+            Education
+          </p>
+
+        </div>
+
+
+        <div>
+
+          <h3>
+            Mode
+          </h3>
+
+          <p>
+            Sandbox / Test Environment<br>
+            Secure API Worker<br>
+            Firebase Authentication
+          </p>
+
+        </div>
+
+
+      </div>
+
+
+      <div class="footer-bottom">
+
+        © 2026 A T L DATA.
+        All rights reserved.
+
+      </div>
+
+    </div>
 
   </footer>
 
 
-  <!-- =========================
-       FIREBASE CONFIG
-  ========================= -->
-
   <script>
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyA_x5ZYj7D5Dt_9Bq-NzlchpRPRd3QN21I",
-      authDomain: "a-t-l-data.firebaseapp.com",
-      projectId: "a-t-l-data",
-      storageBucket: "a-t-l-data.firebasestorage.app",
-      messagingSenderId: "519558305824",
-      appId: "1:519558305824:web:cf6dd75ef20ef708c24445"
-    };
-
-    const WORKER_URL =
-  "https://broad-thunder-82c2.lawanahmadt03.workers.dev";
-    firebase.initializeApp(firebaseConfig);
-
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-
-
-    /* =========================
-       ACCOUNT SETTINGS
-    ========================= */
-
-    const ADMIN_EMAIL = "lawanahmadt03@gmail.com";
-
-    const DEPOSIT_ACCOUNT_NAME = "A T L Data";
-    const DEPOSIT_ACCOUNT_NUMBER = "7073160817";
-    const DEPOSIT_BANK = "Palmpay";
-
-
-    /* =========================
-       GLOBAL VARIABLES
-    ========================= */
-
-    let currentUser = null;
-    let currentNetwork = "MTN";
-    let currentBill = "Electricity";
-
-
-    /* =========================
-       DATA PLANS
-    ========================= */
-
-    const DATA_PLANS = {
-
-      MTN: [
-        {size:"500MB", price:150},
-        {size:"1GB", price:300},
-        {size:"2GB", price:600},
-        {size:"3GB", price:850},
-        {size:"5GB", price:1400},
-        {size:"10GB", price:2700},
-        {size:"15GB", price:4000},
-        {size:"20GB", price:5200}
-      ],
-
-      Airtel: [
-        {size:"500MB", price:140},
-        {size:"1GB", price:280},
-        {size:"2GB", price:550},
-        {size:"3GB", price:800},
-        {size:"5GB", price:1300},
-        {size:"10GB", price:2500},
-        {size:"15GB", price:3700},
-        {size:"20GB", price:4900}
-      ],
-
-      Glo: [
-        {size:"500MB", price:130},
-        {size:"1GB", price:250},
-        {size:"2GB", price:500},
-        {size:"3GB", price:750},
-        {size:"5GB", price:1250},
-        {size:"10GB", price:2400},
-        {size:"15GB", price:3500},
-        {size:"20GB", price:4700}
-      ],
-
-      "9mobile": [
-        {size:"500MB", price:130},
-        {size:"1GB", price:260},
-        {size:"2GB", price:520},
-        {size:"3GB", price:760},
-        {size:"5GB", price:1250},
-        {size:"10GB", price:2400},
-        {size:"15GB", price:3500},
-        {size:"20GB", price:4700}
-      ]
-
-    };
-
-
-    /* =========================
-       FORMAT MONEY
-    ========================= */
-
-    function money(amount){
-
-      return "₦" + Number(amount || 0).toLocaleString(
-        "en-NG",
-        {
-          minimumFractionDigits:2,
-          maximumFractionDigits:2
-        }
-      );
-
-    }
-function money(amount){
-
-  return "₦" + Number(amount || 0).toLocaleString(
-    "en-NG",
-    {
-      minimumFractionDigits:2,
-      maximumFractionDigits:2
-    }
-  );
-
-}
+/* =========================================================
+   A T L DATA — PART 2
+   FIREBASE + CLOUDFLARE WORKER + SANDBOX
+========================================================= */
 
 
 /* =========================
-   VTUGATE WORKER TEST
+   FIREBASE CONFIG
 ========================= */
 
-async function testWorker(){
+const firebaseConfig = {
+  apiKey: "AIzaSyA_x5ZYj7D5Dt_9Bq-NzlchpRPRd3QN21I",
+  authDomain: "a-t-l-data.firebaseapp.com",
+  projectId: "a-t-l-data",
+  storageBucket: "a-t-l-data.firebasestorage.app",
+  messagingSenderId: "519558305824",
+  appId: "1:519558305824:web:cf6dd75ef20ef708c24445"
+};
 
-  try{
 
-    const response = await fetch(
-      WORKER_URL + "/vtu/account",
-      {
-        method: "POST"
-      }
+firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+
+/* =========================
+   CONFIGURATION
+========================= */
+
+const WORKER_URL =
+  "https://broad-thunder-82c2.lawanahmadt03.workers.dev";
+
+const ADMIN_EMAIL =
+  "lawanahmadt03@gmail.com";
+
+const DEPOSIT_BANK =
+  "PalmPay";
+
+const DEPOSIT_ACCOUNT_NAME =
+  "A T L Data";
+
+const DEPOSIT_ACCOUNT_NUMBER =
+  "7073160817";
+
+
+/*
+   SANDBOX MODE
+   -------------------------
+   Keep this TRUE while testing.
+*/
+
+const SANDBOX_MODE = true;
+
+
+/* =========================
+   GLOBAL STATE
+========================= */
+
+let currentUser = null;
+let currentUserData = null;
+
+let authMode = "login";
+
+let selectedNetwork = "MTN";
+
+let selectedBill = "electricity";
+
+let liveDataPlans = [];
+
+
+/* =========================================================
+   BASIC UI
+========================================================= */
+
+function showAlert(message, type = "success") {
+
+  const box =
+    document.getElementById("alertBox");
+
+  if (!box) return;
+
+  box.innerHTML = `
+    <div class="alert ${type}">
+      ${escapeHTML(message)}
+    </div>
+  `;
+
+  box.style.display = "block";
+
+  clearTimeout(window.alertTimer);
+
+  window.alertTimer =
+    setTimeout(() => {
+      box.style.display = "none";
+    }, 4500);
+}
+
+
+function escapeHTML(value) {
+
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+
+/* =========================================================
+   MENU
+========================================================= */
+
+function toggleMenu() {
+
+  const menu =
+    document.getElementById("navLinks");
+
+  if (!menu) return;
+
+  menu.classList.toggle("show");
+}
+
+
+function closeMenu() {
+
+  const menu =
+    document.getElementById("navLinks");
+
+  if (!menu) return;
+
+  menu.classList.remove("show");
+}
+
+
+/* =========================================================
+   AUTH MODAL
+========================================================= */
+
+function openAuth(mode = "login") {
+
+  authMode = mode;
+
+  switchAuth(mode);
+
+  const modal =
+    document.getElementById("authModal");
+
+  if (modal) {
+    modal.classList.add("show");
+  }
+}
+
+
+function closeAuth() {
+
+  const modal =
+    document.getElementById("authModal");
+
+  if (modal) {
+    modal.classList.remove("show");
+  }
+}
+
+
+function switchAuth(mode) {
+
+  authMode = mode;
+
+  const title =
+    document.getElementById("authTitle");
+
+  const subtitle =
+    document.getElementById("authSubtitle");
+
+  const submit =
+    document.getElementById("authSubmitBtn");
+
+  const nameGroup =
+    document.getElementById("nameGroup");
+
+  const loginTab =
+    document.getElementById("loginTab");
+
+  const registerTab =
+    document.getElementById("registerTab");
+
+
+  if (mode === "register") {
+
+    if (title)
+      title.textContent =
+        "Create Account";
+
+    if (subtitle)
+      subtitle.textContent =
+        "Create your A T L DATA customer account.";
+
+    if (submit)
+      submit.innerHTML =
+        '<i class="fa-solid fa-user-plus"></i> Register';
+
+    if (nameGroup)
+      nameGroup.style.display = "block";
+
+    if (loginTab)
+      loginTab.classList.remove("active");
+
+    if (registerTab)
+      registerTab.classList.add("active");
+
+  } else {
+
+    if (title)
+      title.textContent =
+        "Welcome Back";
+
+    if (subtitle)
+      subtitle.textContent =
+        "Login to continue to A T L DATA.";
+
+    if (submit)
+      submit.innerHTML =
+        '<i class="fa-solid fa-right-to-bracket"></i> Login';
+
+    if (nameGroup)
+      nameGroup.style.display = "none";
+
+    if (loginTab)
+      loginTab.classList.add("active");
+
+    if (registerTab)
+      registerTab.classList.remove("active");
+  }
+}
+
+
+/* =========================================================
+   AUTH SUBMIT
+========================================================= */
+
+async function submitAuth(event) {
+
+  event.preventDefault();
+
+  const email =
+    document.getElementById("authEmail")
+      .value
+      .trim();
+
+  const password =
+    document.getElementById("authPassword")
+      .value;
+
+  const name =
+    document.getElementById("authName")
+      .value
+      .trim();
+
+
+  if (!email || !password) {
+
+    showAlert(
+      "Please enter your email and password.",
+      "error"
     );
 
-    const data = await response.json();
-
-    console.log("VTUGATE RESPONSE:", data);
-
-  }catch(error){
-
-    console.error("WORKER ERROR:", error);
-
+    return;
   }
 
-}
+
+  const button =
+    document.getElementById("authSubmitBtn");
+
+  const oldText =
+    button.innerHTML;
+
+  button.disabled = true;
+
+  button.innerHTML =
+    '<i class="fa-solid fa-spinner fa-spin"></i> Please wait...';
 
 
-/* =========================
-   ALERT
-========================= */
+  try {
 
-function showAlert(message,type="success"){
+    if (authMode === "register") {
 
-  const box = document.getElementById("alertBox");
-
-  const item = document.createElement("div");
-
-  item.className = "alert " + (
-    type === "error"
-      ? "error"
-      : type === "warning"
-      ? "warning"
-      : ""
-  );
-
-  item.textContent = message;
-
-  box.appendChild(item);
-
-  setTimeout(() => {
-    item.remove();
-  },4500);
-
-    }
-
-    /* =========================
-       ALERT
-    ========================= */
-
-    function showAlert(message,type="success"){
-
-      const box = document.getElementById("alertBox");
-
-      const item = document.createElement("div");
-
-      item.className = "alert " + (
-        type === "error"
-          ? "error"
-          : type === "warning"
-          ? "warning"
-          : ""
-      );
-
-      item.textContent = message;
-
-      box.appendChild(item);
-
-      setTimeout(() => {
-        item.remove();
-      },4500);
-
-    }
-
-
-    /* =========================
-       MOBILE MENU
-    ========================= */
-
-    function toggleMenu(){
-
-      document
-        .getElementById("navLinks")
-        .classList.toggle("open");
-
-    }
-
-
-    function closeMenu(){
-
-      document
-        .getElementById("navLinks")
-        .classList.remove("open");
-
-    }
-
-
-    /* =========================
-       AUTH MODAL
-    ========================= */
-
-    function openAuth(type="login"){
-
-      document
-        .getElementById("authModal")
-        .classList.add("show");
-
-      switchAuth(type);
-
-    }
-
-
-    function closeAuth(){
-
-      document
-        .getElementById("authModal")
-        .classList.remove("show");
-
-    }
-
-
-    function switchAuth(type){
-
-      const login = type === "login";
-
-      document
-        .getElementById("loginForm")
-        .classList.toggle("hidden",!login);
-
-      document
-        .getElementById("registerForm")
-        .classList.toggle("hidden",login);
-
-      document
-        .getElementById("loginTab")
-        .classList.toggle("active",login);
-
-      document
-        .getElementById("registerTab")
-        .classList.toggle("active",!login);
-
-      document.getElementById("authTitle").textContent =
-        login ? "Welcome Back" : "Create Your Account";
-
-      document.getElementById("authSubtitle").textContent =
-        login
-          ? "Login to continue to A T L DATA."
-          : "Register to start using A T L DATA.";
-
-    }
-
-
-    /* =========================
-       AUTH PERSISTENCE
-    ========================= */
-
-    auth.setPersistence(
-      firebase.auth.Auth.Persistence.LOCAL
-    ).catch(error => {
-      console.log("Persistence error:",error);
-    });
-
-
-    /* =========================
-       REGISTER
-    ========================= */
-
-    async function register(){
-
-      const name =
-        document.getElementById("registerName").value.trim();
-
-      const email =
-        document.getElementById("registerEmail").value.trim();
-
-      const password =
-        document.getElementById("registerPassword").value;
-
-
-      if(!name || !email || !password){
+      if (!name) {
 
         showAlert(
-          "Please fill all registration fields.",
+          "Please enter your full name.",
           "error"
         );
 
@@ -2345,2348 +3407,2972 @@ function showAlert(message,type="success"){
       }
 
 
-      if(password.length < 6){
-
-        showAlert(
-          "Password must be at least 6 characters.",
-          "error"
+      const credential =
+        await auth.createUserWithEmailAndPassword(
+          email,
+          password
         );
 
-        return;
-      }
+
+      const user =
+        credential.user;
 
 
-      try{
-
-        const result =
-          await auth.createUserWithEmailAndPassword(
-            email,
-            password
-          );
+      await user.updateProfile({
+        displayName: name
+      });
 
 
-        const user = result.user;
+      await db
+        .collection("users")
+        .doc(user.uid)
+        .set(
+          {
+            uid: user.uid,
+            email: email,
+            name: name,
+            balance: 0,
+            createdAt:
+              firebase.firestore.FieldValue
+                .serverTimestamp()
+          },
+          {
+            merge: true
+          }
+        );
 
 
-        await user.updateProfile({
-          displayName:name
-        });
-
-
-        await db
-          .collection("users")
-          .doc(user.uid)
-          .set({
-            uid:user.uid,
-            name:name,
-            email:email,
-            balance:0,
-            role:"user",
-            createdAt:firebase.firestore.FieldValue.serverTimestamp()
-          });
-
-
+      try {
         await user.sendEmailVerification();
-
-
-        showAlert(
-          "Account created. Check your email and verify your account.",
-          "success"
+      } catch (verificationError) {
+        console.warn(
+          "Verification email:",
+          verificationError
         );
-
-
-        document.getElementById("verifyAgainBtn")
-          .classList.remove("hidden");
-
-      }catch(error){
-
-        showAlert(
-          authError(error),
-          "error"
-        );
-
-      }
-
-    }
-
-
-    /* =========================
-       LOGIN
-    ========================= */
-
-    async function login(){
-
-      const email =
-        document.getElementById("loginEmail").value.trim();
-
-      const password =
-        document.getElementById("loginPassword").value;
-
-
-      if(!email || !password){
-
-        showAlert(
-          "Enter email and password.",
-          "error"
-        );
-
-        return;
       }
 
 
-      try{
-
-        const result =
-          await auth.signInWithEmailAndPassword(
-            email,
-            password
-          );
-
-
-        const user = result.user;
-
-
-        await user.reload();
-
-
-        if(!user.emailVerified){
-
-          await user.sendEmailVerification()
-            .catch(()=>{});
-
-
-          showAlert(
-            "Please verify your email first. A new verification email has been sent.",
-            "warning"
-          );
-
-
-          document.getElementById("verifyAgainBtn")
-            .classList.remove("hidden");
-
-          return;
-        }
-
-
-        finishLogin(user);
-
-      }catch(error){
-
-        showAlert(
-          authError(error),
-          "error"
-        );
-
-      }
-
-    }
-
-
-    /* =========================
-       REFRESH VERIFICATION
-    ========================= */
-
-    async function refreshVerification(){
-
-      if(!auth.currentUser){
-
-        showAlert(
-          "Please login first.",
-          "error"
-        );
-
-        return;
-      }
-
-
-      try{
-
-        await auth.currentUser.reload();
-
-
-        if(auth.currentUser.emailVerified){
-
-          showAlert(
-            "Email verified successfully.",
-            "success"
-          );
-
-          finishLogin(auth.currentUser);
-
-        }else{
-
-          showAlert(
-            "Your email is not verified yet.",
-            "warning"
-          );
-
-        }
-
-      }catch(error){
-
-        showAlert(
-          error.message,
-          "error"
-        );
-
-      }
-
-    }
-
-
-    /* =========================
-       FINISH LOGIN
-    ========================= */
-
-    function finishLogin(user){
-
-      currentUser = user;
+      showAlert(
+        "Account created successfully. Please check your email for verification.",
+        "success"
+      );
 
       closeAuth();
 
-      document
-        .getElementById("navLoginBtn")
-        .classList.add("hidden");
 
-      document
-        .getElementById("navRegisterBtn")
-        .classList.add("hidden");
+    } else {
 
-      document
-        .getElementById("navDashboardBtn")
-        .classList.remove("hidden");
-
-      document
-        .getElementById("navDepositBtn")
-        .classList.remove("hidden");
-
-      document
-        .getElementById("navTransactionsBtn")
-        .classList.remove("hidden");
-
-      document
-        .getElementById("navLogoutBtn")
-        .classList.remove("hidden");
+      await auth.signInWithEmailAndPassword(
+        email,
+        password
+      );
 
 
-      if(isAdmin()){
+      showAlert(
+        "Login successful.",
+        "success"
+      );
 
-        document
-          .getElementById("navAdminBtn")
-          .classList.remove("hidden");
-
-        document
-          .getElementById("adminQuickCard")
-          .classList.remove("hidden");
-
-      }
-
+      closeAuth();
 
       showPage("dashboard");
-
-      loadDashboard();
-
     }
 
 
-    /* =========================
-       AUTH ERROR
-    ========================= */
+  } catch (error) {
 
-    function authError(error){
+    showAlert(
+      getAuthError(error),
+      "error"
+    );
 
-      const code = error.code || "";
+
+  } finally {
+
+    button.disabled = false;
+
+    button.innerHTML = oldText;
+  }
+}
 
 
-      switch(code){
+/* =========================================================
+   AUTH ERROR
+========================================================= */
 
-        case "auth/email-already-in-use":
-          return "This email is already registered.";
+function getAuthError(error) {
 
-        case "auth/invalid-email":
-          return "Please enter a valid email.";
+  const code =
+    error?.code || "";
 
-        case "auth/weak-password":
-          return "Password is too weak.";
+  switch (code) {
 
-        case "auth/user-not-found":
-          return "No account found with this email.";
+    case "auth/email-already-in-use":
+      return "This email is already registered.";
 
-        case "auth/wrong-password":
-        case "auth/invalid-credential":
-          return "Incorrect email or password.";
+    case "auth/invalid-email":
+      return "Please enter a valid email address.";
 
-        case "auth/too-many-requests":
-          return "Too many attempts. Try again later.";
+    case "auth/weak-password":
+      return "Password is too weak.";
 
-        default:
-          return error.message || "Something went wrong.";
+    case "auth/user-not-found":
+      return "No account was found with this email.";
 
-      }
+    case "auth/wrong-password":
+    case "auth/invalid-credential":
+      return "Incorrect email or password.";
 
+    case "auth/too-many-requests":
+      return "Too many attempts. Please try again later.";
+
+    default:
+      return error?.message ||
+        "Authentication failed.";
+  }
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+async function logoutUser() {
+
+  try {
+
+    await auth.signOut();
+
+    currentUser = null;
+    currentUserData = null;
+
+    showPage("home");
+
+    showAlert(
+      "You have been logged out.",
+      "success"
+    );
+
+  } catch (error) {
+
+    showAlert(
+      error.message,
+      "error"
+    );
+  }
+}
+
+
+/* =========================================================
+   AUTH STATE
+========================================================= */
+
+auth.onAuthStateChanged(
+  async function(user) {
+
+    currentUser = user;
+
+    updateNavigation();
+
+    if (!user) {
+
+      currentUserData = null;
+
+      return;
     }
 
 
-    /* =========================
-       FORGOT PASSWORD
-    ========================= */
+    await loadUserData();
 
-    async function forgotPassword(){
+    await refreshDashboard();
 
-      const email =
-        document.getElementById("loginEmail").value.trim();
+  }
+);
 
 
-      if(!email){
+/* =========================================================
+   NAVIGATION
+========================================================= */
 
-        showAlert(
-          "Enter your email first.",
-          "warning"
-        );
+function updateNavigation() {
 
-        return;
-      }
+  const login =
+    document.getElementById("navLoginBtn");
+
+  const register =
+    document.getElementById("navRegisterBtn");
+
+  const dashboard =
+    document.getElementById("navDashboardBtn");
+
+  const admin =
+    document.getElementById("navAdminBtn");
+
+  const logout =
+    document.getElementById("navLogoutBtn");
 
 
-      try{
+  if (currentUser) {
 
-        await auth.sendPasswordResetEmail(email);
+    if (login)
+      login.style.display = "none";
+
+    if (register)
+      register.style.display = "none";
+
+    if (dashboard)
+      dashboard.style.display = "block";
+
+    if (logout)
+      logout.style.display = "block";
 
 
-        showAlert(
-          "Password reset email sent.",
-          "success"
-        );
+    if (
+      admin &&
+      currentUser.email?.toLowerCase() ===
+      ADMIN_EMAIL.toLowerCase()
+    ) {
 
-      }catch(error){
+      admin.style.display = "block";
 
-        showAlert(
-          authError(error),
-          "error"
-        );
+    } else if (admin) {
 
-      }
+      admin.style.display = "none";
+    }
 
+  } else {
+
+    if (login)
+      login.style.display = "block";
+
+    if (register)
+      register.style.display = "block";
+
+    if (dashboard)
+      dashboard.style.display = "none";
+
+    if (admin)
+      admin.style.display = "none";
+
+    if (logout)
+      logout.style.display = "none";
+  }
+}
+
+
+/* =========================================================
+   PAGE NAVIGATION
+========================================================= */
+
+function showPage(page) {
+
+  const pages = {
+
+    home:
+      document.getElementById("homePage"),
+
+    dashboard:
+      document.getElementById("dashboardPage"),
+
+    admin:
+      document.getElementById("adminPage")
+
+  };
+
+
+  Object.values(pages).forEach(
+    element => {
+
+      if (element)
+        element.classList.remove("active");
+
+    }
+  );
+
+
+  if (page === "dashboard") {
+
+    if (!currentUser) {
+
+      openAuth("login");
+
+      return;
+    }
+
+    pages.dashboard?.classList.add("active");
+
+    refreshDashboard();
+
+    return;
+  }
+
+
+  if (page === "admin") {
+
+    if (
+      !currentUser ||
+      currentUser.email?.toLowerCase() !==
+      ADMIN_EMAIL.toLowerCase()
+    ) {
+
+      showAlert(
+        "Admin access required.",
+        "error"
+      );
+
+      return;
     }
 
 
-    /* =========================
-       LOGOUT
-    ========================= */
+    pages.admin?.classList.add("active");
 
-    async function logout(){
+    loadAdminDeposits();
 
-      try{
+    return;
+  }
 
-        await auth.signOut();
 
-        currentUser = null;
+  pages.home?.classList.add("active");
+}
 
-        showPage("home");
 
-        showAlert(
-          "You have been logged out.",
-          "success"
-        );
+/* =========================================================
+   DASHBOARD PANELS
+========================================================= */
 
-      }catch(error){
+function switchDashboardPanel(panel) {
 
-        showAlert(
-          error.message,
-          "error"
-        );
+  const panels = [
+    "data",
+    "airtime",
+    "bills",
+    "deposit",
+    "transactions"
+  ];
 
-      }
 
+  panels.forEach(name => {
+
+    const element =
+      document.getElementById(
+        name + "Panel"
+      );
+
+    if (element) {
+
+      element.classList.toggle(
+        "active",
+        name === panel
+      );
     }
 
 
-    /* =========================
-       AUTH STATE
-    ========================= */
+    const tab =
+      document.getElementById(
+        "tab" +
+        name.charAt(0).toUpperCase() +
+        name.slice(1)
+      );
 
-    auth.onAuthStateChanged(async user => {
+    if (tab) {
 
-      if(user){
+      tab.classList.toggle(
+        "active",
+        name === panel
+      );
+    }
 
-        try{
-
-          await user.reload();
-
-        }catch(e){}
+  });
 
 
-        if(user.emailVerified){
+  if (panel === "data") {
 
-          finishLogin(user);
+    loadDataPlans();
+  }
 
-        }else{
 
-          currentUser = user;
+  if (panel === "transactions") {
 
+    loadTransactions();
+  }
+
+
+  if (panel === "bills") {
+
+    renderBillForm();
+  }
+}
+
+
+/* =========================================================
+   USER DATA
+========================================================= */
+
+async function loadUserData() {
+
+  if (!currentUser) return;
+
+
+  try {
+
+    const snapshot =
+      await db
+        .collection("users")
+        .doc(currentUser.uid)
+        .get();
+
+
+    if (snapshot.exists) {
+
+      currentUserData =
+        snapshot.data();
+
+    } else {
+
+      currentUserData = {
+        uid: currentUser.uid,
+        email: currentUser.email,
+        name:
+          currentUser.displayName || "",
+        balance: 0
+      };
+
+
+      await db
+        .collection("users")
+        .doc(currentUser.uid)
+        .set(
+          currentUserData,
+          { merge: true }
+        );
+    }
+
+
+    updateWalletUI();
+
+  } catch (error) {
+
+    console.error(error);
+
+    showAlert(
+      "Unable to load your account data.",
+      "error"
+    );
+  }
+}
+
+
+/* =========================================================
+   WALLET UI
+========================================================= */
+
+function updateWalletUI() {
+
+  const balance =
+    Number(
+      currentUserData?.balance || 0
+    );
+
+
+  const wallet =
+    document.getElementById("walletBalance");
+
+  if (wallet) {
+
+    wallet.textContent =
+      formatMoney(balance);
+  }
+
+
+  const email =
+    document.getElementById(
+      "dashboardUserEmail"
+    );
+
+  if (email) {
+
+    email.textContent =
+      currentUser?.email || "—";
+  }
+
+
+  const welcome =
+    document.getElementById(
+      "welcomeText"
+    );
+
+  if (welcome) {
+
+    const name =
+      currentUser?.displayName ||
+      currentUserData?.name ||
+      "Customer";
+
+    welcome.textContent =
+      "Welcome, " + name + ".";
+  }
+}
+
+
+/* =========================================================
+   DASHBOARD REFRESH
+========================================================= */
+
+async function refreshDashboard() {
+
+  if (!currentUser) return;
+
+  await loadUserData();
+
+  loadDataPlans();
+
+  renderBillForm();
+
+  loadTransactions();
+}
+
+
+/* =========================================================
+   MONEY
+========================================================= */
+
+function formatMoney(amount) {
+
+  return "₦" +
+    Number(amount || 0)
+      .toLocaleString(
+        "en-NG",
+        {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
         }
+      );
+}
 
-      }else{
 
-        currentUser = null;
+/* =========================================================
+   WORKER REQUEST
+========================================================= */
 
-        document
-          .getElementById("navLoginBtn")
-          .classList.remove("hidden");
+async function workerRequest(
+  endpoint,
+  payload = {}
+) {
 
-        document
-          .getElementById("navRegisterBtn")
-          .classList.remove("hidden");
+  const response =
+    await fetch(
+      WORKER_URL + endpoint,
+      {
+        method: "POST",
 
-        document
-          .getElementById("navDashboardBtn")
-          .classList.add("hidden");
+        headers: {
+          "Content-Type":
+            "application/json"
+        },
 
-        document
-          .getElementById("navDepositBtn")
-          .classList.add("hidden");
+        body:
+          JSON.stringify(payload)
+      }
+    );
 
-        document
-          .getElementById("navTransactionsBtn")
-          .classList.add("hidden");
 
-        document
-          .getElementById("navAdminBtn")
-          .classList.add("hidden");
+  const text =
+    await response.text();
 
-        document
-          .getElementById("navLogoutBtn")
-          .classList.add("hidden");
 
-        document
-          .getElementById("adminQuickCard")
-          .classList.add("hidden");
+  let data;
 
+  try {
+
+    data =
+      JSON.parse(text);
+
+  } catch {
+
+    data = {
+      ok: response.ok,
+      raw: text
+    };
+  }
+
+
+  if (!response.ok) {
+
+    throw new Error(
+      data?.message ||
+      "Worker request failed."
+    );
+  }
+
+
+  return data;
+}
+
+
+/* =========================================================
+   DATA PLANS
+========================================================= */
+
+async function loadDataPlans() {
+
+  const container =
+    document.getElementById(
+      "dataPlans"
+    );
+
+  if (!container) return;
+
+
+  container.innerHTML = `
+    <div class="empty">
+      <div class="loader"></div>
+      <p style="margin-top:12px">
+        Loading ${escapeHTML(selectedNetwork)}
+        test plans...
+      </p>
+    </div>
+  `;
+
+
+  try {
+
+    const result =
+      await workerRequest(
+        "/vtu/data-plans",
+        {
+          network:
+            selectedNetwork
+        }
+      );
+
+
+    liveDataPlans =
+      extractDataPlans(result);
+
+
+    renderLiveDataPlans();
+
+
+  } catch (error) {
+
+    console.error(
+      "Data plans error:",
+      error
+    );
+
+
+    container.innerHTML = `
+      <div class="empty">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <h3>
+          Unable to load test plans
+        </h3>
+        <p>
+          ${escapeHTML(error.message)}
+        </p>
+
+        <button
+          class="btn btn-secondary btn-small"
+          style="margin-top:14px"
+          onclick="loadDataPlans()"
+        >
+          <i class="fa-solid fa-rotate"></i>
+          Try Again
+        </button>
+      </div>
+    `;
+  }
+}
+
+
+/* =========================================================
+   EXTRACT DATA PLANS
+========================================================= */
+
+function extractDataPlans(result) {
+
+  const candidates = [
+
+    result?.data,
+
+    result?.data?.plans,
+
+    result?.plans,
+
+    result?.data?.data,
+
+    result?.data?.data?.plans,
+
+    result?.result,
+
+    result?.results
+
+  ];
+
+
+  for (
+    const candidate of candidates
+  ) {
+
+    if (Array.isArray(candidate)) {
+
+      return candidate;
+    }
+  }
+
+
+  return [];
+}
+
+
+/* =========================================================
+   RENDER DATA PLANS
+========================================================= */
+
+function renderLiveDataPlans() {
+
+  const container =
+    document.getElementById(
+      "dataPlans"
+    );
+
+
+  if (!container) return;
+
+
+  if (!liveDataPlans.length) {
+
+    container.innerHTML = `
+      <div class="empty">
+
+        <i class="fa-solid fa-box-open"></i>
+
+        <h3>
+          No plans returned
+        </h3>
+
+        <p>
+          The Sandbox provider did not
+          return plans for
+          ${escapeHTML(selectedNetwork)}.
+        </p>
+
+      </div>
+    `;
+
+    return;
+  }
+
+
+  container.innerHTML = `
+    <div class="plans-grid">
+
+      ${liveDataPlans.map(
+        (plan, index) => {
+
+          const size =
+            plan.size ||
+            plan.data ||
+            plan.plan_size ||
+            plan.name ||
+            plan.volume ||
+            "Data Plan";
+
+
+          const price =
+            Number(
+              plan.price ??
+              plan.amount ??
+              plan.selling_price ??
+              plan.plan_price ??
+              0
+            );
+
+
+          const validity =
+            plan.validity ||
+            plan.duration ||
+            plan.days ||
+            "";
+
+
+          const code =
+            plan.code ||
+            plan.plan_code ||
+            plan.product_code ||
+            plan.service_code ||
+            "";
+
+
+          return `
+            <div class="plan-card">
+
+              <div class="plan-size">
+                ${escapeHTML(size)}
+              </div>
+
+              <div class="plan-validity">
+                ${
+                  validity
+                  ? escapeHTML(String(validity))
+                  : "Provider plan"
+                }
+              </div>
+
+              <div class="plan-price">
+                ${formatMoney(price)}
+              </div>
+
+              <button
+                class="btn btn-primary"
+                style="width:100%"
+                onclick="startDataPurchase(${index})"
+              >
+                <i class="fa-solid fa-cart-shopping"></i>
+                Test Purchase
+              </button>
+
+            </div>
+          `;
+        }
+      ).join("")}
+
+    </div>
+  `;
+}
+
+
+/* =========================================================
+   SELECT NETWORK
+========================================================= */
+
+function selectNetwork(network) {
+
+  selectedNetwork =
+    network;
+
+
+  const ids = {
+    MTN: "networkMTN",
+    Airtel: "networkAirtel",
+    Glo: "networkGlo",
+    "9mobile": "network9mobile"
+  };
+
+
+  Object.values(ids).forEach(
+    id => {
+
+      document
+        .getElementById(id)
+        ?.classList.remove("active");
+
+    }
+  );
+
+
+  document
+    .getElementById(
+      ids[network]
+    )
+    ?.classList.add("active");
+
+
+  loadDataPlans();
+}
+
+
+/* =========================================================
+   SANDBOX DATA PURCHASE
+========================================================= */
+
+async function startDataPurchase(index) {
+
+  if (!currentUser) {
+
+    openAuth("login");
+
+    return;
+  }
+
+
+  const plan =
+    liveDataPlans[index];
+
+
+  if (!plan) {
+
+    showAlert(
+      "Data plan not found.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  const phone =
+    prompt(
+      "Enter the test customer's phone number:"
+    );
+
+
+  if (!phone) return;
+
+
+  if (!/^0\d{10}$/.test(phone)) {
+
+    showAlert(
+      "Enter a valid 11-digit Nigerian phone number.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  const price =
+    Number(
+      plan.price ??
+      plan.amount ??
+      plan.selling_price ??
+      plan.plan_price ??
+      0
+    );
+
+
+  const serviceId =
+    plan.service_id ||
+    plan.serviceId ||
+    plan.service ||
+    selectedNetwork;
+
+
+  const code =
+    plan.code ||
+    plan.plan_code ||
+    plan.product_code ||
+    plan.service_code;
+
+
+  if (!code) {
+
+    showAlert(
+      "This plan has no provider plan code.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if (!SANDBOX_MODE) {
+
+    showAlert(
+      "Sandbox mode is required for this version.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  const confirmTest =
+    confirm(
+      "Run this as a SANDBOX/TEST transaction?\n\n" +
+      "Network: " + selectedNetwork +
+      "\nPhone: " + phone +
+      "\nAmount: " + formatMoney(price)
+    );
+
+
+  if (!confirmTest) return;
+
+
+  try {
+
+    showAlert(
+      "Sending sandbox test transaction...",
+      "warning"
+    );
+
+
+    const result =
+      await workerRequest(
+        "/vtu/buy-data",
+        {
+          service_id: serviceId,
+          plan_code: code,
+          phone: phone,
+          amount: price,
+          network: selectedNetwork
+        }
+      );
+
+
+    console.log(
+      "Sandbox data result:",
+      result
+    );
+
+
+    await saveTransaction({
+
+      service:
+        "Data",
+
+      description:
+        selectedNetwork +
+        " Data Sandbox Test",
+
+      amount:
+        price,
+
+      status:
+        normalizeProviderStatus(
+          result
+        ),
+
+      providerResponse:
+        result,
+
+      providerTransactionId:
+        findTransactionId(
+          result
+        )
+    });
+
+
+    showAlert(
+      "Sandbox data transaction completed. No real data or wallet money was used.",
+      "success"
+    );
+
+
+    loadTransactions();
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    showAlert(
+      error.message ||
+      "Sandbox transaction failed.",
+      "error"
+    );
+  }
+}
+
+
+/* =========================================================
+   AIRTIME
+========================================================= */
+
+async function buyAirtime() {
+
+  if (!currentUser) {
+
+    openAuth("login");
+
+    return;
+  }
+
+
+  const network =
+    document
+      .getElementById(
+        "airtimeNetwork"
+      )
+      .value;
+
+
+  const phone =
+    document
+      .getElementById(
+        "airtimePhone"
+      )
+      .value
+      .trim();
+
+
+  const amount =
+    Number(
+      document
+        .getElementById(
+          "airtimeAmount"
+        )
+        .value
+    );
+
+
+  if (!/^0\d{10}$/.test(phone)) {
+
+    showAlert(
+      "Enter a valid 11-digit phone number.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if (!amount || amount < 50) {
+
+    showAlert(
+      "Minimum test airtime is ₦50.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if (!SANDBOX_MODE) {
+
+    showAlert(
+      "Sandbox mode is required.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if (
+    !confirm(
+      "Run sandbox airtime test?\n\n" +
+      network +
+      "\n" +
+      phone +
+      "\n" +
+      formatMoney(amount)
+    )
+  ) {
+
+    return;
+  }
+
+
+  try {
+
+    showAlert(
+      "Sending airtime sandbox test...",
+      "warning"
+    );
+
+
+    const result =
+      await workerRequest(
+        "/vtu/buy-airtime",
+        {
+          service_id:
+            network,
+
+          network:
+            network,
+
+          phone:
+            phone,
+
+          amount:
+            amount
+        }
+      );
+
+
+    await saveTransaction({
+
+      service:
+        "Airtime",
+
+      description:
+        network +
+        " Airtime Sandbox Test",
+
+      amount:
+        amount,
+
+      status:
+        normalizeProviderStatus(
+          result
+        ),
+
+      providerResponse:
+        result,
+
+      providerTransactionId:
+        findTransactionId(
+          result
+        )
+    });
+
+
+    showAlert(
+      "Sandbox airtime test completed. No real airtime was sent.",
+      "success"
+    );
+
+
+    loadTransactions();
+
+
+  } catch (error) {
+
+    showAlert(
+      error.message,
+      "error"
+    );
+  }
+}
+
+
+/* =========================================================
+   BILLS
+========================================================= */
+
+function selectBill(type) {
+
+  selectedBill =
+    type;
+
+
+  [
+    "electricity",
+    "cable",
+    "education"
+  ].forEach(name => {
+
+    document
+      .getElementById(
+        "bill" +
+        name.charAt(0).toUpperCase() +
+        name.slice(1)
+      )
+      ?.classList.toggle(
+        "active",
+        name === type
+      );
+
+  });
+
+
+  renderBillForm();
+}
+
+
+/* =========================================================
+   BILL FORM
+========================================================= */
+
+function renderBillForm() {
+
+  const box =
+    document.getElementById(
+      "billForm"
+    );
+
+
+  if (!box) return;
+
+
+  if (selectedBill === "electricity") {
+
+    box.innerHTML = `
+
+      <div style="max-width:560px">
+
+        <div class="form-group">
+
+          <label>
+            Electricity Service
+          </label>
+
+          <select
+            class="form-control"
+            id="electricityService"
+          >
+            <option value="abuja">
+              Abuja Electricity
+            </option>
+
+            <option value="ikeja">
+              Ikeja Electricity
+            </option>
+
+            <option value="eko">
+              Eko Electricity
+            </option>
+          </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            Meter Number
+          </label>
+
+          <input
+            class="form-control"
+            id="meterNumber"
+            placeholder="Enter meter number"
+          >
+
+          <div class="form-note">
+            Sandbox test values may be used here.
+          </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            Meter Type
+          </label>
+
+          <select
+            class="form-control"
+            id="meterType"
+          >
+            <option value="prepaid">
+              Prepaid
+            </option>
+
+            <option value="postpaid">
+              Postpaid
+            </option>
+          </select>
+
+        </div>
+
+
+        <button
+          class="btn btn-secondary"
+          onclick="verifyElectricity()"
+        >
+          <i class="fa-solid fa-magnifying-glass"></i>
+          Test Verify
+        </button>
+
+
+        <button
+          class="btn btn-primary"
+          onclick="buyElectricity()"
+          style="margin-left:6px"
+        >
+          <i class="fa-solid fa-bolt"></i>
+          Test Purchase
+        </button>
+
+      </div>
+    `;
+
+
+    return;
+  }
+
+
+  if (selectedBill === "cable") {
+
+    box.innerHTML = `
+
+      <div style="max-width:560px">
+
+        <div class="form-group">
+
+          <label>
+            Cable Provider
+          </label>
+
+          <select
+            class="form-control"
+            id="cableService"
+          >
+            <option value="dstv">
+              DSTV
+            </option>
+
+            <option value="gotv">
+              GOtv
+            </option>
+
+            <option value="startimes">
+              Startimes
+            </option>
+          </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            Smartcard / IUC Number
+          </label>
+
+          <input
+            class="form-control"
+            id="smartcardNumber"
+            placeholder="Enter number"
+          >
+
+        </div>
+
+
+        <button
+          class="btn btn-secondary"
+          onclick="verifyCable()"
+        >
+          <i class="fa-solid fa-user-check"></i>
+          Test Verify
+        </button>
+
+      </div>
+    `;
+
+
+    return;
+  }
+
+
+  box.innerHTML = `
+
+    <div style="max-width:560px">
+
+      <div class="form-group">
+
+        <label>
+          Education Service
+        </label>
+
+        <select
+          class="form-control"
+          id="educationService"
+        >
+          <option value="waec">
+            WAEC
+          </option>
+
+          <option value="neco">
+            NECO
+          </option>
+
+          <option value="jamb">
+            JAMB
+          </option>
+        </select>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Phone Number
+        </label>
+
+        <input
+          class="form-control"
+          id="educationPhone"
+          type="tel"
+          placeholder="08012345678"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Quantity
+        </label>
+
+        <input
+          class="form-control"
+          id="educationQuantity"
+          type="number"
+          min="1"
+          value="1"
+        >
+
+      </div>
+
+
+      <button
+        class="btn btn-secondary"
+        onclick="getEducationPrice()"
+      >
+        <i class="fa-solid fa-tags"></i>
+        Test Price
+      </button>
+
+    </div>
+  `;
+}
+
+
+/* =========================================================
+   VERIFY ELECTRICITY
+========================================================= */
+
+async function verifyElectricity() {
+
+  if (!currentUser) {
+
+    openAuth("login");
+
+    return;
+  }
+
+
+  const service =
+    document
+      .getElementById(
+        "electricityService"
+      )
+      .value;
+
+
+  const meter =
+    document
+      .getElementById(
+        "meterNumber"
+      )
+      .value
+      .trim();
+
+
+  const meterType =
+    document
+      .getElementById(
+        "meterType"
+      )
+      .value;
+
+
+  if (!meter) {
+
+    showAlert(
+      "Enter a meter number.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  try {
+
+    const result =
+      await workerRequest(
+        "/vtu/verify-electricity",
+        {
+          service_id:
+            service,
+
+          meter_number:
+            meter,
+
+          meter_type:
+            meterType
+        }
+      );
+
+
+    console.log(
+      "Electricity verification:",
+      result
+    );
+
+
+    showAlert(
+      "Electricity sandbox verification completed.",
+      "success"
+    );
+
+
+    alert(
+      JSON.stringify(
+        result,
+        null,
+        2
+      )
+    );
+
+
+  } catch (error) {
+
+    showAlert(
+      error.message,
+      "error"
+    );
+  }
+}
+
+
+/* =========================================================
+   BUY ELECTRICITY
+========================================================= */
+
+async function buyElectricity() {
+
+  if (!currentUser) {
+
+    openAuth("login");
+
+    return;
+  }
+
+
+  const service =
+    document
+      .getElementById(
+        "electricityService"
+      )
+      .value;
+
+
+  const meter =
+    document
+      .getElementById(
+        "meterNumber"
+      )
+      .value
+      .trim();
+
+
+  if (!meter) {
+
+    showAlert(
+      "Enter a meter number first.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  const amount =
+    Number(
+      prompt(
+        "Enter sandbox electricity amount:"
+      )
+    );
+
+
+  if (!amount || amount <= 0) {
+
+    showAlert(
+      "Enter a valid amount.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  try {
+
+    const result =
+      await workerRequest(
+        "/vtu/buy-electricity",
+        {
+          service_id:
+            service,
+
+          meter_number:
+            meter,
+
+          amount:
+            amount
+        }
+      );
+
+
+    await saveTransaction({
+
+      service:
+        "Electricity",
+
+      description:
+        "Electricity Sandbox Test",
+
+      amount:
+        amount,
+
+      status:
+        normalizeProviderStatus(
+          result
+        ),
+
+      providerResponse:
+        result,
+
+      providerTransactionId:
+        findTransactionId(
+          result
+        )
+    });
+
+
+    showAlert(
+      "Sandbox electricity test completed.",
+      "success"
+    );
+
+
+    loadTransactions();
+
+
+  } catch (error) {
+
+    showAlert(
+      error.message,
+      "error"
+    );
+  }
+}
+
+
+/* =========================================================
+   VERIFY CABLE
+========================================================= */
+
+async function verifyCable() {
+
+  if (!currentUser) {
+
+    openAuth("login");
+
+    return;
+  }
+
+
+  const service =
+    document
+      .getElementById(
+        "cableService"
+      )
+      .value;
+
+
+  const smartcard =
+    document
+      .getElementById(
+        "smartcardNumber"
+      )
+      .value
+      .trim();
+
+
+  if (!smartcard) {
+
+    showAlert(
+      "Enter the smartcard/IUC number.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  try {
+
+    const result =
+      await workerRequest(
+        "/vtu/verify-cable",
+        {
+          service_id:
+            service,
+
+          smartcard_number:
+            smartcard
+        }
+      );
+
+
+    showAlert(
+      "Cable sandbox verification completed.",
+      "success"
+    );
+
+
+    alert(
+      JSON.stringify(
+        result,
+        null,
+        2
+      )
+    );
+
+
+  } catch (error) {
+
+    showAlert(
+      error.message,
+      "error"
+    );
+  }
+}
+
+
+/* =========================================================
+   EDUCATION PRICE
+========================================================= */
+
+async function getEducationPrice() {
+
+  if (!currentUser) {
+
+    openAuth("login");
+
+    return;
+  }
+
+
+  const service =
+    document
+      .getElementById(
+        "educationService"
+      )
+      .value;
+
+
+  const phone =
+    document
+      .getElementById(
+        "educationPhone"
+      )
+      .value
+      .trim();
+
+
+  const quantity =
+    Number(
+      document
+        .getElementById(
+          "educationQuantity"
+        )
+        .value
+    );
+
+
+  if (!phone) {
+
+    showAlert(
+      "Enter a phone number.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if (!quantity || quantity < 1) {
+
+    showAlert(
+      "Enter a valid quantity.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  try {
+
+    const result =
+      await workerRequest(
+        "/vtu/education-price",
+        {
+          service_id:
+            service,
+
+          phone:
+            phone,
+
+          quantity:
+            quantity
+        }
+      );
+
+
+    showAlert(
+      "Education sandbox price request completed.",
+      "success"
+    );
+
+
+    alert(
+      JSON.stringify(
+        result,
+        null,
+        2
+      )
+    );
+
+
+  } catch (error) {
+
+    showAlert(
+      error.message,
+      "error"
+    );
+  }
+}
+
+
+/* =========================================================
+   DEPOSIT
+========================================================= */
+
+async function submitDeposit() {
+
+  if (!currentUser) {
+
+    openAuth("login");
+
+    return;
+  }
+
+
+  const amount =
+    Number(
+      document
+        .getElementById(
+          "depositAmount"
+        )
+        .value
+    );
+
+
+  const reference =
+    document
+      .getElementById(
+        "depositReference"
+      )
+      .value
+      .trim();
+
+
+  if (!amount || amount < 100) {
+
+    showAlert(
+      "Minimum deposit is ₦100.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if (!reference) {
+
+    showAlert(
+      "Please enter the payment reference.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  try {
+
+    await db
+      .collection("deposits")
+      .add({
+
+        uid:
+          currentUser.uid,
+
+        userEmail:
+          currentUser.email,
+
+        userName:
+          currentUser.displayName || "",
+
+        amount:
+          amount,
+
+        reference:
+          reference,
+
+        bank:
+          DEPOSIT_BANK,
+
+        accountName:
+          DEPOSIT_ACCOUNT_NAME,
+
+        accountNumber:
+          DEPOSIT_ACCOUNT_NUMBER,
+
+        status:
+          "pending",
+
+        createdAt:
+          firebase.firestore
+            .FieldValue
+            .serverTimestamp()
+      });
+
+
+    showAlert(
+      "Deposit request submitted. Wait for admin approval.",
+      "success"
+    );
+
+
+    document
+      .getElementById(
+        "depositAmount"
+      )
+      .value = "";
+
+
+    document
+      .getElementById(
+        "depositReference"
+      )
+      .value = "";
+
+
+  } catch (error) {
+
+    showAlert(
+      error.message,
+      "error"
+    );
+  }
+}
+
+
+/* =========================================================
+   TRANSACTIONS
+========================================================= */
+
+async function saveTransaction(data) {
+
+  if (!currentUser) return;
+
+
+  await db
+    .collection("transactions")
+    .add({
+
+      uid:
+        currentUser.uid,
+
+      userEmail:
+        currentUser.email,
+
+      service:
+        data.service || "Unknown",
+
+      description:
+        data.description || "",
+
+      amount:
+        Number(data.amount || 0),
+
+      status:
+        data.status || "pending",
+
+      providerTransactionId:
+        data.providerTransactionId || "",
+
+      providerResponse:
+        data.providerResponse || null,
+
+      mode:
+        "sandbox",
+
+      createdAt:
+        firebase.firestore
+          .FieldValue
+          .serverTimestamp()
+    });
+}
+
+
+async function loadTransactions() {
+
+  const list =
+    document.getElementById(
+      "transactionList"
+    );
+
+
+  if (!list || !currentUser)
+    return;
+
+
+  list.innerHTML = `
+    <div class="empty">
+      <div class="loader"></div>
+      <p style="margin-top:12px">
+        Loading transactions...
+      </p>
+    </div>
+  `;
+
+
+  try {
+
+    const snapshot =
+      await db
+        .collection("transactions")
+        .where(
+          "uid",
+          "==",
+          currentUser.uid
+        )
+        .get();
+
+
+    const items =
+      snapshot.docs
+        .map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }))
+        .sort(
+          (a,b) =>
+            getTimestamp(b.createdAt) -
+            getTimestamp(a.createdAt)
+        );
+
+
+    if (!items.length) {
+
+      list.innerHTML = `
+        <div class="empty">
+
+          <i class="fa-solid fa-clock-rotate-left"></i>
+
+          <h3>
+            No transactions yet
+          </h3>
+
+          <p>
+            Your sandbox transactions
+            will appear here.
+          </p>
+
+        </div>
+      `;
+
+      return;
+    }
+
+
+    list.innerHTML =
+      items.map(item => {
+
+        const status =
+          normalizeStatus(
+            item.status
+          );
+
+
+        return `
+          <div class="transaction-item">
+
+            <div class="transaction-left">
+
+              <div class="transaction-icon">
+
+                <i class="fa-solid ${
+                  getServiceIcon(
+                    item.service
+                  )
+                }"></i>
+
+              </div>
+
+
+              <div>
+
+                <div class="transaction-title">
+
+                  ${escapeHTML(
+                    item.description ||
+                    item.service ||
+                    "Transaction"
+                  )}
+
+                </div>
+
+
+                <div class="transaction-date">
+
+                  ${formatDate(
+                    item.createdAt
+                  )}
+
+                </div>
+
+
+                <span class="status ${status}">
+
+                  ${escapeHTML(
+                    item.status ||
+                    "pending"
+                  )}
+
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div class="transaction-amount">
+
+              ${formatMoney(
+                item.amount
+              )}
+
+            </div>
+
+          </div>
+        `;
+
+      }).join("");
+
+
+  } catch (error) {
+
+    list.innerHTML = `
+      <div class="empty">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <h3>
+          Unable to load transactions
+        </h3>
+        <p>
+          ${escapeHTML(error.message)}
+        </p>
+      </div>
+    `;
+  }
+}
+
+
+/* =========================================================
+   ADMIN — LOAD DEPOSITS
+========================================================= */
+
+async function loadAdminDeposits() {
+
+  if (
+    !currentUser ||
+    currentUser.email?.toLowerCase() !==
+    ADMIN_EMAIL.toLowerCase()
+  ) {
+
+    return;
+  }
+
+
+  const list =
+    document.getElementById(
+      "adminDepositList"
+    );
+
+
+  if (!list) return;
+
+
+  list.innerHTML = `
+    <div class="empty">
+      <div class="loader"></div>
+      <p style="margin-top:12px">
+        Loading deposit requests...
+      </p>
+    </div>
+  `;
+
+
+  try {
+
+    const snapshot =
+      await db
+        .collection("deposits")
+        .get();
+
+
+    const deposits =
+      snapshot.docs
+        .map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }))
+        .sort(
+          (a,b) =>
+            getTimestamp(b.createdAt) -
+            getTimestamp(a.createdAt)
+        );
+
+
+    let pending = 0;
+    let approved = 0;
+    let volume = 0;
+
+
+    deposits.forEach(item => {
+
+      if (
+        item.status === "pending"
+      ) {
+        pending++;
+      }
+
+
+      if (
+        item.status === "approved"
+      ) {
+
+        approved++;
+
+        volume +=
+          Number(item.amount || 0);
       }
 
     });
 
 
-    /* =========================
-       PAGE NAVIGATION
-    ========================= */
-
-    function showPage(page){
-
-      const home =
-        document.getElementById("homePage");
-
-      const dashboard =
-        document.getElementById("dashboardPage");
-
-
-      if(page === "home"){
-
-        home.classList.remove("hidden");
-        dashboard.classList.add("hidden");
-
-      }else{
-
-        if(!currentUser){
-
-          openAuth("login");
-          return;
-
-        }
-
-        home.classList.add("hidden");
-        dashboard.classList.remove("hidden");
-
-      }
-
-      window.scrollTo({
-        top:0,
-        behavior:"smooth"
-      });
-
-    }
-
-
-    /* =========================
-       PANELS
-    ========================= */
-
-    function openPanel(panel){
-
-      if(!currentUser){
-
-        openAuth("login");
-        return;
-
-      }
-
-
-      showPage("dashboard");
-
-
-      document
-        .querySelectorAll(".panel")
-        .forEach(p => p.classList.remove("active"));
-
-
-      const target =
-        document.getElementById(panel + "Panel");
-
-
-      if(!target){
-
-        return;
-
-      }
-
-
-      if(panel === "admin" && !isAdmin()){
-
-        showAlert(
-          "You are not authorized to access the admin panel.",
-          "error"
-        );
-
-        return;
-
-      }
-
-
-      target.classList.add("active");
-
-
-      if(panel === "data"){
-        renderPlans();
-      }
-
-      if(panel === "bills"){
-        renderBillForm();
-      }
-
-      if(panel === "transactions"){
-        loadTransactions();
-      }
-
-      if(panel === "admin"){
-        loadAdmin();
-      }
-
-
-      setTimeout(() => {
-
-        target.scrollIntoView({
-          behavior:"smooth",
-          block:"start"
-        });
-
-      },100);
-
-    }
-
-
-    function backDashboard(){
-
-      document
-        .querySelectorAll(".panel")
-        .forEach(p => p.classList.remove("active"));
-
-      window.scrollTo({
-        top:0,
-        behavior:"smooth"
-      });
-
-    }
-
-
-    /* =========================
-       INITIAL DATA RENDER
-    ========================= */
-
-    function renderPlans(){
-
-      const grid =
-        document.getElementById("plansGrid");
-
-      if(!grid){
-        return;
-      }
-
-
-      const plans =
-        DATA_PLANS[currentNetwork] || [];
-
-
-      grid.innerHTML = plans.map((plan,index) => `
-
-        <div class="plan">
-
-          <div class="plan-size">
-            ${plan.size}
-          </div>
-
-          <div class="plan-price">
-            ${money(plan.price)}
-          </div>
-
-          <button
-            class="btn btn-primary btn-full"
-            onclick="buyData(${index})">
-            Buy Now
-          </button>
-
-        </div>
-
-      `).join("");
-
-    }
-
-
-    /* =========================
-       CHANGE NETWORK
-    ========================= */
-
-    function changeNetwork(network){
-
-      currentNetwork = network;
-
-
-      document
-        .querySelectorAll(".network-btn")
-        .forEach(btn => btn.classList.remove("active"));
-
-
-      const selected =
-        document.getElementById("network-" + network);
-
-
-      if(selected){
-        selected.classList.add("active");
-      }
-
-
-      renderPlans();
-
-    }
-
-
-    /* =========================
-       DASHBOARD
-    ========================= */
-
-    async function loadDashboard(){
-
-      if(!currentUser){
-        return;
-      }
-
-
-      document.getElementById("welcomeText")
-        .textContent =
-        "Welcome back, " +
-        (currentUser.displayName || currentUser.email);
-
-
-      try{
-
-        const doc =
-          await db
-            .collection("users")
-            .doc(currentUser.uid)
-            .get();
-
-
-        if(doc.exists){
-
-          const data = doc.data();
-
-          const balance =
-            Number(data.balance || 0);
-
-
-          document.getElementById("walletBalance")
-            .textContent = money(balance);
-
-          document.getElementById("smallBalance")
-            .textContent = money(balance);
-
-        }
-
-      }catch(error){
-
-        console.error(error);
-
-      }
-
-    }
-
-
-    /* =========================
-       PHONE VALIDATION
-    ========================= */
-
-    function validPhone(phone){
-
-      const cleaned =
-        String(phone || "")
-          .replace(/\s+/g,"")
-          .replace(/-/g,"");
-
-
-      if(/^\+234\d{10}$/.test(cleaned)){
-        return true;
-      }
-
-      if(/^0\d{10}$/.test(cleaned)){
-        return true;
-      }
-
-      return false;
-
-    }
-
-    /* =========================
-       WALLET DEDUCTION
-    ========================= */
-
-    async function deductWallet(amount){
-
-      if(!currentUser){
-        throw new Error("Please login first.");
-      }
-
-      const userRef =
-        db.collection("users").doc(currentUser.uid);
-
-      return db.runTransaction(async transaction => {
-
-        const snap = await transaction.get(userRef);
-
-        if(!snap.exists){
-          throw new Error("User account was not found.");
-        }
-
-        const currentBalance =
-          Number(snap.data().balance || 0);
-
-        amount = Number(amount);
-
-        if(currentBalance < amount){
-          throw new Error(
-            "Insufficient wallet balance."
-          );
-        }
-
-        const newBalance =
-          currentBalance - amount;
-
-        transaction.update(userRef,{
-          balance:newBalance
-        });
-
-        return newBalance;
-
-      });
-
-    }
-
-
-    /* =========================
-       BUY DATA
-    ========================= */
-
-    async function buyData(index){
-
-      if(!currentUser){
-        openAuth("login");
-        return;
-      }
-
-      const phone =
-        document.getElementById("dataPhone")
-          .value.trim();
-
-      if(!validPhone(phone)){
-
-        showAlert(
-          "Enter a valid Nigerian phone number.",
-          "error"
-        );
-
-        return;
-      }
-
-      const plans =
-        DATA_PLANS[currentNetwork] || [];
-
-      const plan = plans[index];
-
-      if(!plan){
-        return;
-      }
-
-      if(!confirm(
-        `Buy ${plan.size} ${currentNetwork} data for ${money(plan.price)}?`
-      )){
-        return;
-      }
-
-      try{
-
-        const newBalance =
-          await deductWallet(plan.price);
-
-        await db.collection("transactions").add({
-
-          uid:currentUser.uid,
-
-          type:"data",
-
-          service:"Data",
-
-          network:currentNetwork,
-
-          phone:phone,
-
-          description:
-            `${currentNetwork} ${plan.size} Data`,
-
-          amount:Number(plan.price),
-
-          balanceAfter:Number(newBalance),
-
-          status:"demo",
-
-          createdAt:
-            firebase.firestore.FieldValue.serverTimestamp()
-
-        });
-
-        await loadDashboard();
-
-        showAlert(
-          "Data order submitted successfully. Demo mode is active.",
-          "success"
-        );
-
-      }catch(error){
-
-        showAlert(
-          error.message,
-          "error"
-        );
-
-      }
-
-    }
-
-
-    /* =========================
-       BUY AIRTIME
-    ========================= */
-
-    async function buyAirtime(){
-
-      if(!currentUser){
-        openAuth("login");
-        return;
-      }
-
-      const network =
-        document.getElementById("airtimeNetwork")
-          .value;
-
-      const phone =
-        document.getElementById("airtimePhone")
-          .value.trim();
-
-      const amount =
-        Number(
-          document.getElementById("airtimeAmount")
-            .value
-        );
-
-
-      if(!validPhone(phone)){
-
-        showAlert(
-          "Enter a valid Nigerian phone number.",
-          "error"
-        );
-
-        return;
-      }
-
-
-      if(!amount || amount < 50){
-
-        showAlert(
-          "Minimum airtime amount is ₦50.",
-          "error"
-        );
-
-        return;
-      }
-
-
-      if(!confirm(
-        `Buy ${network} airtime worth ${money(amount)}?`
-      )){
-        return;
-      }
-
-
-      try{
-
-        const newBalance =
-          await deductWallet(amount);
-
-
-        await db.collection("transactions").add({
-
-          uid:currentUser.uid,
-
-          type:"airtime",
-
-          service:"Airtime",
-
-          network:network,
-
-          phone:phone,
-
-          description:
-            `${network} Airtime`,
-
-          amount:amount,
-
-          balanceAfter:Number(newBalance),
-
-          status:"demo",
-
-          createdAt:
-            firebase.firestore.FieldValue.serverTimestamp()
-
-        });
-
-
-        await loadDashboard();
-
-
-        showAlert(
-          "Airtime order submitted successfully. Demo mode is active.",
-          "success"
-        );
-
-
-        document
-          .getElementById("airtimeAmount")
-          .value = "";
-
-
-      }catch(error){
-
-        showAlert(
-          error.message,
-          "error"
-        );
-
-      }
-
-    }
-
-
-    /* =========================
-       BILL CATEGORY
-    ========================= */
-
-    function selectBill(type,button){
-
-      currentBill = type;
-
-
-      document
-        .querySelectorAll(".bill-cat")
-        .forEach(btn =>
-          btn.classList.remove("active")
-        );
-
-
-      if(button){
-        button.classList.add("active");
-      }
-
-
-      renderBillForm();
-
-    }
-
-
-    /* =========================
-       BILL FORM
-    ========================= */
-
-    function renderBillForm(){
-
-      const area =
-        document.getElementById("billFormArea");
-
-      if(!area){
-        return;
-      }
-
-
-      let html = "";
-
-
-      if(currentBill === "Electricity"){
-
-        html = `
-
-          <div class="form-group">
-
-            <label>Electricity Provider</label>
-
-            <select
-              id="billProvider"
-              class="input">
-
-              <option value="AEDC">
-                AEDC
-              </option>
-
-              <option value="KEDCO">
-                KEDCO
-              </option>
-
-              <option value="EKEDC">
-                EKEDC
-              </option>
-
-              <option value="IKEDC">
-                IKEDC
-              </option>
-
-              <option value="IBEDC">
-                IBEDC
-              </option>
-
-            </select>
-
-          </div>
-
-          <div class="form-group">
-
-            <label>Meter Number</label>
-
-            <input
-              id="billCustomer"
-              class="input"
-              type="text"
-              placeholder="Enter meter number">
-
-          </div>
-
-          <div class="form-group">
-
-            <label>Amount</label>
-
-            <input
-              id="billAmount"
-              class="input"
-              type="number"
-              min="100"
-              placeholder="Enter amount">
-
-          </div>
-
-        `;
-
-      }else if(
-        currentBill === "NECO" ||
-        currentBill === "WAEC"
-      ){
-
-        html = `
-
-          <div class="form-group">
-
-            <label>Service</label>
-
-            <select
-              id="billProvider"
-              class="input">
-
-              <option value="${currentBill}">
-                ${currentBill} Result / PIN
-              </option>
-
-            </select>
-
-          </div>
-
-          <div class="form-group">
-
-            <label>Candidate / Customer Number</label>
-
-            <input
-              id="billCustomer"
-              class="input"
-              type="text"
-              placeholder="Enter candidate number">
-
-          </div>
-
-          <div class="form-group">
-
-            <label>Amount</label>
-
-            <input
-              id="billAmount"
-              class="input"
-              type="number"
-              min="100"
-              placeholder="Enter amount">
-
-          </div>
-
-        `;
-
-      }else if(currentBill === "JAMB"){
-
-        html = `
-
-          <div class="form-group">
-
-            <label>JAMB Service</label>
-
-            <select
-              id="billProvider"
-              class="input">
-
-              <option value="JAMB">
-                JAMB
-              </option>
-
-            </select>
-
-          </div>
-
-          <div class="form-group">
-
-            <label>Profile / Registration Number</label>
-
-            <input
-              id="billCustomer"
-              class="input"
-              type="text"
-              placeholder="Enter JAMB number">
-
-          </div>
-
-          <div class="form-group">
-
-            <label>Amount</label>
-
-            <input
-              id="billAmount"
-              class="input"
-              type="number"
-              min="100"
-              placeholder="Enter amount">
-
-          </div>
-
-        `;
-
-      }else if(currentBill === "Cable TV"){
-
-        html = `
-
-          <div class="form-group">
-
-            <label>Cable Provider</label>
-
-            <select
-              id="billProvider"
-              class="input">
-
-              <option value="DSTV">
-                DSTV
-              </option>
-
-              <option value="GOTV">
-                GOtv
-              </option>
-
-              <option value="STARTIMES">
-                Startimes
-              </option>
-
-            </select>
-
-          </div>
-
-          <div class="form-group">
-
-            <label>Smart Card / IUC Number</label>
-
-            <input
-              id="billCustomer"
-              class="input"
-              type="text"
-              placeholder="Enter customer number">
-
-          </div>
-
-          <div class="form-group">
-
-            <label>Amount</label>
-
-            <input
-              id="billAmount"
-              class="input"
-              type="number"
-              min="100"
-              placeholder="Enter amount">
-
-          </div>
-
-        `;
-
-      }else if(currentBill === "Internet"){
-
-        html = `
-
-          <div class="form-group">
-
-            <label>Internet Provider</label>
-
-            <select
-              id="billProvider"
-              class="input">
-
-              <option value="Smile">
-                Smile
-              </option>
-
-              <option value="Spectranet">
-                Spectranet
-              </option>
-
-              <option value="Swift">
-                Swift
-              </option>
-
-            </select>
-
-          </div>
-
-          <div class="form-group">
-
-            <label>Customer Number</label>
-
-            <input
-              id="billCustomer"
-              class="input"
-              type="text"
-              placeholder="Enter customer number">
-
-          </div>
-
-          <div class="form-group">
-
-            <label>Amount</label>
-
-            <input
-              id="billAmount"
-              class="input"
-              type="number"
-              min="100"
-              placeholder="Enter amount">
-
-          </div>
-
-        `;
-
-      }
-
-
-      area.innerHTML = html + `
-
-        <button
-          class="btn btn-primary btn-full"
-          onclick="payBill()">
-
-          Pay ${currentBill}
-
-        </button>
-
-        <p class="form-note">
-          Bill payment is currently in demo mode.
-          Real provider API will be connected later.
-        </p>
-
-      `;
-
-    }
-
-
-    /* =========================
-       PAY BILL
-    ========================= */
-
-    async function payBill(){
-
-      if(!currentUser){
-
-        openAuth("login");
-
-        return;
-
-      }
-
-
-      const provider =
-        document.getElementById("billProvider")
-          ?.value || currentBill;
-
-      const customer =
-        document.getElementById("billCustomer")
-          ?.value.trim();
-
-      const amount =
-        Number(
-          document.getElementById("billAmount")
-            ?.value
-        );
-
-
-      if(!customer){
-
-        showAlert(
-          "Enter the customer number.",
-          "error"
-        );
-
-        return;
-      }
-
-
-      if(!amount || amount < 100){
-
-        showAlert(
-          "Enter a valid bill amount.",
-          "error"
-        );
-
-        return;
-      }
-
-
-      if(!confirm(
-        `Pay ${currentBill} bill of ${money(amount)}?`
-      )){
-        return;
-      }
-
-
-      try{
-
-        const newBalance =
-          await deductWallet(amount);
-
-
-        await db.collection("transactions").add({
-
-          uid:currentUser.uid,
-
-          type:"bill",
-
-          service:currentBill,
-
-          provider:provider,
-
-          customer:customer,
-
-          description:
-            `${currentBill} - ${provider}`,
-
-          amount:amount,
-
-          balanceAfter:Number(newBalance),
-
-          status:"demo",
-
-          createdAt:
-            firebase.firestore.FieldValue.serverTimestamp()
-
-        });
-
-
-        await loadDashboard();
-
-
-        showAlert(
-          `${currentBill} payment submitted successfully. Demo mode is active.`,
-          "success"
-        );
-
-
-        renderBillForm();
-
-
-      }catch(error){
-
-        showAlert(
-          error.message,
-          "error"
-        );
-
-      }
-
-    }
-
-
-    /* =========================
-       SUBMIT DEPOSIT
-    ========================= */
-
-    async function submitDeposit(){
-
-      if(!currentUser){
-
-        openAuth("login");
-
-        return;
-      }
-
-
-      const amount =
-        Number(
-          document.getElementById("depositAmount")
-            .value
-        );
-
-
-      const reference =
-        document.getElementById("depositReference")
-          .value.trim();
-
-
-      if(!amount || amount < 100){
-
-        showAlert(
-          "Minimum deposit is ₦100.",
-          "error"
-        );
-
-        return;
-      }
-
-
-      try{
-
-        await db.collection("deposits").add({
-
-          uid:currentUser.uid,
-
-          userEmail:currentUser.email,
-
-          userName:
-            currentUser.displayName || "",
-
-          amount:amount,
-
-          reference:reference,
-
-          bank:DEPOSIT_BANK,
-
-          accountName:DEPOSIT_ACCOUNT_NAME,
-
-          accountNumber:DEPOSIT_ACCOUNT_NUMBER,
-
-          status:"pending",
-
-          createdAt:
-            firebase.firestore.FieldValue.serverTimestamp()
-
-        });
-
-
-        showAlert(
-          "Deposit request submitted. Wait for admin approval.",
-          "success"
-        );
-
-
-        document
-          .getElementById("depositAmount")
-          .value = "";
-
-
-        document
-          .getElementById("depositReference")
-          .value = "";
-
-
-      }catch(error){
-
-        showAlert(
-          error.message,
-          "error"
-        );
-
-      }
-
-    }
-
-
-    /* =========================
-       DATE FORMAT
-    ========================= */
-
-    function formatDate(timestamp){
-
-      if(!timestamp){
-        return "Just now";
-      }
-
-
-      try{
-
-        const date =
-          timestamp.toDate();
-
-
-        return date.toLocaleString(
-          "en-NG",
-          {
-            day:"2-digit",
-            month:"short",
-            year:"numeric",
-            hour:"2-digit",
-            minute:"2-digit"
-          }
-        );
-
-      }catch(e){
-
-        return "Processing";
-
-      }
-
-    }
-
-
-    /* =========================
-       LOAD TRANSACTIONS
-    ========================= */
-
-    async function loadTransactions(){
-
-      if(!currentUser){
-        return;
-      }
-
-
-      const list =
-        document.getElementById(
-          "transactionsList"
-        );
-
+    document
+      .getElementById(
+        "adminPending"
+      )
+      .textContent =
+      pending;
+
+
+    document
+      .getElementById(
+        "adminApproved"
+      )
+      .textContent =
+      approved;
+
+
+    document
+      .getElementById(
+        "adminVolume"
+      )
+      .textContent =
+      formatMoney(volume);
+
+
+    if (!deposits.length) {
 
       list.innerHTML = `
         <div class="empty">
-          Loading transactions...
+
+          <i class="fa-solid fa-inbox"></i>
+
+          <h3>
+            No deposit requests
+          </h3>
+
+          <p>
+            New customer deposits
+            will appear here.
+          </p>
+
         </div>
       `;
 
-
-      try{
-
-        const snapshot =
-          await db
-            .collection("transactions")
-            .where(
-              "uid",
-              "==",
-              currentUser.uid
-            )
-            .get();
+      return;
+    }
 
 
-        if(snapshot.empty){
+    list.innerHTML =
+      deposits.map(item => {
 
-          list.innerHTML = `
-            <div class="empty">
-              No transactions yet.
+        const status =
+          normalizeStatus(
+            item.status
+          );
+
+
+        return `
+          <div class="admin-item">
+
+            <div class="admin-item-top">
+
+              <strong>
+                ${escapeHTML(
+                  item.userName ||
+                  item.userEmail ||
+                  "Customer"
+                )}
+              </strong>
+
+              <span class="status ${status}">
+                ${escapeHTML(
+                  item.status ||
+                  "pending"
+                )}
+              </span>
+
             </div>
-          `;
-
-          return;
-        }
 
 
-        const docs =
-          snapshot.docs.sort((a,b) => {
+            <div class="admin-meta">
 
-            const aTime =
-              a.data().createdAt?.seconds || 0;
+              Email:
+              ${escapeHTML(
+                item.userEmail || ""
+              )}
 
-            const bTime =
-              b.data().createdAt?.seconds || 0;
+              <br>
 
-            return bTime - aTime;
+              Amount:
+              <strong>
+                ${formatMoney(
+                  item.amount
+                )}
+              </strong>
 
-          });
+              <br>
+
+              Reference:
+              ${escapeHTML(
+                item.reference || "—"
+              )}
+
+              <br>
+
+              Date:
+              ${formatDate(
+                item.createdAt
+              )}
+
+            </div>
 
 
-        list.innerHTML =
-          docs.map(doc => {
+            ${
+              item.status === "pending"
+              ? `
+                <div class="admin-actions">
 
-            const t = doc.data();
+                  <button
+                    class="btn btn-primary btn-small"
+                    onclick="approveDeposit('${item.id}')"
+                  >
+                    <i class="fa-solid fa-check"></i>
+                    Approve
+                  </button>
 
-            const isCredit =
-              t.type === "deposit" ||
-              t.type === "credit";
-
-
-            return `
-
-              <div class="transaction">
-
-                <div class="transaction-left">
-
-                  <div class="transaction-icon">
-                    ${isCredit ? "↓" : "↑"}
-                  </div>
-
-                  <div>
-
-                    <div class="transaction-name">
-                      ${escapeHtml(
-                        t.description ||
-                        t.service ||
-                        "Transaction"
-                      )}
-                    </div>
-
-                    <div class="transaction-date">
-                      ${formatDate(t.createdAt)}
-                    </div>
-
-                    <span class="status">
-                      ${escapeHtml(t.status || "completed")}
-                    </span>
-
-                  </div>
+                  <button
+                    class="btn btn-danger btn-small"
+                    onclick="rejectDeposit('${item.id}')"
+                  >
+                    <i class="fa-solid fa-xmark"></i>
+                    Reject
+                  </button>
 
                 </div>
+              `
+              : ""
+            }
 
-                <div class="transaction-amount ${
-                  isCredit ? "credit" : "debit"
-                }">
-
-                  ${isCredit ? "+" : "-"}
-                  ${money(t.amount)}
-
-                </div>
-
-              </div>
-
-            `;
-
-          }).join("");
-
-
-      }catch(error){
-
-        list.innerHTML = `
-          <div class="empty">
-            Unable to load transactions.
           </div>
         `;
 
-        console.error(error);
-
-      }
-
-    }
-
-
-    /* =========================
-       ADMIN CHECK
-    ========================= */
-
-    function isAdmin(){
-
-      if(!currentUser){
-        return false;
-      }
-
-
-      return (
-        String(currentUser.email || "")
-          .toLowerCase()
-          === ADMIN_EMAIL.toLowerCase()
-      );
-
-    }
-
-
-    /* =========================
-       ADMIN DASHBOARD
-    ========================= */
-
-    async function loadAdmin(){
-
-      if(!isAdmin()){
-
-        showAlert(
-          "Admin access denied.",
-          "error"
-        );
-
-        return;
-
-      }
-
-
-      await Promise.all([
-        loadAdminDeposits(),
-        loadAdminUsers()
-      ]);
-
-    }
-
-
-    /* =========================
-       ADMIN DEPOSITS
-    ========================= */
-
-    async function loadAdminDeposits(){
-
-      if(!isAdmin()){
-        return;
-      }
-
-
-      const body =
-        document.getElementById(
-          "adminDepositsBody"
-        );
-
-
-      body.innerHTML = `
-        <tr>
-          <td colspan="5">
-            Loading...
-          </td>
-        </tr>
-      `;
-
-
-      try{
-
-        const snapshot =
-          await db
-            .collection("deposits")
-            .get();
-
-
-        let pending = 0;
-        let approvedTotal = 0;
-
-
-        if(snapshot.empty){
-
-          body.innerHTML = `
-            <tr>
-              <td colspan="5">
-                No deposit requests found.
-              </td>
-            </tr>
-          `;
-
-        }else{
-
-          const docs =
-            snapshot.docs.sort((a,b) => {
-
-              const aTime =
-                a.data().createdAt?.seconds || 0;
-
-              const bTime =
-                b.data().createdAt?.seconds || 0;
-
-              return bTime - aTime;
-
-            });
-
-
-          body.innerHTML =
-            docs.map(doc => {
-
-              const d = doc.data();
-
-
-              if(d.status === "pending"){
-                pending++;
-              }
-
-
-              if(d.status === "approved"){
-                approvedTotal +=
-                  Number(d.amount || 0);
-              }
-
-
-              let action = "";
-
-
-              if(d.status === "pending"){
-
-                action = `
-
-                  <div class="admin-actions">
-
-                    <button
-                      class="btn btn-primary"
-                      onclick="approveDeposit('${doc.id}')">
-                      Approve
-                    </button>
-
-                    <button
-                      class="btn btn-danger"
-                      onclick="rejectDeposit('${doc.id}')">
-                      Reject
-                    </button>
-
-                  </div>
-
-                `;
-
-              }else{
-
-                action = `
-                  <span class="status ${
-                    d.status === "rejected"
-                      ? "rejected"
-                      : ""
-                  }">
-                    ${escapeHtml(d.status)}
-                  </span>
-                `;
-
-              }
-
-
-              return `
-
-                <tr>
-
-                  <td>
-                    <strong>
-                      ${escapeHtml(
-                        d.userName ||
-                        "User"
-                      )}
-                    </strong>
-
-                    <br>
-
-                    <small>
-                      ${escapeHtml(
-                        d.userEmail || ""
-                      )}
-                    </small>
-                  </td>
-
-                  <td>
-                    <strong>
-                      ${money(d.amount)}
-                    </strong>
-                  </td>
-
-                  <td>
-                    ${escapeHtml(
-                      d.reference || "-"
-                    )}
-                  </td>
-
-                  <td>
-                    <span class="status ${
-                      d.status === "pending"
-                        ? "pending"
-                        : d.status === "rejected"
-                        ? "rejected"
-                        : ""
-                    }">
-                      ${escapeHtml(
-                        d.status || "pending"
-                      )}
-                    </span>
-                  </td>
-
-                  <td>
-                    ${action}
-                  </td>
-
-                </tr>
-
-              `;
-
-            }).join("");
-
-        }
-
-
-        document
-          .getElementById("adminPendingCount")
-          .textContent = pending;
-
-
-        document
-          .getElementById("adminApprovedTotal")
-          .textContent = money(approvedTotal);
-
-
-      }catch(error){
-
-        body.innerHTML = `
-          <tr>
-            <td colspan="5">
-              Unable to load deposits.
-            </td>
-          </tr>
-        `;
-
-        console.error(error);
-
-      }
-
-    }
-
-
-    /* =========================
-       APPROVE DEPOSIT
-    ========================= */
-
-    async function approveDeposit(depositId){
-
-      if(!isAdmin()){
-
-        showAlert(
-          "Admin access denied.",
-          "error"
-        );
-
-        return;
-
-      }
-
-
-      if(!confirm(
-        "Approve this deposit and credit the user's wallet?"
-      )){
-        return;
-      }
-
-
-      try{
-
-        const depositRef =
-          db.collection("deposits")
-            .doc(depositId);
-
-
-        await db.runTransaction(
-          async transaction => {
-
-            const depositSnap =
-              await transaction.get(
-                depositRef
-              );
-
-
-            if(!depositSnap.exists){
-
-              throw new Error(
-                "Deposit request not found."
-              );
-
-            }
-
-
-            const deposit =
-              depositSnap.data();
-
-
-            if(deposit.status !== "pending"){
-
-              throw new Error(
-                "This deposit has already been processed."
-              );
-
-            }
-
-const userRef =
-  db.collection("users").doc(deposit.uid);
-
-const userSnap =
-  await transaction.get(userRef);
-
-const oldBalance =
-  userSnap.exists
-    ? Number(userSnap.data().balance || 0)
-    : 0;
-
-const amount =
-  Number(deposit.amount || 0);
-
-if(!Number.isFinite(amount) || amount <= 0){
-  throw new Error("Invalid deposit amount.");
+      }).join("");
+
+
+  } catch (error) {
+
+    list.innerHTML = `
+      <div class="empty">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <h3>
+          Admin data error
+        </h3>
+        <p>
+          ${escapeHTML(error.message)}
+        </p>
+      </div>
+    `;
+  }
 }
 
-const newBalance =
-  oldBalance + amount;
 
-transaction.set(
-  userRef,
-  {
-    balance: newBalance,
-    email: deposit.userEmail || "",
-    name: deposit.userName || "",
-    updatedAt:
-      firebase.firestore.FieldValue.serverTimestamp()
-  },
-  {merge:true}
-);
+/* =========================================================
+   ADMIN — APPROVE DEPOSIT
+========================================================= */
 
-transaction.update(
-  depositRef,
-  {
-    status: "approved",
+async function approveDeposit(depositId) {
 
-    approvedAt:
-      firebase.firestore.FieldValue.serverTimestamp(),
+  if (
+    !currentUser ||
+    currentUser.email?.toLowerCase() !==
+    ADMIN_EMAIL.toLowerCase()
+  ) {
 
-    approvedBy:
-      currentUser.email
+    showAlert(
+      "Admin access required.",
+      "error"
+    );
+
+    return;
   }
-);
-            
 
 
-            const transactionRef =
-              db.collection("transactions")
-                .doc();
+  try {
+
+    const depositRef =
+      db
+        .collection("deposits")
+        .doc(depositId);
 
 
-            transaction.set(
-              transactionRef,
-              {
+    await db.runTransaction(
+      async transaction => {
 
-                uid:deposit.uid,
-
-                type:"deposit",
-
-                service:"Wallet Deposit",
-
-                description:
-                  "Wallet Deposit Approved",
-
-                amount:amount,
-
-                balanceAfter:newBalance,
-
-                status:"approved",
-
-                depositId:depositId,
-
-                createdAt:
-                  firebase.firestore.FieldValue.serverTimestamp()
-
-              }
-            );
-
-          }
-        );
-
-
-        showAlert(
-          "Deposit approved and wallet credited.",
-          "success"
-        );
-
-
-        await loadAdminDeposits();
-
-        await loadAdminUsers();
-
-        await loadDashboard();
-
-
-      }catch(error){
-
-        showAlert(
-          error.message,
-          "error"
-        );
-
-      }
-
-    }
-
-
-    /* =========================
-       REJECT DEPOSIT
-    ========================= */
-
-    async function rejectDeposit(depositId){
-
-      if(!isAdmin()){
-
-        showAlert(
-          "Admin access denied.",
-          "error"
-        );
-
-        return;
-
-      }
-
-
-      if(!confirm(
-        "Reject this deposit request?"
-      )){
-        return;
-      }
-
-
-      try{
-
-        const ref =
-          db.collection("deposits")
-            .doc(depositId);
-
-
-        const snap =
-          await ref.get();
-
-
-        if(!snap.exists){
-
-          throw new Error(
-            "Deposit request not found."
+        const depositSnap =
+          await transaction.get(
+            depositRef
           );
 
+
+        if (!depositSnap.exists) {
+
+          throw new Error(
+            "Deposit not found."
+          );
         }
 
 
-        if(snap.data().status !== "pending"){
+        const deposit =
+          depositSnap.data();
+
+
+        if (
+          deposit.status !==
+          "pending"
+        ) {
 
           throw new Error(
             "This deposit has already been processed."
           );
-
         }
 
 
-        await ref.update({
-
-          status:"rejected",
-
-          rejectedAt:
-            firebase.firestore.FieldValue.serverTimestamp(),
-
-          rejectedBy:
-            currentUser.email
-
-        });
-
-
-        showAlert(
-          "Deposit request rejected.",
-          "success"
-        );
-
-
-        await loadAdminDeposits();
-
-
-      }catch(error){
-
-        showAlert(
-          error.message,
-          "error"
-        );
-
-      }
-
-    }
-
-
-    /* =========================
-       ADMIN USERS
-    ========================= */
-
-    async function loadAdminUsers(){
-
-      if(!isAdmin()){
-        return;
-      }
-
-
-      const body =
-        document.getElementById(
-          "adminUsersBody"
-        );
-
-
-      body.innerHTML = `
-        <tr>
-          <td colspan="4">
-            Loading...
-          </td>
-        </tr>
-      `;
-
-
-      try{
-
-        const snapshot =
-          await db
+        const userRef =
+          db
             .collection("users")
-            .get();
+            .doc(deposit.uid);
 
 
-        document
-          .getElementById("adminUsersCount")
-          .textContent =
-          snapshot.size;
+        const userSnap =
+          await transaction.get(
+            userRef
+          );
 
 
-        if(snapshot.empty){
-
-          body.innerHTML = `
-            <tr>
-              <td colspan="4">
-                No registered users.
-              </td>
-            </tr>
-          `;
-
-          return;
-
-        }
+        const oldBalance =
+          Number(
+            userSnap.exists
+            ? userSnap.data().balance || 0
+            : 0
+          );
 
 
-        body.innerHTML =
-          snapshot.docs.map(doc => {
-
-            const u = doc.data();
-
-
-            return `
-
-              <tr>
-
-                <td>
-                  ${escapeHtml(
-                    u.name || "-"
-                  )}
-                </td>
-
-                <td>
-                  ${escapeHtml(
-                    u.email || "-"
-                  )}
-                </td>
-
-                <td>
-                  <strong>
-                    ${money(u.balance)}
-                  </strong>
-                </td>
-
-                <td>
-                  ${formatDate(
-                    u.createdAt
-                  )}
-                </td>
-
-              </tr>
-
-            `;
-
-          }).join("");
+        const amount =
+          Number(
+            deposit.amount || 0
+          );
 
 
-      }catch(error){
+        const newBalance =
+          oldBalance + amount;
 
-        body.innerHTML = `
-          <tr>
-            <td colspan="4">
-              Unable to load users.
-            </td>
-          </tr>
-        `;
 
-        console.error(error);
+        transaction.set(
+          userRef,
+          {
+            uid:
+              deposit.uid,
 
+            email:
+              deposit.userEmail || "",
+
+            name:
+              deposit.userName || "",
+
+            balance:
+              newBalance
+
+          },
+          {
+            merge:true
+          }
+        );
+
+
+        transaction.update(
+          depositRef,
+          {
+
+            status:
+              "approved",
+
+            approvedAt:
+              firebase.firestore
+                .FieldValue
+                .serverTimestamp(),
+
+            approvedBy:
+              currentUser.email
+
+          }
+        );
+
+
+        const transactionRef =
+          db
+            .collection("transactions")
+            .doc();
+
+
+        transaction.set(
+          transactionRef,
+          {
+
+            uid:
+              deposit.uid,
+
+            userEmail:
+              deposit.userEmail || "",
+
+            service:
+              "Wallet Deposit",
+
+            description:
+              "Wallet Deposit Approved",
+
+            amount:
+              amount,
+
+            balanceAfter:
+              newBalance,
+
+            status:
+              "success",
+
+            depositId:
+              depositId,
+
+            mode:
+              "internal",
+
+            createdAt:
+              firebase.firestore
+                .FieldValue
+                .serverTimestamp()
+
+          }
+        );
+
+      }
+    );
+
+
+    showAlert(
+      "Deposit approved successfully.",
+      "success"
+    );
+
+
+    await loadAdminDeposits();
+
+    await loadUserData();
+
+
+  } catch (error) {
+
+    showAlert(
+      error.message,
+      "error"
+    );
+  }
+}
+
+
+/* =========================================================
+   ADMIN — REJECT DEPOSIT
+========================================================= */
+
+async function rejectDeposit(depositId) {
+
+  if (
+    !currentUser ||
+    currentUser.email?.toLowerCase() !==
+    ADMIN_EMAIL.toLowerCase()
+  ) {
+
+    showAlert(
+      "Admin access required.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if (
+    !confirm(
+      "Reject this deposit request?"
+    )
+  ) {
+
+    return;
+  }
+
+
+  try {
+
+    await db
+      .collection("deposits")
+      .doc(depositId)
+      .update({
+
+        status:
+          "rejected",
+
+        rejectedAt:
+          firebase.firestore
+            .FieldValue
+            .serverTimestamp(),
+
+        rejectedBy:
+          currentUser.email
+
+      });
+
+
+    showAlert(
+      "Deposit rejected.",
+      "success"
+    );
+
+
+    loadAdminDeposits();
+
+
+  } catch (error) {
+
+    showAlert(
+      error.message,
+      "error"
+    );
+  }
+}
+
+
+/* =========================================================
+   STATUS HELPERS
+========================================================= */
+
+function normalizeStatus(status) {
+
+  const value =
+    String(status || "")
+      .toLowerCase();
+
+
+  if (
+    value.includes("success") ||
+    value.includes("approved") ||
+    value === "completed"
+  ) {
+
+    return "success";
+  }
+
+
+  if (
+    value.includes("fail") ||
+    value.includes("reject") ||
+    value.includes("error")
+  ) {
+
+    return "failed";
+  }
+
+
+  return "pending";
+}
+
+
+function normalizeProviderStatus(result) {
+
+  const status =
+    result?.status ??
+    result?.data?.status ??
+    result?.data?.transaction_status ??
+    result?.transaction_status ??
+    result?.message ??
+    "pending";
+
+
+  return String(status);
+}
+
+
+function findTransactionId(result) {
+
+  return (
+    result?.transaction_id ||
+    result?.transactionId ||
+    result?.data?.transaction_id ||
+    result?.data?.transactionId ||
+    result?.reference ||
+    result?.data?.reference ||
+    ""
+  );
+}
+
+
+/* =========================================================
+   SERVICE ICON
+========================================================= */
+
+function getServiceIcon(service) {
+
+  const value =
+    String(service || "")
+      .toLowerCase();
+
+
+  if (value.includes("data"))
+    return "fa-signal";
+
+  if (value.includes("airtime"))
+    return "fa-mobile-screen";
+
+  if (value.includes("electric"))
+    return "fa-bolt";
+
+  if (value.includes("cable"))
+    return "fa-tv";
+
+  if (value.includes("education"))
+    return "fa-graduation-cap";
+
+  if (value.includes("deposit"))
+    return "fa-wallet";
+
+  return "fa-receipt";
+}
+
+
+/* =========================================================
+   DATE HELPERS
+========================================================= */
+
+function getTimestamp(value) {
+
+  if (!value)
+    return 0;
+
+
+  if (
+    typeof value.toMillis ===
+    "function"
+  ) {
+
+    return value.toMillis();
+  }
+
+
+  if (
+    value.seconds
+  ) {
+
+    return value.seconds * 1000;
+  }
+
+
+  const date =
+    new Date(value);
+
+
+  return isNaN(date.getTime())
+    ? 0
+    : date.getTime();
+}
+
+
+function formatDate(value) {
+
+  const timestamp =
+    getTimestamp(value);
+
+
+  if (!timestamp)
+    return "Just now";
+
+
+  return new Date(timestamp)
+    .toLocaleString(
+      "en-NG",
+      {
+        dateStyle:
+          "medium",
+
+        timeStyle:
+          "short"
+      }
+    );
+}
+
+
+/* =========================================================
+   AUTH MODAL BACKDROP
+========================================================= */
+
+document
+  .getElementById("authModal")
+  ?.addEventListener(
+    "click",
+    function(event) {
+
+      if (
+        event.target === this
+      ) {
+
+        closeAuth();
       }
 
     }
+  );
 
 
-    /* =========================
-       ESCAPE HTML
-    ========================= */
+/* =========================================================
+   INITIAL DISPLAY
+========================================================= */
 
-    function escapeHtml(value){
+showPage("home");
 
-      return String(value ?? "")
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+renderBillForm();
 
-    }
+updateNavigation();
 
 
-    /* =========================
-       CLOSE MODAL WHEN OUTSIDE
-    ========================= */
+/* =========================================================
+   END A T L DATA
+========================================================= */
 
-    document
-      .getElementById("authModal")
-      .addEventListener(
-        "click",
-        function(event){
-
-          if(event.target === this){
-            closeAuth();
-          }
-
-        }
-      );
-
-
-    /* =========================
-       INITIAL DISPLAY
-    ========================= */
-
-    renderPlans();
-
-    renderBillForm();
-
-
-    /* =========================
-       END
-    ========================= */
-
-  </script>
+</script>
 
 </body>
 </html>
