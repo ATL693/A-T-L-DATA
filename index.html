@@ -2132,7 +2132,74 @@
       );
 
     }
+function money(amount){
 
+  return "₦" + Number(amount || 0).toLocaleString(
+    "en-NG",
+    {
+      minimumFractionDigits:2,
+      maximumFractionDigits:2
+    }
+  );
+
+}
+
+
+/* =========================
+   VTUGATE WORKER TEST
+========================= */
+
+async function testWorker(){
+
+  try{
+
+    const response = await fetch(
+      WORKER_URL + "/vtu/account",
+      {
+        method: "POST"
+      }
+    );
+
+    const data = await response.json();
+
+    console.log("VTUGATE RESPONSE:", data);
+
+  }catch(error){
+
+    console.error("WORKER ERROR:", error);
+
+  }
+
+}
+
+
+/* =========================
+   ALERT
+========================= */
+
+function showAlert(message,type="success"){
+
+  const box = document.getElementById("alertBox");
+
+  const item = document.createElement("div");
+
+  item.className = "alert " + (
+    type === "error"
+      ? "error"
+      : type === "warning"
+      ? "warning"
+      : ""
+  );
+
+  item.textContent = message;
+
+  box.appendChild(item);
+
+  setTimeout(() => {
+    item.remove();
+  },4500);
+
+    }
 
     /* =========================
        ALERT
