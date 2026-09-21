@@ -4,286 +4,1188 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A T L DATA | Data & Airtime</title>
+<title>A T L DATA | Data, Airtime & Bills</title>
+
+<meta name="description" content="A T L DATA - Fast and convenient digital services for data, airtime, bills and wallet services.">
+<meta name="theme-color" content="#087443">
 
 <style>
+/* =========================================================
+   A T L DATA
+   PROFESSIONAL CUSTOMER WEBSITE
+   PART 1 / 3
+========================================================= */
+
 *{
-  box-sizing:border-box;
   margin:0;
   padding:0;
+  box-sizing:border-box;
   font-family:Arial,Helvetica,sans-serif;
 }
 
-body{
-  background:#f4f7f5;
-  color:#17251e;
+html{
+  scroll-behavior:smooth;
 }
 
-header{
-  background:#087443;
-  color:white;
-  padding:15px 20px;
+body{
+  background:#f4f8f5;
+  color:#17251e;
+  min-height:100vh;
+}
+
+button,
+input,
+select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+/* =========================
+   COLORS
+========================= */
+
+:root{
+  --green:#087443;
+  --green2:#0b9657;
+  --dark:#063d26;
+  --gold:#ffd700;
+  --light:#f4f8f5;
+  --white:#ffffff;
+  --text:#17251e;
+  --muted:#6d7972;
+  --border:#dce7e0;
+  --danger:#c62828;
+  --success:#168344;
+  --shadow:0 8px 25px rgba(0,0,0,.07);
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.site-header{
   position:sticky;
   top:0;
   z-index:1000;
-  box-shadow:0 2px 8px rgba(0,0,0,.15);
+  background:rgba(8,116,67,.97);
+  backdrop-filter:blur(10px);
+  color:white;
+  box-shadow:0 3px 15px rgba(0,0,0,.12);
 }
 
-.nav{
-  max-width:1100px;
+.header-inner{
+  max-width:1200px;
   margin:auto;
+  min-height:70px;
+  padding:10px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  cursor:pointer;
+}
+
+.brand-logo{
+  width:43px;
+  height:43px;
+  border-radius:12px;
+  background:var(--gold);
+  color:var(--dark);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:900;
+  font-size:16px;
+  box-shadow:0 3px 10px rgba(0,0,0,.15);
+}
+
+.brand-text{
+  line-height:1.05;
+}
+
+.brand-name{
+  font-size:20px;
+  font-weight:900;
+  letter-spacing:.5px;
+}
+
+.brand-name span{
+  color:var(--gold);
+}
+
+.brand-sub{
+  font-size:10px;
+  opacity:.85;
+  margin-top:4px;
+}
+
+.desktop-nav{
+  display:flex;
+  align-items:center;
+  gap:5px;
+}
+
+.nav-btn{
+  border:0;
+  background:transparent;
+  color:white;
+  padding:10px 11px;
+  border-radius:8px;
+  font-weight:700;
+}
+
+.nav-btn:hover{
+  background:rgba(255,255,255,.12);
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+
+.header-btn{
+  border:0;
+  border-radius:9px;
+  padding:10px 14px;
+  font-weight:800;
+}
+
+.login-btn{
+  background:white;
+  color:var(--green);
+}
+
+.register-btn{
+  background:var(--gold);
+  color:var(--dark);
+}
+
+.menu-btn{
+  display:none;
+  background:rgba(255,255,255,.12);
+  color:white;
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:9px;
+  padding:10px 12px;
+}
+
+/* =========================
+   MOBILE MENU
+========================= */
+
+.mobile-menu{
+  display:none;
+  background:var(--dark);
+  padding:12px 18px 18px;
+}
+
+.mobile-menu button{
+  width:100%;
+  text-align:left;
+  margin-top:6px;
+  border:0;
+  border-radius:8px;
+  background:rgba(255,255,255,.08);
+  color:white;
+  padding:12px;
+  font-weight:700;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main-container{
+  max-width:1200px;
+  margin:auto;
+  padding:20px;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+  position:relative;
+  overflow:hidden;
+  border-radius:22px;
+  min-height:390px;
+  padding:45px 35px;
+  margin-bottom:20px;
+  background:
+    radial-gradient(circle at 90% 10%,rgba(255,215,0,.22),transparent 25%),
+    linear-gradient(135deg,#063d26,#087443 55%,#0ca361);
+  color:white;
+  box-shadow:var(--shadow);
+}
+
+.hero::after{
+  content:"";
+  position:absolute;
+  width:300px;
+  height:300px;
+  right:-100px;
+  bottom:-130px;
+  border-radius:50%;
+  border:45px solid rgba(255,255,255,.05);
+}
+
+.hero-content{
+  position:relative;
+  z-index:2;
+  max-width:700px;
+}
+
+.hero-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  background:rgba(255,255,255,.13);
+  border:1px solid rgba(255,255,255,.2);
+  padding:8px 13px;
+  border-radius:30px;
+  font-size:12px;
+  font-weight:800;
+  margin-bottom:18px;
+}
+
+.live-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#63ff9b;
+  box-shadow:0 0 8px #63ff9b;
+}
+
+.hero h1{
+  font-size:42px;
+  line-height:1.08;
+  margin-bottom:15px;
+}
+
+.hero h1 span{
+  color:var(--gold);
+}
+
+.hero p{
+  font-size:16px;
+  line-height:1.7;
+  max-width:620px;
+  opacity:.92;
+}
+
+.hero-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:25px;
+}
+
+.hero-primary{
+  border:0;
+  background:var(--gold);
+  color:var(--dark);
+  padding:13px 20px;
+  border-radius:10px;
+  font-weight:900;
+}
+
+.hero-secondary{
+  border:1px solid rgba(255,255,255,.35);
+  background:rgba(255,255,255,.08);
+  color:white;
+  padding:13px 20px;
+  border-radius:10px;
+  font-weight:800;
+}
+
+/* =========================
+   ADVERTISING / PROMO
+========================= */
+
+.promo{
+  background:linear-gradient(90deg,#fff8c9,#fffdf0);
+  border:1px solid #f0df77;
+  border-radius:15px;
+  padding:15px 18px;
+  margin-bottom:20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  box-shadow:0 3px 12px rgba(0,0,0,.04);
+}
+
+.promo-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.promo-icon{
+  width:42px;
+  height:42px;
+  border-radius:11px;
+  background:var(--gold);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+}
+
+.promo h3{
+  color:#554800;
+  font-size:15px;
+  margin-bottom:3px;
+}
+
+.promo p{
+  color:#766b22;
+  font-size:12px;
+}
+
+.promo button{
+  background:var(--green);
+  color:white;
+  border:0;
+  border-radius:8px;
+  padding:10px 14px;
+  font-weight:800;
+}
+
+/* =========================
+   SECTION
+========================= */
+
+.section{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:17px;
+  padding:22px;
+  margin-bottom:20px;
+  box-shadow:var(--shadow);
+}
+
+.section-header{
   display:flex;
   justify-content:space-between;
   align-items:center;
   gap:15px;
+  margin-bottom:18px;
 }
 
-.logo{
+.section-title{
+  color:var(--green);
   font-size:22px;
-  font-weight:bold;
+  font-weight:900;
 }
 
-.logo span{
-  color:#ffd700;
+.section-subtitle{
+  color:var(--muted);
+  font-size:13px;
+  margin-top:5px;
 }
 
-.nav-buttons{
-  display:flex;
-  gap:8px;
-}
+/* =========================
+   SERVICE CARDS
+========================= */
 
-button{
-  border:0;
-  cursor:pointer;
-  border-radius:8px;
-  padding:11px 16px;
-  font-weight:bold;
-}
-
-.btn-green{
-  background:#087443;
-  color:white;
-}
-
-.btn-gold{
-  background:#ffd700;
-  color:#17351f;
-}
-
-.btn-light{
-  background:white;
-  color:#087443;
-  border:1px solid #087443;
-}
-
-.btn-danger{
-  background:#c62828;
-  color:white;
-}
-
-button:disabled{
-  opacity:.55;
-  cursor:not-allowed;
-}
-
-.container{
-  max-width:1100px;
-  margin:auto;
-  padding:20px;
-}
-
-.hero{
-  background:linear-gradient(135deg,#087443,#0b9b5b);
-  color:white;
-  border-radius:18px;
-  padding:35px 25px;
-  margin-bottom:20px;
-}
-
-.hero h1{
-  font-size:32px;
-  margin-bottom:10px;
-}
-
-.hero p{
-  opacity:.92;
-  line-height:1.6;
-}
-
-.section{
-  background:white;
-  border-radius:15px;
-  padding:20px;
-  margin-bottom:20px;
-  box-shadow:0 2px 10px rgba(0,0,0,.06);
-}
-
-.section h2{
-  color:#087443;
-  margin-bottom:15px;
-}
-
-.networks{
+.services-grid{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:10px;
-  margin-bottom:20px;
+  gap:13px;
 }
 
-.network-btn{
-  background:#eef5f1;
-  color:#087443;
-  border:2px solid transparent;
+.service-card{
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:white;
+  padding:18px;
+  transition:.2s;
 }
 
-.network-btn.active{
-  background:#087443;
-  color:white;
-  border-color:#ffd700;
+.service-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 20px rgba(8,116,67,.10);
+  border-color:#b7d8c6;
 }
 
-.plans{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:14px;
+.service-icon{
+  width:48px;
+  height:48px;
+  border-radius:13px;
+  background:#edf7f1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:23px;
+  margin-bottom:13px;
 }
 
-.plan{
-  border:1px solid #dce5df;
-  border-radius:12px;
-  padding:16px;
-  background:#fff;
+.service-card h3{
+  color:var(--green);
+  font-size:16px;
+  margin-bottom:6px;
 }
 
-.plan h3{
-  color:#087443;
-  margin-bottom:7px;
+.service-card p{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.5;
 }
 
-.plan p{
-  margin:5px 0;
-  color:#56635c;
-}
-
-.price{
-  font-size:20px;
-  font-weight:bold;
-  color:#087443;
-  margin:10px 0;
-}
-
-.status{
-  padding:12px;
-  border-radius:8px;
-  background:#eef5f1;
-  margin-bottom:15px;
-  color:#087443;
-}
-
-.loading{
-  text-align:center;
-  padding:25px;
-  color:#68756e;
-}
-
-.empty{
-  text-align:center;
-  padding:25px;
-  color:#777;
-}
-
-.auth-box{
-  max-width:430px;
-  margin:30px auto;
-}
-
-input,select{
+.service-card button{
+  margin-top:13px;
   width:100%;
-  padding:12px;
-  border:1px solid #ccd8d0;
+  background:#eef7f2;
+  color:var(--green);
+  border:0;
+  padding:10px;
   border-radius:8px;
-  margin:7px 0 12px;
-  outline:none;
+  font-weight:800;
 }
 
-input:focus,select:focus{
-  border-color:#087443;
+/* =========================
+   NETWORKS
+========================= */
+
+.network-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
 }
 
-.hidden{
-  display:none!important;
+.network-card{
+  border:2px solid var(--border);
+  background:white;
+  border-radius:14px;
+  padding:16px;
+  text-align:center;
+  transition:.2s;
 }
 
-.dashboard-grid{
+.network-card:hover{
+  transform:translateY(-2px);
+  border-color:var(--green);
+}
+
+.network-logo{
+  width:55px;
+  height:55px;
+  margin:0 auto 10px;
+  border-radius:15px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  font-weight:900;
+}
+
+.network-mtn{
+  background:#ffd400;
+  color:#111;
+}
+
+.network-airtel{
+  background:#e21d2f;
+  color:white;
+}
+
+.network-glo{
+  background:#58a82d;
+  color:white;
+}
+
+.network-9mobile{
+  background:#008d44;
+  color:white;
+}
+
+.network-card h3{
+  font-size:15px;
+  margin-bottom:5px;
+}
+
+.network-card p{
+  color:var(--muted);
+  font-size:11px;
+}
+
+/* =========================
+   QUICK ACTIONS
+========================= */
+
+.quick-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:12px;
 }
 
-.stat{
-  background:#eef5f1;
-  border-radius:12px;
+.quick-card{
+  background:linear-gradient(135deg,#f5faf7,#edf6f1);
+  border:1px solid #dbe9e1;
+  border-radius:13px;
   padding:18px;
 }
 
-.stat small{
-  color:#68756e;
+.quick-card strong{
+  display:block;
+  color:var(--green);
+  margin-bottom:5px;
 }
 
-.stat strong{
-  display:block;
-  font-size:22px;
-  color:#087443;
-  margin-top:5px;
+.quick-card span{
+  color:var(--muted);
+  font-size:12px;
 }
+
+/* =========================
+   DATA PLANS
+========================= */
+
+.network-selector{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  margin-bottom:18px;
+}
+
+.network-btn{
+  padding:13px;
+  border-radius:10px;
+  border:2px solid var(--border);
+  background:#f8fbf9;
+  color:var(--green);
+  font-weight:900;
+}
+
+.network-btn.active{
+  background:var(--green);
+  border-color:var(--gold);
+  color:white;
+}
+
+.plan-status{
+  background:#edf7f1;
+  color:var(--green);
+  border-radius:9px;
+  padding:11px 13px;
+  font-size:13px;
+  margin-bottom:15px;
+}
+
+.plans-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:13px;
+}
+
+.plan-card{
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:16px;
+  background:white;
+  transition:.2s;
+}
+
+.plan-card:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 18px rgba(0,0,0,.07);
+}
+
+.plan-card h3{
+  color:var(--green);
+  font-size:15px;
+  line-height:1.35;
+}
+
+.plan-info{
+  margin-top:9px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.6;
+}
+
+.plan-price{
+  color:var(--green);
+  font-size:21px;
+  font-weight:900;
+  margin:12px 0;
+}
+
+.plan-btn{
+  width:100%;
+  border:0;
+  border-radius:9px;
+  background:var(--green);
+  color:white;
+  padding:11px;
+  font-weight:900;
+}
+
+/* =========================
+   ACCOUNT
+========================= */
+
+.account-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.account-card{
+  background:#f3f8f5;
+  border:1px solid #dce9e1;
+  border-radius:13px;
+  padding:17px;
+}
+
+.account-card small{
+  color:var(--muted);
+}
+
+.account-card strong{
+  display:block;
+  color:var(--green);
+  font-size:20px;
+  margin-top:6px;
+  word-break:break-word;
+}
+
+/* =========================
+   WALLET
+========================= */
+
+.wallet-box{
+  background:linear-gradient(135deg,#063d26,#087443);
+  color:white;
+  border-radius:17px;
+  padding:25px;
+  position:relative;
+  overflow:hidden;
+}
+
+.wallet-box::after{
+  content:"";
+  position:absolute;
+  width:180px;
+  height:180px;
+  border:35px solid rgba(255,255,255,.06);
+  border-radius:50%;
+  right:-50px;
+  top:-50px;
+}
+
+.wallet-label{
+  opacity:.8;
+  font-size:13px;
+}
+
+.wallet-balance{
+  font-size:35px;
+  font-weight:900;
+  margin:7px 0 20px;
+}
+
+.wallet-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  position:relative;
+  z-index:2;
+}
+
+.wallet-actions button{
+  border:0;
+  border-radius:9px;
+  padding:11px 15px;
+  font-weight:800;
+}
+
+.deposit-button{
+  background:var(--gold);
+  color:var(--dark);
+}
+
+.history-button{
+  background:rgba(255,255,255,.12);
+  color:white;
+  border:1px solid rgba(255,255,255,.25)!important;
+}
+
+/* =========================
+   FORMS
+========================= */
+
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+}
+
+.form-group{
+  margin-bottom:4px;
+}
+
+.form-group.full{
+  grid-column:1/-1;
+}
+
+.form-group label{
+  display:block;
+  font-size:12px;
+  color:#516059;
+  font-weight:800;
+  margin-bottom:6px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+  width:100%;
+  border:1px solid #cfdcd4;
+  border-radius:9px;
+  padding:12px;
+  outline:none;
+  background:white;
+}
+
+.form-group textarea{
+  min-height:90px;
+  resize:vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+  border-color:var(--green);
+}
+
+.primary-button{
+  border:0;
+  border-radius:9px;
+  background:var(--green);
+  color:white;
+  padding:12px 18px;
+  font-weight:900;
+}
+
+.gold-button{
+  border:0;
+  border-radius:9px;
+  background:var(--gold);
+  color:var(--dark);
+  padding:12px 18px;
+  font-weight:900;
+}
+
+/* =========================
+   AUTH
+========================= */
+
+.auth-wrapper{
+  max-width:460px;
+  margin:15px auto;
+}
+
+.auth-logo{
+  width:62px;
+  height:62px;
+  margin:0 auto 12px;
+  background:var(--green);
+  color:var(--gold);
+  border-radius:18px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-weight:900;
+  font-size:21px;
+}
+
+.auth-title{
+  text-align:center;
+  color:var(--green);
+  font-size:24px;
+}
+
+.auth-subtitle{
+  text-align:center;
+  color:var(--muted);
+  font-size:13px;
+  margin:7px 0 20px;
+}
+
+/* =========================
+   TABLE
+========================= */
+
+.table-wrap{
+  overflow-x:auto;
+}
+
+.data-table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:600px;
+}
+
+.data-table th,
+.data-table td{
+  padding:12px;
+  border-bottom:1px solid #e3ebe6;
+  text-align:left;
+  font-size:12px;
+}
+
+.data-table th{
+  background:#f1f7f3;
+  color:var(--green);
+}
+
+.status-badge{
+  display:inline-block;
+  padding:5px 8px;
+  border-radius:20px;
+  font-size:10px;
+  font-weight:900;
+}
+
+.status-pending{
+  background:#fff4cc;
+  color:#816900;
+}
+
+.status-approved,
+.status-success{
+  background:#def5e7;
+  color:#16703b;
+}
+
+.status-rejected,
+.status-failed{
+  background:#fde4e4;
+  color:#a52323;
+}
+
+/* =========================
+   EMPTY / LOADING
+========================= */
+
+.loading-box,
+.empty-box{
+  text-align:center;
+  padding:35px 15px;
+  color:var(--muted);
+  border:1px dashed #ccd9d1;
+  border-radius:12px;
+}
+
+.spinner{
+  width:30px;
+  height:30px;
+  border:3px solid #d8e8df;
+  border-top-color:var(--green);
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+  margin:0 auto 10px;
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg);}
+}
+
+/* =========================
+   ALERT
+========================= */
 
 .alert{
-  padding:12px;
-  border-radius:8px;
-  margin:10px 0;
+  padding:12px 14px;
+  border-radius:9px;
+  margin-bottom:14px;
+  font-size:13px;
+  line-height:1.5;
 }
 
 .alert-success{
-  background:#e7f7ed;
-  color:#146c38;
+  background:#e4f7eb;
+  color:#176c39;
+  border:1px solid #bfe6cd;
 }
 
 .alert-error{
-  background:#fdeaea;
-  color:#a32121;
+  background:#fde8e8;
+  color:#a52323;
+  border:1px solid #f1c4c4;
 }
+
+.alert-info{
+  background:#e9f3fb;
+  color:#175d88;
+  border:1px solid #c9dfef;
+}
+
+/* =========================
+   FOOTER
+========================= */
 
 footer{
+  background:#063d26;
+  color:white;
+  margin-top:25px;
+  padding:35px 20px 20px;
+}
+
+.footer-inner{
+  max-width:1200px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:25px;
+}
+
+.footer-brand{
+  font-size:21px;
+  font-weight:900;
+  margin-bottom:10px;
+}
+
+.footer-brand span{
+  color:var(--gold);
+}
+
+.footer-text{
+  color:rgba(255,255,255,.68);
+  font-size:12px;
+  line-height:1.7;
+  max-width:400px;
+}
+
+.footer-column h4{
+  color:var(--gold);
+  margin-bottom:12px;
+  font-size:14px;
+}
+
+.footer-column button{
+  display:block;
+  border:0;
+  background:none;
+  color:rgba(255,255,255,.72);
+  padding:5px 0;
+  font-size:12px;
+}
+
+.footer-bottom{
+  max-width:1200px;
+  margin:25px auto 0;
+  padding-top:15px;
+  border-top:1px solid rgba(255,255,255,.1);
+  color:rgba(255,255,255,.55);
+  font-size:11px;
   text-align:center;
-  padding:25px;
-  color:#68756e;
 }
 
-@media(max-width:800px){
-  .plans{
+/* =========================
+   MODAL
+========================= */
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  z-index:5000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+}
+
+.modal-card{
+  width:100%;
+  max-width:480px;
+  max-height:90vh;
+  overflow-y:auto;
+  background:white;
+  border-radius:18px;
+  padding:22px;
+  box-shadow:0 20px 60px rgba(0,0,0,.25);
+}
+
+.modal-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.modal-header h3{
+  color:var(--green);
+}
+
+.close-modal{
+  width:35px;
+  height:35px;
+  border:0;
+  border-radius:50%;
+  background:#edf3ef;
+  color:var(--green);
+  font-size:18px;
+}
+
+/* =========================
+   HIDDEN
+========================= */
+
+.hidden{
+  display:none!important;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:950px){
+
+  .desktop-nav{
+    display:none;
+  }
+
+  .menu-btn{
+    display:block;
+  }
+
+  .services-grid{
     grid-template-columns:repeat(2,1fr);
   }
 
-  .networks{
+  .plans-grid{
     grid-template-columns:repeat(2,1fr);
   }
 
-  .dashboard-grid{
-    grid-template-columns:1fr;
+  .footer-inner{
+    grid-template-columns:repeat(2,1fr);
   }
 }
 
-@media(max-width:500px){
-  .plans{
-    grid-template-columns:1fr;
+@media(max-width:700px){
+
+  .main-container{
+    padding:13px;
+  }
+
+  .header-inner{
+    padding:9px 13px;
+  }
+
+  .header-actions .register-btn{
+    display:none;
+  }
+
+  .hero{
+    padding:30px 22px;
+    min-height:350px;
+    border-radius:17px;
   }
 
   .hero h1{
-    font-size:25px;
+    font-size:31px;
   }
 
-  .nav{
+  .hero p{
+    font-size:14px;
+  }
+
+  .promo{
+    align-items:flex-start;
     flex-direction:column;
+  }
+
+  .promo button{
+    width:100%;
+  }
+
+  .network-grid,
+  .network-selector{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .services-grid,
+  .plans-grid{
+    grid-template-columns:1fr;
+  }
+
+  .quick-grid,
+  .account-grid{
+    grid-template-columns:1fr;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .form-group.full{
+    grid-column:auto;
+  }
+
+  .footer-inner{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .section{
+    padding:17px;
+  }
+}
+
+@media(max-width:430px){
+
+  .brand-name{
+    font-size:17px;
+  }
+
+  .brand-sub{
+    font-size:8px;
+  }
+
+  .brand-logo{
+    width:38px;
+    height:38px;
+  }
+
+  .header-btn{
+    padding:9px 10px;
+    font-size:12px;
+  }
+
+  .hero h1{
+    font-size:27px;
+  }
+
+  .network-grid{
+    gap:8px;
+  }
+
+  .network-card{
+    padding:13px 7px;
+  }
+
+  .footer-inner{
+    grid-template-columns:1fr;
   }
 }
 </style>
@@ -291,188 +1193,1526 @@ footer{
 
 <body>
 
-<header>
-  <div class="nav">
-    <div class="logo">
-      A T L <span>DATA</span>
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="site-header">
+
+  <div class="header-inner">
+
+    <div class="brand" onclick="showPage('home')">
+
+      <div class="brand-logo">
+        ATL
+      </div>
+
+      <div class="brand-text">
+        <div class="brand-name">
+          A T L <span>DATA</span>
+        </div>
+
+        <div class="brand-sub">
+          DATA • AIRTIME • BILLS • DIGITAL SERVICES
+        </div>
+      </div>
+
     </div>
 
-    <div class="nav-buttons">
-      <button class="btn-light" onclick="showSection('home')">
+
+    <nav class="desktop-nav">
+
+      <button class="nav-btn" onclick="showPage('home')">
         Home
       </button>
 
-      <button class="btn-gold" onclick="showSection('data')">
-        Buy Data
+      <button class="nav-btn" onclick="showPage('data')">
+        Data
       </button>
 
-      <button class="btn-light" id="authButton" onclick="showAuth()">
+      <button class="nav-btn" onclick="showPage('airtime')">
+        Airtime
+      </button>
+
+      <button class="nav-btn" onclick="showPage('bills')">
+        Bills
+      </button>
+
+      <button class="nav-btn" onclick="showPage('wallet')">
+        Wallet
+      </button>
+
+      <button class="nav-btn" onclick="showPage('transactions')">
+        Transactions
+      </button>
+
+    </nav>
+
+
+    <div class="header-actions">
+
+      <button
+        id="headerLoginBtn"
+        class="header-btn login-btn"
+        onclick="showPage('auth')">
         Login
       </button>
+
+      <button
+        id="headerRegisterBtn"
+        class="header-btn register-btn"
+        onclick="showPage('auth')">
+        Register
+      </button>
+
+      <button
+        class="menu-btn"
+        onclick="toggleMobileMenu()">
+        ☰
+      </button>
+
     </div>
+
   </div>
+
+
+  <div id="mobileMenu" class="mobile-menu">
+
+    <button onclick="showPage('home');toggleMobileMenu()">
+      🏠 Home
+    </button>
+
+    <button onclick="showPage('data');toggleMobileMenu()">
+      📶 Buy Data
+    </button>
+
+    <button onclick="showPage('airtime');toggleMobileMenu()">
+      📱 Airtime
+    </button>
+
+    <button onclick="showPage('bills');toggleMobileMenu()">
+      💡 Pay Bills
+    </button>
+
+    <button onclick="showPage('wallet');toggleMobileMenu()">
+      💰 Wallet
+    </button>
+
+    <button onclick="showPage('account');toggleMobileMenu()">
+      👤 My Account
+    </button>
+
+  </div>
+
 </header>
 
-<main class="container">
 
-<section id="home" class="section">
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main-container">
+
+
+<!-- =====================================================
+     HOME PAGE
+===================================================== -->
+
+<section id="page-home">
+
   <div class="hero">
-    <h1>A T L DATA</h1>
-    <p>
-      Fast and convenient digital services platform.
-      Select your network and view available data plans.
-    </p>
+
+    <div class="hero-content">
+
+      <div class="hero-badge">
+        <span class="live-dot"></span>
+        A T L DATA IS ONLINE
+      </div>
+
+      <h1>
+        Your trusted platform for
+        <span>Data, Airtime & Bills.</span>
+      </h1>
+
+      <p>
+        Welcome to A T L DATA. Get convenient access to
+        digital services from one simple platform.
+        Manage your wallet, view available plans and
+        keep track of your transactions.
+      </p>
+
+      <div class="hero-actions">
+
+        <button
+          class="hero-primary"
+          onclick="showPage('data')">
+          📶 Buy Data
+        </button>
+
+        <button
+          class="hero-secondary"
+          onclick="showPage('wallet')">
+          💰 Open Wallet
+        </button>
+
+      </div>
+
+    </div>
+
   </div>
 
-  <div class="dashboard-grid">
-    <div class="stat">
-      <small>Network</small>
-      <strong>MTN</strong>
+
+  <!-- PROMOTION -->
+
+  <div class="promo">
+
+    <div class="promo-left">
+
+      <div class="promo-icon">
+        📢
+      </div>
+
+      <div>
+
+        <h3>
+          A T L DATA — Digital Services Made Simple
+        </h3>
+
+        <p>
+          Check available services, manage your wallet
+          and view your transaction history.
+        </p>
+
+      </div>
+
     </div>
 
-    <div class="stat">
-      <small>Network</small>
-      <strong>Airtel</strong>
-    </div>
+    <button onclick="showPage('data')">
+      Explore Services
+    </button>
 
-    <div class="stat">
-      <small>Network</small>
-      <strong>Glo</strong>
-    </div>
   </div>
+
+
+  <!-- SERVICES -->
+
+  <div class="section">
+
+    <div class="section-header">
+
+      <div>
+
+        <div class="section-title">
+          Our Services
+        </div>
+
+        <div class="section-subtitle">
+          Everything you need in one place.
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="services-grid">
+
+      <div class="service-card">
+
+        <div class="service-icon">
+          📶
+        </div>
+
+        <h3>
+          Data
+        </h3>
+
+        <p>
+          View available MTN, Airtel, Glo and 9mobile
+          data plans.
+        </p>
+
+        <button onclick="showPage('data')">
+          View Data Plans
+        </button>
+
+      </div>
+
+
+      <div class="service-card">
+
+        <div class="service-icon">
+          📱
+        </div>
+
+        <h3>
+          Airtime
+        </h3>
+
+        <p>
+          Airtime service interface for supported
+          networks.
+        </p>
+
+        <button onclick="showPage('airtime')">
+          Open Airtime
+        </button>
+
+      </div>
+
+
+      <div class="service-card">
+
+        <div class="service-icon">
+          💡
+        </div>
+
+        <h3>
+          Pay Bills
+        </h3>
+
+        <p>
+          Electricity, cable TV, education and other
+          bill-service categories.
+        </p>
+
+        <button onclick="showPage('bills')">
+          View Bills
+        </button>
+
+      </div>
+
+
+      <div class="service-card">
+
+        <div class="service-icon">
+          💰
+        </div>
+
+        <h3>
+          Wallet
+        </h3>
+
+        <p>
+          Check your balance and submit deposit requests
+          from your account.
+        </p>
+
+        <button onclick="showPage('wallet')">
+          Open Wallet
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- NETWORKS -->
+
+  <div class="section">
+
+    <div class="section-header">
+
+      <div>
+
+        <div class="section-title">
+          Supported Networks
+        </div>
+
+        <div class="section-subtitle">
+          Select a network to view available plans.
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="network-grid">
+
+      <button
+        class="network-card"
+        onclick="showPage('data');loadPlans('mtn')">
+
+        <div class="network-logo network-mtn">
+          MTN
+        </div>
+
+        <h3>
+          MTN
+        </h3>
+
+        <p>
+          Data plans
+        </p>
+
+      </button>
+
+
+      <button
+        class="network-card"
+        onclick="showPage('data');loadPlans('airtel')">
+
+        <div class="network-logo network-airtel">
+          airtel
+        </div>
+
+        <h3>
+          Airtel
+        </h3>
+
+        <p>
+          Data plans
+        </p>
+
+      </button>
+
+
+      <button
+        class="network-card"
+        onclick="showPage('data');loadPlans('glo')">
+
+        <div class="network-logo network-glo">
+          GLO
+        </div>
+
+        <h3>
+          Glo
+        </h3>
+
+        <p>
+          Data plans
+        </p>
+
+      </button>
+
+
+      <button
+        class="network-card"
+        onclick="showPage('data');loadPlans('9mobile')">
+
+        <div class="network-logo network-9mobile">
+          9mobile
+        </div>
+
+        <h3>
+          9mobile
+        </h3>
+
+        <p>
+          Data plans
+        </p>
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- QUICK FEATURES -->
+
+  <div class="section">
+
+    <div class="section-header">
+
+      <div>
+
+        <div class="section-title">
+          Why Use A T L DATA?
+        </div>
+
+        <div class="section-subtitle">
+          Designed to make your digital-service experience
+          simple and convenient.
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="quick-grid">
+
+      <div class="quick-card">
+        <strong>⚡ Simple Experience</strong>
+        <span>
+          Find the service you need without unnecessary
+          complexity.
+        </span>
+      </div>
+
+      <div class="quick-card">
+        <strong>🔐 Secure Account</strong>
+        <span>
+          Your account and wallet information are managed
+          through Firebase authentication.
+        </span>
+      </div>
+
+      <div class="quick-card">
+        <strong>📜 Transaction Records</strong>
+        <span>
+          Keep track of your wallet and service activity
+          from your account.
+        </span>
+      </div>
+
+    </div>
+
+  </div>
+
 </section>
 
-<section id="data" class="section">
 
-  <h2>Data Plans</h2>
+<!-- =====================================================
+     DATA PAGE
+===================================================== -->
 
-  <div id="planStatus" class="status">
-    Select a network to load data plans.
-  </div>
+<section id="page-data" class="hidden">
 
-  <div class="networks">
+  <div class="section">
 
-    <button
-      class="network-btn"
-      id="network-mtn"
-      onclick="loadPlans('mtn')">
-      MTN
-    </button>
+    <div class="section-header">
 
-    <button
-      class="network-btn"
-      id="network-airtel"
-      onclick="loadPlans('airtel')">
-      Airtel
-    </button>
+      <div>
 
-    <button
-      class="network-btn"
-      id="network-glo"
-      onclick="loadPlans('glo')">
-      Glo
-    </button>
+        <div class="section-title">
+          📶 Data Plans
+        </div>
 
-    <button
-      class="network-btn"
-      id="network-9mobile"
-      onclick="loadPlans('9mobile')">
-      9mobile
-    </button>
+        <div class="section-subtitle">
+          Select your network to load available plans.
+        </div>
 
-  </div>
+      </div>
 
-  <div id="plans" class="plans">
-    <div class="empty">
-      Choose a network above.
     </div>
-  </div>
 
-</section>
 
-<section id="auth" class="section hidden">
+    <div id="dataPlanStatus" class="plan-status">
+      Select a network to view available data plans.
+    </div>
 
-  <div class="auth-box">
 
-    <h2>Login / Register</h2>
+    <div class="network-selector">
 
-    <div id="authMessage"></div>
+      <button
+        id="data-network-mtn"
+        class="network-btn"
+        onclick="loadPlans('mtn')">
+        MTN
+      </button>
 
-    <input
-      id="email"
-      type="email"
-      placeholder="Email address">
+      <button
+        id="data-network-airtel"
+        class="network-btn"
+        onclick="loadPlans('airtel')">
+        Airtel
+      </button>
 
-    <input
-      id="password"
-      type="password"
-      placeholder="Password">
+      <button
+        id="data-network-glo"
+        class="network-btn"
+        onclick="loadPlans('glo')">
+        Glo
+      </button>
 
-    <button
-      class="btn-green"
-      style="width:100%"
-      onclick="loginUser()">
-      Login
-    </button>
+      <button
+        id="data-network-9mobile"
+        class="network-btn"
+        onclick="loadPlans('9mobile')">
+        9mobile
+      </button>
 
-    <br><br>
+    </div>
 
-    <button
-      class="btn-gold"
-      style="width:100%"
-      onclick="registerUser()">
-      Create Account
-    </button>
+
+    <div id="dataPlansContainer" class="plans-grid">
+
+      <div class="empty-box">
+        Select a network above to load data plans.
+      </div>
+
+    </div>
 
   </div>
 
 </section>
 
-<section id="account" class="section hidden">
 
-  <h2>My Account</h2>
+<!-- =====================================================
+     AIRTIME PAGE
+===================================================== -->
 
-  <div class="dashboard-grid">
+<section id="page-airtime" class="hidden">
 
-    <div class="stat">
-      <small>Email</small>
-      <strong id="userEmail">-</strong>
+  <div class="section">
+
+    <div class="section-header">
+
+      <div>
+
+        <div class="section-title">
+          📱 Airtime
+        </div>
+
+        <div class="section-subtitle">
+          Airtime service interface.
+        </div>
+
+      </div>
+
     </div>
 
-    <div class="stat">
-      <small>Wallet Balance</small>
-      <strong id="walletBalance">
+
+    <div id="airtimeMessage"></div>
+
+
+    <div class="form-grid">
+
+      <div class="form-group">
+
+        <label>
+          Network
+        </label>
+
+        <select id="airtimeNetwork">
+
+          <option value="">
+            Select network
+          </option>
+
+          <option value="mtn">
+            MTN
+          </option>
+
+          <option value="airtel">
+            Airtel
+          </option>
+
+          <option value="glo">
+            Glo
+          </option>
+
+          <option value="9mobile">
+            9mobile
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Phone Number
+        </label>
+
+        <input
+          id="airtimePhone"
+          type="tel"
+          placeholder="08012345678">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Amount
+        </label>
+
+        <input
+          id="airtimeAmount"
+          type="number"
+          min="50"
+          placeholder="Enter amount">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Payment
+        </label>
+
+        <select disabled>
+
+          <option>
+            Wallet Balance
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="form-group full">
+
+        <button
+          class="primary-button"
+          onclick="requestAirtime()">
+
+          Continue
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     BILLS PAGE
+===================================================== -->
+
+<section id="page-bills" class="hidden">
+
+  <div class="section">
+
+    <div class="section-header">
+
+      <div>
+
+        <div class="section-title">
+          💡 Pay Bills
+        </div>
+
+        <div class="section-subtitle">
+          Select the service you want to use.
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="services-grid">
+
+      <div class="service-card">
+
+        <div class="service-icon">
+          ⚡
+        </div>
+
+        <h3>
+          Electricity
+        </h3>
+
+        <p>
+          Electricity bill service interface.
+        </p>
+
+        <button onclick="openBillService('electricity')">
+          Open
+        </button>
+
+      </div>
+
+
+      <div class="service-card">
+
+        <div class="service-icon">
+          📺
+        </div>
+
+        <h3>
+          Cable TV
+        </h3>
+
+        <p>
+          DStv, GOtv and other cable-service interface.
+        </p>
+
+        <button onclick="openBillService('cable')">
+          Open
+        </button>
+
+      </div>
+
+
+      <div class="service-card">
+
+        <div class="service-icon">
+          🎓
+        </div>
+
+        <h3>
+          Education
+        </h3>
+
+        <p>
+          NECO, WAEC and JAMB service interface.
+        </p>
+
+        <button onclick="openBillService('education')">
+          Open
+        </button>
+
+      </div>
+
+
+      <div class="service-card">
+
+        <div class="service-icon">
+          🌐
+        </div>
+
+        <h3>
+          Internet
+        </h3>
+
+        <p>
+          Internet service interface.
+        </p>
+
+        <button onclick="openBillService('internet')">
+          Open
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div
+      id="billServiceArea"
+      class="hidden"
+      style="margin-top:20px;">
+
+      <div id="billServiceTitle"></div>
+
+      <div id="billServiceForm"></div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     WALLET PAGE
+===================================================== -->
+
+<section id="page-wallet" class="hidden">
+
+  <div class="section">
+
+    <div class="section-header">
+
+      <div>
+
+        <div class="section-title">
+          💰 My Wallet
+        </div>
+
+        <div class="section-subtitle">
+          Manage your A T L DATA wallet.
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="wallet-box">
+
+      <div class="wallet-label">
+        Available Balance
+      </div>
+
+      <div
+        id="walletBalance"
+        class="wallet-balance">
         ₦0.00
-      </strong>
+      </div>
+
+
+      <div class="wallet-actions">
+
+        <button
+          class="deposit-button"
+          onclick="openDepositModal()">
+          + Deposit
+        </button>
+
+        <button
+          class="history-button"
+          onclick="showPage('transactions')">
+          Transaction History
+        </button>
+
+      </div>
+
     </div>
 
-    <div class="stat">
-      <small>Account Status</small>
-      <strong>Active</strong>
+
+    <div
+      id="walletMessage"
+      style="margin-top:15px;">
+    </div>
+
+
+    <div
+      class="alert alert-info"
+      style="margin-top:15px;">
+
+      Wallet deposits are submitted for review.
+      Your balance is not increased automatically when
+      you submit a deposit request.
+
     </div>
 
   </div>
 
-  <br>
+</section>
 
-  <button
-    class="btn-danger"
-    onclick="logoutUser()">
-    Logout
-  </button>
+
+<!-- =====================================================
+     TRANSACTIONS PAGE
+===================================================== -->
+
+<section id="page-transactions" class="hidden">
+
+  <div class="section">
+
+    <div class="section-header">
+
+      <div>
+
+        <div class="section-title">
+          📜 Transaction History
+        </div>
+
+        <div class="section-subtitle">
+          View your recent wallet and service activity.
+        </div>
+
+      </div>
+
+      <button
+        class="primary-button"
+        onclick="loadTransactions()">
+        Refresh
+      </button>
+
+    </div>
+
+
+    <div id="transactionMessage"></div>
+
+
+    <div class="table-wrap">
+
+      <table class="data-table">
+
+        <thead>
+
+          <tr>
+            <th>Date</th>
+            <th>Service</th>
+            <th>Amount</th>
+            <th>Status</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="transactionsBody">
+
+          <tr>
+
+            <td colspan="4">
+
+              <div class="empty-box">
+                Login to view your transactions.
+              </div>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
 
 </section>
+
+
+<!-- =====================================================
+     ACCOUNT PAGE
+===================================================== -->
+
+<section id="page-account" class="hidden">
+
+  <div class="section">
+
+    <div class="section-header">
+
+      <div>
+
+        <div class="section-title">
+          👤 My Account
+        </div>
+
+        <div class="section-subtitle">
+          Manage your A T L DATA account.
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div id="accountMessage"></div>
+
+
+    <div class="account-grid">
+
+      <div class="account-card">
+
+        <small>
+          Email
+        </small>
+
+        <strong id="accountEmail">
+          Not logged in
+        </strong>
+
+      </div>
+
+
+      <div class="account-card">
+
+        <small>
+          Wallet Balance
+        </small>
+
+        <strong id="accountBalance">
+          ₦0.00
+        </strong>
+
+      </div>
+
+
+      <div class="account-card">
+
+        <small>
+          Account Status
+        </small>
+
+        <strong id="accountStatus">
+          Guest
+        </strong>
+
+      </div>
+
+    </div>
+
+
+    <div style="margin-top:18px;display:flex;gap:9px;flex-wrap:wrap;">
+
+      <button
+        class="primary-button"
+        onclick="showPage('wallet')">
+        Open Wallet
+      </button>
+
+      <button
+        class="gold-button"
+        onclick="showPage('transactions')">
+        Transactions
+      </button>
+
+      <button
+        id="logoutButton"
+        class="primary-button"
+        style="background:#c62828;"
+        onclick="logoutUser()">
+        Logout
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     AUTH PAGE
+===================================================== -->
+
+<section id="page-auth" class="hidden">
+
+  <div class="section">
+
+    <div class="auth-wrapper">
+
+      <div class="auth-logo">
+        ATL
+      </div>
+
+      <h2 class="auth-title">
+        Welcome to A T L DATA
+      </h2>
+
+      <p class="auth-subtitle">
+        Login or create an account to use your wallet
+        and digital services.
+      </p>
+
+
+      <div id="authMessage"></div>
+
+
+      <div class="form-group">
+
+        <label>
+          Email Address
+        </label>
+
+        <input
+          id="authEmail"
+          type="email"
+          placeholder="you@example.com">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Password
+        </label>
+
+        <input
+          id="authPassword"
+          type="password"
+          placeholder="Minimum 6 characters">
+
+      </div>
+
+
+      <button
+        class="primary-button"
+        style="width:100%;margin-top:5px;"
+        onclick="loginUser()">
+
+        Login
+
+      </button>
+
+
+      <button
+        class="gold-button"
+        style="width:100%;margin-top:9px;"
+        onclick="registerUser()">
+
+        Create Account
+
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     ADMIN PAGE
+===================================================== -->
+
+<section id="page-admin" class="hidden">
+
+  <div class="section">
+
+    <div class="section-header">
+
+      <div>
+
+        <div class="section-title">
+          🛡️ Admin Dashboard
+        </div>
+
+        <div class="section-subtitle">
+          A T L DATA administration area.
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div id="adminMessage"></div>
+
+
+    <div class="account-grid">
+
+      <div class="account-card">
+
+        <small>
+          Pending Deposits
+        </small>
+
+        <strong id="adminPendingCount">
+          0
+        </strong>
+
+      </div>
+
+
+      <div class="account-card">
+
+        <small>
+          Approved Deposits
+        </small>
+
+        <strong id="adminApprovedCount">
+          0
+        </strong>
+
+      </div>
+
+
+      <div class="account-card">
+
+        <small>
+          Admin Account
+        </small>
+
+        <strong>
+          A T L DATA
+        </strong>
+
+      </div>
+
+    </div>
+
+
+    <div style="margin-top:20px;">
+
+      <h3 style="color:#087443;margin-bottom:12px;">
+        Deposit Requests
+      </h3>
+
+
+      <div class="table-wrap">
+
+        <table class="data-table">
+
+          <thead>
+
+            <tr>
+              <th>User</th>
+              <th>Amount</th>
+              <th>Reference</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+
+          </thead>
+
+          <tbody id="adminDepositsBody">
+
+            <tr>
+
+              <td colspan="5">
+
+                <div class="empty-box">
+                  No deposit requests loaded.
+                </div>
+
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
 
 </main>
 
-<footer>
-  A T L DATA © 2026
-  </footer>
-  <script src="https://www.gstatic.com/firebasejs/12.2.1/firebase-app-compat.js"></script>
+
+<!-- =====================================================
+     DEPOSIT MODAL
+===================================================== -->
+
+<div
+  id="depositModal"
+  class="modal hidden">
+
+  <div class="modal-card">
+
+    <div class="modal-header">
+
+      <h3>
+        Deposit to Wallet
+      </h3>
+
+      <button
+        class="close-modal"
+        onclick="closeDepositModal()">
+        ×
+      </button>
+
+    </div>
+
+
+    <div class="alert alert-info">
+
+      <strong>Deposit Account</strong><br><br>
+
+      Account Name:
+      <strong>A T L Data</strong><br>
+
+      Account Number:
+      <strong>7073160817</strong><br>
+
+      Bank:
+      <strong>Palmpay</strong>
+
+    </div>
+
+
+    <div id="depositMessage"></div>
+
+
+    <div class="form-group">
+
+      <label>
+        Amount
+      </label>
+
+      <input
+        id="depositAmount"
+        type="number"
+        min="100"
+        placeholder="Minimum ₦100">
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Payment Reference
+      </label>
+
+      <input
+        id="depositReference"
+        type="text"
+        placeholder="Optional payment reference">
+
+    </div>
+
+
+    <button
+      class="primary-button"
+      style="width:100%;margin-top:10px;"
+      onclick="submitDeposit()">
+
+      Submit Deposit Request
+
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     PLAN PURCHASE MODAL
+===================================================== -->
+
+<div
+  id="planModal"
+    class="modal-overlay hidden"
+  onclick="if(event.target===this) closePlanModal()"
+>
+  <div class="modal-box">
+
+    <div class="modal-header">
+      <div>
+        <h3>📶 Buy Data Plan</h3>
+        <p>Select a plan and enter the recipient phone number.</p>
+      </div>
+
+      <button
+        type="button"
+        class="modal-close"
+        onclick="closePlanModal()"
+        aria-label="Close"
+      >
+        ✕
+      </button>
+    </div>
+
+    <div id="selectedPlanDetails" class="selected-plan-box">
+      <div class="selected-plan-title">No plan selected</div>
+      <div class="selected-plan-info">
+        Please select a data plan first.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="planPhone">Phone Number</label>
+
+      <input
+        type="tel"
+        id="planPhone"
+        class="form-input"
+        placeholder="08012345678"
+        maxlength="11"
+        inputmode="numeric"
+      />
+    </div>
+
+    <div id="planMessage" class="form-message hidden"></div>
+
+    <button
+      type="button"
+      class="primary-button full-width"
+      onclick="confirmPlanSelection()"
+    >
+      Continue
+    </button>
+
+    <p class="modal-note">
+      🔒 Your wallet will only be charged after a successful transaction.
+    </p>
+
+  </div>
+</div>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="site-footer">
+
+  <div class="footer-container">
+
+    <div class="footer-brand">
+      <div class="footer-logo">
+        <span class="logo-atl">A T L</span>
+        <span class="logo-data">DATA</span>
+      </div>
+
+      <p>
+        Fast and reliable digital services for data, airtime,
+        bills and wallet services.
+      </p>
+    </div>
+
+
+    <div class="footer-column">
+      <h4>Services</h4>
+
+      <button onclick="showPage('data')">
+        Data Plans
+      </button>
+
+      <button onclick="showPage('airtime')">
+        Airtime
+      </button>
+
+      <button onclick="showPage('bills')">
+        Pay Bills
+      </button>
+
+      <button onclick="showPage('wallet')">
+        Wallet
+      </button>
+    </div>
+
+
+    <div class="footer-column">
+      <h4>Account</h4>
+
+      <button onclick="showPage('account')">
+        My Account
+      </button>
+
+      <button onclick="showPage('transactions')">
+        Transactions
+      </button>
+
+      <button onclick="openAuth('login')">
+        Login
+      </button>
+
+      <button onclick="openAuth('register')">
+        Create Account
+      </button>
+    </div>
+
+
+    <div class="footer-column">
+      <h4>Networks</h4>
+
+      <span>MTN</span>
+      <span>Airtel</span>
+      <span>Glo</span>
+      <span>9mobile</span>
+    </div>
+
+  </div>
+
+
+  <div class="footer-bottom">
+
+    <div>
+      © 2026 A T L DATA. All rights reserved.
+    </div>
+
+    <div class="footer-credit">
+      Powered by A T L DATA
+    </div>
+
+  </div>
+
+</footer>
+
+
+<!-- =====================================================
+     PART 2 / 3
+     FIREBASE + AUTHENTICATION + WALLET + DEPOSITS
+===================================================== -->
+
+<script src="https://www.gstatic.com/firebasejs/12.2.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/12.2.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore-compat.js"></script>
 
 <script>
+
+/* =====================================================
+   FIREBASE CONFIGURATION
+===================================================== */
 
 const firebaseConfig = {
   apiKey: "AIzaSyA_x5ZYj7D5Dt_9Bq-NzlchpRPRd3QN21I",
@@ -488,81 +2728,340 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
+
+/* =====================================================
+   A T L DATA SETTINGS
+===================================================== */
+
+const ADMIN_EMAIL = "lawanahmadt03@gmail.com";
+
 const WORKER_URL =
   "https://broad-thunder-82c2.lawanahmadt03.workers.dev";
 
+const DEPOSIT_BANK = "Palmpay";
+const DEPOSIT_ACCOUNT_NAME = "A T L Data";
+const DEPOSIT_ACCOUNT_NUMBER = "7073160817";
+
+
+/* =====================================================
+   GLOBAL STATE
+===================================================== */
+
 let currentUser = null;
 let selectedNetwork = "";
+let selectedPlan = null;
+let mobileMenuOpen = false;
 
-function showSection(id){
 
-  document
-    .querySelectorAll("main section")
-    .forEach(section => {
-      section.classList.add("hidden");
-    });
+/* =====================================================
+   PAGE NAVIGATION
+===================================================== */
+
+function showPage(page){
+
+  const pages = [
+    "home",
+    "data",
+    "airtime",
+    "bills",
+    "wallet",
+    "transactions",
+    "account",
+    "auth",
+    "admin"
+  ];
+
+  pages.forEach(function(name){
+
+    const element =
+      document.getElementById("page-" + name);
+
+    if(element){
+      element.classList.add("hidden");
+    }
+
+  });
+
 
   const target =
-    document.getElementById(id);
+    document.getElementById("page-" + page);
 
   if(target){
     target.classList.remove("hidden");
   }
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+
+  if(page === "wallet"){
+    loadWallet();
+  }
+
+
+  if(page === "transactions"){
+    loadTransactions();
+  }
+
+
+  if(page === "account"){
+    updateAccountPage();
+  }
+
+
+  if(page === "admin"){
+    loadAdminDeposits();
+  }
+
 }
 
-function showAuth(){
-  showSection("auth");
+
+/* =====================================================
+   MOBILE MENU
+===================================================== */
+
+function toggleMobileMenu(){
+
+  const menu =
+    document.getElementById("mobileMenu");
+
+  if(!menu){
+    return;
+  }
+
+  mobileMenuOpen = !mobileMenuOpen;
+
+  if(mobileMenuOpen){
+    menu.style.display = "block";
+  }else{
+    menu.style.display = "none";
+  }
+
 }
 
-function money(value){
-  return "₦" + Number(value || 0)
-    .toLocaleString("en-NG", {
+
+function closeMobileMenu(){
+
+  const menu =
+    document.getElementById("mobileMenu");
+
+  if(menu){
+    menu.style.display = "none";
+  }
+
+  mobileMenuOpen = false;
+}
+
+
+/* =====================================================
+   MONEY FORMAT
+===================================================== */
+
+function formatMoney(value){
+
+  const amount = Number(value || 0);
+
+  return "₦" +
+    amount.toLocaleString("en-NG",{
       minimumFractionDigits:2,
       maximumFractionDigits:2
     });
+
 }
 
-function showAuthMessage(message,type){
 
-  const box =
-    document.getElementById("authMessage");
+/* =====================================================
+   DATE FORMAT
+===================================================== */
 
-  box.className =
-    "alert " +
-    (type === "error"
-      ? "alert-error"
-      : "alert-success");
+function formatDate(timestamp){
 
-  box.textContent = message;
+  if(!timestamp){
+    return "-";
+  }
+
+  try{
+
+    let date;
+
+    if(timestamp.toDate){
+      date = timestamp.toDate();
+    }else{
+      date = new Date(timestamp);
+    }
+
+    return date.toLocaleString("en-NG",{
+      dateStyle:"medium",
+      timeStyle:"short"
+    });
+
+  }catch(error){
+
+    return "-";
+
+  }
+
 }
+
+
+/* =====================================================
+   HTML ESCAPE
+===================================================== */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* =====================================================
+   ALERT HELPER
+===================================================== */
+
+function showMessage(elementId,message,type="info"){
+
+  const element =
+    document.getElementById(elementId);
+
+  if(!element){
+    return;
+  }
+
+  let className = "alert-info";
+
+  if(type === "success"){
+    className = "alert-success";
+  }
+
+  if(type === "error"){
+    className = "alert-error";
+  }
+
+  element.innerHTML =
+    '<div class="alert ' +
+    className +
+    '">' +
+    escapeHtml(message) +
+    '</div>';
+
+}
+
+
+/* =====================================================
+   AUTH ERROR TRANSLATOR
+===================================================== */
+
+function friendlyAuthError(error){
+
+  const code = error && error.code
+    ? error.code
+    : "";
+
+  const messages = {
+
+    "auth/email-already-in-use":
+      "This email is already registered.",
+
+    "auth/invalid-email":
+      "Please enter a valid email address.",
+
+    "auth/weak-password":
+      "Password is too weak. Use at least 6 characters.",
+
+    "auth/user-not-found":
+      "No account was found with this email.",
+
+    "auth/wrong-password":
+      "Incorrect password.",
+
+    "auth/invalid-credential":
+      "Email or password is incorrect.",
+
+    "auth/too-many-requests":
+      "Too many attempts. Please wait and try again.",
+
+    "auth/network-request-failed":
+      "Network error. Check your internet connection."
+
+  };
+
+  return messages[code] ||
+    error.message ||
+    "Authentication failed.";
+
+}
+
+
+/* =====================================================
+   REGISTER USER
+===================================================== */
 
 async function registerUser(){
 
   const email =
-    document.getElementById("email")
-      .value.trim();
+    document.getElementById("authEmail")
+      .value
+      .trim()
+      .toLowerCase();
 
   const password =
-    document.getElementById("password")
+    document.getElementById("authPassword")
       .value;
 
-  if(!email || !password){
-    showAuthMessage(
-      "Enter your email and password.",
+
+  if(!email){
+
+    showMessage(
+      "authMessage",
+      "Please enter your email address.",
       "error"
     );
+
     return;
   }
+
+
+  if(!password){
+
+    showMessage(
+      "authMessage",
+      "Please enter your password.",
+      "error"
+    );
+
+    return;
+  }
+
 
   if(password.length < 6){
-    showAuthMessage(
-      "Password must be at least 6 characters.",
+
+    showMessage(
+      "authMessage",
+      "Password must contain at least 6 characters.",
       "error"
     );
+
     return;
   }
 
+
   try{
+
+    showMessage(
+      "authMessage",
+      "Creating your account...",
+      "info"
+    );
+
 
     const result =
       await auth.createUserWithEmailAndPassword(
@@ -570,407 +3069,2714 @@ async function registerUser(){
         password
       );
 
+
+    const user = result.user;
+
+
     await db
       .collection("users")
-      .doc(result.user.uid)
+      .doc(user.uid)
       .set({
-        email:email,
-        balance:0,
-        createdAt:
-          firebase.firestore.FieldValue.serverTimestamp()
-      },{merge:true});
 
-    showAuthMessage(
-      "Account created successfully.",
+        uid:user.uid,
+
+        email:email,
+
+        balance:0,
+
+        createdAt:
+          firebase.firestore.FieldValue.serverTimestamp(),
+
+        updatedAt:
+          firebase.firestore.FieldValue.serverTimestamp()
+
+      },{
+        merge:true
+      });
+
+
+    try{
+
+      await user.sendEmailVerification();
+
+    }catch(error){
+
+      console.log(
+        "Verification email:",
+        error
+      );
+
+    }
+
+
+    showMessage(
+      "authMessage",
+      "Account created successfully. Please check your email for verification.",
       "success"
     );
 
-    showSection("account");
+
+    showPage("account");
+
 
   }catch(error){
 
-    showAuthMessage(
-      error.message,
+    console.error(error);
+
+    showMessage(
+      "authMessage",
+      friendlyAuthError(error),
       "error"
     );
+
   }
+
 }
+
+
+/* =====================================================
+   LOGIN USER
+===================================================== */
 
 async function loginUser(){
 
   const email =
-    document.getElementById("email")
-      .value.trim();
+    document.getElementById("authEmail")
+      .value
+      .trim()
+      .toLowerCase();
 
   const password =
-    document.getElementById("password")
+    document.getElementById("authPassword")
       .value;
 
-  if(!email || !password){
 
-    showAuthMessage(
-      "Enter your email and password.",
+  if(!email){
+
+    showMessage(
+      "authMessage",
+      "Please enter your email address.",
       "error"
     );
 
     return;
   }
 
+
+  if(!password){
+
+    showMessage(
+      "authMessage",
+      "Please enter your password.",
+      "error"
+    );
+
+    return;
+  }
+
+
   try{
 
-    await auth
-      .signInWithEmailAndPassword(
-        email,
-        password
-      );
+    showMessage(
+      "authMessage",
+      "Signing you in...",
+      "info"
+    );
 
-    showAuthMessage(
+
+    await auth.signInWithEmailAndPassword(
+      email,
+      password
+    );
+
+
+    showMessage(
+      "authMessage",
       "Login successful.",
       "success"
     );
 
-    showSection("account");
+
+    showPage("account");
+
 
   }catch(error){
 
-    showAuthMessage(
-      error.message,
+    console.error(error);
+
+    showMessage(
+      "authMessage",
+      friendlyAuthError(error),
       "error"
     );
+
   }
+
 }
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
 
 async function logoutUser(){
 
-  await auth.signOut();
+  try{
 
-  showSection("home");
+    await auth.signOut();
+
+    showPage("home");
+
+  }catch(error){
+
+    console.error(error);
+
+  }
+
 }
 
-auth.onAuthStateChanged(async user => {
+
+/* =====================================================
+   AUTH STATE
+===================================================== */
+
+auth.onAuthStateChanged(async function(user){
 
   currentUser = user;
 
-  const button =
-    document.getElementById("authButton");
+
+  const loginButton =
+    document.getElementById("headerLoginBtn");
+
+  const registerButton =
+    document.getElementById("headerRegisterBtn");
+
 
   if(user){
 
-    button.textContent = "Account";
+    if(loginButton){
 
-    button.onclick =
-      () => showSection("account");
+      loginButton.textContent = "My Account";
 
-    document
-      .getElementById("userEmail")
-      .textContent =
-        user.email || "-";
+      loginButton.onclick = function(){
+        showPage("account");
+      };
+
+    }
+
+
+    if(registerButton){
+
+      registerButton.textContent =
+        "Logout";
+
+      registerButton.onclick =
+        logoutUser;
+
+    }
+
+
+    await ensureUserDocument();
 
     await loadWallet();
 
+    updateAccountPage();
+
+
   }else{
 
-    button.textContent = "Login";
+    if(loginButton){
 
-    button.onclick = showAuth;
+      loginButton.textContent =
+        "Login";
 
-    document
-      .getElementById("walletBalance")
-      .textContent = "₦0.00";
+      loginButton.onclick =
+        function(){
+          showPage("auth");
+        };
+
+    }
+
+
+    if(registerButton){
+
+      registerButton.textContent =
+        "Register";
+
+      registerButton.onclick =
+        function(){
+          showPage("auth");
+        };
+
+    }
+
+
+    const balance =
+      document.getElementById("walletBalance");
+
+    if(balance){
+      balance.textContent = "₦0.00";
+    }
+
+
+    const accountBalance =
+      document.getElementById("accountBalance");
+
+    if(accountBalance){
+      accountBalance.textContent = "₦0.00";
+    }
+
+
+    const accountEmail =
+      document.getElementById("accountEmail");
+
+    if(accountEmail){
+      accountEmail.textContent =
+        "Not logged in";
+    }
+
+
+    const accountStatus =
+      document.getElementById("accountStatus");
+
+    if(accountStatus){
+      accountStatus.textContent =
+        "Guest";
+    }
+
   }
+
 });
 
-async function loadWallet(){
 
-  if(!currentUser) return;
+/* =====================================================
+   ENSURE USER DOCUMENT
+===================================================== */
+
+async function ensureUserDocument(){
+
+  if(!currentUser){
+    return;
+  }
+
 
   try{
 
-    const doc =
+    const ref =
+      db.collection("users")
+        .doc(currentUser.uid);
+
+    const snapshot =
+      await ref.get();
+
+
+    if(!snapshot.exists){
+
+      await ref.set({
+
+        uid:currentUser.uid,
+
+        email:
+          currentUser.email || "",
+
+        balance:0,
+
+        createdAt:
+          firebase.firestore.FieldValue.serverTimestamp(),
+
+        updatedAt:
+          firebase.firestore.FieldValue.serverTimestamp()
+
+      });
+
+    }else{
+
+      const data =
+        snapshot.data() || {};
+
+
+      if(typeof data.balance !== "number"){
+
+        await ref.set({
+
+          balance:0,
+
+          updatedAt:
+            firebase.firestore.FieldValue.serverTimestamp()
+
+        },{
+          merge:true
+        });
+
+      }
+
+    }
+
+  }catch(error){
+
+    console.error(
+      "User document error:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   LOAD WALLET
+===================================================== */
+
+async function loadWallet(){
+
+  if(!currentUser){
+
+    const balance =
+      document.getElementById("walletBalance");
+
+    if(balance){
+      balance.textContent = "₦0.00";
+    }
+
+    return;
+
+  }
+
+
+  try{
+
+    const snapshot =
       await db
         .collection("users")
         .doc(currentUser.uid)
         .get();
 
-    if(doc.exists){
 
-      const data = doc.data();
+    if(snapshot.exists){
 
-      document
-        .getElementById("walletBalance")
-        .textContent =
-          money(data.balance || 0);
+      const data =
+        snapshot.data() || {};
+
+      const balance =
+        Number(data.balance || 0);
+
+
+      const walletElement =
+        document.getElementById("walletBalance");
+
+      if(walletElement){
+
+        walletElement.textContent =
+          formatMoney(balance);
+
+      }
+
+
+      const accountElement =
+        document.getElementById("accountBalance");
+
+      if(accountElement){
+
+        accountElement.textContent =
+          formatMoney(balance);
+
+      }
+
     }
 
   }catch(error){
 
-    console.error(error);
-  }
-}
-
-async function workerGet(path){
-
-  const response =
-    await fetch(
-      WORKER_URL + path
+    console.error(
+      "Wallet loading error:",
+      error
     );
 
-  const text =
-    await response.text();
+  }
 
-  let data;
+}
+
+
+/* =====================================================
+   ACCOUNT PAGE
+===================================================== */
+
+function updateAccountPage(){
+
+  const emailElement =
+    document.getElementById("accountEmail");
+
+  const statusElement =
+    document.getElementById("accountStatus");
+
+
+  if(!currentUser){
+
+    if(emailElement){
+      emailElement.textContent =
+        "Not logged in";
+    }
+
+    if(statusElement){
+      statusElement.textContent =
+        "Guest";
+    }
+
+    return;
+
+  }
+
+
+  if(emailElement){
+
+    emailElement.textContent =
+      currentUser.email || "-";
+
+  }
+
+
+  if(statusElement){
+
+    statusElement.textContent =
+      "Active";
+
+  }
+
+
+  loadWallet();
+
+}
+
+
+/* =====================================================
+   DEPOSIT MODAL
+===================================================== */
+
+function openDepositModal(){
+
+  if(!currentUser){
+
+    showPage("auth");
+
+    showMessage(
+      "authMessage",
+      "Please login before making a deposit request.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  const modal =
+    document.getElementById("depositModal");
+
+  if(modal){
+
+    modal.classList.remove("hidden");
+
+  }
+
+}
+
+
+function closeDepositModal(){
+
+  const modal =
+    document.getElementById("depositModal");
+
+  if(modal){
+
+    modal.classList.add("hidden");
+
+  }
+
+}
+
+
+/* =====================================================
+   SUBMIT DEPOSIT
+===================================================== */
+
+async function submitDeposit(){
+
+  if(!currentUser){
+
+    closeDepositModal();
+
+    showPage("auth");
+
+    showMessage(
+      "authMessage",
+      "Please login before submitting a deposit.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  const amountInput =
+    document.getElementById("depositAmount");
+
+  const referenceInput =
+    document.getElementById("depositReference");
+
+
+  const amount =
+    Number(amountInput.value);
+
+
+  const reference =
+    referenceInput.value.trim();
+
+
+  if(!amount || amount < 100){
+
+    showMessage(
+      "depositMessage",
+      "Minimum deposit is ₦100.",
+      "error"
+    );
+
+    return;
+
+  }
+
 
   try{
-    data = JSON.parse(text);
+
+    showMessage(
+      "depositMessage",
+      "Submitting your deposit request...",
+      "info"
+    );
+
+
+    await db
+      .collection("deposits")
+      .add({
+
+        uid:currentUser.uid,
+
+        userEmail:
+          currentUser.email || "",
+
+        userName:
+          currentUser.displayName || "",
+
+        amount:amount,
+
+        reference:reference,
+
+        bank:DEPOSIT_BANK,
+
+        accountName:
+          DEPOSIT_ACCOUNT_NAME,
+
+        accountNumber:
+          DEPOSIT_ACCOUNT_NUMBER,
+
+        status:"pending",
+
+        createdAt:
+          firebase.firestore.FieldValue.serverTimestamp()
+
+      });
+
+
+    showMessage(
+      "depositMessage",
+      "Deposit request submitted successfully. Please wait for admin approval.",
+      "success"
+    );
+
+
+    amountInput.value = "";
+    referenceInput.value = "";
+
+
   }catch(error){
-    throw new Error(
-      "Worker returned an invalid response."
+
+    console.error(error);
+
+    showMessage(
+      "depositMessage",
+      error.message ||
+        "Unable to submit deposit request.",
+      "error"
     );
+
   }
 
-  if(!response.ok){
-    throw new Error(
-      data.message ||
-      "Worker request failed."
-    );
-  }
-
-  return data;
 }
-  <script>
 
-async function loadPlans(network){
 
-  selectedNetwork = network;
+/* =====================================================
+   LOAD TRANSACTIONS
+===================================================== */
 
-  document
-    .querySelectorAll(".network-btn")
-    .forEach(button => {
-      button.classList.remove("active");
+async function loadTransactions(){
+
+  const body =
+    document.getElementById("transactionsBody");
+
+
+  if(!body){
+    return;
+  }
+
+
+  if(!currentUser){
+
+    body.innerHTML = `
+      <tr>
+        <td colspan="4">
+          <div class="empty-box">
+            Please login to view your transactions.
+          </div>
+        </td>
+      </tr>
+    `;
+
+    return;
+
+  }
+
+
+  body.innerHTML = `
+    <tr>
+      <td colspan="4">
+        <div class="loading-box">
+          <div class="spinner"></div>
+          Loading transactions...
+        </div>
+      </td>
+    </tr>
+  `;
+
+
+  try{
+
+    const snapshot =
+      await db
+        .collection("transactions")
+        .where("uid","==",currentUser.uid)
+        .get();
+
+
+    const transactions = [];
+
+
+    snapshot.forEach(function(doc){
+
+      transactions.push({
+
+        id:doc.id,
+
+        ...doc.data()
+
+      });
+
     });
 
-  const selectedButton =
-    document.getElementById(
-      "network-" + network
-    );
 
-  if(selectedButton){
-    selectedButton.classList.add("active");
+    transactions.sort(function(a,b){
+
+      const aTime =
+        a.createdAt && a.createdAt.toMillis
+          ? a.createdAt.toMillis()
+          : 0;
+
+      const bTime =
+        b.createdAt && b.createdAt.toMillis
+          ? b.createdAt.toMillis()
+          : 0;
+
+      return bTime - aTime;
+
+    });
+
+
+    if(!transactions.length){
+
+      body.innerHTML = `
+        <tr>
+          <td colspan="4">
+            <div class="empty-box">
+              No transactions yet.
+            </div>
+          </td>
+        </tr>
+      `;
+
+      return;
+
+    }
+
+
+    body.innerHTML = "";
+
+
+    transactions.slice(0,50).forEach(function(transaction){
+
+      const status =
+        String(
+          transaction.status || "pending"
+        ).toLowerCase();
+
+
+      let statusClass =
+        "status-pending";
+
+
+      if(
+        status === "approved" ||
+        status === "success" ||
+        status === "successful"
+      ){
+
+        statusClass =
+          "status-success";
+
+      }
+
+
+      if(
+        status === "rejected" ||
+        status === "failed"
+      ){
+
+        statusClass =
+          "status-failed";
+
+      }
+
+
+      const row =
+        document.createElement("tr");
+
+
+      row.innerHTML = `
+
+        <td>
+          ${escapeHtml(
+            formatDate(transaction.createdAt)
+          )}
+        </td>
+
+        <td>
+          ${escapeHtml(
+            transaction.service ||
+            "Transaction"
+          )}
+        </td>
+
+        <td>
+          ${formatMoney(
+            transaction.amount || 0
+          )}
+        </td>
+
+        <td>
+          <span class="status-badge ${statusClass}">
+            ${escapeHtml(status)}
+          </span>
+        </td>
+
+      `;
+
+
+      body.appendChild(row);
+
+    });
+
+
+  }catch(error){
+
+    console.error(error);
+
+
+    body.innerHTML = `
+      <tr>
+        <td colspan="4">
+          <div class="alert alert-error">
+            Unable to load transactions.
+          </div>
+        </td>
+      </tr>
+    `;
+
   }
 
-  const status =
-    document.getElementById("planStatus");
+}
 
-  const container =
-    document.getElementById("plans");
 
-  status.textContent =
-    "Loading " +
-    network.toUpperCase() +
-    " plans...";
+/* =====================================================
+   ADMIN CHECK
+===================================================== */
 
-  container.innerHTML =
-    '<div class="loading">Loading plans...</div>';
+function isAdmin(){
+
+  return !!(
+    currentUser &&
+    currentUser.email &&
+    currentUser.email.toLowerCase() ===
+      ADMIN_EMAIL.toLowerCase()
+  );
+
+}
+
+
+/* =====================================================
+   ADMIN DEPOSITS
+===================================================== */
+
+async function loadAdminDeposits(){
+
+  if(!isAdmin()){
+
+    showPage("home");
+
+    return;
+
+  }
+
+
+  const body =
+    document.getElementById("adminDepositsBody");
+
+
+  if(!body){
+    return;
+  }
+
+
+  body.innerHTML = `
+    <tr>
+      <td colspan="5">
+        <div class="loading-box">
+          <div class="spinner"></div>
+          Loading deposit requests...
+        </div>
+      </td>
+    </tr>
+  `;
+
 
   try{
 
+    const snapshot =
+      await db
+        .collection("deposits")
+        .get();
+
+
+    const deposits = [];
+
+
+    snapshot.forEach(function(doc){
+
+      deposits.push({
+
+        id:doc.id,
+
+        ...doc.data()
+
+      });
+
+    });
+
+
+    deposits.sort(function(a,b){
+
+      const aTime =
+        a.createdAt && a.createdAt.toMillis
+                    ? a.createdAt.toMillis()
+          : 0;
+
+        const bTime =
+          b.createdAt && b.createdAt.toMillis
+            ? b.createdAt.toMillis()
+            : 0;
+
+        return bTime - aTime;
+      });
+
+      let html = "";
+
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+
+        const amount = Number(data.amount || 0);
+
+        const status = String(data.status || "pending").toLowerCase();
+
+        const statusClass =
+          status === "approved"
+            ? "status-success"
+            : status === "rejected"
+              ? "status-failed"
+              : "status-pending";
+
+        const created =
+          data.createdAt && data.createdAt.toDate
+            ? formatDate(data.createdAt.toDate())
+            : "Pending";
+
+        html += `
+          <tr>
+            <td>${escapeHtml(data.userName || "User")}</td>
+
+            <td>
+              ${escapeHtml(data.userEmail || "")}
+            </td>
+
+            <td>
+              ₦${formatMoney(amount)}
+            </td>
+
+            <td>
+              ${escapeHtml(data.reference || "—")}
+            </td>
+
+            <td>
+              ${escapeHtml(created)}
+            </td>
+
+            <td>
+              <span class="status-badge ${statusClass}">
+                ${escapeHtml(status)}
+              </span>
+            </td>
+
+            <td>
+              ${
+                status === "pending"
+                  ? `
+                    <div class="admin-action-buttons">
+
+                      <button
+                        class="small-button approve-button"
+                        onclick="approveDeposit('${doc.id}')"
+                      >
+                        ✓ Approve
+                      </button>
+
+                      <button
+                        class="small-button reject-button"
+                        onclick="rejectDeposit('${doc.id}')"
+                      >
+                        ✕ Reject
+                      </button>
+
+                    </div>
+                  `
+                  : `
+                    <span class="muted-text">
+                      ${status === "approved" ? "Completed" : "Rejected"}
+                    </span>
+                  `
+              }
+            </td>
+          </tr>
+        `;
+      });
+
+      if (!html) {
+        html = `
+          <tr>
+            <td colspan="7" class="empty-table">
+              No deposit requests found.
+            </td>
+          </tr>
+        `;
+      }
+
+      const tableBody =
+        document.getElementById("adminDepositsBody");
+
+      if (tableBody) {
+        tableBody.innerHTML = html;
+      }
+
+      const pendingElement =
+        document.getElementById("adminPendingCount");
+
+      const approvedElement =
+        document.getElementById("adminApprovedCount");
+
+      if (pendingElement) {
+        pendingElement.textContent = pendingCount;
+      }
+
+      if (approvedElement) {
+        approvedElement.textContent =
+          "₦" + formatMoney(approvedTotal);
+      }
+
+    } catch (error) {
+
+      console.error("Admin deposit error:", error);
+
+      showMessage(
+        "adminMessage",
+        "Unable to load deposit requests.",
+        "error"
+      );
+    }
+  }
+
+
+  /* =====================================================
+     APPROVE DEPOSIT
+  ===================================================== */
+
+  async function approveDeposit(depositId) {
+
+    if (!currentUser || currentUser.email !== ADMIN_EMAIL) {
+      showMessage(
+        "adminMessage",
+        "Administrator access required.",
+        "error"
+      );
+      return;
+    }
+
+    try {
+
+      const depositRef =
+        db.collection("deposits").doc(depositId);
+
+      await db.runTransaction(async (transaction) => {
+
+        const depositSnap =
+          await transaction.get(depositRef);
+
+        if (!depositSnap.exists) {
+          throw new Error("Deposit request not found.");
+        }
+
+        const deposit =
+          depositSnap.data();
+
+        if (deposit.status !== "pending") {
+          throw new Error(
+            "This deposit has already been processed."
+          );
+        }
+
+        const userRef =
+          db.collection("users").doc(deposit.uid);
+
+        const userSnap =
+          await transaction.get(userRef);
+
+        const oldBalance =
+          userSnap.exists
+            ? Number(userSnap.data().balance || 0)
+            : 0;
+
+        const depositAmount =
+          Number(deposit.amount || 0);
+
+        if (!depositAmount || depositAmount < 100) {
+          throw new Error("Invalid deposit amount.");
+        }
+
+        const newBalance =
+          oldBalance + depositAmount;
+
+        transaction.set(
+          userRef,
+          {
+            balance: newBalance,
+            email: deposit.userEmail || "",
+            updatedAt:
+              firebase.firestore.FieldValue.serverTimestamp()
+          },
+          {
+            merge: true
+          }
+        );
+
+        transaction.update(
+          depositRef,
+          {
+            status: "approved",
+
+            approvedAt:
+              firebase.firestore.FieldValue.serverTimestamp(),
+
+            approvedBy:
+              currentUser.email
+          }
+        );
+
+        const transactionRef =
+          db.collection("transactions").doc();
+
+        transaction.set(
+          transactionRef,
+          {
+            uid: deposit.uid,
+
+            userEmail:
+              deposit.userEmail || "",
+
+            type: "credit",
+
+            service: "Wallet Deposit",
+
+            description:
+              "Wallet Deposit Approved",
+
+            amount: depositAmount,
+
+            balanceAfter: newBalance,
+
+            status: "successful",
+
+            depositId: depositId,
+
+            createdAt:
+              firebase.firestore.FieldValue.serverTimestamp()
+          }
+        );
+      });
+
+      showMessage(
+        "adminMessage",
+        "Deposit approved and wallet credited successfully.",
+        "success"
+      );
+
+      await loadAdminDeposits();
+
+      if (currentUser) {
+        await loadWallet();
+        await loadTransactions();
+        updateAccountPage();
+      }
+
+    } catch (error) {
+
+      console.error("Approve deposit error:", error);
+
+      showMessage(
+        "adminMessage",
+        error.message || "Unable to approve deposit.",
+        "error"
+      );
+    }
+  }
+
+
+  /* =====================================================
+     REJECT DEPOSIT
+  ===================================================== */
+
+  async function rejectDeposit(depositId) {
+
+    if (!currentUser || currentUser.email !== ADMIN_EMAIL) {
+      showMessage(
+        "adminMessage",
+        "Administrator access required.",
+        "error"
+      );
+      return;
+    }
+
+    try {
+
+      const depositRef =
+        db.collection("deposits").doc(depositId);
+
+      const depositSnap =
+        await depositRef.get();
+
+      if (!depositSnap.exists) {
+        throw new Error("Deposit request not found.");
+      }
+
+      const deposit =
+        depositSnap.data();
+
+      if (deposit.status !== "pending") {
+        throw new Error(
+          "This deposit has already been processed."
+        );
+      }
+
+      await depositRef.update({
+        status: "rejected",
+
+        rejectedAt:
+          firebase.firestore.FieldValue.serverTimestamp(),
+
+        rejectedBy:
+          currentUser.email
+      });
+
+      showMessage(
+        "adminMessage",
+        "Deposit request rejected.",
+        "success"
+      );
+
+      await loadAdminDeposits();
+
+    } catch (error) {
+
+      console.error("Reject deposit error:", error);
+
+      showMessage(
+        "adminMessage",
+        error.message || "Unable to reject deposit.",
+        "error"
+      );
+    }
+  }
+
+
+  /* =====================================================
+     ADMIN NAVIGATION
+  ===================================================== */
+
+  function setupAdminNavigation() {
+
+    const isAdministrator =
+      currentUser &&
+      currentUser.email === ADMIN_EMAIL;
+
+    const desktopNav =
+      document.querySelector(".desktop-nav");
+
+    const mobileMenu =
+      document.getElementById("mobileMenu");
+
+    if (isAdministrator) {
+
+      if (
+        desktopNav &&
+        !document.getElementById("adminNavButton")
+      ) {
+
+        const button =
+          document.createElement("button");
+
+        button.id = "adminNavButton";
+        button.className = "nav-button admin-nav-button";
+        button.textContent = "⚙️ Admin";
+
+        button.addEventListener(
+          "click",
+          () => {
+            showPage("admin");
+            closeMobileMenu();
+          }
+        );
+
+        desktopNav.appendChild(button);
+      }
+
+
+      if (
+        mobileMenu &&
+        !document.getElementById("adminMobileButton")
+      ) {
+
+        const button =
+          document.createElement("button");
+
+        button.id = "adminMobileButton";
+        button.className = "mobile-nav-button";
+        button.textContent = "⚙️ Admin Panel";
+
+        button.addEventListener(
+          "click",
+          () => {
+            showPage("admin");
+            closeMobileMenu();
+          }
+        );
+
+        mobileMenu.appendChild(button);
+      }
+
+    } else {
+
+      const desktopButton =
+        document.getElementById("adminNavButton");
+
+      const mobileButton =
+        document.getElementById("adminMobileButton");
+
+      if (desktopButton) {
+        desktopButton.remove();
+      }
+
+      if (mobileButton) {
+        mobileButton.remove();
+      }
+    }
+  }
+
+
+  /* =====================================================
+     ADMIN AUTH LISTENER
+  ===================================================== */
+
+  auth.onAuthStateChanged(async (user) => {
+
+    currentUser = user;
+
+    setupAdminNavigation();
+
+  });
+
+
+  /* =====================================================
+     WORKER REQUEST
+  ===================================================== */
+
+  async function workerRequest(
+    endpoint,
+    options = {}
+  ) {
+
+    const response =
+      await fetch(
+        WORKER_URL + endpoint,
+        {
+          ...options,
+          headers: {
+            "Content-Type":
+              "application/json",
+
+            ...(options.headers || {})
+          }
+        }
+      );
+
+    const text =
+      await response.text();
+
+    let data;
+
+    try {
+
+      data =
+        JSON.parse(text);
+
+    } catch (error) {
+
+      throw new Error(
+        "Invalid response from server."
+      );
+    }
+
+    if (!response.ok) {
+
+      throw new Error(
+        data.message ||
+        "Server request failed."
+      );
+    }
+
+    return data;
+  }
+
+
+  /* =====================================================
+     DEPOSIT ACCOUNT INFORMATION
+  ===================================================== */
+
+  function getDepositAccountInfo() {
+
+    const name =
+      document.getElementById(
+        "depositAccountName"
+      );
+
+    const number =
+      document.getElementById(
+        "depositAccountNumber"
+      );
+
+    const bank =
+      document.getElementById(
+        "depositBankName"
+      );
+
+
+    if (name) {
+      name.textContent =
+        DEPOSIT_ACCOUNT_NAME;
+    }
+
+    if (number) {
+      number.textContent =
+        DEPOSIT_ACCOUNT_NUMBER;
+    }
+
+    if (bank) {
+      bank.textContent =
+        DEPOSIT_BANK;
+    }
+  }
+
+
+  /* =====================================================
+     INITIAL PAGE SETUP
+  ===================================================== */
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+      getDepositAccountInfo();
+
+      setupAdminNavigation();
+
+      showPage("home");
+
+    }
+  );
+
+
+<!-- =====================================================
+     PART 3 / 3
+     DATA PLANS + AIRTIME + BILLS + FINAL FUNCTIONS
+===================================================== -->
+
+<script>
+
+/* =====================================================
+   DATA PLAN STATE
+===================================================== */
+
+let availablePlans = [];
+
+
+/* =====================================================
+   FORMAT DATA SIZE
+===================================================== */
+
+function formatDataSize(sizeMb) {
+
+  const mb = Number(sizeMb || 0);
+
+  if (!mb || mb <= 0) {
+    return "Data";
+  }
+
+  if (mb >= 1000) {
+
+    const gb = mb / 1000;
+
+    return Number.isInteger(gb)
+      ? gb + "GB"
+      : gb.toFixed(2).replace(/\.00$/, "") + "GB";
+  }
+
+  return mb + "MB";
+}
+
+
+/* =====================================================
+   EXTRACT PLANS FROM WORKER RESPONSE
+===================================================== */
+
+function extractPlans(result) {
+
+  if (
+    result &&
+    result.plans &&
+    Array.isArray(result.plans.data_plans)
+  ) {
+    return result.plans.data_plans;
+  }
+
+  if (
+    result &&
+    result.plans &&
+    Array.isArray(result.plans.plans)
+  ) {
+    return result.plans.plans;
+  }
+
+  if (
+    result &&
+    Array.isArray(result.data_plans)
+  ) {
+    return result.data_plans;
+  }
+
+  if (
+    result &&
+    result.data &&
+    Array.isArray(result.data.data_plans)
+  ) {
+    return result.data.data_plans;
+  }
+
+  return [];
+}
+
+
+/* =====================================================
+   LOAD DATA PLANS
+===================================================== */
+
+async function loadDataPlans(network) {
+
+  const container =
+    document.getElementById("dataPlansContainer");
+
+  const status =
+    document.getElementById("dataPlanStatus");
+
+  if (!container) {
+    return;
+  }
+
+  availablePlans = [];
+
+  container.innerHTML = `
+    <div class="loading-box">
+      <div class="loading-spinner"></div>
+      <p>Loading ${escapeHtml(network.toUpperCase())} plans...</p>
+    </div>
+  `;
+
+  if (status) {
+    status.textContent =
+      "Loading available plans...";
+  }
+
+  try {
+
     const result =
-      await workerGet(
+      await workerRequest(
         "/test-plans/" +
         encodeURIComponent(network)
       );
 
-    let plans = [];
+    const plans =
+      extractPlans(result);
 
-    if(
-      result &&
-      result.plans &&
-      Array.isArray(result.plans.data_plans)
-    ){
-      plans =
-        result.plans.data_plans;
-    }
+    if (!plans.length) {
 
-    else if(
-      result &&
-      result.plans &&
-      Array.isArray(result.plans.plans)
-    ){
-      plans =
-        result.plans.plans;
-    }
+      container.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-icon">📦</div>
+          <h3>No plans available</h3>
+          <p>
+            No data plans were returned for
+            ${escapeHtml(network.toUpperCase())}.
+          </p>
+        </div>
+      `;
 
-    if(!plans.length){
-
-      status.textContent =
-        "No plans returned for " +
-        network.toUpperCase();
-
-      container.innerHTML =
-        '<div class="empty">No data plans found.</div>';
+      if (status) {
+        status.textContent =
+          "No plans available.";
+      }
 
       return;
     }
 
-    status.textContent =
-      plans.length +
-      " plans available for " +
-      network.toUpperCase();
+    availablePlans = plans;
 
-    renderPlans(plans);
+    renderDataPlans(plans, network);
 
-  }catch(error){
+    if (status) {
+      status.textContent =
+        plans.length +
+        " plans available";
+    }
 
-    console.error(error);
+  } catch (error) {
 
-    status.textContent =
-      "Unable to load plans.";
+    console.error(
+      "Load data plans error:",
+      error
+    );
 
-    container.innerHTML =
-      '<div class="alert alert-error">' +
-      escapeHtml(error.message) +
-      "</div>";
+    container.innerHTML = `
+      <div class="empty-state error-state">
+        <div class="empty-icon">⚠️</div>
+
+        <h3>Unable to load plans</h3>
+
+        <p>
+          ${escapeHtml(
+            error.message ||
+            "Please try again."
+          )}
+        </p>
+
+        <button
+          type="button"
+          class="primary-button"
+          onclick="loadDataPlans('${escapeHtml(network)}')"
+        >
+          Try Again
+        </button>
+      </div>
+    `;
+
+    if (status) {
+      status.textContent =
+        "Unable to load plans.";
+    }
   }
 }
 
 
-function renderPlans(plans){
+/* =====================================================
+   RENDER DATA PLANS
+===================================================== */
+
+function renderDataPlans(plans, network) {
 
   const container =
-    document.getElementById("plans");
+    document.getElementById("dataPlansContainer");
+
+  if (!container) {
+    return;
+  }
 
   container.innerHTML = "";
 
-  plans.forEach(plan => {
+  plans.forEach((plan, index) => {
 
     const card =
       document.createElement("div");
 
-    card.className = "plan";
+    card.className = "plan-card";
 
     const name =
-      plan.name || "Data Plan";
+      plan.name ||
+      formatDataSize(plan.size_mb) ||
+      "Data Plan";
 
-    const size =
-      plan.size_mb
-        ? formatSize(plan.size_mb)
-        : "";
+    const price =
+      Number(plan.price || 0);
 
     const validity =
       plan.validity_days
-        ? plan.validity_days +
-          " days"
+        ? plan.validity_days + " days"
         : "Standard validity";
 
-    const price =
-      money(plan.price);
+    const size =
+      plan.size_mb
+        ? formatDataSize(plan.size_mb)
+        : name;
 
     card.innerHTML = `
-      <h3>${escapeHtml(name)}</h3>
+      <div class="plan-network">
+        ${escapeHtml(network.toUpperCase())}
+      </div>
 
-      <p>
-        <strong>Size:</strong>
+      <div class="plan-name">
+        ${escapeHtml(name)}
+      </div>
+
+      <div class="plan-size">
         ${escapeHtml(size)}
-      </p>
+      </div>
 
-      <p>
-        <strong>Validity:</strong>
+      <div class="plan-validity">
         ${escapeHtml(validity)}
-      </p>
+      </div>
 
-      <div class="price">
-        ${price}
+      <div class="plan-price">
+        ₦${formatMoney(price)}
       </div>
 
       <button
-        class="btn-green"
-        style="width:100%"
-        onclick="selectPlan(${JSON.stringify(
-          plan
-        ).replace(/"/g,"&quot;")})">
-        Select Plan
+        type="button"
+        class="plan-btn"
+      >
+        Buy Plan
       </button>
     `;
+
+    const button =
+      card.querySelector(".plan-btn");
+
+    if (button) {
+
+      button.addEventListener(
+        "click",
+        () => selectPlan(index)
+      );
+    }
 
     container.appendChild(card);
   });
 }
 
 
-function formatSize(mb){
+/* =====================================================
+   SELECT DATA PLAN
+===================================================== */
 
-  const number =
-    Number(mb);
+function selectPlan(index) {
 
-  if(!number){
-    return "-";
+  if (
+    index < 0 ||
+    index >= availablePlans.length
+  ) {
+    return;
   }
 
-  if(number >= 1000){
+  selectedPlan =
+    availablePlans[index];
 
-    const gb =
-      number / 1000;
-
-    return gb
-      .toFixed(
-        gb % 1 === 0 ? 0 : 2
-      ) + " GB";
-  }
-
-  return number + " MB";
+  openPlanModal();
 }
 
 
-function escapeHtml(value){
+/* =====================================================
+   OPEN PLAN MODAL
+===================================================== */
 
-  return String(value)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+function openPlanModal() {
+
+  const modal =
+    document.getElementById("planModal");
+
+  const details =
+    document.getElementById(
+      "selectedPlanDetails"
+    );
+
+  const phone =
+    document.getElementById("planPhone");
+
+  const message =
+    document.getElementById("planMessage");
+
+  if (!modal || !selectedPlan) {
+    return;
+  }
+
+  const name =
+    selectedPlan.name ||
+    formatDataSize(
+      selectedPlan.size_mb
+    );
+
+  const price =
+    Number(selectedPlan.price || 0);
+
+  const size =
+    selectedPlan.size_mb
+      ? formatDataSize(
+          selectedPlan.size_mb
+        )
+      : name;
+
+  const validity =
+    selectedPlan.validity_days
+      ? selectedPlan.validity_days +
+        " days"
+      : "Standard validity";
+
+  if (details) {
+
+    details.innerHTML = `
+      <div class="selected-plan-title">
+        ${escapeHtml(name)}
+      </div>
+
+      <div class="selected-plan-info">
+        <span>
+          📦 ${escapeHtml(size)}
+        </span>
+
+        <span>
+          ⏱️ ${escapeHtml(validity)}
+        </span>
+
+        <strong>
+          ₦${formatMoney(price)}
+        </strong>
+      </div>
+    `;
+  }
+
+  if (message) {
+    message.classList.add("hidden");
+    message.textContent = "";
+  }
+
+  if (phone) {
+    phone.value = "";
+  }
+
+  modal.classList.remove("hidden");
 }
 
 
-function selectPlan(plan){
+/* =====================================================
+   CLOSE PLAN MODAL
+===================================================== */
 
-  if(!currentUser){
+function closePlanModal() {
 
-    showAuth();
+  const modal =
+    document.getElementById("planModal");
 
-    showAuthMessage(
-      "Please login before selecting a plan.",
+  if (modal) {
+    modal.classList.add("hidden");
+  }
+
+  selectedPlan = null;
+}
+
+
+/* =====================================================
+   CONFIRM DATA PLAN
+   SANDBOX / TEST MODE
+===================================================== */
+
+async function confirmPlanSelection() {
+
+  const phone =
+    document
+      .getElementById("planPhone")
+      ?.value
+      .trim();
+
+  const message =
+    document.getElementById(
+      "planMessage"
+    );
+
+  if (!currentUser) {
+
+    closePlanModal();
+
+    openAuth("login");
+
+    return;
+  }
+
+  if (!selectedPlan) {
+
+    if (message) {
+
+      message.textContent =
+        "Please select a data plan.";
+
+      message.className =
+        "form-message alert error";
+    }
+
+    return;
+  }
+
+  if (!/^0\d{10}$/.test(phone)) {
+
+    if (message) {
+
+      message.textContent =
+        "Enter a valid 11-digit Nigerian phone number.";
+
+      message.className =
+        "form-message alert error";
+    }
+
+    return;
+  }
+
+  /*
+   * IMPORTANT:
+   * The website is currently connected to
+   * the VTUGATE sandbox/test plan catalogue.
+   *
+   * No real-money purchase is executed here.
+   */
+
+  if (message) {
+
+    message.textContent =
+      "Sandbox mode: this plan is available for testing, but real purchase is not enabled yet.";
+
+    message.className =
+      "form-message alert info";
+  }
+}
+
+
+/* =====================================================
+   NETWORK BUTTONS
+===================================================== */
+
+function selectDataNetwork(network) {
+
+  selectedNetwork =
+    String(network)
+      .toLowerCase()
+      .trim();
+
+  document
+    .querySelectorAll(
+      "[id^='data-network-']"
+    )
+    .forEach((button) => {
+
+      button.classList.remove(
+        "active"
+      );
+    });
+
+  const selectedButton =
+    document.getElementById(
+      "data-network-" +
+      selectedNetwork
+    );
+
+  if (selectedButton) {
+    selectedButton.classList.add(
+      "active"
+    );
+  }
+
+  loadDataPlans(
+    selectedNetwork
+  );
+}
+
+
+/* =====================================================
+   AIRTIME
+===================================================== */
+
+async function requestAirtime() {
+
+  const message =
+    document.getElementById(
+      "airtimeMessage"
+    );
+
+  const network =
+    document
+      .getElementById("airtimeNetwork")
+      ?.value
+      .trim();
+
+  const phone =
+    document
+      .getElementById("airtimePhone")
+      ?.value
+      .trim();
+
+  const amount =
+    Number(
+      document
+        .getElementById("airtimeAmount")
+        ?.value
+    );
+
+  if (!currentUser) {
+
+    openAuth("login");
+
+    return;
+  }
+
+  if (!network) {
+
+    showMessage(
+      "airtimeMessage",
+      "Please select a network.",
       "error"
     );
 
     return;
   }
 
-  const name =
-    plan.name || "Data Plan";
+  if (!/^0\d{10}$/.test(phone)) {
 
-  const price =
-    money(plan.price);
-
-  const confirmed =
-    confirm(
-      name +
-      "\n\nPrice: " +
-      price +
-      "\n\nSandbox mode: purchase is not enabled yet."
+    showMessage(
+      "airtimeMessage",
+      "Enter a valid 11-digit phone number.",
+      "error"
     );
 
-  if(confirmed){
-
-    alert(
-      "Plan selected successfully.\n\n" +
-      "The real purchase system will be connected separately."
-    );
+    return;
   }
+
+  if (
+    !Number.isFinite(amount) ||
+    amount < 50
+  ) {
+
+    showMessage(
+      "airtimeMessage",
+      "Minimum airtime amount is ₦50.",
+      "error"
+    );
+
+    return;
+  }
+
+  showMessage(
+    "airtimeMessage",
+    "Sandbox mode: airtime purchase is not enabled yet.",
+    "info"
+  );
 }
 
 
-showSection("home");
+/* =====================================================
+   BILLS SERVICE UI
+===================================================== */
+
+function openBillService(type) {
+
+  const area =
+    document.getElementById(
+      "billServiceArea"
+    );
+
+  const title =
+    document.getElementById(
+      "billServiceTitle"
+    );
+
+  const form =
+    document.getElementById(
+      "billServiceForm"
+    );
+
+  if (!area || !form) {
+    return;
+  }
+
+  area.classList.remove(
+    "hidden"
+  );
+
+  let heading = "";
+  let html = "";
+
+  if (type === "electricity") {
+
+    heading =
+      "⚡ Electricity Payment";
+
+    html = `
+      <div class="form-group">
+        <label>Electricity Provider</label>
+
+        <select
+          id="billProvider"
+          class="form-input"
+        >
+          <option value="">
+            Select provider
+          </option>
+
+          <option value="ikeja">
+            Ikeja Electric
+          </option>
+
+          <option value="eko">
+            Eko Electricity
+          </option>
+
+          <option value="kano">
+            Kano Electricity
+          </option>
+
+          <option value="abuja">
+            Abuja Electricity
+          </option>
+
+          <option value="portharcourt">
+            Port Harcourt Electricity
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Meter Type</label>
+
+        <select
+          id="billMeterType"
+          class="form-input"
+        >
+          <option value="">
+            Select meter type
+          </option>
+
+          <option value="prepaid">
+            Prepaid
+          </option>
+
+          <option value="postpaid">
+            Postpaid
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Meter Number</label>
+
+        <input
+          id="billMeterNumber"
+          class="form-input"
+          type="text"
+          inputmode="numeric"
+          placeholder="Enter meter number"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Amount</label>
+
+        <input
+          id="billAmount"
+          class="form-input"
+          type="number"
+          min="100"
+          placeholder="₦ Amount"
+        />
+      </div>
+
+      <button
+        type="button"
+        class="primary-button full-width"
+        onclick="submitBillService('electricity')"
+      >
+        Continue
+      </button>
+    `;
+  }
+
+
+  else if (type === "cable") {
+
+    heading =
+      "📺 Cable TV Payment";
+
+    html = `
+      <div class="form-group">
+        <label>TV Provider</label>
+
+        <select
+          id="billProvider"
+          class="form-input"
+        >
+          <option value="">
+            Select provider
+          </option>
+
+          <option value="dstv">
+            DStv
+          </option>
+
+          <option value="gotv">
+            GOtv
+          </option>
+
+          <option value="startimes">
+            Startimes
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Smartcard / IUC Number</label>
+
+        <input
+          id="billCustomerNumber"
+          class="form-input"
+          type="text"
+          inputmode="numeric"
+          placeholder="Enter smartcard number"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Package</label>
+
+        <select
+          id="billPackage"
+          class="form-input"
+        >
+          <option value="">
+            Select package
+          </option>
+
+          <option value="basic">
+            Basic
+          </option>
+
+          <option value="standard">
+            Standard
+          </option>
+
+          <option value="premium">
+            Premium
+          </option>
+        </select>
+      </div>
+
+      <button
+        type="button"
+        class="primary-button full-width"
+        onclick="submitBillService('cable')"
+      >
+        Continue
+      </button>
+    `;
+  }
+
+
+  else if (type === "education") {
+
+    heading =
+      "🎓 Education PIN";
+
+    html = `
+      <div class="form-group">
+        <label>Examination</label>
+
+        <select
+          id="billProvider"
+          class="form-input"
+        >
+          <option value="">
+            Select examination
+          </option>
+
+          <option value="neco">
+            NECO
+          </option>
+
+          <option value="waec">
+            WAEC
+          </option>
+
+          <option value="jamb">
+            JAMB
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Phone Number</label>
+
+        <input
+          id="billCustomerNumber"
+          class="form-input"
+          type="tel"
+          inputmode="numeric"
+          maxlength="11"
+          placeholder="08012345678"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Quantity</label>
+
+        <input
+          id="billQuantity"
+          class="form-input"
+          type="number"
+          min="1"
+          max="10"
+          value="1"
+        />
+      </div>
+
+      <button
+        type="button"
+        class="primary-button full-width"
+        onclick="submitBillService('education')"
+      >
+        Continue
+      </button>
+    `;
+  }
+
+
+  else if (type === "internet") {
+
+    heading =
+      "🌐 Internet Subscription";
+
+    html = `
+      <div class="form-group">
+        <label>Internet Provider</label>
+
+        <select
+          id="billProvider"
+          class="form-input"
+        >
+          <option value="">
+            Select provider
+          </option>
+
+          <option value="smile">
+            Smile
+          </option>
+
+          <option value="spectranet">
+            Spectranet
+          </option>
+
+          <option value="swift">
+            Swift
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Phone / Account Number</label>
+
+        <input
+          id="billCustomerNumber"
+          class="form-input"
+          type="text"
+          placeholder="Enter account number"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Amount</label>
+
+        <input
+          id="billAmount"
+          class="form-input"
+          type="number"
+          min="100"
+          placeholder="₦ Amount"
+        />
+      </div>
+
+      <button
+        type="button"
+        class="primary-button full-width"
+        onclick="submitBillService('internet')"
+      >
+        Continue
+      </button>
+    `;
+  }
+
+
+  else {
+
+    heading =
+      "Pay Bills";
+
+    html = `
+      <div class="empty-state">
+        <div class="empty-icon">🧾</div>
+
+        <h3>Select a service</h3>
+
+        <p>
+          Choose the bill service you want to use.
+        </p>
+      </div>
+    `;
+  }
+
+  if (title) {
+    title.textContent =
+      heading;
+  }
+
+  form.innerHTML =
+    html;
+}
+
+
+/* =====================================================
+   SUBMIT BILL SERVICE
+   SANDBOX / TEST MODE
+===================================================== */
+
+function submitBillService(type) {
+
+  if (!currentUser) {
+
+    openAuth("login");
+
+    return;
+  }
+
+  if (type === "electricity") {
+
+    const provider =
+      document
+        .getElementById("billProvider")
+        ?.value;
+
+    const meterType =
+      document
+        .getElementById("billMeterType")
+        ?.value;
+
+    const meterNumber =
+      document
+        .getElementById("billMeterNumber")
+        ?.value
+        .trim();
+
+    const amount =
+      Number(
+        document
+          .getElementById("billAmount")
+          ?.value
+      );
+
+    if (!provider ||
+        !meterType ||
+        !meterNumber ||
+        !amount) {
+
+      showMessage(
+        "billServiceForm",
+        "Please complete all required fields.",
+        "error"
+      );
+
+      return;
+    }
+  }
+
+
+  if (type === "cable") {
+
+    const provider =
+      document
+        .getElementById("billProvider")
+        ?.value;
+
+    const customer =
+      document
+        .getElementById("billCustomerNumber")
+        ?.value
+        .trim();
+
+    const packageName =
+      document
+        .getElementById("billPackage")
+        ?.value;
+
+    if (
+      !provider ||
+      !customer ||
+      !packageName
+    ) {
+
+      showMessage(
+        "billServiceForm",
+        "Please complete all required fields.",
+        "error"
+      );
+
+      return;
+    }
+  }
+
+
+  if (type === "education") {
+
+    const provider =
+      document
+        .getElementById("billProvider")
+        ?.value;
+
+    const phone =
+      document
+        .getElementById("billCustomerNumber")
+        ?.value
+        .trim();
+
+    const quantity =
+      Number(
+        document
+          .getElementById("billQuantity")
+          ?.value
+      );
+
+    if (
+      !provider ||
+      !/^0\d{10}$/.test(phone) ||
+      !quantity ||
+      quantity < 1
+    ) {
+
+      showMessage(
+        "billServiceForm",
+        "Enter valid education service details.",
+        "error"
+      );
+
+      return;
+    }
+  }
+
+
+  if (type === "internet") {
+
+    const provider =
+      document
+        .getElementById("billProvider")
+        ?.value;
+
+    const customer =
+      document
+        .getElementById("billCustomerNumber")
+        ?.value
+        .trim();
+
+    const amount =
+      Number(
+        document
+          .getElementById("billAmount")
+          ?.value
+      );
+
+    if (
+      !provider ||
+      !customer ||
+      !amount
+    ) {
+
+      showMessage(
+        "billServiceForm",
+        "Please complete all required fields.",
+        "error"
+      );
+
+      return;
+    }
+  }
+
+  showMessage(
+    "billServiceForm",
+    "Sandbox mode: this bill service is ready for testing, but real payment is not enabled yet.",
+    "info"
+  );
+}
+
+
+/* =====================================================
+   PAGE INITIALIZATION
+===================================================== */
+
+function initializeDataPage() {
+
+  if (!selectedNetwork) {
+    selectedNetwork = "mtn";
+  }
+
+  selectDataNetwork(selectedNetwork);
+}
+
+
+/* =====================================================
+   MODAL OUTSIDE CLICK
+===================================================== */
+
+window.addEventListener(
+  "click",
+  function(event) {
+
+    const planModal =
+      document.getElementById("planModal");
+
+    const depositModal =
+      document.getElementById("depositModal");
+
+    if (
+      planModal &&
+      event.target === planModal
+    ) {
+      closePlanModal();
+    }
+
+    if (
+      depositModal &&
+      event.target === depositModal
+    ) {
+      closeDepositModal();
+    }
+
+  }
+);
+
+
+/* =====================================================
+   INITIAL DATA LOAD
+===================================================== */
+
+setTimeout(
+  () => {
+
+    if (
+      document.getElementById(
+        "dataPlansContainer"
+      )
+    ) {
+
+      initializeDataPage();
+
+    }
+
+  },
+  300
+);
+
+
+/* =====================================================
+   FINAL ADMIN STATE
+===================================================== */
+
+if (
+  typeof setupAdminNavigation === "function"
+) {
+
+  setupAdminNavigation();
+
+}
+
+
+/* =====================================================
+   FINAL PAGE READY
+===================================================== */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    getDepositAccountInfo();
+
+    setupAdminNavigation();
+
+    showPage("home");
+
+  }
+);
+
+
+/* =====================================================
+   END PART 3
+===================================================== */
 
 </script>
 
