@@ -3091,7 +3091,8 @@ function extractPlans(providerResponse){
 /* =====================================================
    LOAD DATA PLANS
 ===================================================== */
-async function loadPlans(n) {
+  
+  async function loadPlans(n) {
   window.net = n;
 
   ["mtn", "airtel", "glo", "9mobile"].forEach(x => {
@@ -3122,17 +3123,6 @@ async function loadPlans(n) {
 
     const data = await response.json();
 
-    /*
-     * CURRENT WORKER RESPONSE:
-     *
-     * {
-     *   status: true,
-     *   network: "mtn",
-     *   service_id: 87,
-     *   plans: [...]
-     * }
-     */
-
     const plans = Array.isArray(data.plans)
       ? data.plans
       : [];
@@ -3153,8 +3143,7 @@ async function loadPlans(n) {
       plans.map((plan, index) => {
 
         const name =
-          plan.name ||
-          "Data Plan";
+          plan.name || "Data Plan";
 
         const price =
           Number(plan.price || 0);
@@ -3217,10 +3206,9 @@ async function loadPlans(n) {
       esc(error.message) +
       '</div>';
   }
-  }
-  
-function formatDataSize(sizeMb) {
+}
 
+function formatDataSize(sizeMb) {
   const mb = Number(sizeMb);
 
   if (!Number.isFinite(mb)) {
@@ -3238,7 +3226,7 @@ function formatDataSize(sizeMb) {
   }
 
   return mb + "MB";
-}
+  }
 
 /* =====================================================
    RENDER DATA PLANS
