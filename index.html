@@ -57,7 +57,8 @@ firebase.initializeApp(firebaseConfig);const auth=firebase.auth(),db=firebase.fi
 // ===== A T L DATA CONFIG =====
 const ADMIN="lawanahmadt03@gmail.com";
 const WORKER="https://broad-thunder-82c2.lawanahmadt03.workers.dev";
-const DATA_PLANS_ENDPOINT=WORKER+"/test-plans/"; // verified Worker endpoint; API secret stays on Workerlet user=null,cache={},chosen=null;
+const DATA_PLANS_ENDPOINT=WORKER+"/test-plans/"; // verified Worker endpoint; API secret stays on Worker
+let user=null, cache={}, chosen=null;
 // ================= NAVIGATION & UI =================
 function showPage(id){
   const protectedPages=["home","data","airtime","bills","wallet","transactions","account","admin"];
