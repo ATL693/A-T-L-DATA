@@ -3091,157 +3091,154 @@ function extractPlans(providerResponse){
 /* =====================================================
    LOAD DATA PLANS
 ===================================================== */
+async function loadPlans(n) {
+  window.net = n;
 
-async function loadDataPlans(network){
+  ["mtn", "airtel", "glo", "9mobile"].forEach(x => {
+    document
+      .getElementById("t-" + x)
+      ?.classList.toggle("active", x === n);
+  });
 
-  const container =
-    document.getElementById(
-      "plansContainer"
+  const area = document.getElementById("plansArea");
+
+  if (!area) return;
+
+  area.innerHTML =
+    '<div class="loading">Loading ' +
+    esc(n.toUpperCase()) +
+    ' plans...</div>';
+
+  try {
+    const response = await fetch(
+      WORKER + "/test-plans/" + encodeURIComponent(n)
     );
 
-  const status =
-    document.getElementById(
-      "plansStatus"
-    );
-
-  if(!container) return;
-
-  container.innerHTML =
-    `
-    <div class="loading">
-      <div class="spinner"></div>
-      Loading ${escapeHtml(network)} plans...
-    </div>
-    `;
-
-  status.innerHTML =
-    "";
-
-  try{
-
-    const response =
-      await fetch(
-        WORKER_URL +
-        "/test-plans/" +
-        encodeURIComponent(network),
-        {
-          method:"GET",
-          headers:{
-            "Accept":
-              "application/json"
-          }
-        }
-      );
-
-    const rawText =
-      await response.text();
-
-    let result;
-
-    try{
-
-      result =
-        JSON.parse(
-          rawText
-        );
-
-    }catch(error){
-
+    if (!response.ok) {
       throw new Error(
-        "Worker returned invalid JSON."
+        "Worker returned HTTP " + response.status
       );
-
     }
 
-    console.log(
-      "DATA PLAN RESPONSE:",
-      result
-    );
+    const data = await response.json();
 
-    if(!response.ok){
+    /*
+     * CURRENT WORKER RESPONSE:
+     *
+     * {
+     *   status: true,
+     *   network: "mtn",
+     *   service_id: 87,
+     *   plans: [...]
+     * }
+     */
 
-      throw new Error(
-        result.message ||
-        result.provider_response ||
-        "Worker request failed."
-      );
+    const plans = Array.isArray(data.plans)
+      ? data.plans
+      : [];
 
+    cache[n] = plans;
+
+    if (!plans.length) {
+      area.innerHTML =
+        '<div class="empty">No plans available for ' +
+        esc(n.toUpperCase()) +
+        '.</div>';
+      return;
     }
 
-    if(
-      result.status === false &&
-      !result.plans
-    ){
+    area.innerHTML =
+      '<div class="plans">' +
 
-      throw new Error(
-        result.message ||
-        result.provider_response ||
-        "VTUGATE did not return plans."
-      );
+      plans.map((plan, index) => {
 
-    }
+        const name =
+          plan.name ||
+          "Data Plan";
 
-    const plans =
-      extractPlans(result);
+        const price =
+          Number(plan.price || 0);
 
-    if(!plans.length){
+        const size =
+          plan.size_mb
+            ? formatDataSize(plan.size_mb)
+            : name;
 
-      container.innerHTML =
-        `
-        <div class="card" style="grid-column:1/-1;">
-          <h3>No plans returned</h3>
-          <p style="color:var(--muted);margin-top:8px;">
-            The Worker responded successfully but no plan
-            array was found.
-          </p>
-          <p style="color:var(--muted);margin-top:8px;">
-            Check the browser console for the exact API response.
-          </p>
-        </div>
+        const validity =
+          plan.validity_days
+            ? plan.validity_days + " days"
+            : "No expiry information";
+
+        return `
+          <div class="plan">
+
+            <div class="size">
+              ${esc(size)}
+            </div>
+
+            <div class="price">
+              ${money(price)}
+            </div>
+
+            <small>
+              ${esc(name)}
+            </small>
+
+            <small>
+              ${esc(validity)}
+            </small>
+
+            <button
+              class="btn primary"
+              onclick="pick('${n}', ${index})"
+            >
+              Select Plan
+            </button>
+
+          </div>
         `;
 
-      return;
+      }).join("") +
 
-    }
+      "</div>";
 
-    renderDataPlans(
-      plans,
-      network
-    );
-
-  }catch(error){
+  } catch (error) {
 
     console.error(
-      "PLAN LOAD ERROR:",
+      "Data plans error:",
       error
     );
 
-    container.innerHTML =
-      `
-      <div class="card" style="grid-column:1/-1;">
-        <h3 style="color:var(--danger);">
-          Unable to load plans
-        </h3>
-
-        <p style="margin-top:8px;color:var(--muted);">
-          ${escapeHtml(
-            error.message ||
-            "Unknown error"
-          )}
-        </p>
-
-        <button
-          class="btn btn-primary"
-          style="margin-top:15px;"
-          onclick="loadDataPlans('${escapeHtml(network)}')">
-          Retry
-        </button>
-      </div>
-      `;
-
+    area.innerHTML =
+      '<div class="empty">' +
+      'Could not load ' +
+      esc(n.toUpperCase()) +
+      ' plans.<br><br>' +
+      esc(error.message) +
+      '</div>';
   }
-}
+  }
+  
+function formatDataSize(sizeMb) {
 
+  const mb = Number(sizeMb);
+
+  if (!Number.isFinite(mb)) {
+    return "Data";
+  }
+
+  if (mb >= 1000) {
+    const gb = mb / 1000;
+
+    return (
+      Number.isInteger(gb)
+        ? gb
+        : gb.toFixed(1)
+    ) + "GB";
+  }
+
+  return mb + "MB";
+}
 
 /* =====================================================
    RENDER DATA PLANS
