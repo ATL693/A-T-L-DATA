@@ -1,0 +1,64 @@
+<!-- Navigation enhancements are inserted into the existing index.html. -->
+<script>
+/* PATCH: robust page and browser history navigation */
+(function(){
+  const originalGo=window.go;
+  let navStack=[];
+  let activePage='home';
+  let suppress=false;
+
+  window.go=function(page){
+    if(page===activePage)return originalGo(page);
+    if(!suppress)navStack.push(activePage);
+    activePage=page;
+    originalGo(page);
+    if(!suppress)history.pushState({page:page},'',location.pathname+'#'+page);
+  };
+
+  window.goBack=function(){
+    if(navStack.length){
+      suppress=true;
+      const page=navStack.pop();
+      activePage=page;
+      originalGo(page);
+      history.replaceState({page:page},'',location.pathname+'#'+page);
+      suppress=false;
+    }else if(activePage!=='home'){
+      suppress=true;
+      activePage='home';
+      originalGo('home');
+      history.replaceState({page:'home'},'',location.pathname+'#home');
+      suppress=false;
+    }else if(history.length>1){
+      history.back();
+    }
+  };
+
+  window.backToUserPanel=function(){
+    navStack=[];
+    activePage='home';
+    originalGo('home');
+    history.replaceState({page:'home'},'',location.pathname+'#home');
+  };
+
+  window.addEventListener('popstate',function(event){
+    suppress=true;
+    if(navStack.length){
+      activePage=navStack.pop();
+    }else{
+      activePage=(event.state&&event.state.page)||location.hash.slice(1)||'home';
+    }
+    originalGo(activePage);
+    suppress=false;
+  });
+
+  window.addEventListener('load',function(){
+    const page=location.hash.slice(1);
+    if(page&&document.getElementById(page)){
+      activePage=page;
+      originalGo(page);
+    }
+    history.replaceState({page:activePage},'',location.pathname+'#'+activePage);
+  });
+})();
+</script>
