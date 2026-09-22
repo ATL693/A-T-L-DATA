@@ -1,46 +1,344 @@
-<!DOCTYPE html>
+
+<!doctype html>
+
 <html lang="en">
+
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A T L DATA | Data, Airtime & Bills</title>
-<meta name="description" content="Fast data, airtime, bills and wallet services.">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A T L DATA</title>
 <style>
-:root{--green:#087443;--dark:#063d26;--gold:#ffd700;--light:#f4f8f5;--muted:#6d7972;--border:#dce7e0}*{box-sizing:border-box;font-family:Arial,sans-serif}body{margin:0;background:var(--light);color:#17251e}button{font:inherit;cursor:pointer;border:0}button:disabled{opacity:.6;cursor:not-allowed}.site-header{position:sticky;top:0;z-index:10;background:var(--green);color:#fff}.header-inner{max-width:1100px;margin:auto;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{display:flex;align-items:center;gap:9px;cursor:pointer}.brand-logo,.auth-logo{display:grid;place-items:center;background:var(--gold);color:var(--dark);font-weight:900;border-radius:12px}.brand-logo{width:42px;height:42px}.brand-name{font-size:19px;font-weight:900}.brand-name span{color:var(--gold)}.brand-sub{font-size:9px;opacity:.8}.desktop-nav{display:flex;gap:4px}.nav-btn{background:transparent;color:#fff;padding:10px;border-radius:8px;font-weight:700}.nav-btn:hover{background:#ffffff20}.header-actions{display:flex;gap:7px}.header-btn{padding:10px 13px;border-radius:8px;font-weight:800}.login-btn{background:#fff;color:var(--green)}.register-btn{background:var(--gold);color:var(--dark)}.menu-btn{display:none;background:#ffffff20;color:#fff;padding:10px;border-radius:8px}.mobile-menu{display:none;padding:10px 18px 16px;background:var(--dark)}.mobile-menu button{display:block;width:100%;margin-top:6px;text-align:left;padding:11px;background:#ffffff14;color:#fff;border-radius:7px}.main-container{max-width:1100px;margin:auto;padding:20px}.hero{padding:45px 32px;border-radius:20px;background:linear-gradient(135deg,var(--dark),var(--green),#0ca361);color:#fff;min-height:320px}.hero h1{font-size:40px;max-width:650px}.hero h1 span{color:var(--gold)}.hero p{max-width:620px;line-height:1.6}.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}.hero-primary,.hero-secondary,.primary-button,.gold-button{padding:12px 18px;border-radius:8px;font-weight:800}.hero-primary,.gold-button{background:var(--gold);color:var(--dark)}.hero-secondary{background:#ffffff18;color:#fff;border:1px solid #ffffff66}.section{background:#fff;border:1px solid var(--border);border-radius:15px;padding:22px;margin-top:20px}.section-title{color:var(--green);font-size:22px;font-weight:900}.section-subtitle{color:var(--muted);font-size:13px;margin:5px 0 18px}.services-grid,.plans-grid,.form-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.service-card,.plan-card,.account-card{border:1px solid var(--border);border-radius:12px;padding:16px;background:#fff}.service-card h3,.plan-card h3{color:var(--green)}.service-card p,.plan-info{color:var(--muted);font-size:13px;line-height:1.5}.service-card button,.plan-btn{width:100%;margin-top:10px;padding:10px;border-radius:8px;background:#edf7f1;color:var(--green);font-weight:800}.plan-btn{background:var(--green);color:#fff}.network-selector{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:15px}.network-btn{padding:12px;border:2px solid var(--border);border-radius:8px;background:#f8fbf9;color:var(--green);font-weight:800}.network-btn.active{background:var(--green);color:#fff;border-color:var(--gold)}.plan-status,.alert{padding:12px;border-radius:8px;margin-bottom:15px}.plan-status{background:#edf7f1;color:var(--green)}.alert-success{background:#e4f7eb;color:#176c39}.alert-error{background:#fde8e8;color:#a52323}.alert-info{background:#e9f3fb;color:#175d88}.form-group{margin-bottom:10px}.form-group.full{grid-column:1/-1}.form-group label{display:block;font-size:13px;font-weight:700;margin-bottom:6px}.form-group input,.form-group select{width:100%;padding:12px;border:1px solid #cfdcd4;border-radius:8px;background:#fff}.form-message{min-height:20px;font-size:13px;margin:10px 0}.auth-wrapper{max-width:450px;margin:auto}.auth-logo{width:62px;height:62px;margin:0 auto 12px;background:var(--green);color:var(--gold)}.auth-title{text-align:center;color:var(--green);font-size:24px}.auth-subtitle{text-align:center;color:var(--muted);font-size:13px}.auth-switch{text-align:center;margin-top:15px;font-size:13px}.auth-switch button{background:none;color:var(--green);font-weight:800}.dashboard{display:none}.wallet-box{padding:24px;border-radius:15px;background:linear-gradient(135deg,var(--dark),var(--green));color:#fff}.wallet-balance{font-size:32px;font-weight:900;margin:8px 0 20px}.wallet-actions{display:flex;gap:8px;flex-wrap:wrap}.wallet-actions button{padding:11px;border-radius:8px}.empty-box{text-align:center;padding:30px;color:var(--muted);border:1px dashed #ccd9d1;border-radius:10px}footer{margin-top:25px;padding:28px;background:var(--dark);color:#fff;text-align:center}.hidden{display:none!important}@media(max-width:800px){.desktop-nav{display:none}.menu-btn{display:block}.services-grid,.plans-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.hero{padding:30px 21px}.hero h1{font-size:29px}.main-container{padding:14px}.services-grid,.plans-grid,.form-grid{grid-template-columns:1fr}.network-selector{grid-template-columns:repeat(2,1fr)}.header-btn{padding:9px 8px;font-size:12px}}
+:root{--g:#087443;--g2:#0b9b5a;--gold:#ffd700;--bg:#f5f8f6}*{box-sizing:border-box}body{margin:0;font-family:Arial;background:var(--bg);color:#14251d}button,input,select{font:inherit}button{cursor:pointer}.wrap{width:min(1150px,92%);margin:auto}header{position:sticky;top:0;z-index:20;background:#fff;box-shadow:0 3px 15px #0001}.nav{min-height:70px;display:flex;align-items:center;justify-content:space-between}.brand{font-weight:900;font-size:22px;color:var(--g)}.navlinks{display:flex;gap:5px}.navlinks button,.mobile button{background:transparent;border:0;padding:11px;border-radius:9px}.navlinks button:hover,.mobile button:hover{background:#edf6f1}.btn{border:0;padding:12px 17px;border-radius:10px;font-weight:700}.primary{background:var(--g);color:#fff}.gold{background:var(--gold)}.outline{background:#fff;border:1px solid #ccd9d2;color:var(--g)}.menu{display:none;border:0;background:#fff;font-size:25px}.mobile{display:none;border-top:1px solid #eee;padding:8px 4%}.mobile button{display:block;width:100%;text-align:left}.hero{background:linear-gradient(135deg,#063d27,#0a8750);color:#fff;padding:60px 0}.hero h1{font-size:clamp(36px,7vw,62px);margin:10px 0}.hero p{max-width:700px;line-height:1.6;font-size:18px}.actions{display:flex;gap:10px;flex-wrap:wrap}.page{display:none;padding:32px 0}.page.active{display:block}.cards,.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}.card,.plan,.form{background:#fff;border-radius:16px;padding:21px;box-shadow:0 10px 30px #0000000d}.network{padding:10px 16px;border:1px solid #ccd9d2;background:#fff;border-radius:99px}.network.active{background:var(--g);color:#fff}.plans{margin-top:20px}.plan strong,.balance{color:var(--g)}.plan strong{font-size:22px}.plan small{display:block;color:#6b7a73;margin:8px 0 14px}.form{max-width:600px}.field{margin:0 0 14px}.field label{display:block;font-weight:700;margin-bottom:6px}.field input,.field select{width:100%;padding:12px;border:1px solid #ccd9d2;border-radius:9px}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.balance{font-size:36px;font-weight:900}.message{display:none;padding:12px;border-radius:9px;margin:10px 0}.success{background:#def7e8;color:#07643b}.error{background:#ffe1e1;color:#a51b1b}.info{background:#e4f0ff;color:#175b91}.table{overflow:auto;background:#fff;border-radius:14px}.table table{width:100%;border-collapse:collapse}.table th,.table td{padding:12px;border-bottom:1px solid #eee;text-align:left}.status{padding:4px 8px;border-radius:20px;font-size:12px;font-weight:700}.pending{background:#fff1c7}.approved{background:#d9f5e5}.rejected{background:#ffe0e0}.modal{display:none;position:fixed;inset:0;background:#0008;z-index:100;align-items:center;justify-content:center;padding:15px}.modal.open{display:flex}.modalbox{background:#fff;width:min(520px,100%);max-height:90vh;overflow:auto;padding:25px;border-radius:17px;position:relative}.close{position:absolute;right:12px;top:10px;border:0;border-radius:50%;width:34px;height:34px}.tabs{display:flex;background:#edf3ef;padding:4px;border-radius:10px;margin-bottom:18px}.tabs button{flex:1;border:0;background:transparent;padding:10px;border-radius:8px}.tabs .active{background:#fff;color:var(--g);font-weight:800}.hide{display:none!important}footer{margin-top:30px;background:#062d1d;color:#fff;padding:30px;text-align:center}@media(max-width:800px){.navlinks{display:none}.menu{display:block}.mobile.open{display:block}.cards,.plans{grid-template-columns:1fr}.row{grid-template-columns:1fr}.hero{padding:45px 0}}
 </style>
 </head>
+
 <body>
-<header class="site-header"><div class="header-inner"><div class="brand" onclick="showPage('home')"><div class="brand-logo">ATL</div><div><div class="brand-name">A T L <span>DATA</span></div><div class="brand-sub">DATA • AIRTIME • BILLS</div></div></div><nav class="desktop-nav"><button type="button" class="nav-btn" onclick="showPage('home')">Home</button><button type="button" class="nav-btn" onclick="showPage('data')">Data</button><button type="button" class="nav-btn" onclick="showPage('airtime')">Airtime</button><button type="button" class="nav-btn" onclick="showPage('bills')">Bills</button><button type="button" class="nav-btn" onclick="showPage('wallet')">Wallet</button><button type="button" class="nav-btn" onclick="showPage('account')">Account</button></nav><div class="header-actions"><button type="button" id="loginButton" class="header-btn login-btn" onclick="showPage('auth');setAuthMode('login')">Login</button><button type="button" id="registerButton" class="header-btn register-btn" onclick="showPage('auth');setAuthMode('register')">Register</button><button type="button" class="menu-btn" onclick="toggleMobileMenu()">☰</button></div></div><div id="mobileMenu" class="mobile-menu"><button type="button" onclick="showPage('home');toggleMobileMenu()">Home</button><button type="button" onclick="showPage('data');toggleMobileMenu()">Buy Data</button><button type="button" onclick="showPage('airtime');toggleMobileMenu()">Airtime</button><button type="button" onclick="showPage('bills');toggleMobileMenu()">Bills</button><button type="button" onclick="showPage('wallet');toggleMobileMenu()">Wallet</button><button type="button" onclick="showPage('account');toggleMobileMenu()">Account</button></div></header>
-<main class="main-container">
-<section id="page-home"><div class="hero"><h1>Your trusted platform for <span>Data, Airtime & Bills.</span></h1><p>Fast and convenient digital services from one simple platform.</p><div class="hero-actions"><button type="button" class="hero-primary" onclick="showPage('data')">📶 Buy Data</button><button type="button" class="hero-secondary" onclick="showPage('wallet')">💰 Open Wallet</button></div></div><section class="section"><div class="section-title">Our Services</div><div class="section-subtitle">Everything you need in one place</div><div class="services-grid"><div class="service-card"><h3>📶 Data</h3><p>Affordable internet plans for every network.</p><button type="button" onclick="showPage('data')">Buy Data</button></div><div class="service-card"><h3>📱 Airtime</h3><p>Recharge your mobile line.</p><button type="button" onclick="showPage('airtime')">Buy Airtime</button></div><div class="service-card"><h3>💡 Bills</h3><p>Pay your essential bills.</p><button type="button" onclick="showPage('bills')">Pay Bills</button></div><div class="service-card"><h3>💳 Wallet</h3><p>View your wallet and dashboard.</p><button type="button" onclick="showPage('wallet')">Open Wallet</button></div></div></section></section>
-<section id="page-data" class="section hidden"><div class="section-title">Buy Data</div><div class="section-subtitle">Choose a network and plan</div><div class="network-selector"><button type="button" class="network-btn active" data-network="mtn" onclick="selectNetwork('mtn')">MTN</button><button type="button" class="network-btn" data-network="airtel" onclick="selectNetwork('airtel')">Airtel</button><button type="button" class="network-btn" data-network="glo" onclick="selectNetwork('glo')">Glo</button><button type="button" class="network-btn" data-network="9mobile" onclick="selectNetwork('9mobile')">9mobile</button></div><div id="planStatus" class="plan-status">Select a network</div><div id="plansGrid" class="plans-grid"></div></section>
-<section id="page-airtime" class="section hidden"><div class="section-title">Buy Airtime</div><div class="section-subtitle">Top up your line</div><div class="form-grid"><div class="form-group"><label>Network</label><select id="airtimeNetwork"><option value="">Select network</option><option>MTN</option><option>Airtel</option><option>Glo</option><option>9mobile</option></select></div><div class="form-group"><label>Phone</label><input id="airtimePhone" type="tel" placeholder="08031234567"></div><div class="form-group full"><label>Amount</label><input id="airtimeAmount" type="number" min="50" placeholder="500"></div></div><button type="button" class="primary-button" onclick="processAirtime()">Continue</button></section>
-<section id="page-bills" class="section hidden"><div class="section-title">Pay Bills</div><div class="section-subtitle">Pay utility bills in sandbox mode</div><div class="form-group"><label>Bill type</label><select id="billType"><option value="">Select bill type</option><option>Electricity</option><option>Education</option><option>Other Bills</option></select></div><button type="button" class="primary-button" onclick="processBill()">Continue</button></section>
-<section id="page-wallet" class="section hidden"><div class="wallet-box"><div>Available balance</div><div class="wallet-balance">₦0.00</div><div class="wallet-actions"><button type="button" class="gold-button" onclick="alert('Wallet funding will be connected soon.')">Fund Wallet</button><button type="button" class="hero-secondary" onclick="showPage('account')">Dashboard</button></div></div></section>
-<section id="page-account" class="section hidden"><div class="section-title">Dashboard</div><div class="section-subtitle">Your account remains available after refresh.</div><div id="accountArea" class="dashboard"></div><div id="loggedOutMessage" class="empty-box">Please log in or register to view your dashboard.</div></section>
-<section id="page-auth" class="section hidden"><div class="auth-wrapper"><div class="auth-logo">ATL</div><div class="auth-title" id="authTitle">Login</div><div class="auth-subtitle" id="authSubtitle">Sign in to your account</div><div id="authMessage" class="form-message"></div><div id="loginForm"><div class="form-group"><label>Email</label><input id="loginEmail" type="email" autocomplete="email"></div><div class="form-group"><label>Password</label><input id="loginPassword" type="password" autocomplete="current-password"></div><button type="button" class="primary-button" id="loginSubmit" onclick="loginUser()">Login</button><div class="auth-switch">No account? <button type="button" onclick="setAuthMode('register')">Register here</button></div></div><div id="registerForm" class="hidden"><div class="form-group"><label>Full name</label><input id="registerName" type="text" autocomplete="name"></div><div class="form-group"><label>Email</label><input id="registerEmail" type="email" autocomplete="email"></div><div class="form-group"><label>Password</label><input id="registerPassword" type="password" autocomplete="new-password"></div><button type="button" class="gold-button" onclick="registerUser()">Create Account & Send Email</button><div class="auth-switch">Already registered? <button type="button" onclick="setAuthMode('login')">Login here</button></div></div></div></section>
-</main><footer>A T L DATA • Data • Airtime • Bills • Wallet</footer>
-<script src="https://www.gstatic.com/firebasejs/12.2.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/12.2.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore-compat.js"></script>
-<script>
-const firebaseConfig={apiKey:'AIzaSyA_x5ZYj7D5Dt_9Bq-NzlchpRPRd3QN21I',authDomain:'a-t-l-data.firebaseapp.com',projectId:'a-t-l-data',storageBucket:'a-t-l-data.firebasestorage.app',messagingSenderId:'519558305824',appId:'1:519558305824:web:cf6dd75ef20ef708c24445'};
-const WORKER='https://broad-thunder-82c2.lawanahmadt03.workers.dev';let auth=null,db=null,currentUser=null;
-try{firebase.initializeApp(firebaseConfig);auth=firebase.auth();db=firebase.firestore();auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)}catch(error){console.error('Firebase failed to start:',error)}
-const $=id=>document.getElementById(id);
-function message(text,type='info'){const box=$('authMessage');box.textContent=text;box.className='form-message alert alert-'+type}
-function showPage(page){document.querySelectorAll('[id^="page-"]').forEach(x=>x.classList.add('hidden'));const target=$('page-'+page);if(target)target.classList.remove('hidden');if(page==='data')loadPlans('mtn');if(page==='account')renderDashboard();window.scrollTo({top:0,behavior:'smooth'})}
-function toggleMobileMenu(){const menu=$('mobileMenu');menu.style.display=menu.style.display==='block'?'none':'block'}
-function setAuthMode(mode){const register=mode==='register';$('loginForm').classList.toggle('hidden',register);$('registerForm').classList.toggle('hidden',!register);$('authTitle').textContent=register?'Create Account':'Login';$('authSubtitle').textContent=register?'Register and receive a verification email':'Sign in to your account';$('authMessage').textContent='';$('authMessage').className='form-message'}
-function renderDashboard(){if(!currentUser)return;$('loggedOutMessage').classList.add('hidden');$('accountArea').classList.remove('hidden');$('accountArea').innerHTML='<div class="account-card"><small>Name</small><strong>'+escapeHtml(currentUser.displayName||'Customer')+'</strong><small>Email</small><strong>'+escapeHtml(currentUser.email||'')+'</strong><p>'+ (currentUser.emailVerified?'Email verified':'Verification email sent — please check your inbox.')+'</p><button type="button" class="primary-button" onclick="logoutUser()">Log out</button></div>'}
-function escapeHtml(value){return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
-async function registerUser(){if(!auth)return message('Authentication is unavailable. Check Firebase configuration.','error');const name=$('registerName').value.trim(),email=$('registerEmail').value.trim(),password=$('registerPassword').value;if(!name||!email||password.length<6)return message('Enter your name, a valid email, and a password of at least 6 characters.','error');try{const result=await auth.createUserWithEmailAndPassword(email,password);await result.user.updateProfile({displayName:name});if(db)await db.collection('users').doc(result.user.uid).set({uid:result.user.uid,name,email,walletBalance:0,createdAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});await result.user.sendEmailVerification();message('Account created. A verification email was sent to '+email+'.','success');setTimeout(()=>showPage('account'),900)}catch(error){message(error.message,'error')}}
-async function loginUser(){if(!auth)return message('Authentication is unavailable.','error');const email=$('loginEmail').value.trim(),password=$('loginPassword').value;if(!email||!password)return message('Enter your email and password.','error');try{await auth.signInWithEmailAndPassword(email,password);message('Login successful.','success');setTimeout(()=>showPage('account'),300)}catch(error){message(error.message,'error')}}
-async function logoutUser(){if(auth)await auth.signOut();showPage('home')}
-async function loadPlans(network){const status=$('planStatus'),grid=$('plansGrid');if(!status||!grid)return;document.querySelectorAll('.network-btn').forEach(b=>b.classList.toggle('active',b.dataset.network===network));status.textContent='Loading available plans…';grid.innerHTML='<div class="empty-box">Loading plans…</div>';try{const response=await fetch(WORKER+'/test-plans/'+encodeURIComponent(network));if(!response.ok)throw new Error('Worker returned '+response.status);const data=await response.json();const plans=data.plans?.data||data.data||[];if(!Array.isArray(plans)||!plans.length){status.textContent='No plans available';grid.innerHTML='<div class="empty-box">No plans returned for this network.</div>';return}status.textContent='Available plans for '+network.toUpperCase();grid.innerHTML=plans.map(plan=>{const name=escapeHtml(plan.plan_name||plan.name||plan.size||'Data Plan'),price=Number(plan.price||0),validity=escapeHtml(plan.validity||plan.duration||'Available');return '<div class="plan-card"><h3>'+name+'</h3><div class="plan-info">'+validity+'</div><div class="plan-price">₦'+price.toLocaleString('en-NG')+'</div><button type="button" class="plan-btn" onclick="alert(\'Selected '+name+'\')">Select Plan</button></div>'}).join('')}catch(error){console.error(error);status.textContent='Unable to load plans';grid.innerHTML='<div class="empty-box">Plans could not be loaded. Please try again.</div>'}}
-function selectNetwork(network){loadPlans(network)}
-function processAirtime(){alert('Airtime request recorded in sandbox mode.')}
-function processBill(){alert($('billType').value?'Bill request recorded in sandbox mode.':'Select a bill type first.')}
-if(auth){auth.onAuthStateChanged(user=>{currentUser=user;if(user){$('loginButton').textContent='Dashboard';$('registerButton').style.display='none';renderDashboard()}else{$('loginButton').textContent='Login';$('registerButton').style.display='block';$('accountArea').classList.add('hidden');$('loggedOutMessage').classList.remove('hidden')}})}
-window.addEventListener('DOMContentLoaded',()=>{showPage('home');loadPlans('mtn')});
+
+
+<header>
+<div class="wrap nav">
+<div class="brand">A T L DATA</div>
+<nav class="navlinks">
+<button onclick="showPage('home')">Home</button>
+<button onclick="showPage('data')">Data</button>
+<button onclick="showPage('airtime')">Airtime</button>
+<button onclick="showPage('bills')">Bills</button>
+<button onclick="showPage('wallet')">Wallet</button>
+<button onclick="showPage('transactions')">Transactions</button>
+<button onclick="showPage('account')">Account</button>
+<button id="adminNav" class="hide" onclick="showPage('admin')">Admin</button>
+<button id="loginNav" class="outline btn" onclick="openAuth('login')">Login</button>
+<button id="registerNav" class="primary btn" onclick="openAuth('register')">Register</button>
+<button id="logoutNav" class="outline btn hide" onclick="logoutUser()">Logout</button>
+</nav>
+<button class="menu" onclick="toggleMenu()">☰</button>
+</div>
+<div id="mobileMenu" class="mobile">
+<button onclick="showPage('home');toggleMenu()">🏠 Home</button>
+<button onclick="showPage('data');toggleMenu()">📶 Data</button>
+<button onclick="showPage('airtime');toggleMenu()">📱 Airtime</button>
+<button onclick="showPage('bills');toggleMenu()">🧾 Bills</button>
+<button onclick="showPage('wallet');toggleMenu()">💳 Wallet</button>
+<button onclick="showPage('transactions');toggleMenu()">Transactions</button>
+<button onclick="showPage('account');toggleMenu()">Account</button>
+<button id="mobileAdmin" class="hide" onclick="showPage('admin');toggleMenu()">Admin</button>
+<button id="mobileAuth" onclick="openAuth('login');toggleMenu()">Login / Register</button>
+<button id="mobileLogout" class="hide" onclick="logoutUser();toggleMenu()">Logout</button>
+</div>
+</header>
+
+
+<main>
+
+<section id="home" class="page active">
+<div class="hero">
+<div class="wrap">
+<p>WELCOME TO</p>
+<h1>A T L DATA</h1>
+<p>Data, airtime, bills and wallet services in one clean dashboard.</p>
+<div class="actions">
+<button class="btn gold" onclick="showPage('data')">Buy Data</button>
+<button class="btn outline" onclick="openAuth('register')">Create Account</button>
+</div>
+</div>
+</div>
+<div class="wrap">
+<div class="cards">
+<div class="card">
+<h3>📶 Data</h3>
+<p>MTN, Airtel, Glo and 9mobile.</p>
+<button class="btn primary" onclick="showPage('data')">Open Data</button>
+</div>
+<div class="card">
+<h3>💳 Wallet</h3>
+<p>Request a deposit and track approval.</p>
+<button class="btn primary" onclick="showPage('wallet')">Open Wallet</button>
+</div>
+<div class="card">
+<h3>🧾 History</h3>
+<p>View account transactions.</p>
+<button class="btn primary" onclick="showPage('transactions')">Open History</button>
+</div>
+</div>
+</div>
+</section>
+<section id="data" class="page">
+<div class="wrap">
+<h2>📶 Data Plans</h2>
+<p>Plans are loaded from the Cloudflare Worker. Purchases are sandbox-only.</p>
+<div>
+<button class="network active" data-n="mtn" onclick="selectNetwork('mtn')">MTN</button> <button class="network" data-n="airtel" onclick="selectNetwork('airtel')">Airtel</button> <button class="network" data-n="glo" onclick="selectNetwork('glo')">Glo</button> <button class="network" data-n="9mobile" onclick="selectNetwork('9mobile')">9mobile</button>
+</div>
+<div id="dataMessage" class="message">
+</div>
+<div id="plans" class="plans">
+</div>
+</div>
+</section>
+<section id="airtime" class="page">
+<div class="wrap">
+<h2>📱 Airtime</h2>
+<div class="form">
+<div class="message info" style="display:block">Sandbox mode — no real airtime will be sent.</div>
+<div class="field">
+<label>Network</label>
+<select id="airNetwork">
+<option>MTN</option>
+<option>Airtel</option>
+<option>Glo</option>
+<option>9mobile</option>
+</select>
+</div>
+<div class="field">
+<label>Phone</label>
+<input id="airPhone" inputmode="numeric">
+</div>
+<div class="field">
+<label>Amount</label>
+<input id="airAmount" type="number">
+</div>
+<button class="btn primary" onclick="testAirtime()">Continue</button>
+<div id="airMsg" class="message">
+</div>
+</div>
+</div>
+</section>
+<section id="bills" class="page">
+<div class="wrap">
+<h2>🧾 Pay Bills</h2>
+<div class="cards">
+<div class="card">
+<h3>💡 Electricity</h3>
+<button class="btn primary" onclick="openBill('Electricity')">Open</button>
+</div>
+<div class="card">
+<h3>📺 Cable TV</h3>
+<button class="btn primary" onclick="openBill('Cable TV')">Open</button>
+</div>
+<div class="card">
+<h3>🎓 Education</h3>
+<button class="btn primary" onclick="openBill('Education')">Open</button>
+</div>
+<div class="card">
+<h3>🌐 Internet</h3>
+<button class="btn primary" onclick="openBill('Internet')">Open</button>
+</div>
+</div>
+</div>
+</section>
+<section id="wallet" class="page">
+<div class="wrap">
+<h2>💳 Wallet</h2>
+<div class="card">
+<p>Available balance</p>
+<div id="walletBalance" class="balance">₦0.00</div>
+<button class="btn primary" onclick="openDeposit()">Fund Wallet</button>
+</div>
+</div>
+</section>
+<section id="transactions" class="page">
+<div class="wrap">
+<h2>🧾 Transactions</h2>
+<div id="transactionsArea">
+</div>
+</div>
+</section>
+<section id="account" class="page">
+<div class="wrap">
+<h2>👤 My Account</h2>
+<div id="accountArea" class="card">
+</div>
+</div>
+</section>
+<section id="admin" class="page">
+<div class="wrap">
+<h2>⚙️ Admin Panel</h2>
+<div id="adminArea">
+</div>
+</div>
+</section>
+</main>
+
+
+<footer>
+A T L DATA • Data • Airtime • Bills • Wallet
+</footer>
+
+<div id="authModal" class="modal">
+<div class="modalbox">
+<button class="close" onclick="closeAuth()">×</button>
+<div class="tabs">
+<button id="loginTab" class="active" onclick="authMode('login')">Login</button>
+<button id="registerTab" onclick="authMode('register')">Register</button>
+</div>
+<div id="authMsg" class="message">
+</div>
+<div id="loginForm">
+<div class="field">
+<label>Email</label>
+<input id="loginEmail" type="email">
+</div>
+<div class="field">
+<label>Password</label>
+<input id="loginPassword" type="password">
+</div>
+<button class="btn primary" style="width:100%" onclick="loginUser()">Login</button>
+</div>
+<div id="registerForm" class="hide">
+<div class="field">
+<label>Full Name</label>
+<input id="regName">
+</div>
+<div class="field">
+<label>Email</label>
+<input id="regEmail" type="email">
+</div>
+<div class="field">
+<label>Password</label>
+<input id="regPassword" type="password">
+</div>
+<button class="btn primary" style="width:100%" onclick="registerUser()">Create Account</button>
+</div>
+</div>
+</div>
+<div id="depositModal" class="modal">
+<div class="modalbox">
+<button class="close" onclick="closeDeposit()">×</button>
+<h2>Fund Wallet</h2>
+<div class="card">Bank: PalmPay<br>Account Name: A T L Data<br>Account Number: 7073160817</div>
+<div id="depMsg" class="message">
+</div>
+<div class="field">
+<label>Amount</label>
+<input id="depAmount" type="number" min="100">
+</div>
+<div class="field">
+<label>Reference</label>
+<input id="depRef">
+</div>
+<button class="btn primary" onclick="submitDeposit()">Submit Request</button>
+</div>
+</div>
+<div id="planModal" class="modal">
+<div class="modalbox">
+<button class="close" onclick="closePlan()">×</button>
+<h2 id="planName">
+</h2>
+<p id="planInfo">
+</p>
+<div class="message info" style="display:block">Sandbox mode — no real purchase will be made.</div>
+<button class="btn primary" onclick="confirmPlan()">Confirm Test Selection</button>
+</div>
+</div>
+<div id="billModal" class="modal">
+<div class="modalbox">
+<button class="close" onclick="closeBill()">×</button>
+<h2 id="billTitle">
+</h2>
+<div id="billForm">
+</div>
+<div id="billMsg" class="message">
+</div>
+</div>
+</div>
+<script src="https://www.gstatic.com/firebasejs/12.2.1/firebase-app-compat.js">
 </script>
+<script src="https://www.gstatic.com/firebasejs/12.2.1/firebase-auth-compat.js">
+</script>
+<script src="https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore-compat.js">
+</script>
+
+
+<script>
+
+const firebaseConfig={apiKey:"AIzaSyA_x5ZYj7D5Dt_9Bq-NzlchpRPRd3QN21I",authDomain:"a-t-l-data.firebaseapp.com",projectId:"a-t-l-data",storageBucket:"a-t-l-data.firebasestorage.app",messagingSenderId:"519558305824",appId:"1:519558305824:web:cf6dd75ef20ef708c24445"};
+const ADMIN="lawanahmadt03@gmail.com",WORKER="https://broad-thunder-82c2.lawanahmadt03.workers.dev";let auth,db,user=null,network="mtn",chosen=null;
+try{firebase.initializeApp(firebaseConfig);auth=firebase.auth();db=firebase.firestore()}catch(e){console.error(e)}
+const $=id=>document.getElementById(id),money=n=>"₦"+Number(n||0).toLocaleString("en-NG",{minimumFractionDigits:2}),esc=s=>String(s??"").replace(/[&<>"']/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[x]));
+function showPage(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));if($(id))$(id).classList.add('active');window.scrollTo(0,0);if(id==='data')loadPlans(network);if(id==='transactions')loadTransactions();if(id==='account')renderAccount();if(id==='admin')loadAdmin()}
+function toggleMenu(){$('mobileMenu').classList.toggle('open')}
+function openAuth(m='login'){$('authModal').classList.add('open');authMode(m)}function closeAuth(){$('authModal').classList.remove('open')}
+function authMode(m){$('loginForm').classList.toggle('hide',m!=='login');$('registerForm').classList.toggle('hide',m!=='register');$('loginTab').classList.toggle('active',m==='login');$('registerTab').classList.toggle('active',m==='register');$('authMsg').style.display='none'}
+function message(id,text,type){$(id).textContent=text;$(id).className='message '+type;$(id).style.display='block'}
+async function registerUser(){try{const n=$('regName').value.trim(),e=$('regEmail').value.trim(),p=$('regPassword').value;if(!n||!e||p.length<6)return message('authMsg','Enter name, valid email and password of at least 6 characters.','error');const c=await auth.createUserWithEmailAndPassword(e,p);await c.user.updateProfile({displayName:n});await db.collection('users').doc(c.user.uid).set({uid:c.user.uid,name:n,email:e,balance:0,createdAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});await c.user.sendEmailVerification();message('authMsg','Account created. Verification email sent.','success');setTimeout(()=>{closeAuth();showPage('account')},800)}catch(e){message('authMsg',e.message,'error')}}
+async function loginUser(){try{await auth.signInWithEmailAndPassword($('loginEmail').value.trim(),$('loginPassword').value);closeAuth();showPage('account')}catch(e){message('authMsg',e.message,'error')}}async function logoutUser(){await auth.signOut();showPage('home')}
+if(auth)auth.onAuthStateChanged(async u=>{user=u;const on=!!u,admin=on&&u.email.toLowerCase()===ADMIN.toLowerCase();$('loginNav').classList.toggle('hide',on);$('registerNav').classList.toggle('hide',on);$('logoutNav').classList.toggle('hide',!on);$('mobileAuth').classList.toggle('hide',on);$('mobileLogout').classList.toggle('hide',!on);$('adminNav').classList.toggle('hide',!admin);$('mobileAdmin').classList.toggle('hide',!admin);if(on){const r=db.collection('users').doc(u.uid),s=await r.get();if(!s.exists)await r.set({uid:u.uid,email:u.email,name:u.displayName||'',balance:0},{merge:true});loadWallet();renderAccount()}else{$('walletBalance').textContent=money(0);renderAccount()}});
+async function loadWallet(){if(!user)return;const s=await db.collection('users').doc(user.uid).get();$('walletBalance').textContent=money(s.exists?s.data().balance:0)}
+function renderAccount(){if(!user){$('accountArea').innerHTML='<h3>Login required</h3>
+<button class="btn primary" onclick="openAuth(\'login\')">Login</button>';return}$('accountArea').innerHTML='<h3>'+esc(user.displayName||'A T L DATA User')+'</h3>
+<p>'+esc(user.email)+'</p>
+<p>Email verified: <b>'+ (user.emailVerified?'Yes':'No')+'</b>
+</p>
+<button class="btn outline" onclick="resendVerify()">Resend verification</button>'}async function resendVerify(){try{await user.sendEmailVerification();alert('Verification email sent.')}catch(e){alert(e.message)}}
+function openDeposit(){if(!user)return openAuth('login');$('depositModal').classList.add('open')}function closeDeposit(){$('depositModal').classList.remove('open')}async function submitDeposit(){const a=Number($('depAmount').value),r=$('depRef').value.trim();if(!a||a<100)return message('depMsg','Minimum deposit is ₦100.','error');try{await db.collection('deposits').add({uid:user.uid,userEmail:user.email,userName:user.displayName||'',amount:a,reference:r,status:'pending',bank:'PalmPay',accountName:'A T L Data',accountNumber:'7073160817',createdAt:firebase.firestore.FieldValue.serverTimestamp()});message('depMsg','Deposit request submitted. Wait for admin approval.','success')}catch(e){message('depMsg',e.message,'error')}}
+async function loadTransactions(){if(!user)return $('transactionsArea').innerHTML='<div class="card">Login to view transactions.</div>';const s=await db.collection('transactions').where('uid','==',user.uid).get();let a=[];s.forEach(d=>a.push(d.data()));$('transactionsArea').innerHTML=a.length?'<div class="table">
+<table>
+<tr>
+<th>Service</th>
+<th>Amount</th>
+<th>Status</th>
+</tr>'+a.map(x=>'<tr>
+<td>'+esc(x.service||'Transaction')+'</td>
+<td>'+money(x.amount)+'</td>
+<td>'+esc(x.status||'pending')+'</td>
+</tr>').join('')+'</table>
+</div>':'<div class="card">No transactions yet.</div>'}
+async function loadAdmin(){if(!user||user.email.toLowerCase()!==ADMIN.toLowerCase())return $('adminArea').innerHTML='<div class="card">Admin access required.</div>';const s=await db.collection('deposits').get();let a=[];s.forEach(d=>a.push({id:d.id,...d.data()}));$('adminArea').innerHTML='<div class="table">
+<table>
+<tr>
+<th>User</th>
+<th>Amount</th>
+<th>Status</th>
+<th>Action</th>
+</tr>'+a.map(x=>'<tr>
+<td>'+esc(x.userEmail)+'</td>
+<td>'+money(x.amount)+'</td>
+<td>'+esc(x.status)+'</td>
+<td>'+ (x.status==='pending'?'<button class="btn primary" onclick="approveDeposit(\''+x.id+'\')">Approve</button> <button class="btn outline" onclick="rejectDeposit(\''+x.id+'\')">Reject</button>':'—')+'</td>
+</tr>').join('')+'</table>
+</div>'}
+async function approveDeposit(id){if(!user||user.email.toLowerCase()!==ADMIN.toLowerCase())return;try{await db.runTransaction(async t=>{const dr=db.collection('deposits').doc(id),ds=await t.get(dr);if(!ds.exists||ds.data().status!=='pending')throw Error('Deposit is no longer pending');const d=ds.data(),ur=db.collection('users').doc(d.uid),us=await t.get(ur),bal=(us.exists?Number(us.data().balance||0):0)+Number(d.amount||0);t.set(ur,{balance:bal},{merge:true});t.update(dr,{status:'approved',approvedAt:firebase.firestore.FieldValue.serverTimestamp(),approvedBy:user.email});t.set(db.collection('transactions').doc(),{uid:d.uid,service:'Wallet Deposit',amount:Number(d.amount||0),balanceAfter:bal,status:'approved',depositId:id,createdAt:firebase.firestore.FieldValue.serverTimestamp()})});alert('Deposit approved');loadAdmin()}catch(e){alert(e.message)}}async function rejectDeposit(id){await db.collection('deposits').doc(id).update({status:'rejected',rejectedAt:firebase.firestore.FieldValue.serverTimestamp(),rejectedBy:user.email});loadAdmin()}
+async function loadPlans(n){network=n;document.querySelectorAll('.network').forEach(x=>x.classList.toggle('active',x.dataset.n===n));$('plans').innerHTML='<div class="card">Loading plans…</div>';try{const r=await fetch(WORKER+'/test-plans/'+encodeURIComponent(n)),d=await r.json();let p=d.plans?.data||d.data||[];if(!Array.isArray(p))p=[];if(!p.length)return $('plans').innerHTML='<div class="card">No plans returned.</div>';$('plans').innerHTML=p.map(x=>'<div class="plan">
+<h3>'+esc(x.plan_name||x.name||x.size||'Data Plan')+'</h3>
+<strong>'+money(x.price)+'</strong>
+<small>'+esc(x.validity||x.duration||'Available plan')+'</small>
+<button class="btn primary" onclick=\'openPlan('+JSON.stringify(x).replace(/'/g,"&#39;")+')\'>Select Plan</button>
+</div>').join('')}catch(e){$('plans').innerHTML='<div class="message error" style="display:block">Worker request failed. Check the Worker URL.</div>';console.error(e)}}function selectNetwork(n){loadPlans(n)}function openPlan(p){chosen=p;$('planName').textContent=p.plan_name||p.name||p.size||'Data Plan';$('planInfo').textContent='Price: '+money(p.price||0)+' • '+(p.validity||p.duration||'Plan');$('planModal').classList.add('open')}function closePlan(){$('planModal').classList.remove('open')}function confirmPlan(){closePlan();alert('Test selection confirmed. No real purchase was made.')}
+function testAirtime(){const p=$('airPhone').value.trim(),a=Number($('airAmount').value);if(!/^0\d{10}$/.test(p)||a<50)return message('airMsg','Enter a valid 11-digit phone number and amount ≥ ₦50.','error');message('airMsg','Sandbox selection accepted. No real airtime was sent.','success')}
+function openBill(t){$('billTitle').textContent=t;$('billForm').innerHTML='<div class="field">
+<label>Phone / Meter / Smartcard</label>
+<input id="billNo">
+</div>
+<div class="field">
+<label>Amount</label>
+<input id="billAmt" type="number">
+</div>
+<button class="btn primary" onclick="submitBill()">Continue</button>';$('billModal').classList.add('open')}function closeBill(){$('billModal').classList.remove('open')}function submitBill(){message('billMsg','Sandbox mode: this bill service is ready for testing, but real payment is not enabled yet.','info')}
+document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open')}));document.addEventListener('DOMContentLoaded',()=>loadPlans('mtn'));
+
+</script>
+
 </body>
+
 </html>
+
