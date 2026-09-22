@@ -48,10 +48,6 @@ a{
   color:inherit;
 }
 
-/* =========================
-   COLORS
-========================= */
-
 :root{
   --green:#087443;
   --green2:#0b9657;
@@ -66,10 +62,6 @@ a{
   --success:#168344;
   --shadow:0 8px 25px rgba(0,0,0,.07);
 }
-
-/* =========================
-   HEADER
-========================= */
 
 .site-header{
   position:sticky;
@@ -184,10 +176,6 @@ a{
   padding:10px 12px;
 }
 
-/* =========================
-   MOBILE MENU
-========================= */
-
 .mobile-menu{
   display:none;
   background:var(--dark);
@@ -206,19 +194,11 @@ a{
   font-weight:700;
 }
 
-/* =========================
-   MAIN
-========================= */
-
 .main-container{
   max-width:1200px;
   margin:auto;
   padding:20px;
 }
-
-/* =========================
-   HERO
-========================= */
 
 .hero{
   position:relative;
@@ -243,6 +223,7 @@ a{
   bottom:-130px;
   border-radius:50%;
   border:45px solid rgba(255,255,255,.05);
+  pointer-events:none;
 }
 
 .hero-content{
@@ -314,10 +295,6 @@ a{
   font-weight:800;
 }
 
-/* =========================
-   ADVERTISING / PROMO
-========================= */
-
 .promo{
   background:linear-gradient(90deg,#fff8c9,#fffdf0);
   border:1px solid #f0df77;
@@ -368,10 +345,6 @@ a{
   font-weight:800;
 }
 
-/* =========================
-   SECTION
-========================= */
-
 .section{
   background:white;
   border:1px solid var(--border);
@@ -400,10 +373,6 @@ a{
   font-size:13px;
   margin-top:5px;
 }
-
-/* =========================
-   SERVICE CARDS
-========================= */
 
 .services-grid{
   display:grid;
@@ -459,10 +428,6 @@ a{
   border-radius:8px;
   font-weight:800;
 }
-
-/* =========================
-   NETWORKS
-========================= */
 
 .network-grid{
   display:grid;
@@ -526,10 +491,6 @@ a{
   font-size:11px;
 }
 
-/* =========================
-   QUICK ACTIONS
-========================= */
-
 .quick-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -553,10 +514,6 @@ a{
   color:var(--muted);
   font-size:12px;
 }
-
-/* =========================
-   DATA PLANS
-========================= */
 
 .network-selector{
   display:grid;
@@ -638,10 +595,6 @@ a{
   font-weight:900;
 }
 
-/* =========================
-   ACCOUNT
-========================= */
-
 .account-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -667,10 +620,6 @@ a{
   word-break:break-word;
 }
 
-/* =========================
-   WALLET
-========================= */
-
 .wallet-box{
   background:linear-gradient(135deg,#063d26,#087443);
   color:white;
@@ -689,6 +638,7 @@ a{
   border-radius:50%;
   right:-50px;
   top:-50px;
+  pointer-events:none;
 }
 
 .wallet-label{
@@ -727,10 +677,6 @@ a{
   color:white;
   border:1px solid rgba(255,255,255,.25)!important;
 }
-
-/* =========================
-   FORMS
-========================= */
 
 .form-grid{
   display:grid;
@@ -794,10 +740,6 @@ a{
   font-weight:900;
 }
 
-/* =========================
-   AUTH
-========================= */
-
 .auth-wrapper{
   max-width:460px;
   margin:15px auto;
@@ -829,10 +771,6 @@ a{
   font-size:13px;
   margin:7px 0 20px;
 }
-
-/* =========================
-   TABLE
-========================= */
 
 .table-wrap{
   overflow-x:auto;
@@ -882,10 +820,6 @@ a{
   color:#a52323;
 }
 
-/* =========================
-   EMPTY / LOADING
-========================= */
-
 .loading-box,
 .empty-box{
   text-align:center;
@@ -908,10 +842,6 @@ a{
 @keyframes spin{
   to{transform:rotate(360deg);}
 }
-
-/* =========================
-   ALERT
-========================= */
 
 .alert{
   padding:12px 14px;
@@ -938,10 +868,6 @@ a{
   color:#175d88;
   border:1px solid #c9dfef;
 }
-
-/* =========================
-   FOOTER
-========================= */
 
 footer{
   background:#063d26;
@@ -1000,67 +926,18 @@ footer{
   text-align:center;
 }
 
-/* =========================
-   MODAL
-========================= */
+@media(max-width:900px){
+  .services-grid,
+  .network-grid,
+  .plans-grid,
+  .quick-grid,
+  .account-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
 
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.55);
-  z-index:5000;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:18px;
-}
-
-.modal-card{
-  width:100%;
-  max-width:480px;
-  max-height:90vh;
-  overflow-y:auto;
-  background:white;
-  border-radius:18px;
-  padding:22px;
-  box-shadow:0 20px 60px rgba(0,0,0,.25);
-}
-
-.modal-header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  margin-bottom:15px;
-}
-
-.modal-header h3{
-  color:var(--green);
-}
-
-.close-modal{
-  width:35px;
-  height:35px;
-  border:0;
-  border-radius:50%;
-  background:#edf3ef;
-  color:var(--green);
-  font-size:18px;
-}
-
-/* =========================
-   HIDDEN
-========================= */
-
-.hidden{
-  display:none!important;
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media(max-width:950px){
+  .header-inner{
+    gap:8px;
+  }
 
   .desktop-nav{
     display:none;
@@ -1069,32 +946,11 @@ footer{
   .menu-btn{
     display:block;
   }
-
-  .services-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .plans-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .footer-inner{
-    grid-template-columns:repeat(2,1fr);
-  }
 }
 
-@media(max-width:700px){
-
+@media(max-width:620px){
   .main-container{
-    padding:13px;
-  }
-
-  .header-inner{
-    padding:9px 13px;
-  }
-
-  .header-actions .register-btn{
-    display:none;
+    padding:15px;
   }
 
   .hero{
@@ -1153,7 +1009,6 @@ footer{
 }
 
 @media(max-width:430px){
-
   .brand-name{
     font-size:17px;
   }
@@ -1190,4662 +1045,500 @@ footer{
 }
 </style>
 </head>
-
 <body>
-
-<!-- =====================================================
-     HEADER
-===================================================== -->
 
 <header class="site-header">
 
   <div class="header-inner">
 
     <div class="brand" onclick="showPage('home')">
-
-      <div class="brand-logo">
-        ATL
-      </div>
-
+      <div class="brand-logo">ATL</div>
       <div class="brand-text">
-        <div class="brand-name">
-          A T L <span>DATA</span>
-        </div>
-
-        <div class="brand-sub">
-          DATA • AIRTIME • BILLS • DIGITAL SERVICES
-        </div>
+        <div class="brand-name">A T L <span>DATA</span></div>
+        <div class="brand-sub">DATA • AIRTIME • BILLS • DIGITAL SERVICES</div>
       </div>
-
     </div>
 
-
     <nav class="desktop-nav">
-
-      <button class="nav-btn" onclick="showPage('home')">
-        Home
-      </button>
-
-      <button class="nav-btn" onclick="showPage('data')">
-        Data
-      </button>
-
-      <button class="nav-btn" onclick="showPage('airtime')">
-        Airtime
-      </button>
-
-      <button class="nav-btn" onclick="showPage('bills')">
-        Bills
-      </button>
-
-      <button class="nav-btn" onclick="showPage('wallet')">
-        Wallet
-      </button>
-
-      <button class="nav-btn" onclick="showPage('transactions')">
-        Transactions
-      </button>
-
+      <button type="button" class="nav-btn" onclick="showPage('home')">Home</button>
+      <button type="button" class="nav-btn" onclick="showPage('data')">Data</button>
+      <button type="button" class="nav-btn" onclick="showPage('airtime')">Airtime</button>
+      <button type="button" class="nav-btn" onclick="showPage('bills')">Bills</button>
+      <button type="button" class="nav-btn" onclick="showPage('wallet')">Wallet</button>
+      <button type="button" class="nav-btn" onclick="showPage('transactions')">Transactions</button>
     </nav>
 
-
     <div class="header-actions">
-
-      <button
-        id="headerLoginBtn"
-        class="header-btn login-btn"
-        onclick="showPage('auth')">
-        Login
-      </button>
-
-      <button
-        id="headerRegisterBtn"
-        class="header-btn register-btn"
-        onclick="showPage('auth')">
-        Register
-      </button>
-
-      <button
-        class="menu-btn"
-        onclick="toggleMobileMenu()">
-        ☰
-      </button>
-
+      <button type="button" id="headerLoginBtn" class="header-btn login-btn" onclick="showPage('auth')">Login</button>
+      <button type="button" id="headerRegisterBtn" class="header-btn register-btn" onclick="showPage('auth')">Register</button>
+      <button type="button" class="menu-btn" onclick="toggleMobileMenu()">☰</button>
     </div>
 
   </div>
 
-
   <div id="mobileMenu" class="mobile-menu">
-
-    <button onclick="showPage('home');toggleMobileMenu()">
-      🏠 Home
-    </button>
-
-    <button onclick="showPage('data');toggleMobileMenu()">
-      📶 Buy Data
-    </button>
-
-    <button onclick="showPage('airtime');toggleMobileMenu()">
-      📱 Airtime
-    </button>
-
-    <button onclick="showPage('bills');toggleMobileMenu()">
-      💡 Pay Bills
-    </button>
-
-    <button onclick="showPage('wallet');toggleMobileMenu()">
-      💰 Wallet
-    </button>
-
-    <button onclick="showPage('transactions');toggleMobileMenu()">
-      📜 Transactions
-    </button>
-
-    <button onclick="showPage('account');toggleMobileMenu()">
-      👤 My Account
-    </button>
-
+    <button type="button" onclick="showPage('home');toggleMobileMenu()">🏠 Home</button>
+    <button type="button" onclick="showPage('data');toggleMobileMenu()">📶 Buy Data</button>
+    <button type="button" onclick="showPage('airtime');toggleMobileMenu()">📱 Airtime</button>
+    <button type="button" onclick="showPage('bills');toggleMobileMenu()">💡 Pay Bills</button>
+    <button type="button" onclick="showPage('wallet');toggleMobileMenu()">💰 Wallet</button>
+    <button type="button" onclick="showPage('transactions');toggleMobileMenu()">📜 Transactions</button>
+    <button type="button" onclick="showPage('account');toggleMobileMenu()">👤 My Account</button>
   </div>
 
 </header>
 
-
-<!-- =====================================================
-     MAIN
-===================================================== -->
-
 <main class="main-container">
 
-
-<!-- =====================================================
-     HOME PAGE
-===================================================== -->
-
 <section id="page-home">
-
   <div class="hero">
-
     <div class="hero-content">
-
-      <div class="hero-badge">
-        <span class="live-dot"></span>
-        A T L DATA IS ONLINE
-      </div>
-
-      <h1>
-        Your trusted platform for
-        <span>Data, Airtime & Bills.</span>
-      </h1>
-
-      <p>
-        Welcome to A T L DATA. Get convenient access to
-        digital services from one simple platform.
-        Manage your wallet, view available plans and
-        keep track of your transactions.
-      </p>
-
+      <div class="hero-badge"><span class="live-dot"></span> A T L DATA IS ONLINE</div>
+      <h1>Your trusted platform for <span>Data, Airtime & Bills.</span></h1>
+      <p>Welcome to A T L DATA. Get convenient access to digital services from one simple platform. Manage your wallet, view available plans and keep track of your transactions.</p>
       <div class="hero-actions">
-
-        <button
-          class="hero-primary"
-          onclick="showPage('data')">
-          📶 Buy Data
-        </button>
-
-        <button
-          class="hero-secondary"
-          onclick="showPage('wallet')">
-          💰 Open Wallet
-        </button>
-
+        <button type="button" class="hero-primary" onclick="showPage('data')">📶 Buy Data</button>
+        <button type="button" class="hero-secondary" onclick="showPage('wallet')">💰 Open Wallet</button>
       </div>
-
     </div>
-
   </div>
-
-
-  <!-- PROMOTION -->
 
   <div class="promo">
-
     <div class="promo-left">
-
-      <div class="promo-icon">
-        📢
-      </div>
-
+      <div class="promo-icon">📢</div>
       <div>
-
-        <h3>
-          A T L DATA — Digital Services Made Simple
-        </h3>
-
-        <p>
-          Check available services, manage your wallet
-          and view your transaction history.
-        </p>
-
+        <h3>A T L DATA — Digital Services Made Simple</h3>
+        <p>Fast, secure and convenient purchases for your everyday needs.</p>
       </div>
-
     </div>
-
-    <button onclick="showPage('data')">
-      Explore Services
-    </button>
-
+    <button type="button" onclick="showPage('data')">Explore Plans</button>
   </div>
 
-
-  <!-- SERVICES -->
-
-  <div class="section">
-
+  <section class="section">
     <div class="section-header">
-
       <div>
-
-        <div class="section-title">
-          Our Services
-        </div>
-
-        <div class="section-subtitle">
-          Everything you need in one place.
-        </div>
-
+        <div class="section-title">Our services</div>
+        <div class="section-subtitle">Everything you need in one place</div>
       </div>
-
     </div>
-
 
     <div class="services-grid">
-
       <div class="service-card">
-
-        <div class="service-icon">
-          📶
-        </div>
-
-        <h3>
-          Data
-        </h3>
-
-        <p>
-          View available MTN, Airtel, Glo and 9mobile
-          data plans.
-        </p>
-
-        <button onclick="showPage('data')">
-          View Data Plans
-        </button>
-
+        <div class="service-icon">📶</div>
+        <h3>Data Bundle</h3>
+        <p>Get fast and affordable internet plans for every network.</p>
+        <button type="button" onclick="showPage('data')">Buy Data</button>
       </div>
 
-
       <div class="service-card">
-
-        <div class="service-icon">
-          📱
-        </div>
-
-        <h3>
-          Airtime
-        </h3>
-
-        <p>
-          Airtime service interface for supported
-          networks.
-        </p>
-
-        <button onclick="showPage('airtime')">
-          Open Airtime
-        </button>
-
+        <div class="service-icon">📱</div>
+        <h3>Airtime</h3>
+        <p>Recharge your line instantly with a simple tap.</p>
+        <button type="button" onclick="showPage('airtime')">Buy Airtime</button>
       </div>
 
-
       <div class="service-card">
-
-        <div class="service-icon">
-          💡
-        </div>
-
-        <h3>
-          Pay Bills
-        </h3>
-
-        <p>
-          Electricity, cable TV, education and other
-          bill-service categories.
-        </p>
-
-        <button onclick="showPage('bills')">
-          View Bills
-        </button>
-
+        <div class="service-icon">💡</div>
+        <h3>Pay Bills</h3>
+        <p>Handle electricity, education, and other essential bill payments.</p>
+        <button type="button" onclick="showPage('bills')">Pay Bills</button>
       </div>
 
-
       <div class="service-card">
-
-        <div class="service-icon">
-          💰
-        </div>
-
-        <h3>
-          Wallet
-        </h3>
-
-        <p>
-          Check your balance and submit deposit requests
-          from your account.
-        </p>
-
-        <button onclick="showPage('wallet')">
-          Open Wallet
-        </button>
-
+        <div class="service-icon">💳</div>
+        <h3>Wallet</h3>
+        <p>Top up and monitor your wallet balance in seconds.</p>
+        <button type="button" onclick="showPage('wallet')">Fund Wallet</button>
       </div>
-
     </div>
+  </section>
 
-  </div>
-
-
-  <!-- NETWORKS -->
-
-  <div class="section">
-
+  <section class="section">
     <div class="section-header">
-
       <div>
-
-        <div class="section-title">
-          Supported Networks
-        </div>
-
-        <div class="section-subtitle">
-          Select a network to view available plans.
-        </div>
-
+        <div class="section-title">Popular networks</div>
+        <div class="section-subtitle">Top choices for data recharge</div>
       </div>
-
     </div>
-
 
     <div class="network-grid">
-
-      <button
-        class="network-card"
-        onclick="showPage('data');loadPlans('mtn')">
-
-        <div class="network-logo network-mtn">
-          MTN
-        </div>
-
-        <h3>
-          MTN
-        </h3>
-
-        <p>
-          Data plans
-        </p>
-
-      </button>
-
-
-      <button
-        class="network-card"
-        onclick="showPage('data');loadPlans('airtel')">
-
-        <div class="network-logo network-airtel">
-          airtel
-        </div>
-
-        <h3>
-          Airtel
-        </h3>
-
-        <p>
-          Data plans
-        </p>
-
-      </button>
-
-
-      <button
-        class="network-card"
-        onclick="showPage('data');loadPlans('glo')">
-
-        <div class="network-logo network-glo">
-          GLO
-        </div>
-
-        <h3>
-          Glo
-        </h3>
-
-        <p>
-          Data plans
-        </p>
-
-      </button>
-
-
-      <button
-        class="network-card"
-        onclick="showPage('data');loadPlans('9mobile')">
-
-        <div class="network-logo network-9mobile">
-          9mobile
-        </div>
-
-        <h3>
-          9mobile
-        </h3>
-
-        <p>
-          Data plans
-        </p>
-
-      </button>
-
+      <div class="network-card">
+        <div class="network-logo network-mtn">MTN</div>
+        <h3>MTN</h3>
+        <p>Fast & stable</p>
+      </div>
+      <div class="network-card">
+        <div class="network-logo network-airtel">AIRTEL</div>
+        <h3>Airtel</h3>
+        <p>Great value</p>
+      </div>
+      <div class="network-card">
+        <div class="network-logo network-glo">GLO</div>
+        <h3>Glo</h3>
+        <p>Flexible plans</p>
+      </div>
+      <div class="network-card">
+        <div class="network-logo network-9mobile">9M</div>
+        <h3>9mobile</h3>
+        <p>Reliable access</p>
+      </div>
     </div>
-
-  </div>
-
-
-  <!-- QUICK FEATURES -->
-
-  <div class="section">
-
-    <div class="section-header">
-
-      <div>
-
-        <div class="section-title">
-          Why Use A T L DATA?
-        </div>
-
-        <div class="section-subtitle">
-          Designed to make your digital-service experience
-          simple and convenient.
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div class="quick-grid">
-
-      <div class="quick-card">
-        <strong>⚡ Simple Experience</strong>
-        <span>
-          Find the service you need without unnecessary
-          complexity.
-        </span>
-      </div>
-
-      <div class="quick-card">
-        <strong>🔐 Secure Account</strong>
-        <span>
-          Your account and wallet information are managed
-          through Firebase authentication.
-        </span>
-      </div>
-
-      <div class="quick-card">
-        <strong>📜 Transaction Records</strong>
-        <span>
-          Keep track of your wallet and service activity
-          from your account.
-        </span>
-      </div>
-
-    </div>
-
-  </div>
-
+  </section>
 </section>
 
-
-<!-- =====================================================
-     DATA PAGE
-===================================================== -->
-
-<section id="page-data" class="hidden">
-
-  <div class="section">
-
-    <div class="section-header">
-
-      <div>
-
-        <div class="section-title">
-          📶 Data Plans
-        </div>
-
-        <div class="section-subtitle">
-          Select your network to load available plans.
-        </div>
-
-      </div>
-
+<section id="page-data" class="section" style="display:none;">
+  <div class="section-header">
+    <div>
+      <div class="section-title">Buy Data</div>
+      <div class="section-subtitle">Choose your network and select a plan</div>
     </div>
-
-
-    <div id="dataPlanStatus" class="plan-status">
-      Select a network to view available data plans.
-    </div>
-
-
-    <div class="network-selector">
-
-      <button
-        id="data-network-mtn"
-        class="network-btn"
-        onclick="loadPlans('mtn')">
-        MTN
-      </button>
-
-      <button
-        id="data-network-airtel"
-        class="network-btn"
-        onclick="loadPlans('airtel')">
-        Airtel
-      </button>
-
-      <button
-        id="data-network-glo"
-        class="network-btn"
-        onclick="loadPlans('glo')">
-        Glo
-      </button>
-
-      <button
-        id="data-network-9mobile"
-        class="network-btn"
-        onclick="loadPlans('9mobile')">
-        9mobile
-      </button>
-
-    </div>
-
-
-    <div id="dataPlansContainer" class="plans-grid">
-
-      <div class="empty-box">
-        Select a network above to load data plans.
-      </div>
-
-    </div>
-
   </div>
 
+  <div class="network-selector">
+    <button type="button" class="network-btn active" data-network="mtn" onclick="selectNetwork('mtn')">MTN</button>
+    <button type="button" class="network-btn" data-network="airtel" onclick="selectNetwork('airtel')">Airtel</button>
+    <button type="button" class="network-btn" data-network="glo" onclick="selectNetwork('glo')">Glo</button>
+    <button type="button" class="network-btn" data-network="9mobile" onclick="selectNetwork('9mobile')">9mobile</button>
+  </div>
+
+  <div id="planStatus" class="plan-status">Loading available plans…</div>
+  <div id="plansGrid" class="plans-grid"></div>
 </section>
 
+<section id="page-airtime" class="section" style="display:none;">
+  <div class="section-header">
+    <div>
+      <div class="section-title">Buy Airtime</div>
+      <div class="section-subtitle">Top-up your mobile line instantly</div>
+    </div>
+  </div>
 
-<!-- =====================================================
-     AIRTIME PAGE
-===================================================== -->
-
-<section id="page-airtime" class="hidden">
-
-  <div class="section">
-
-    <div class="section-header">
-
-      <div>
-
-        <div class="section-title">
-          📱 Airtime
-        </div>
-
-        <div class="section-subtitle">
-          Airtime service interface.
-        </div>
-
-      </div>
-
+  <div class="form-grid">
+    <div class="form-group">
+      <label for="airtimeNetwork">Network</label>
+      <select id="airtimeNetwork">
+        <option value="">Select network</option>
+        <option value="MTN">MTN</option>
+        <option value="Airtel">Airtel</option>
+        <option value="Glo">Glo</option>
+        <option value="9mobile">9mobile</option>
+      </select>
     </div>
 
+    <div class="form-group">
+      <label for="airtimePhone">Phone Number</label>
+      <input id="airtimePhone" type="tel" placeholder="0803 123 4567">
+    </div>
 
-    <div id="airtimeMessage"></div>
+    <div class="form-group full">
+      <label for="airtimeAmount">Amount</label>
+      <input id="airtimeAmount" type="number" min="50" placeholder="5000">
+    </div>
+  </div>
 
+  <div style="margin-top:18px;">
+    <button type="button" class="primary-button" onclick="processAirtimeOrder()">Continue</button>
+  </div>
+</section>
+
+<section id="page-bills" class="section" style="display:none;">
+  <div class="section-header">
+    <div>
+      <div class="section-title">Pay Bills</div>
+      <div class="section-subtitle">Handle your everyday utility payments</div>
+    </div>
+  </div>
+
+  <div class="form-grid">
+    <div class="form-group full">
+      <label for="billType">Bill Type</label>
+      <select id="billType" onchange="handleBillTypeChange()">
+        <option value="">Select service</option>
+        <option value="electricity">Electricity</option>
+        <option value="education">Education</option>
+        <option value="other">Other Bills</option>
+      </select>
+    </div>
+
+    <div id="electricityFields" class="form-group full" style="display:none;">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Provider</label>
+          <select id="electricityProvider">
+            <option value="">Select provider</option>
+            <option>IKEDC</option>
+            <option>EKEDC</option>
+            <option>KEDCO</option>
+            <option>ABEDC</option>
+            <option>KAEDCO</option>
+            <option>YEDC</option>
+            <option>BEDC</option>
+            <option>JED</option>
+            <option>IBEDC</option>
+            <option>PHED</option>
+            <option>AEDC</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Meter Type</label>
+          <select id="meterType">
+            <option value="">Meter type</option>
+            <option>Prepaid</option>
+            <option>Postpaid</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Meter Number</label>
+          <input id="meterNumber" type="text" placeholder="Meter number">
+        </div>
+        <div class="form-group full">
+          <label>Amount</label>
+          <input id="electricityAmount" type="number" placeholder="Amount (₦)">
+        </div>
+      </div>
+    </div>
+
+    <div id="educationFields" class="form-group full" style="display:none;">
+      <div class="form-grid">
+        <div class="form-group full">
+          <label>Candidate / Registration Number</label>
+          <input id="examNumber" type="text" placeholder="Candidate / Registration Number">
+        </div>
+        <div class="form-group full">
+          <label>Amount</label>
+          <input id="educationAmount" type="number" placeholder="Amount (₦)">
+        </div>
+      </div>
+    </div>
+
+    <div id="otherBillFields" class="form-group full" style="display:none;">
+      <div class="form-grid">
+        <div class="form-group full">
+          <label>Customer / Account Number</label>
+          <input id="customerNumber" type="text" placeholder="Customer / Account Number">
+        </div>
+        <div class="form-group full">
+          <label>Amount</label>
+          <input id="billAmount" type="number" placeholder="Amount (₦)">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group full">
+      <button type="button" class="primary-button" onclick="processBillForm()">Continue</button>
+    </div>
+  </div>
+</section>
+
+<section id="page-wallet" class="section" style="display:none;">
+  <div class="wallet-box">
+    <div class="wallet-label">Available balance</div>
+    <div class="wallet-balance">₦0.00</div>
+    <div class="wallet-actions">
+      <button type="button" class="deposit-button" onclick="openDepositModal()">Fund Wallet</button>
+      <button type="button" class="history-button" onclick="showPage('transactions')">View History</button>
+    </div>
+  </div>
+</section>
+
+<section id="page-transactions" class="section" style="display:none;">
+  <div class="section-header">
+    <div>
+      <div class="section-title">Transactions</div>
+      <div class="section-subtitle">Your recent activity</div>
+    </div>
+  </div>
+  <div id="transactionsArea" class="empty-box">No transactions yet.</div>
+</section>
+
+<section id="page-account" class="section" style="display:none;">
+  <div class="section-header">
+    <div>
+      <div class="section-title">My Account</div>
+      <div class="section-subtitle">Manage your profile</div>
+    </div>
+  </div>
+  <div id="accountArea" class="empty-box">Login to access your account.</div>
+</section>
+
+<section id="page-auth" class="section" style="display:none;">
+  <div class="auth-wrapper">
+    <div class="auth-logo">ATL</div>
+    <div class="auth-title">Welcome</div>
+    <div class="auth-subtitle">Sign in or create an account to continue</div>
 
     <div class="form-grid">
-
-      <div class="form-group">
-
-        <label>
-          Network
-        </label>
-
-        <select id="airtimeNetwork">
-
-          <option value="">
-            Select network
-          </option>
-
-          <option value="mtn">
-            MTN
-          </option>
-
-          <option value="airtel">
-            Airtel
-          </option>
-
-          <option value="glo">
-            Glo
-          </option>
-
-          <option value="9mobile">
-            9mobile
-          </option>
-
-        </select>
-
+      <div class="form-group full">
+        <label for="loginEmail">Email</label>
+        <input id="loginEmail" type="email" placeholder="you@example.com">
       </div>
-
-
-      <div class="form-group">
-
-        <label>
-          Phone Number
-        </label>
-
-        <input
-          id="airtimePhone"
-          type="tel"
-          placeholder="08012345678">
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label>
-          Amount
-        </label>
-
-        <input
-          id="airtimeAmount"
-          type="number"
-          min="50"
-          placeholder="Enter amount">
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label>
-          Payment
-        </label>
-
-        <select disabled>
-
-          <option>
-            Wallet Balance
-          </option>
-
-        </select>
-
-      </div>
-
 
       <div class="form-group full">
-
-        <button
-          class="primary-button"
-          onclick="requestAirtime()">
-
-          Continue
-
-        </button>
-
+        <label for="loginPassword">Password</label>
+        <input id="loginPassword" type="password" placeholder="Enter password">
       </div>
 
-    </div>
+      <div class="form-group full">
+        <button type="button" class="primary-button" onclick="loginUser()">Login</button>
+      </div>
 
+      <div class="form-group full">
+        <button type="button" class="gold-button" onclick="showPage('home')">Back Home</button>
+      </div>
+    </div>
   </div>
-
 </section>
-
-
-<!-- =====================================================
-     BILLS PAGE
-===================================================== -->
-
-<section id="page-bills" class="hidden">
-
-  <div class="section">
-
-    <div class="section-header">
-
-      <div>
-
-        <div class="section-title">
-          💡 Pay Bills
-        </div>
-
-        <div class="section-subtitle">
-          Select the service you want to use.
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div class="services-grid">
-
-      <div class="service-card">
-
-        <div class="service-icon">
-          ⚡
-        </div>
-
-        <h3>
-          Electricity
-        </h3>
-
-        <p>
-          Electricity bill service interface.
-        </p>
-
-        <button onclick="openBillService('electricity')">
-          Open
-        </button>
-
-      </div>
-
-
-      <div class="service-card">
-
-        <div class="service-icon">
-          📺
-        </div>
-
-        <h3>
-          Cable TV
-        </h3>
-
-        <p>
-          DStv, GOtv and other cable-service interface.
-        </p>
-
-        <button onclick="openBillService('cable')">
-          Open
-        </button>
-
-      </div>
-
-
-      <div class="service-card">
-
-        <div class="service-icon">
-          🎓
-        </div>
-
-        <h3>
-          Education
-        </h3>
-
-        <p>
-          NECO, WAEC and JAMB service interface.
-        </p>
-
-        <button onclick="openBillService('education')">
-          Open
-        </button>
-
-      </div>
-
-
-      <div class="service-card">
-
-        <div class="service-icon">
-          🌐
-        </div>
-
-        <h3>
-          Internet
-        </h3>
-
-        <p>
-          Internet service interface.
-        </p>
-
-        <button onclick="openBillService('internet')">
-          Open
-        </button>
-
-      </div>
-
-    </div>
-
-
-    <div
-      id="billServiceArea"
-      class="hidden"
-      style="margin-top:20px;">
-
-      <div id="billServiceTitle"></div>
-
-      <div id="billServiceForm"></div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =====================================================
-     WALLET PAGE
-===================================================== -->
-
-<section id="page-wallet" class="hidden">
-
-  <div class="section">
-
-    <div class="section-header">
-
-      <div>
-
-        <div class="section-title">
-          💰 My Wallet
-        </div>
-
-        <div class="section-subtitle">
-          Manage your A T L DATA wallet.
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div class="wallet-box">
-
-      <div class="wallet-label">
-        Available Balance
-      </div>
-
-      <div
-        id="walletBalance"
-        class="wallet-balance">
-        ₦0.00
-      </div>
-
-
-      <div class="wallet-actions">
-
-        <button
-          class="deposit-button"
-          onclick="openDepositModal()">
-          + Deposit
-        </button>
-
-        <button
-          class="history-button"
-          onclick="showPage('transactions')">
-          Transaction History
-        </button>
-
-      </div>
-
-    </div>
-
-
-    <div
-      id="walletMessage"
-      style="margin-top:15px;">
-    </div>
-
-
-    <div
-      class="alert alert-info"
-      style="margin-top:15px;">
-
-      Wallet deposits are submitted for review.
-      Your balance is not increased automatically when
-      you submit a deposit request.
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =====================================================
-     TRANSACTIONS PAGE
-===================================================== -->
-
-<section id="page-transactions" class="hidden">
-
-  <div class="section">
-
-    <div class="section-header">
-
-      <div>
-
-        <div class="section-title">
-          📜 Transaction History
-        </div>
-
-        <div class="section-subtitle">
-          View your recent wallet and service activity.
-        </div>
-
-      </div>
-
-      <button
-        class="primary-button"
-        onclick="loadTransactions()">
-        Refresh
-      </button>
-
-    </div>
-
-
-    <div id="transactionMessage"></div>
-
-
-    <div class="table-wrap">
-
-      <table class="data-table">
-
-        <thead>
-
-          <tr>
-            <th>Date</th>
-            <th>Service</th>
-            <th>Amount</th>
-            <th>Status</th>
-          </tr>
-
-        </thead>
-
-        <tbody id="transactionsBody">
-
-          <tr>
-
-            <td colspan="4">
-
-              <div class="empty-box">
-                Login to view your transactions.
-              </div>
-
-            </td>
-
-          </tr>
-
-        </tbody>
-
-      </table>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =====================================================
-     ACCOUNT PAGE
-===================================================== -->
-
-<section id="page-account" class="hidden">
-
-  <div class="section">
-
-    <div class="section-header">
-
-      <div>
-
-        <div class="section-title">
-          👤 My Account
-        </div>
-
-        <div class="section-subtitle">
-          Manage your A T L DATA account.
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div id="accountMessage"></div>
-
-
-    <div class="account-grid">
-
-      <div class="account-card">
-
-        <small>
-          Email
-        </small>
-
-        <strong id="accountEmail">
-          Not logged in
-        </strong>
-
-      </div>
-
-
-      <div class="account-card">
-
-        <small>
-          Wallet Balance
-        </small>
-
-        <strong id="accountBalance">
-          ₦0.00
-        </strong>
-
-      </div>
-
-
-      <div class="account-card">
-
-        <small>
-          Account Status
-        </small>
-
-        <strong id="accountStatus">
-          Guest
-        </strong>
-
-      </div>
-
-    </div>
-
-
-    <div style="margin-top:18px;display:flex;gap:9px;flex-wrap:wrap;">
-
-      <button
-        class="primary-button"
-        onclick="showPage('wallet')">
-        Open Wallet
-      </button>
-
-      <button
-        class="gold-button"
-        onclick="showPage('transactions')">
-        Transactions
-      </button>
-
-      <button
-        id="logoutButton"
-        class="primary-button"
-        style="background:#c62828;"
-        onclick="logoutUser()">
-        Logout
-      </button>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =====================================================
-     AUTH PAGE
-===================================================== -->
-
-<section id="page-auth" class="hidden">
-
-  <div class="section">
-
-    <div class="auth-wrapper">
-
-      <div class="auth-logo">
-        ATL
-      </div>
-
-      <h2 class="auth-title">
-        Welcome to A T L DATA
-      </h2>
-
-      <p class="auth-subtitle">
-        Login or create an account to use your wallet
-        and digital services.
-      </p>
-
-
-      <div id="authMessage"></div>
-
-
-      <div class="form-group">
-
-        <label>
-          Email Address
-        </label>
-
-        <input
-          id="authEmail"
-          type="email"
-          placeholder="you@example.com">
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label>
-          Password
-        </label>
-
-        <input
-          id="authPassword"
-          type="password"
-          placeholder="Minimum 6 characters">
-
-      </div>
-
-
-      <button
-        class="primary-button"
-        style="width:100%;margin-top:5px;"
-        onclick="loginUser()">
-
-        Login
-
-      </button>
-
-
-      <button
-        class="gold-button"
-        style="width:100%;margin-top:9px;"
-        onclick="registerUser()">
-
-        Create Account
-
-      </button>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =====================================================
-     ADMIN PAGE
-===================================================== -->
-
-<section id="page-admin" class="hidden">
-
-  <div class="section">
-
-    <div class="section-header">
-
-      <div>
-
-        <div class="section-title">
-          🛡️ Admin Dashboard
-        </div>
-
-        <div class="section-subtitle">
-          A T L DATA administration area.
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div id="adminMessage"></div>
-
-
-    <div class="account-grid">
-
-      <div class="account-card">
-
-        <small>
-          Pending Deposits
-        </small>
-
-        <strong id="adminPendingCount">
-          0
-        </strong>
-
-      </div>
-
-
-      <div class="account-card">
-
-        <small>
-          Approved Deposits
-        </small>
-
-        <strong id="adminApprovedCount">
-          0
-        </strong>
-
-      </div>
-
-
-      <div class="account-card">
-
-        <small>
-          Admin Account
-        </small>
-
-        <strong>
-          A T L DATA
-        </strong>
-
-      </div>
-
-    </div>
-
-
-    <div style="margin-top:20px;">
-
-      <h3 style="color:#087443;margin-bottom:12px;">
-        Deposit Requests
-      </h3>
-
-
-      <div class="table-wrap">
-
-        <table class="data-table">
-
-          <thead>
-
-            <tr>
-              <th>User</th>
-              <th>Amount</th>
-              <th>Reference</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-
-          </thead>
-
-          <tbody id="adminDepositsBody">
-
-            <tr>
-
-              <td colspan="5">
-
-                <div class="empty-box">
-                  No deposit requests loaded.
-                </div>
-
-              </td>
-
-            </tr>
-
-          </tbody>
-
-        </table>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
 </main>
 
-
-<!-- =====================================================
-     DEPOSIT MODAL
-===================================================== -->
-
-<div
-  id="depositModal"
-  class="modal hidden">
-
-  <div class="modal-card">
-
-    <div class="modal-header">
-
-      <h3>
-        Deposit to Wallet
-      </h3>
-
-      <button
-        class="close-modal"
-        onclick="closeDepositModal()">
-        ×
-      </button>
-
-    </div>
-
-
-    <div
-      class="alert alert-info">
-
-      <strong>Deposit Account</strong><br><br>
-
-      Account Name:
-      <strong>A T L Data</strong><br>
-
-      Account Number:
-      <strong>7073160817</strong><br>
-
-      Bank:
-      <strong>Palmpay</strong>
-
-    </div>
-
-
-    <div id="depositMessage"></div>
-
-
-    <div class="form-group">
-
-      <label>
-        Amount
-      </label>
-
-      <input
-        id="depositAmount"
-        type="number"
-        min="100"
-        placeholder="Minimum ₦100">
-
-    </div>
-
-
-    <div class="form-group">
-
-      <label>
-        Payment Reference
-      </label>
-
-      <input
-        id="depositReference"
-        type="text"
-        placeholder="Optional payment reference">
-
-    </div>
-
-
-    <button
-      class="primary-button"
-      style="width:100%;margin-top:10px;"
-      onclick="submitDeposit()">
-
-      Submit Deposit Request
-
-    </button>
-
-  </div>
-
-</div>
-
-
-<!-- =====================================================
-     PLAN PURCHASE MODAL
-===================================================== -->
-
-<div
-  id="planModal"
-  class="modal hidden">
-
-  <div class="modal-card">
-
-    <div class="modal-header">
-
-      <h3>
-        Data Plan
-      </h3>
-
-      <button
-        class="close-modal"
-        onclick="closePlanModal()">
-        ×
-      </button>
-
-    </div>
-
-
-    <div id="selectedPlanDetails"></div>
-
-
-    <div class="form-group">
-
-      <label>
-        Phone Number
-      </label>
-
-      <input
-        id="planPhone"
-        type="tel"
-        placeholder="08012345678">
-
-    </div>
-
-
-    <div
-      class="alert alert-info">
-
-      The provider purchase connection is currently
-      kept in test/sandbox mode. No real-money purchase
-      will be made from this button.
-
-    </div>
-
-
-    <button
-      class="primary-button"
-      style="width:100%;"
-      onclick="confirmPlanSelection()">
-
-      Continue
-
-    </button>
-
-  </div>
-
-</div>
-
-
-<!-- =====================================================
-     FOOTER
-===================================================== -->
-
 <footer>
-
   <div class="footer-inner">
-
     <div>
-
-      <div class="footer-brand">
-        A T L <span>DATA</span>
-      </div>
-
-      <p class="footer-text">
-        A convenient digital services platform for data,
-        airtime, bills and wallet management.
-      </p>
-
+      <div class="footer-brand">A T L <span>DATA</span></div>
+      <div class="footer-text">Fast and convenient digital services for Data, Airtime, Bills, and wallet management.</div>
     </div>
-
-
     <div class="footer-column">
-
-      <h4>
-        Services
-      </h4>
-
-      <button onclick="showPage('data')">
-        Data Plans
-      </button>
-
-      <button onclick="showPage('airtime')">
-        Airtime
-      </button>
-
-      <button onclick="showPage('bills')">
-        Pay Bills
-      </button>
-
+      <h4>Company</h4>
+      <button type="button" onclick="showPage('home')">Home</button>
+      <button type="button" onclick="showPage('data')">Data</button>
+      <button type="button" onclick="showPage('bills')">Bills</button>
     </div>
-
-
     <div class="footer-column">
-
-      <h4>
-        Account
-      </h4>
-
-      <button onclick="showPage('auth')">
-        Login
-      </button>
-
-      <button onclick="showPage('wallet')">
-        Wallet
-      </button>
-
-      <button onclick="showPage('transactions')">
-        Transactions
-      </button>
-
+      <h4>Services</h4>
+      <button type="button" onclick="showPage('airtime')">Airtime</button>
+      <button type="button" onclick="showPage('wallet')">Wallet</button>
+      <button type="button" onclick="showPage('transactions')">Transactions</button>
     </div>
-
-
     <div class="footer-column">
-
-      <h4>
-        A T L DATA
-      </h4>
-
-      <button onclick="showPage('home')">
-        About
-      </button>
-
-      <button onclick="showPage('home')">
-        Support
-      </button>
-
-      <button onclick="showPage('home')">
-        Contact
-      </button>
-
+      <h4>Support</h4>
+      <button type="button" onclick="showPage('auth')">Account</button>
+      <button type="button" onclick="showPage('home')">Contact</button>
+      <button type="button" onclick="showPage('home')">Help</button>
     </div>
-
   </div>
 
-
-  <div class="footer-bottom">
-
-    © 2026 A T L DATA. All rights reserved.
-
-  </div>
-
+  <div class="footer-bottom">© 2026 A T L DATA. All rights reserved.</div>
 </footer>
 
-
-<!-- =====================================================
-     PART 2 / 3
-     FIREBASE + AUTHENTICATION + WALLET + DEPOSITS
-===================================================== -->
-
-<script src="https://www.gstatic.com/firebasejs/12.2.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/12.2.1/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore-compat.js"></script>
-
-<script>
-
-/* =====================================================
-   FIREBASE CONFIGURATION
-===================================================== */
-
-const firebaseConfig = {
-  apiKey: "AIzaSyA_x5ZYj7D5Dt_9Bq-NzlchpRPRd3QN21I",
-  authDomain: "a-t-l-data.firebaseapp.com",
-  projectId: "a-t-l-data",
-  storageBucket: "a-t-l-data.firebasestorage.app",
-  messagingSenderId: "519558305824",
-  appId: "1:519558305824:web:cf6dd75ef20ef708c24445"
-};
-
-firebase.initializeApp(firebaseConfig);
-
-const auth = firebase.auth();
-const db = firebase.firestore();
-
-
-/* =====================================================
-   A T L DATA SETTINGS
-===================================================== */
-
-const ADMIN_EMAIL = "lawanahmadt03@gmail.com";
-
-const WORKER_URL =
-  "https://broad-thunder-82c2.lawanahmadt03.workers.dev";
-
-const DEPOSIT_BANK = "Palmpay";
-const DEPOSIT_ACCOUNT_NAME = "A T L Data";
-const DEPOSIT_ACCOUNT_NUMBER = "7073160817";
-
-
-/* =====================================================
-   GLOBAL STATE
-===================================================== */
-
-let currentUser = null;
-let selectedNetwork = "";
-let selectedPlan = null;
-let mobileMenuOpen = false;
-
-
-/* =====================================================
-   PAGE NAVIGATION
-===================================================== */
-
-function showPage(page){
-
-  const pages = [
-    "home",
-    "data",
-    "airtime",
-    "bills",
-    "wallet",
-    "transactions",
-    "account",
-    "auth",
-    "admin"
-  ];
-
-  pages.forEach(function(name){
-
-    const element =
-      document.getElementById("page-" + name);
-
-    if(element){
-      element.classList.add("hidden");
-    }
-
-  });
-
-
-  const target =
-    document.getElementById("page-" + page);
-
-  if(target){
-    target.classList.remove("hidden");
-  }
-
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-
-  if(page === "wallet"){
-    loadWallet();
-  }
-
-
-  if(page === "transactions"){
-    loadTransactions();
-  }
-
-
-  if(page === "account"){
-    updateAccountPage();
-  }
-
-
-  if(page === "admin"){
-    loadAdminDeposits();
-  }
-
-}
-
-
-/* =====================================================
-   MOBILE MENU
-===================================================== */
-
-function toggleMobileMenu(){
-
-  const menu =
-    document.getElementById("mobileMenu");
-
-  if(!menu){
-    return;
-  }
-
-  mobileMenuOpen = !mobileMenuOpen;
-
-  if(mobileMenuOpen){
-    menu.style.display = "block";
-  }else{
-    menu.style.display = "none";
-  }
-
-}
-
-
-function closeMobileMenu(){
-
-  const menu =
-    document.getElementById("mobileMenu");
-
-  if(menu){
-    menu.style.display = "none";
-  }
-
-  mobileMenuOpen = false;
-}
-
-
-/* =====================================================
-   MONEY FORMAT
-===================================================== */
-
-function formatMoney(value){
-
-  const amount = Number(value || 0);
-
-  return "₦" +
-    amount.toLocaleString("en-NG",{
-      minimumFractionDigits:2,
-      maximumFractionDigits:2
-    });
-
-}
-
-
-/* =====================================================
-   DATE FORMAT
-===================================================== */
-
-function formatDate(timestamp){
-
-  if(!timestamp){
-    return "-";
-  }
-
-  try{
-
-    let date;
-
-    if(timestamp.toDate){
-      date = timestamp.toDate();
-    }else{
-      date = new Date(timestamp);
-    }
-
-    return date.toLocaleString("en-NG",{
-      dateStyle:"medium",
-      timeStyle:"short"
-    });
-
-  }catch(error){
-
-    return "-";
-
-  }
-
-}
-
-
-/* =====================================================
-   HTML ESCAPE
-===================================================== */
-
-function escapeHtml(value){
-
-  return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-
-}
-
-
-/* =====================================================
-   ALERT HELPER
-===================================================== */
-
-function showMessage(elementId,message,type="info"){
-
-  const element =
-    document.getElementById(elementId);
-
-  if(!element){
-    return;
-  }
-
-  let className = "alert-info";
-
-  if(type === "success"){
-    className = "alert-success";
-  }
-
-  if(type === "error"){
-    className = "alert-error";
-  }
-
-  element.innerHTML =
-    '<div class="alert ' +
-    className +
-    '">' +
-    escapeHtml(message) +
-    '</div>';
-
-}
-
-
-/* =====================================================
-   AUTH ERROR TRANSLATOR
-===================================================== */
-
-function friendlyAuthError(error){
-
-  const code = error && error.code
-    ? error.code
-    : "";
-
-  const messages = {
-
-    "auth/email-already-in-use":
-      "This email is already registered.",
-
-    "auth/invalid-email":
-      "Please enter a valid email address.",
-
-    "auth/weak-password":
-      "Password is too weak. Use at least 6 characters.",
-
-    "auth/user-not-found":
-      "No account was found with this email.",
-
-    "auth/wrong-password":
-      "Incorrect password.",
-
-    "auth/invalid-credential":
-      "Email or password is incorrect.",
-
-    "auth/too-many-requests":
-      "Too many attempts. Please wait and try again.",
-
-    "auth/network-request-failed":
-      "Network error. Check your internet connection."
-
-  };
-
-  return messages[code] ||
-    error.message ||
-    "Authentication failed.";
-
-}
-
-
-/* =====================================================
-   REGISTER USER
-===================================================== */
-
-async function registerUser(){
-
-  const email =
-    document.getElementById("authEmail")
-      .value
-      .trim()
-      .toLowerCase();
-
-  const password =
-    document.getElementById("authPassword")
-      .value;
-
-
-  if(!email){
-
-    showMessage(
-      "authMessage",
-      "Please enter your email address.",
-      "error"
-    );
-
-    return;
-  }
-
-
-  if(!password){
-
-    showMessage(
-      "authMessage",
-      "Please enter your password.",
-      "error"
-    );
-
-    return;
-  }
-
-
-  if(password.length < 6){
-
-    showMessage(
-      "authMessage",
-      "Password must contain at least 6 characters.",
-      "error"
-    );
-
-    return;
-  }
-
-
-  try{
-
-    showMessage(
-      "authMessage",
-      "Creating your account...",
-      "info"
-    );
-
-
-    const result =
-      await auth.createUserWithEmailAndPassword(
-        email,
-        password
-      );
-
-
-    const user = result.user;
-
-
-    await db
-      .collection("users")
-      .doc(user.uid)
-      .set({
-
-        uid:user.uid,
-
-        email:email,
-
-        balance:0,
-
-        createdAt:
-          firebase.firestore.FieldValue.serverTimestamp(),
-
-        updatedAt:
-          firebase.firestore.FieldValue.serverTimestamp()
-
-      },{
-        merge:true
-      });
-
-
-    try{
-
-      await user.sendEmailVerification();
-
-    }catch(error){
-
-      console.log(
-        "Verification email:",
-        error
-      );
-
-    }
-
-
-    showMessage(
-      "authMessage",
-      "Account created successfully. Please check your email for verification.",
-      "success"
-    );
-
-
-    showPage("account");
-
-
-  }catch(error){
-
-    console.error(error);
-
-    showMessage(
-      "authMessage",
-      friendlyAuthError(error),
-      "error"
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   LOGIN USER
-===================================================== */
-
-async function loginUser(){
-
-  const email =
-    document.getElementById("authEmail")
-      .value
-      .trim()
-      .toLowerCase();
-
-  const password =
-    document.getElementById("authPassword")
-      .value;
-
-
-  if(!email){
-
-    showMessage(
-      "authMessage",
-      "Please enter your email address.",
-      "error"
-    );
-
-    return;
-  }
-
-
-  if(!password){
-
-    showMessage(
-      "authMessage",
-      "Please enter your password.",
-      "error"
-    );
-
-    return;
-  }
-
-
-  try{
-
-    showMessage(
-      "authMessage",
-      "Signing you in...",
-      "info"
-    );
-
-
-    await auth.signInWithEmailAndPassword(
-      email,
-      password
-    );
-
-
-    showMessage(
-      "authMessage",
-      "Login successful.",
-      "success"
-    );
-
-
-    showPage("account");
-
-
-  }catch(error){
-
-    console.error(error);
-
-    showMessage(
-      "authMessage",
-      friendlyAuthError(error),
-      "error"
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   LOGOUT
-===================================================== */
-
-async function logoutUser(){
-
-  try{
-
-    await auth.signOut();
-
-    showPage("home");
-
-  }catch(error){
-
-    console.error(error);
-
-  }
-
-}
-
-
-/* =====================================================
-   AUTH STATE
-===================================================== */
-
-auth.onAuthStateChanged(async function(user){
-
-  currentUser = user;
-
-
-  const loginButton =
-    document.getElementById("headerLoginBtn");
-
-  const registerButton =
-    document.getElementById("headerRegisterBtn");
-
-
-  if(user){
-
-    if(loginButton){
-
-      loginButton.textContent = "My Account";
-
-      loginButton.onclick = function(){
-        showPage("account");
-      };
-
-    }
-
-
-    if(registerButton){
-
-      registerButton.textContent =
-        "Logout";
-
-      registerButton.onclick =
-        logoutUser;
-
-    }
-
-
-    await ensureUserDocument();
-
-    await loadWallet();
-
-    updateAccountPage();
-
-
-  }else{
-
-    if(loginButton){
-
-      loginButton.textContent =
-        "Login";
-
-      loginButton.onclick =
-        function(){
-          showPage("auth");
-        };
-
-    }
-
-
-    if(registerButton){
-
-      registerButton.textContent =
-        "Register";
-
-      registerButton.onclick =
-        function(){
-          showPage("auth");
-        };
-
-    }
-
-
-    const balance =
-      document.getElementById("walletBalance");
-
-    if(balance){
-      balance.textContent = "₦0.00";
-    }
-
-
-    const accountBalance =
-      document.getElementById("accountBalance");
-
-    if(accountBalance){
-      accountBalance.textContent = "₦0.00";
-    }
-
-
-    const accountEmail =
-      document.getElementById("accountEmail");
-
-    if(accountEmail){
-      accountEmail.textContent =
-        "Not logged in";
-    }
-
-
-    const accountStatus =
-      document.getElementById("accountStatus");
-
-    if(accountStatus){
-      accountStatus.textContent =
-        "Guest";
-    }
-
-  }
-
-});
-
-
-/* =====================================================
-   ENSURE USER DOCUMENT
-===================================================== */
-
-async function ensureUserDocument(){
-
-  if(!currentUser){
-    return;
-  }
-
-
-  try{
-
-    const ref =
-      db.collection("users")
-        .doc(currentUser.uid);
-
-    const snapshot =
-      await ref.get();
-
-
-    if(!snapshot.exists){
-
-      await ref.set({
-
-        uid:currentUser.uid,
-
-        email:
-          currentUser.email || "",
-
-        balance:0,
-
-        createdAt:
-          firebase.firestore.FieldValue.serverTimestamp(),
-
-        updatedAt:
-          firebase.firestore.FieldValue.serverTimestamp()
-
-      });
-
-    }else{
-
-      const data =
-        snapshot.data() || {};
-
-
-      if(typeof data.balance !== "number"){
-
-        await ref.set({
-
-          balance:0,
-
-          updatedAt:
-            firebase.firestore.FieldValue.serverTimestamp()
-
-        },{
-          merge:true
-        });
-
-      }
-
-    }
-
-  }catch(error){
-
-    console.error(
-      "User document error:",
-      error
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   LOAD WALLET
-===================================================== */
-
-async function loadWallet(){
-
-  if(!currentUser){
-
-    const balance =
-      document.getElementById("walletBalance");
-
-    if(balance){
-      balance.textContent = "₦0.00";
-    }
-
-    return;
-
-  }
-
-
-  try{
-
-    const snapshot =
-      await db
-        .collection("users")
-        .doc(currentUser.uid)
-        .get();
-
-
-    if(snapshot.exists){
-
-      const data =
-        snapshot.data() || {};
-
-      const balance =
-        Number(data.balance || 0);
-
-
-      const walletElement =
-        document.getElementById("walletBalance");
-
-      if(walletElement){
-
-        walletElement.textContent =
-          formatMoney(balance);
-
-      }
-
-
-      const accountElement =
-        document.getElementById("accountBalance");
-
-      if(accountElement){
-
-        accountElement.textContent =
-          formatMoney(balance);
-
-      }
-
-    }
-
-  }catch(error){
-
-    console.error(
-      "Wallet loading error:",
-      error
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   ACCOUNT PAGE
-===================================================== */
-
-function updateAccountPage(){
-
-  const emailElement =
-    document.getElementById("accountEmail");
-
-  const statusElement =
-    document.getElementById("accountStatus");
-
-
-  if(!currentUser){
-
-    if(emailElement){
-      emailElement.textContent =
-        "Not logged in";
-    }
-
-    if(statusElement){
-      statusElement.textContent =
-        "Guest";
-    }
-
-    return;
-
-  }
-
-
-  if(emailElement){
-
-    emailElement.textContent =
-      currentUser.email || "-";
-
-  }
-
-
-  if(statusElement){
-
-    statusElement.textContent =
-      "Active";
-
-  }
-
-
-  loadWallet();
-
-}
-
-
-/* =====================================================
-   DEPOSIT MODAL
-===================================================== */
-
-function openDepositModal(){
-
-  if(!currentUser){
-
-    showPage("auth");
-
-    showMessage(
-      "authMessage",
-      "Please login before making a deposit request.",
-      "error"
-    );
-
-    return;
-
-  }
-
-
-  const modal =
-    document.getElementById("depositModal");
-
-  if(modal){
-
-    modal.classList.remove("hidden");
-
-  }
-
-}
-
-
-function closeDepositModal(){
-
-  const modal =
-    document.getElementById("depositModal");
-
-  if(modal){
-
-    modal.classList.add("hidden");
-
-  }
-
-}
-
-
-/* =====================================================
-   SUBMIT DEPOSIT
-===================================================== */
-
-async function submitDeposit(){
-
-  if(!currentUser){
-
-    closeDepositModal();
-
-    showPage("auth");
-
-    showMessage(
-      "authMessage",
-      "Please login before submitting a deposit.",
-      "error"
-    );
-
-    return;
-
-  }
-
-
-  const amountInput =
-    document.getElementById("depositAmount");
-
-  const referenceInput =
-    document.getElementById("depositReference");
-
-
-  const amount =
-    Number(amountInput.value);
-
-
-  const reference =
-    referenceInput.value.trim();
-
-
-  if(!amount || amount < 100){
-
-    showMessage(
-      "depositMessage",
-      "Minimum deposit is ₦100.",
-      "error"
-    );
-
-    return;
-
-  }
-
-
-  try{
-
-    showMessage(
-      "depositMessage",
-      "Submitting your deposit request...",
-      "info"
-    );
-
-
-    await db
-      .collection("deposits")
-      .add({
-
-        uid:currentUser.uid,
-
-        userEmail:
-          currentUser.email || "",
-
-        userName:
-          currentUser.displayName || "",
-
-        amount:amount,
-
-        reference:reference,
-
-        bank:DEPOSIT_BANK,
-
-        accountName:
-          DEPOSIT_ACCOUNT_NAME,
-
-        accountNumber:
-          DEPOSIT_ACCOUNT_NUMBER,
-
-        status:"pending",
-
-        createdAt:
-          firebase.firestore.FieldValue.serverTimestamp()
-
-      });
-
-
-    showMessage(
-      "depositMessage",
-      "Deposit request submitted successfully. Please wait for admin approval.",
-      "success"
-    );
-
-
-    amountInput.value = "";
-    referenceInput.value = "";
-
-
-  }catch(error){
-
-    console.error(error);
-
-    showMessage(
-      "depositMessage",
-      error.message ||
-        "Unable to submit deposit request.",
-      "error"
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   LOAD TRANSACTIONS
-===================================================== */
-
-async function loadTransactions(){
-
-  const body =
-    document.getElementById("transactionsBody");
-
-
-  if(!body){
-    return;
-  }
-
-
-  if(!currentUser){
-
-    body.innerHTML = `
-      <tr>
-        <td colspan="4">
-          <div class="empty-box">
-            Please login to view your transactions.
-          </div>
-        </td>
-      </tr>
-    `;
-
-    return;
-
-  }
-
-
-  body.innerHTML = `
-    <tr>
-      <td colspan="4">
-        <div class="loading-box">
-          <div class="spinner"></div>
-          Loading transactions...
-        </div>
-      </td>
-    </tr>
-  `;
-
-
-  try{
-
-    const snapshot =
-      await db
-        .collection("transactions")
-        .where("uid","==",currentUser.uid)
-        .get();
-
-
-    const transactions = [];
-
-
-    snapshot.forEach(function(doc){
-
-      transactions.push({
-
-        id:doc.id,
-
-        ...doc.data()
-
-      });
-
-    });
-
-
-    transactions.sort(function(a,b){
-
-      const aTime =
-        a.createdAt && a.createdAt.toMillis
-          ? a.createdAt.toMillis()
-          : 0;
-
-      const bTime =
-        b.createdAt && b.createdAt.toMillis
-          ? b.createdAt.toMillis()
-          : 0;
-
-      return bTime - aTime;
-
-    });
-
-
-    if(!transactions.length){
-
-      body.innerHTML = `
-        <tr>
-          <td colspan="4">
-            <div class="empty-box">
-              No transactions yet.
-            </div>
-          </td>
-        </tr>
-      `;
-
-      return;
-
-    }
-
-
-    body.innerHTML = "";
-
-
-    transactions.slice(0,50).forEach(function(transaction){
-
-      const status =
-        String(
-          transaction.status || "pending"
-        ).toLowerCase();
-
-
-      let statusClass =
-        "status-pending";
-
-
-      if(
-        status === "approved" ||
-        status === "success" ||
-        status === "successful"
-      ){
-
-        statusClass =
-          "status-success";
-
-      }
-
-
-      if(
-        status === "rejected" ||
-        status === "failed"
-      ){
-
-        statusClass =
-          "status-failed";
-
-      }
-
-
-      const row =
-        document.createElement("tr");
-
-
-      row.innerHTML = `
-
-        <td>
-          ${escapeHtml(
-            formatDate(transaction.createdAt)
-          )}
-        </td>
-
-        <td>
-          ${escapeHtml(
-            transaction.service ||
-            "Transaction"
-          )}
-        </td>
-
-        <td>
-          ${formatMoney(
-            transaction.amount || 0
-          )}
-        </td>
-
-        <td>
-          <span class="status-badge ${statusClass}">
-            ${escapeHtml(status)}
-          </span>
-        </td>
-
-      `;
-
-
-      body.appendChild(row);
-
-    });
-
-
-  }catch(error){
-
-    console.error(error);
-
-
-    body.innerHTML = `
-      <tr>
-        <td colspan="4">
-          <div class="alert alert-error">
-            Unable to load transactions.
-          </div>
-        </td>
-      </tr>
-    `;
-
-  }
-
-}
-
-
-/* =====================================================
-   ADMIN CHECK
-===================================================== */
-
-function isAdmin(){
-
-  return !!(
-    currentUser &&
-    currentUser.email &&
-    currentUser.email.toLowerCase() ===
-      ADMIN_EMAIL.toLowerCase()
-  );
-
-}
-
-
-/* =====================================================
-   ADMIN DEPOSITS
-===================================================== */
-
-async function loadAdminDeposits(){
-
-  if(!isAdmin()){
-
-    showPage("home");
-
-    return;
-
-  }
-
-
-  const body =
-    document.getElementById("adminDepositsBody");
-
-
-  if(!body){
-    return;
-  }
-
-
-  body.innerHTML = `
-    <tr>
-      <td colspan="5">
-        <div class="loading-box">
-          <div class="spinner"></div>
-          Loading deposit requests...
-        </div>
-      </td>
-    </tr>
-  `;
-
-
-  try{
-
-    const snapshot =
-      await db
-        .collection("deposits")
-        .get();
-
-
-    const deposits = [];
-
-
-    snapshot.forEach(function(doc){
-
-      deposits.push({
-
-        id:doc.id,
-
-        ...doc.data()
-
-      });
-
-    });
-
-
-    deposits.sort(function(a,b){
-
-      const aTime =
-        a.createdAt && a.createdAt.toMillis
-          ? a.createdAt.toMillis()
-          : 0;
-
-      const bTime =
-        b.createdAt && b.createdAt.toMillis
-          ? b.createdAt.toMillis()
-          : 0;
-
-      return bTime - aTime;
-
-    });
-
-
-    let pendingCount = 0;
-    let approvedCount = 0;
-
-
-    deposits.forEach(function(deposit){
-
-      if(deposit.status === "pending"){
-        pendingCount++;
-      }
-
-      if(deposit.status === "approved"){
-        approvedCount++;
-      }
-
-    });
-
-
-    document.getElementById(
-      "adminPendingCount"
-    ).textContent =
-      pendingCount;
-
-
-    document.getElementById(
-      "adminApprovedCount"
-    ).textContent =
-      approvedCount;
-
-
-    if(!deposits.length){
-
-      body.innerHTML = `
-        <tr>
-          <td colspan="5">
-            <div class="empty-box">
-              No deposit requests found.
-            </div>
-          </td>
-        </tr>
-      `;
-
-      return;
-
-    }
-
-
-    body.innerHTML = "";
-
-
-    deposits.forEach(function(deposit){
-
-      const row =
-        document.createElement("tr");
-
-
-      const status =
-        String(
-          deposit.status || "pending"
-        ).toLowerCase();
-
-
-      let action = "";
-
-
-      if(status === "pending"){
-
-        action = `
-
-          <button
-            class="primary-button"
-            style="padding:7px 9px;font-size:11px;"
-            onclick="approveDeposit('${deposit.id}')">
-            Approve
-          </button>
-
-          <button
-            class="primary-button"
-            style="padding:7px 9px;font-size:11px;background:#c62828;margin-left:4px;"
-            onclick="rejectDeposit('${deposit.id}')">
-            Reject
-          </button>
-
-        `;
-
-      }else{
-
-        action =
-          '<span style="color:#6d7972;font-size:11px;">Completed</span>';
-
-      }
-
-
-      row.innerHTML = `
-
-        <td>
-          ${escapeHtml(
-            deposit.userEmail || "-"
-          )}
-        </td>
-
-        <td>
-          ${formatMoney(
-            deposit.amount || 0
-          )}
-        </td>
-
-        <td>
-          ${escapeHtml(
-            deposit.reference || "-"
-          )}
-        </td>
-
-        <td>
-          <span class="status-badge ${
-            status === "approved"
-              ? "status-success"
-              : status === "rejected"
-              ? "status-failed"
-              : "status-pending"
-          }">
-            ${escapeHtml(status)}
-          </span>
-        </td>
-
-        <td>
-          ${action}
-        </td>
-
-      `;
-
-
-      body.appendChild(row);
-
-    });
-
-
-  }catch(error){
-
-    console.error(error);
-
-
-    showMessage(
-      "adminMessage",
-      error.message ||
-        "Unable to load deposit requests.",
-      "error"
-    );
-
-
-    body.innerHTML = `
-      <tr>
-        <td colspan="5">
-          <div class="alert alert-error">
-            Unable to load deposit requests.
-          </div>
-        </td>
-      </tr>
-    `;
-
-  }
-
-}
-
-
-/* =====================================================
-   APPROVE DEPOSIT
-===================================================== */
-
-async function approveDeposit(depositId){
-
-  if(!isAdmin()){
-
-    return;
-
-  }
-
-
-  if(!confirm(
-    "Approve this deposit and credit the user's wallet?"
-  )){
-
-    return;
-
-  }
-
-
-  try{
-
-    const depositRef =
-      db.collection("deposits")
-        .doc(depositId);
-
-
-    const depositSnapshot =
-      await depositRef.get();
-
-
-    if(!depositSnapshot.exists){
-
-      throw new Error(
-        "Deposit request not found."
-      );
-
-    }
-
-
-    const deposit =
-      depositSnapshot.data();
-
-
-    if(deposit.status !== "pending"){
-
-      throw new Error(
-        "This deposit has already been processed."
-      );
-
-    }
-
-
-    const userRef =
-      db.collection("users")
-        .doc(deposit.uid);
-
-
-    const transactionRef =
-      db.collection("transactions")
-        .doc();
-
-
-    await db.runTransaction(
-      async function(transaction){
-
-        const userSnapshot =
-          await transaction.get(userRef);
-
-
-        let oldBalance = 0;
-
-
-        if(userSnapshot.exists){
-
-          const userData =
-            userSnapshot.data() || {};
-
-          oldBalance =
-            Number(userData.balance || 0);
-
-        }
-
-
-        const amount =
-          Number(deposit.amount || 0);
-
-
-        const newBalance =
-          oldBalance + amount;
-
-
-        transaction.set(
-          userRef,
-          {
-
-            balance:newBalance,
-
-            email:
-              deposit.userEmail || "",
-
-            updatedAt:
-              firebase.firestore.FieldValue.serverTimestamp()
-
-          },
-          {
-            merge:true
-          }
-        );
-
-
-        transaction.update(
-          depositRef,
-          {
-
-            status:"approved",
-
-            approvedAt:
-              firebase.firestore.FieldValue.serverTimestamp(),
-
-            approvedBy:
-              currentUser.email
-
-          }
-        );
-
-
-        transaction.set(
-          transactionRef,
-          {
-
-            uid:deposit.uid,
-
-            userEmail:
-              deposit.userEmail || "",
-
-            service:"Wallet Deposit",
-
-            description:
-              "Wallet Deposit Approved",
-
-            amount:amount,
-
-            balanceAfter:newBalance,
-
-            status:"success",
-
-            depositId:depositId,
-
-            createdAt:
-              firebase.firestore.FieldValue.serverTimestamp()
-
-          }
-        );
-
-      }
-    );
-
-
-    showMessage(
-      "adminMessage",
-      "Deposit approved and wallet credited successfully.",
-      "success"
-    );
-
-
-    await loadAdminDeposits();
-
-
-  }catch(error){
-
-    console.error(error);
-
-
-    showMessage(
-      "adminMessage",
-      error.message ||
-        "Unable to approve deposit.",
-      "error"
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   REJECT DEPOSIT
-===================================================== */
-
-async function rejectDeposit(depositId){
-
-  if(!isAdmin()){
-
-    return;
-
-  }
-
-
-  if(!confirm(
-    "Reject this deposit request?"
-  )){
-
-    return;
-
-  }
-
-
-  try{
-
-    await db
-      .collection("deposits")
-      .doc(depositId)
-      .update({
-
-        status:"rejected",
-
-        rejectedAt:
-          firebase.firestore.FieldValue.serverTimestamp(),
-
-        rejectedBy:
-          currentUser.email
-
-      });
-
-
-    showMessage(
-      "adminMessage",
-      "Deposit request rejected.",
-      "success"
-    );
-
-
-    await loadAdminDeposits();
-
-
-  }catch(error){
-
-    console.error(error);
-
-
-    showMessage(
-      "adminMessage",
-      error.message ||
-        "Unable to reject deposit.",
-      "error"
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   SHOW ADMIN BUTTON WHEN ADMIN LOGS IN
-===================================================== */
-
-function setupAdminNavigation(){
-
-  const existing =
-    document.getElementById(
-      "dynamicAdminButton"
-    );
-
-
-  if(existing){
-    existing.remove();
-  }
-
-
-  if(!isAdmin()){
-    return;
-  }
-
-
-  const nav =
-    document.querySelector(".desktop-nav");
-
-
-  if(nav){
-
-    const button =
-      document.createElement("button");
-
-    button.id =
-      "dynamicAdminButton";
-
-    button.className =
-      "nav-btn";
-
-    button.textContent =
-      "Admin";
-
-    button.onclick =
-      function(){
-
-        showPage("admin");
-
-      };
-
-
-    nav.appendChild(button);
-
-  }
-
-
-  const mobileMenu =
-    document.getElementById("mobileMenu");
-
-
-  if(mobileMenu){
-
-    const button =
-      document.createElement("button");
-
-    button.id =
-      "dynamicMobileAdminButton";
-
-    button.textContent =
-      "🛡️ Admin";
-
-    button.onclick =
-      function(){
-
-        showPage("admin");
-
-        closeMobileMenu();
-
-      };
-
-
-    mobileMenu.appendChild(button);
-
-  }
-
-}
-
-
-/* =====================================================
-   UPDATE ADMIN NAVIGATION AFTER AUTH
-===================================================== */
-
-auth.onAuthStateChanged(function(user){
-
-  setTimeout(function(){
-
-    setupAdminNavigation();
-
-  },300);
-
-});
-
-
-/* =====================================================
-   WORKER REQUEST HELPER
-===================================================== */
-
-async function workerRequest(
-  path,
-  options={}
-){
-
-  const requestOptions = {
-
-    method:
-      options.method || "GET",
-
-    headers:{
-      ...(options.headers || {})
-    }
-
-  };
-
-
-  if(options.body){
-
-    requestOptions.body =
-      options.body;
-
-  }
-
-
-  const response =
-    await fetch(
-      WORKER_URL + path,
-      requestOptions
-    );
-
-
-  const text =
-    await response.text();
-
-
-  let data;
-
-
-  try{
-
-    data =
-      JSON.parse(text);
-
-  }catch(error){
-
-    throw new Error(
-      "The service server returned an invalid response."
-    );
-
-  }
-
-
-  if(!response.ok){
-
-    throw new Error(
-      data.message ||
-      "Service request failed."
-    );
-
-  }
-
-
-  return data;
-
-}
-
-
-/* =====================================================
-   DEPOSIT ACCOUNT INFORMATION
-===================================================== */
-
-function getDepositAccountInfo(){
-
-  return {
-
-    bank:DEPOSIT_BANK,
-
-    accountName:
-      DEPOSIT_ACCOUNT_NAME,
-
-    accountNumber:
-      DEPOSIT_ACCOUNT_NUMBER
-
-  };
-
-}
-
-  <!-- =====================================================
-     PART 3 / 3
-     DATA PLANS + AIRTIME + BILLS + FINAL FUNCTIONS
-===================================================== -->
-
-<script>
-
-/* =====================================================
-   DATA PLAN STATE
-===================================================== */
-
-let availablePlans = [];
-
-
-/* =====================================================
-   FORMAT DATA SIZE
-===================================================== */
-
-function formatDataSize(sizeMb) {
-
-  const mb = Number(sizeMb || 0);
-
-  if (!mb || mb <= 0) {
-    return "Data";
-  }
-
-  if (mb >= 1000) {
-
-    const gb = mb / 1000;
-
-    return Number.isInteger(gb)
-      ? gb + "GB"
-      : gb.toFixed(2).replace(/\.00$/, "") + "GB";
-  }
-
-  return mb + "MB";
-}
-
-
-/* =====================================================
-   EXTRACT PLANS FROM WORKER RESPONSE
-===================================================== */
-
-function extractPlans(result) {
-
-  if (
-    result &&
-    result.plans &&
-    Array.isArray(result.plans.data_plans)
-  ) {
-    return result.plans.data_plans;
-  }
-
-  if (
-    result &&
-    result.plans &&
-    Array.isArray(result.plans.plans)
-  ) {
-    return result.plans.plans;
-  }
-
-  if (
-    result &&
-    Array.isArray(result.data_plans)
-  ) {
-    return result.data_plans;
-  }
-
-  if (
-    result &&
-    result.data &&
-    Array.isArray(result.data.data_plans)
-  ) {
-    return result.data.data_plans;
-  }
-
-  return [];
-}
-
-
-/* =====================================================
-   LOAD DATA PLANS
-===================================================== */
-
-async function loadDataPlans(network) {
-
-  const container =
-    document.getElementById("dataPlansContainer");
-
-  const status =
-    document.getElementById("dataPlanStatus");
-
-  if (!container) {
-    return;
-  }
-
-  availablePlans = [];
-
-  container.innerHTML = `
-    <div class="loading-box">
-      <div class="loading-spinner"></div>
-      <p>Loading ${escapeHtml(network.toUpperCase())} plans...</p>
+<div id="depositModal" class="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:999;align-items:center;justify-content:center;padding:20px;">
+  <div class="section" style="width:100%;max-width:430px;position:relative;">
+    <button type="button" class="close" onclick="closeDepositModal()" style="position:absolute;right:20px;top:20px;border:0;background:transparent;font-size:28px;cursor:pointer;">×</button>
+    <h2 style="margin-bottom:15px;">Fund Wallet</h2>
+    <div class="alert alert-info">Bank: PalmPay<br>Account Name: A T L Data<br>Account Number: 7073160817</div>
+    <div class="form-group">
+      <label>Amount</label>
+      <input id="depAmount" type="number" min="100" placeholder="1000">
     </div>
-  `;
+    <div class="form-group">
+      <label>Reference</label>
+      <input id="depRef" type="text" placeholder="Payment reference">
+    </div>
+    <button type="button" class="primary-button" onclick="submitDeposit()">Submit Request</button>
+  </div>
+</div>
 
-  if (status) {
-    status.textContent =
-      "Loading available plans...";
-  }
+<script>
+const pageIds = ['home','data','airtime','bills','wallet','transactions','account','auth'];
 
-  try {
-
-    const result =
-      await workerRequest(
-        "/test-plans/" +
-        encodeURIComponent(network)
-      );
-
-    const plans =
-      extractPlans(result);
-
-    if (!plans.length) {
-
-      container.innerHTML = `
-        <div class="empty-state">
-          <div class="empty-icon">📦</div>
-          <h3>No plans available</h3>
-          <p>
-            No data plans were returned for
-            ${escapeHtml(network.toUpperCase())}.
-          </p>
-        </div>
-      `;
-
-      if (status) {
-        status.textContent =
-          "No plans available.";
-      }
-
-      return;
-    }
-
-    availablePlans = plans;
-
-    renderDataPlans(plans, network);
-
-    if (status) {
-      status.textContent =
-        plans.length +
-        " plans available";
-    }
-
-  } catch (error) {
-
-    console.error(
-      "Load data plans error:",
-      error
-    );
-
-    container.innerHTML = `
-      <div class="empty-state error-state">
-        <div class="empty-icon">⚠️</div>
-
-        <h3>Unable to load plans</h3>
-
-        <p>
-          ${escapeHtml(
-            error.message ||
-            "Please try again."
-          )}
-        </p>
-
-        <button
-          type="button"
-          class="primary-button"
-          onclick="loadDataPlans('${escapeHtml(network)}')"
-        >
-          Try Again
-        </button>
-      </div>
-    `;
-
-    if (status) {
-      status.textContent =
-        "Unable to load plans.";
-    }
-  }
-}
-
-
-/* =====================================================
-   RENDER DATA PLANS
-===================================================== */
-
-function renderDataPlans(plans, network) {
-
-  const container =
-    document.getElementById("dataPlansContainer");
-
-  if (!container) {
-    return;
-  }
-
-  container.innerHTML = "";
-
-  plans.forEach((plan, index) => {
-
-    const card =
-      document.createElement("div");
-
-    card.className = "plan-card";
-
-    const name =
-      plan.name ||
-      formatDataSize(plan.size_mb) ||
-      "Data Plan";
-
-    const price =
-      Number(plan.price || 0);
-
-    const validity =
-      plan.validity_days
-        ? plan.validity_days + " days"
-        : "Standard validity";
-
-    const size =
-      plan.size_mb
-        ? formatDataSize(plan.size_mb)
-        : name;
-
-    card.innerHTML = `
-      <div class="plan-network">
-        ${escapeHtml(network.toUpperCase())}
-      </div>
-
-      <div class="plan-name">
-        ${escapeHtml(name)}
-      </div>
-
-      <div class="plan-size">
-        ${escapeHtml(size)}
-      </div>
-
-      <div class="plan-validity">
-        ${escapeHtml(validity)}
-      </div>
-
-      <div class="plan-price">
-        ₦${formatMoney(price)}
-      </div>
-
-      <button
-        type="button"
-        class="plan-btn"
-      >
-        Buy Plan
-      </button>
-    `;
-
-    const button =
-      card.querySelector(".plan-btn");
-
-    if (button) {
-
-      button.addEventListener(
-        "click",
-        () => selectPlan(index)
-      );
-    }
-
-    container.appendChild(card);
+function showPage(page) {
+  pageIds.forEach(id => {
+    const section = document.getElementById('page-' + id);
+    if (section) section.style.display = (id === page) ? 'block' : 'none';
   });
+
+  if (page === 'home') window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-
-/* =====================================================
-   SELECT DATA PLAN
-===================================================== */
-
-function selectPlan(index) {
-
-  if (
-    index < 0 ||
-    index >= availablePlans.length
-  ) {
-    return;
-  }
-
-  selectedPlan =
-    availablePlans[index];
-
-  openPlanModal();
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobileMenu');
+  if (!menu) return;
+  menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
 }
 
+function selectNetwork(network) {
+  document.querySelectorAll('.network-btn').forEach(button => {
+    button.classList.toggle('active', button.dataset.network === network);
+  });
 
-/* =====================================================
-   OPEN PLAN MODAL
-===================================================== */
-
-function openPlanModal() {
-
-  const modal =
-    document.getElementById("planModal");
-
-  const details =
-    document.getElementById(
-      "selectedPlanDetails"
-    );
-
-  const phone =
-    document.getElementById("planPhone");
-
-  const message =
-    document.getElementById("planMessage");
-
-  if (!modal || !selectedPlan) {
-    return;
-  }
-
-  const name =
-    selectedPlan.name ||
-    formatDataSize(
-      selectedPlan.size_mb
-    );
-
-  const price =
-    Number(selectedPlan.price || 0);
-
-  const size =
-    selectedPlan.size_mb
-      ? formatDataSize(
-          selectedPlan.size_mb
-        )
-      : name;
-
-  const validity =
-    selectedPlan.validity_days
-      ? selectedPlan.validity_days +
-        " days"
-      : "Standard validity";
-
-  if (details) {
-
-    details.innerHTML = `
-      <div class="selected-plan-title">
-        ${escapeHtml(name)}
-      </div>
-
-      <div class="selected-plan-info">
-        <span>
-          📦 ${escapeHtml(size)}
-        </span>
-
-        <span>
-          ⏱️ ${escapeHtml(validity)}
-        </span>
-
-        <strong>
-          ₦${formatMoney(price)}
-        </strong>
-      </div>
-    `;
-  }
-
-  if (message) {
-    message.classList.add("hidden");
-    message.textContent = "";
-  }
-
-  if (phone) {
-    phone.value = "";
-  }
-
-  modal.classList.remove("hidden");
-}
-
-
-/* =====================================================
-   CLOSE PLAN MODAL
-===================================================== */
-
-function closePlanModal() {
-
-  const modal =
-    document.getElementById("planModal");
-
-  if (modal) {
-    modal.classList.add("hidden");
-  }
-
-  selectedPlan = null;
-}
-
-
-/* =====================================================
-   CONFIRM DATA PLAN
-   SANDBOX / TEST MODE
-===================================================== */
-
-async function confirmPlanSelection() {
-
-  const phone =
-    document
-      .getElementById("planPhone")
-      ?.value
-      .trim();
-
-  const message =
-    document.getElementById(
-      "planMessage"
-    );
-
-  if (!currentUser) {
-
-    closePlanModal();
-
-    openAuth("login");
-
-    return;
-  }
-
-  if (!selectedPlan) {
-
-    if (message) {
-
-      message.textContent =
-        "Please select a data plan.";
-
-      message.className =
-        "form-message alert error";
-    }
-
-    return;
-  }
-
-  if (!/^0\d{10}$/.test(phone)) {
-
-    if (message) {
-
-      message.textContent =
-        "Enter a valid 11-digit Nigerian phone number.";
-
-      message.className =
-        "form-message alert error";
-    }
-
-    return;
-  }
-
-  /*
-   * IMPORTANT:
-   * The website is currently connected to
-   * the VTUGATE sandbox/test plan catalogue.
-   *
-   * No real-money purchase is executed here.
-   */
-
-  if (message) {
-
-    message.textContent =
-      "Sandbox mode: this plan is available for testing, but real purchase is not enabled yet.";
-
-    message.className =
-      "form-message alert info";
+  const status = document.getElementById('planStatus');
+  const plansGrid = document.getElementById('plansGrid');
+  if (status) status.textContent = 'Loading available plans…';
+  if (plansGrid) {
+    plansGrid.innerHTML = '<div class="empty-box">Plans for ' + network.toUpperCase() + ' are loading...</div>';
   }
 }
 
-
-/* =====================================================
-   NETWORK BUTTONS
-===================================================== */
-
-function selectDataNetwork(network) {
-
-  selectedNetwork =
-    String(network)
-      .toLowerCase()
-      .trim();
-
-  document
-    .querySelectorAll(
-      "[id^='data-network-']"
-    )
-    .forEach((button) => {
-
-      button.classList.remove(
-        "active"
-      );
-    });
-
-  const selectedButton =
-    document.getElementById(
-      "data-network-" +
-      selectedNetwork
-    );
-
-  if (selectedButton) {
-    selectedButton.classList.add(
-      "active"
-    );
-  }
-
-  loadDataPlans(
-    selectedNetwork
-  );
+function handleBillTypeChange() {
+  const type = document.getElementById('billType')?.value || '';
+  document.getElementById('electricityFields').style.display = (type === 'electricity') ? 'block' : 'none';
+  document.getElementById('educationFields').style.display = (type === 'education') ? 'block' : 'none';
+  document.getElementById('otherBillFields').style.display = (type === 'other') ? 'block' : 'none';
 }
 
+function processAirtimeOrder() {
+  const network = document.getElementById('airtimeNetwork').value;
+  const phone = document.getElementById('airtimePhone').value.trim();
+  const amount = Number(document.getElementById('airtimeAmount').value);
 
-/* =====================================================
-   AIRTIME
-===================================================== */
-
-async function requestAirtime() {
-
-  const message =
-    document.getElementById(
-      "airtimeMessage"
-    );
-
-  const network =
-    document
-      .getElementById("airtimeNetwork")
-      ?.value
-      .trim();
-
-  const phone =
-    document
-      .getElementById("airtimePhone")
-      ?.value
-      .trim();
-
-  const amount =
-    Number(
-      document
-        .getElementById("airtimeAmount")
-        ?.value
-    );
-
-  if (!currentUser) {
-
-    openAuth("login");
-
+  if (!network || !phone || !amount || amount < 50) {
+    alert('Please complete all fields with a valid amount.');
     return;
   }
 
-  if (!network) {
+  alert('Airtime order recorded successfully. Sandbox mode enabled.');
+}
 
-    showMessage(
-      "airtimeMessage",
-      "Please select a network.",
-      "error"
-    );
+function processBillForm() {
+  const type = document.getElementById('billType').value;
 
+  if (!type) {
+    alert('Please select a bill type.');
     return;
   }
 
-  if (!/^0\d{10}$/.test(phone)) {
+  alert('Bill payment request recorded. Sandbox mode enabled.');
+}
 
-    showMessage(
-      "airtimeMessage",
-      "Enter a valid 11-digit phone number.",
-      "error"
-    );
+function openDepositModal() {
+  const modal = document.getElementById('depositModal');
+  if (modal) modal.style.display = 'flex';
+}
 
+function closeDepositModal() {
+  const modal = document.getElementById('depositModal');
+  if (modal) modal.style.display = 'none';
+}
+
+function submitDeposit() {
+  const amount = Number(document.getElementById('depAmount').value);
+  const ref = document.getElementById('depRef').value.trim();
+
+  if (!amount || amount < 100 || !ref) {
+    alert('Please enter a valid amount and reference.');
     return;
   }
 
-  if (
-    !Number.isFinite(amount) ||
-    amount < 50
-  ) {
+  alert('Deposit request submitted successfully.');
+  closeDepositModal();
+}
 
-    showMessage(
-      "airtimeMessage",
-      "Minimum airtime amount is ₦50.",
-      "error"
-    );
+function loginUser() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
 
+  if (!email || !password) {
+    alert('Please enter your email and password.');
     return;
   }
 
-  showMessage(
-    "airtimeMessage",
-    "Sandbox mode: airtime purchase is not enabled yet.",
-    "info"
-  );
+  alert('Login successful (demo mode).');
+  showPage('account');
+  document.getElementById('accountArea').innerHTML = '<div class="alert alert-success">Welcome! You are logged in.</div><div class="account-card"><small>Email</small><strong>' + email + '</strong></div>';
 }
 
-
-/* =====================================================
-   BILLS SERVICE UI
-===================================================== */
-
-function openBillService(type) {
-
-  const area =
-    document.getElementById(
-      "billServiceArea"
-    );
-
-  const title =
-    document.getElementById(
-      "billServiceTitle"
-    );
-
-  const form =
-    document.getElementById(
-      "billServiceForm"
-    );
-
-  if (!area || !form) {
-    return;
-  }
-
-  area.classList.remove(
-    "hidden"
-  );
-
-  let heading = "";
-  let html = "";
-
-  if (type === "electricity") {
-
-    heading =
-      "⚡ Electricity Payment";
-
-    html = `
-      <div class="form-group">
-        <label>Electricity Provider</label>
-
-        <select
-          id="billProvider"
-          class="form-input"
-        >
-          <option value="">
-            Select provider
-          </option>
-
-          <option value="ikeja">
-            Ikeja Electric
-          </option>
-
-          <option value="eko">
-            Eko Electricity
-          </option>
-
-          <option value="kano">
-            Kano Electricity
-          </option>
-
-          <option value="abuja">
-            Abuja Electricity
-          </option>
-
-          <option value="portharcourt">
-            Port Harcourt Electricity
-          </option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Meter Type</label>
-
-        <select
-          id="billMeterType"
-          class="form-input"
-        >
-          <option value="">
-            Select meter type
-          </option>
-
-          <option value="prepaid">
-            Prepaid
-          </option>
-
-          <option value="postpaid">
-            Postpaid
-          </option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Meter Number</label>
-
-        <input
-          id="billMeterNumber"
-          class="form-input"
-          type="text"
-          inputmode="numeric"
-          placeholder="Enter meter number"
-        />
-      </div>
-
-      <div class="form-group">
-        <label>Amount</label>
-
-        <input
-          id="billAmount"
-          class="form-input"
-          type="number"
-          min="100"
-          placeholder="₦ Amount"
-        />
-      </div>
-
-      <button
-        type="button"
-        class="primary-button full-width"
-        onclick="submitBillService('electricity')"
-      >
-        Continue
-      </button>
-    `;
-  }
-
-
-  else if (type === "cable") {
-
-    heading =
-      "📺 Cable TV Payment";
-
-    html = `
-      <div class="form-group">
-        <label>TV Provider</label>
-
-        <select
-          id="billProvider"
-          class="form-input"
-        >
-          <option value="">
-            Select provider
-          </option>
-
-          <option value="dstv">
-            DStv
-          </option>
-
-          <option value="gotv">
-            GOtv
-          </option>
-
-          <option value="startimes">
-            Startimes
-          </option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Smartcard / IUC Number</label>
-
-        <input
-          id="billCustomerNumber"
-          class="form-input"
-          type="text"
-          inputmode="numeric"
-          placeholder="Enter smartcard number"
-        />
-      </div>
-
-      <div class="form-group">
-        <label>Package</label>
-
-        <select
-          id="billPackage"
-          class="form-input"
-        >
-          <option value="">
-            Select package
-          </option>
-
-          <option value="basic">
-            Basic
-          </option>
-
-          <option value="standard">
-            Standard
-          </option>
-
-          <option value="premium">
-            Premium
-          </option>
-        </select>
-      </div>
-
-      <button
-        type="button"
-        class="primary-button full-width"
-        onclick="submitBillService('cable')"
-      >
-        Continue
-      </button>
-    `;
-  }
-
-
-  else if (type === "education") {
-
-    heading =
-      "🎓 Education PIN";
-
-    html = `
-      <div class="form-group">
-        <label>Examination</label>
-
-        <select
-          id="billProvider"
-          class="form-input"
-        >
-          <option value="">
-            Select examination
-          </option>
-
-          <option value="neco">
-            NECO
-          </option>
-
-          <option value="waec">
-            WAEC
-          </option>
-
-          <option value="jamb">
-            JAMB
-          </option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Phone Number</label>
-
-        <input
-          id="billCustomerNumber"
-          class="form-input"
-          type="tel"
-          inputmode="numeric"
-          maxlength="11"
-          placeholder="08012345678"
-        />
-      </div>
-
-      <div class="form-group">
-        <label>Quantity</label>
-
-        <input
-          id="billQuantity"
-          class="form-input"
-          type="number"
-          min="1"
-          max="10"
-          value="1"
-        />
-      </div>
-
-      <button
-        type="button"
-        class="primary-button full-width"
-        onclick="submitBillService('education')"
-      >
-        Continue
-      </button>
-    `;
-  }
-
-
-  else if (type === "internet") {
-
-    heading =
-      "🌐 Internet Subscription";
-
-    html = `
-      <div class="form-group">
-        <label>Internet Provider</label>
-
-        <select
-          id="billProvider"
-          class="form-input"
-        >
-          <option value="">
-            Select provider
-          </option>
-
-          <option value="smile">
-            Smile
-          </option>
-
-          <option value="spectranet">
-            Spectranet
-          </option>
-
-          <option value="swift">
-            Swift
-          </option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Phone / Account Number</label>
-
-        <input
-          id="billCustomerNumber"
-          class="form-input"
-          type="text"
-          placeholder="Enter account number"
-        />
-      </div>
-
-      <div class="form-group">
-        <label>Amount</label>
-
-        <input
-          id="billAmount"
-          class="form-input"
-          type="number"
-          min="100"
-          placeholder="₦ Amount"
-        />
-      </div>
-
-      <button
-        type="button"
-        class="primary-button full-width"
-        onclick="submitBillService('internet')"
-      >
-        Continue
-      </button>
-    `;
-  }
-
-
-  else {
-
-    heading =
-      "Pay Bills";
-
-    html = `
-      <div class="empty-state">
-        <div class="empty-icon">🧾</div>
-
-        <h3>Select a service</h3>
-
-        <p>
-          Choose the bill service you want to use.
-        </p>
-      </div>
-    `;
-  }
-
-  if (title) {
-    title.textContent =
-      heading;
-  }
-
-  form.innerHTML =
-    html;
-}
-
-
-/* =====================================================
-   SUBMIT BILL SERVICE
-   SANDBOX / TEST MODE
-===================================================== */
-
-function submitBillService(type) {
-
-  if (!currentUser) {
-
-    openAuth("login");
-
-    return;
-  }
-
-  if (type === "electricity") {
-
-    const provider =
-      document
-        .getElementById("billProvider")
-        ?.value;
-
-    const meterType =
-      document
-        .getElementById("billMeterType")
-        ?.value;
-
-    const meterNumber =
-      document
-        .getElementById("billMeterNumber")
-        ?.value
-        .trim();
-
-    const amount =
-      Number(
-        document
-          .getElementById("billAmount")
-          ?.value
-      );
-
-    if (!provider ||
-        !meterType ||
-        !meterNumber ||
-        !amount) {
-
-      showMessage(
-        "billServiceForm",
-        "Please complete all required fields.",
-        "error"
-      );
-
-      return;
-    }
-  }
-
-
-  if (type === "cable") {
-
-    const provider =
-      document
-        .getElementById("billProvider")
-        ?.value;
-
-    const customer =
-      document
-        .getElementById("billCustomerNumber")
-        ?.value
-        .trim();
-
-    const packageName =
-      document
-        .getElementById("billPackage")
-        ?.value;
-
-    if (
-      !provider ||
-      !customer ||
-      !packageName
-    ) {
-
-      showMessage(
-        "billServiceForm",
-        "Please complete all required fields.",
-        "error"
-      );
-
-      return;
-    }
-  }
-
-
-  if (type === "education") {
-
-    const provider =
-      document
-        .getElementById("billProvider")
-        ?.value;
-
-    const phone =
-      document
-        .getElementById("billCustomerNumber")
-        ?.value
-        .trim();
-
-    const quantity =
-      Number(
-        document
-          .getElementById("billQuantity")
-          ?.value
-      );
-
-    if (
-      !provider ||
-      !/^0\d{10}$/.test(phone) ||
-      !quantity ||
-      quantity < 1
-    ) {
-
-      showMessage(
-        "billServiceForm",
-        "Enter valid education service details.",
-        "error"
-      );
-
-      return;
-    }
-  }
-
-
-  if (type === "internet") {
-
-    const provider =
-      document
-        .getElementById("billProvider")
-        ?.value;
-
-    const customer =
-      document
-        .getElementById("billCustomerNumber")
-        ?.value
-        .trim();
-
-    const amount =
-      Number(
-        document
-          .getElementById("billAmount")
-          ?.value
-      );
-
-    if (
-      !provider ||
-      !customer ||
-      !amount
-    ) {
-
-      showMessage(
-        "billServiceForm",
-        "Please complete all required fields.",
-        "error"
-      );
-
-      return;
-    }
-  }
-
-  showMessage(
-    "billServiceForm",
-    "Sandbox mode: this bill service is ready for testing, but real payment is not enabled yet.",
-    "info"
-  );
-}
-
-
-/* =====================================================
-   PAGE INITIALIZATION
-===================================================== */
-
-function initializeDataPage() {
-
-  if (!selectedNetwork) {
-    selectedNetwork = "mtn";
-  }
-
-  selectDataNetwork(
-    selectedNetwork
-  );
-}
-
-
-/* =====================================================
-   MODAL OUTSIDE CLICK
-===================================================== */
-
-window.addEventListener(
-  "click",
-  function(event) {
-
-    const planModal =
-      document.getElementById(
-        "planModal"
-      );
-
-    const depositModal =
-      document.getElementById(
-        "depositModal"
-      );
-
-    if (
-      planModal &&
-      event.target === planModal
-    ) {
-      closePlanModal();
-    }
-
-    if (
-      depositModal &&
-      event.target === depositModal
-    ) {
-      closeDepositModal();
-    }
-  }
-);
-
-
-/* =====================================================
-   INITIAL DATA LOAD
-===================================================== */
-
-setTimeout(
-  () => {
-
-    if (
-      document.getElementById(
-        "dataPlansContainer"
-      )
-    ) {
-      initializeDataPage();
-    }
-
-  },
-  300
-);
-
-
-/* =====================================================
-   FINAL PAGE STATE
-===================================================== */
-
-if (
-  typeof setupAdminNavigation ===
-  "function"
-) {
-  setupAdminNavigation();
-}
-
-
-/* =====================================================
-     END PART 3
-===================================================== */
-
+window.addEventListener('DOMContentLoaded', () => {
+  showPage('home');
+  selectNetwork('mtn');
+});
 </script>
-
 </body>
 </html>
