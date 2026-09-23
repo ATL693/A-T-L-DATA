@@ -3,3301 +3,4522 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#087443">
-<title>A T L DATA | Professional VTU</title>
+<title>A T L DATA — Professional VTU Dashboard</title>
 
 <script src="https://www.gstatic.com/firebasejs/12.2.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/12.2.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore-compat.js"></script>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
 :root{
- --green:#087443;
- --green2:#0a9255;
- --gold:#ffd700;
- --dark:#10231b;
- --bg:#f4f7f6;
- --white:#fff;
- --muted:#718078;
- --danger:#d93025;
- --success:#168447;
- --shadow:0 8px 30px rgba(0,0,0,.08);
- --radius:18px
+  --green:#087443;
+  --green2:#0b8b52;
+  --gold:#ffd700;
+  --dark:#09251b;
+  --bg:#f5f8f6;
+  --card:#fff;
+  --text:#15251e;
+  --muted:#718078;
+  --border:#e4ebe7;
+  --danger:#d93636;
+  --warning:#d98c00;
+  --shadow:0 10px 30px rgba(0,0,0,.07);
+  --radius:18px;
 }
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{
- font-family:Arial,Helvetica,sans-serif;
- background:var(--bg);
- color:#17231e;
- min-height:100vh
+  margin:0;
+  font-family:Inter,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
 }
-button,input,select,textarea{font:inherit}
-button{cursor:pointer;border:0}
+
+button,input,select,textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
 .hidden{display:none!important}
-.page{min-height:100vh}
-.container{width:min(1180px,94%);margin:auto}
+
 .topbar{
- background:var(--white);
- height:70px;
- display:flex;
- align-items:center;
- justify-content:space-between;
- padding:0 4%;
- box-shadow:0 2px 15px rgba(0,0,0,.06);
- position:sticky;
- top:0;
- z-index:50
-}
-.brand{
- display:flex;
- align-items:center;
- gap:10px;
- font-weight:900;
- color:var(--green);
- font-size:20px
-}
-.logo{
- width:42px;height:42px;border-radius:12px;
- background:var(--green);
- color:#fff;
- display:grid;place-items:center;
- font-weight:900;
- box-shadow:0 4px 12px rgba(8,116,67,.25)
-}
-.nav-actions{display:flex;gap:8px;align-items:center}
-.nav-btn{
- background:#eef7f2;
- color:var(--green);
- padding:10px 15px;
- border-radius:10px;
- font-weight:700
-}
-.nav-btn:hover{background:#dff0e7}
-.menu-btn{display:none;font-size:24px;background:none;color:var(--green)}
-.hero{
- padding:70px 0;
- background:linear-gradient(135deg,#eef9f3,#fff)
-}
-.hero-grid{
- display:grid;
- grid-template-columns:1.2fr .8fr;
- gap:40px;
- align-items:center
-}
-.hero h1{
- font-size:clamp(34px,6vw,64px);
- line-height:1.05;
- color:var(--dark);
- margin-bottom:18px
-}
-.hero h1 span{color:var(--green)}
-.hero p{
- color:#607068;
- font-size:18px;
- line-height:1.7;
- margin-bottom:25px
-}
-.hero-buttons{display:flex;gap:12px;flex-wrap:wrap}
-.btn{
- padding:12px 18px;
- border-radius:11px;
- font-weight:800;
- transition:.2s;
- display:inline-flex;
- justify-content:center;
- align-items:center;
- gap:7px
-}
-.btn:hover{transform:translateY(-1px)}
-.btn-primary{background:var(--green);color:white}
-.btn-primary:hover{background:#075d37}
-.btn-secondary{background:white;color:var(--green);border:1px solid #d5e5dc}
-.btn-danger{background:#feeceb;color:var(--danger)}
-.btn-gold{background:var(--gold);color:#332d00}
-.btn-dark{background:#182b23;color:#fff}
-.hero-card{
- background:white;
- border-radius:24px;
- padding:28px;
- box-shadow:var(--shadow)
-}
-.balance-big{
- font-size:36px;
- font-weight:900;
- color:var(--green);
- margin:12px 0
-}
-.section{padding:55px 0}
-.section-title{text-align:center;margin-bottom:30px}
-.section-title h2{font-size:30px}
-.section-title p{color:var(--muted);margin-top:8px}
-.feature-grid{
- display:grid;
- grid-template-columns:repeat(4,1fr);
- gap:18px
-}
-.card{
- background:#fff;
- border-radius:var(--radius);
- padding:22px;
- box-shadow:var(--shadow)
-}
-.feature-icon{
- width:50px;height:50px;border-radius:14px;
- background:#e9f7ef;
- color:var(--green);
- display:grid;place-items:center;
- font-size:23px;margin-bottom:15px
-}
-.card h3{margin-bottom:8px}
-.card p{color:var(--muted);line-height:1.5}
-.auth-wrap{
- min-height:100vh;
- display:grid;
- place-items:center;
- padding:25px;
- background:linear-gradient(135deg,#eaf7ef,#fff)
-}
-.auth-box{
- width:min(470px,100%);
- background:white;
- padding:30px;
- border-radius:22px;
- box-shadow:var(--shadow)
-}
-.auth-head{text-align:center;margin-bottom:25px}
-.auth-head .logo{margin:auto auto 12px}
-.auth-head h1{color:var(--green)}
-.form-group{margin-bottom:15px}
-.form-group label{
- display:block;font-size:14px;font-weight:700;margin-bottom:7px
-}
-.form-group input,
-.form-group select,
-.form-group textarea{
- width:100%;
- border:1px solid #dce5e0;
- border-radius:10px;
- padding:12px 13px;
- outline:none;
- background:#fff
-}
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus{
- border-color:var(--green);
- box-shadow:0 0 0 3px rgba(8,116,67,.08)
-}
-.auth-footer{text-align:center;margin-top:18px;color:var(--muted)}
-.link{color:var(--green);font-weight:800;cursor:pointer}
-.alert{
- padding:12px 14px;
- border-radius:10px;
- margin-bottom:15px;
- font-size:14px
-}
-.alert-error{background:#fff0ef;color:#b42318}
-.alert-success{background:#ecf9f1;color:#16713c}
-.alert-info{background:#edf6ff;color:#1769aa}
-.dashboard{
- min-height:100vh;
- display:grid;
- grid-template-columns:250px 1fr
-}
-.sidebar{
- background:#fff;
- border-right:1px solid #e6ece8;
- position:sticky;
- top:0;
- height:100vh;
- overflow:auto;
- padding:20px 14px
-}
-.side-brand{padding:8px 10px 25px}
-.side-link{
- width:100%;
- background:none;
- text-align:left;
- padding:12px 13px;
- border-radius:10px;
- margin:3px 0;
- color:#526159;
- font-weight:700
-}
-.side-link:hover,.side-link.active{
- background:#eaf7ef;
- color:var(--green)
-}
-.side-title{
- font-size:11px;
- color:#9aa59f;
- margin:20px 10px 7px;
- text-transform:uppercase;
- font-weight:800
-}
-.main{
- min-width:0;
- padding-bottom:50px
-}
-.dashboard-top{
- background:white;
- min-height:70px;
- padding:0 25px;
- display:flex;
- align-items:center;
- justify-content:space-between;
- border-bottom:1px solid #e8eeea;
- position:sticky;
- top:0;
- z-index:30
-}
-.dashboard-content{padding:25px}
-.stats{
- display:grid;
- grid-template-columns:repeat(4,1fr);
- gap:16px;
- margin-bottom:22px
-}
-.stat{
- background:white;
- padding:20px;
- border-radius:16px;
- box-shadow:var(--shadow)
-}
-.stat small{color:var(--muted)}
-.stat strong{
- display:block;
- font-size:25px;
- margin-top:8px;
- color:var(--green)
-}
-.quick-grid{
- display:grid;
- grid-template-columns:repeat(4,1fr);
- gap:15px
-}
-.service-btn{
- background:white;
- border:1px solid #e2e9e5;
- border-radius:16px;
- padding:20px;
- text-align:left;
- transition:.2s
-}
-.service-btn:hover{
- border-color:var(--green);
- transform:translateY(-2px);
- box-shadow:var(--shadow)
-}
-.service-btn .icon{font-size:28px;margin-bottom:10px}
-.service-btn strong{display:block;margin-bottom:5px}
-.service-btn span{font-size:13px;color:var(--muted)}
-.page-head{
- display:flex;
- justify-content:space-between;
- align-items:center;
- gap:12px;
- margin-bottom:20px;
- flex-wrap:wrap
-}
-.page-head h2{font-size:26px}
-.table-wrap{
- background:white;
- border-radius:16px;
- box-shadow:var(--shadow);
- overflow:auto
-}
-table{width:100%;border-collapse:collapse;min-width:650px}
-th,td{
- padding:14px 16px;
- border-bottom:1px solid #edf1ef;
- text-align:left;
- font-size:14px
-}
-th{background:#f8faf9;color:#637169}
-.badge{
- display:inline-block;
- padding:5px 9px;
- border-radius:999px;
- font-size:11px;
- font-weight:800
-}
-.badge-success{background:#e8f8ef;color:#16713c}
-.badge-pending{background:#fff7dc;color:#856700}
-.badge-danger{background:#ffeded;color:#b42318}
-.empty{
- text-align:center;
- padding:45px 20px;
- color:var(--muted)
-}
-.plan-grid{
- display:grid;
- grid-template-columns:repeat(4,1fr);
- gap:14px
-}
-.network-title{
- grid-column:1/-1;
- font-size:20px;
- color:var(--green);
- margin-top:15px
-}
-.plan{
- background:#fff;
- border:1px solid #e2e9e5;
- border-radius:15px;
- padding:16px;
- transition:.2s
-}
-.plan:hover{border-color:var(--green);box-shadow:var(--shadow)}
-.plan strong{font-size:18px}
-.plan small{display:block;color:var(--muted);margin:5px 0 13px}
-.plan .price{font-size:20px;font-weight:900;color:var(--green)}
-.plan button{width:100%;margin-top:12px}
-.loading{text-align:center;padding:35px;color:var(--muted)}
-.modal-bg{
- position:fixed;
- inset:0;
- background:rgba(10,25,18,.55);
- display:none;
- align-items:center;
- justify-content:center;
- padding:18px;
- z-index:100
-}
-.modal-bg.show{display:flex}
-.modal{
- width:min(520px,100%);
- background:#fff;
- border-radius:20px;
- padding:25px;
- max-height:90vh;
- overflow:auto
-}
-.modal-head{
- display:flex;
- justify-content:space-between;
- align-items:center;
- margin-bottom:18px
-}
-.close{
- background:#eef2ef;
- width:36px;height:36px;
- border-radius:50%;
- font-size:20px
-}
-.deposit-box{
- background:#f0f8f3;
- border:1px solid #d8ebdf;
- padding:16px;
- border-radius:14px;
- margin-bottom:18px
-}
-.deposit-box p{margin:6px 0}
-.copy-row{display:flex;gap:7px;margin-top:8px}
-.copy-row input{flex:1}
-.toast{
- position:fixed;
- bottom:20px;
- right:20px;
- max-width:340px;
- background:#17231e;
- color:white;
- padding:14px 17px;
- border-radius:12px;
- box-shadow:var(--shadow);
- transform:translateY(120px);
- transition:.3s;
- z-index:300
-}
-.toast.show{transform:translateY(0)}
-.mobile-bottom{
- display:none
-}
-.back-row{
- display:flex;
- gap:8px;
- margin-bottom:18px
-}
-@media(max-width:1000px){
- .feature-grid{grid-template-columns:repeat(2,1fr)}
- .stats{grid-template-columns:repeat(2,1fr)}
- .quick-grid{grid-template-columns:repeat(2,1fr)}
- .plan-grid{grid-template-columns:repeat(3,1fr)}
-}
-@media(max-width:760px){
- .hero-grid{grid-template-columns:1fr}
- .dashboard{display:block}
- .sidebar{
-  position:fixed;
-  left:-270px;
-  top:0;
-  width:260px;
-  z-index:150;
-  transition:.25s
- }
- .sidebar.open{left:0}
- .menu-btn{display:block}
- .nav-actions .nav-btn{display:none}
- .dashboard-top{padding:0 15px}
- .dashboard-content{padding:15px 12px 75px}
- .stats{grid-template-columns:repeat(2,1fr)}
- .quick-grid{grid-template-columns:repeat(2,1fr)}
- .plan-grid{grid-template-columns:repeat(2,1fr)}
- .mobile-bottom{
-  position:fixed;
-  display:flex;
-  left:0;right:0;bottom:0;
-  height:62px;
+  height:68px;
   background:#fff;
-  border-top:1px solid #ddd;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 25px;
+  position:sticky;
+  top:0;
   z-index:100;
-  justify-content:space-around
- }
- .mobile-bottom button{
-  background:none;
-  color:#647068;
-  font-size:11px;
-  font-weight:700
- }
- .mobile-bottom button span{display:block;font-size:20px;margin-bottom:2px}
 }
-@media(max-width:480px){
- .feature-grid{grid-template-columns:1fr}
- .stats{grid-template-columns:1fr 1fr}
- .quick-grid{grid-template-columns:1fr 1fr}
- .plan-grid{grid-template-columns:1fr 1fr}
- .hero{padding:45px 0}
- .hero-card{padding:20px}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:900;
+  color:var(--green);
+  font-size:21px;
+}
+
+.logoIcon{
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  background:linear-gradient(135deg,var(--green),var(--green2));
+  color:white;
+  display:grid;
+  place-items:center;
+  font-weight:900;
+}
+
+.topActions{
+  display:flex;
+  gap:9px;
+  align-items:center;
+}
+
+.btn{
+  border:0;
+  border-radius:11px;
+  padding:11px 16px;
+  font-weight:700;
+  transition:.2s;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+}
+
+.primary{
+  background:var(--green);
+  color:#fff;
+}
+
+.gold{
+  background:var(--gold);
+  color:#171717;
+}
+
+.light{
+  background:#eef4f0;
+  color:var(--green);
+}
+
+.danger{
+  background:#ffe8e8;
+  color:#c62828;
+}
+
+.dark{
+  background:var(--dark);
+  color:#fff;
+}
+
+.container{
+  width:min(1180px,94%);
+  margin:auto;
+}
+
+.page{
+  min-height:calc(100vh - 68px);
+}
+
+.hero{
+  padding:55px 0;
+}
+
+.heroGrid{
+  display:grid;
+  grid-template-columns:1.3fr .7fr;
+  gap:25px;
+  align-items:center;
+}
+
+.hero h1{
+  font-size:clamp(35px,6vw,65px);
+  margin:0 0 15px;
+  line-height:1.03;
+}
+
+.hero h1 span{
+  color:var(--green);
+}
+
+.hero p{
+  color:var(--muted);
+  line-height:1.7;
+  max-width:650px;
+}
+
+.heroCard{
+  background:linear-gradient(145deg,var(--green),#06452b);
+  color:#fff;
+  border-radius:25px;
+  padding:28px;
+  box-shadow:var(--shadow);
+}
+
+.heroCard h3{
+  margin-top:0;
+}
+
+.grid{
+  display:grid;
+  gap:18px;
+}
+
+.grid2{grid-template-columns:repeat(2,1fr)}
+.grid3{grid-template-columns:repeat(3,1fr)}
+.grid4{grid-template-columns:repeat(4,1fr)}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:20px;
+  box-shadow:var(--shadow);
+}
+
+.section{
+  padding:30px 0;
+}
+
+.sectionTitle{
+  margin-bottom:20px;
+}
+
+.sectionTitle h2{
+  margin:0 0 7px;
+}
+
+.sectionTitle p{
+  margin:0;
+  color:var(--muted);
+}
+
+.stat{
+  padding:20px;
+  border-radius:17px;
+  background:#fff;
+  border:1px solid var(--border);
+  box-shadow:var(--shadow);
+}
+
+.stat small{
+  color:var(--muted);
+  display:block;
+  margin-bottom:7px;
+}
+
+.stat strong{
+  font-size:28px;
+}
+
+.icon{
+  font-size:26px;
+  margin-bottom:10px;
+}
+
+.field{
+  margin-bottom:14px;
+}
+
+.field label{
+  display:block;
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:6px;
+}
+
+.field input,
+.field select,
+.field textarea{
+  width:100%;
+  padding:12px 13px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  outline:none;
+  background:#fff;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+  border-color:var(--green);
+}
+
+.authWrap{
+  min-height:calc(100vh - 68px);
+  display:grid;
+  place-items:center;
+  padding:30px;
+}
+
+.authCard{
+  width:min(470px,100%);
+  background:#fff;
+  border-radius:22px;
+  padding:27px;
+  box-shadow:var(--shadow);
+  border:1px solid var(--border);
+}
+
+.tabs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  background:#edf3ef;
+  padding:4px;
+  border-radius:12px;
+  margin-bottom:22px;
+}
+
+.tabs button{
+  border:0;
+  padding:11px;
+  border-radius:9px;
+  background:transparent;
+  font-weight:800;
+}
+
+.tabs button.active{
+  background:#fff;
+  color:var(--green);
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
+}
+
+.dashboard{
+  display:grid;
+  grid-template-columns:250px 1fr;
+  min-height:calc(100vh - 68px);
+}
+
+.sidebar{
+  background:#082b20;
+  color:#fff;
+  padding:20px 14px;
+  position:sticky;
+  top:68px;
+  height:calc(100vh - 68px);
+  overflow:auto;
+}
+
+.sideTitle{
+  padding:10px;
+  font-weight:900;
+  color:var(--gold);
+  margin-bottom:10px;
+}
+
+.sideGroup{
+  margin:17px 0 7px;
+  padding:0 10px;
+  color:#91ad9f;
+  font-size:11px;
+  font-weight:800;
+  text-transform:uppercase;
+}
+
+.sideBtn{
+  width:100%;
+  border:0;
+  background:transparent;
+  color:#dce9e3;
+  padding:11px 12px;
+  text-align:left;
+  border-radius:10px;
+  margin:2px 0;
+  font-weight:650;
+}
+
+.sideBtn:hover,
+.sideBtn.active{
+  background:rgba(255,255,255,.11);
+  color:#fff;
+}
+
+.main{
+  padding:25px;
+  min-width:0;
+}
+
+.pageHead{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  margin-bottom:20px;
+}
+
+.pageHead h1{
+  margin:0;
+}
+
+.pageHead p{
+  color:var(--muted);
+  margin:5px 0 0;
+}
+
+.balance{
+  background:linear-gradient(135deg,var(--green),#075433);
+  color:white;
+  border-radius:22px;
+  padding:25px;
+  box-shadow:var(--shadow);
+}
+
+.balance small{
+  opacity:.8;
+}
+
+.balance strong{
+  font-size:36px;
+  display:block;
+  margin:8px 0 18px;
+}
+
+.serviceGrid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+}
+
+.service{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:17px;
+  padding:20px;
+  text-align:left;
+  transition:.2s;
+}
+
+.service:hover{
+  transform:translateY(-3px);
+  box-shadow:var(--shadow);
+}
+
+.service button{
+  width:100%;
+}
+
+.planGrid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+
+.plan{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:17px;
+}
+
+.plan strong{
+  font-size:20px;
+  color:var(--green);
+}
+
+.tableWrap{
+  overflow:auto;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:15px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:650px;
+}
+
+th,td{
+  padding:13px;
+  border-bottom:1px solid var(--border);
+  text-align:left;
+  font-size:13px;
+}
+
+th{
+  background:#f3f7f4;
+}
+
+.badge{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:800;
+}
+
+.badge.green{
+  background:#e4f7ec;
+  color:#14783e;
+}
+
+.badge.orange{
+  background:#fff1d8;
+  color:#a56300;
+}
+
+.badge.red{
+  background:#ffe5e5;
+  color:#c12727;
+}
+
+.notice{
+  padding:14px;
+  background:#edf7f1;
+  border-left:4px solid var(--green);
+  border-radius:9px;
+  color:#315b45;
+}
+
+.empty{
+  padding:35px;
+  text-align:center;
+  color:var(--muted);
+}
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  display:grid;
+  place-items:center;
+  z-index:1000;
+  padding:20px;
+}
+
+.modalBox{
+  background:#fff;
+  width:min(520px,100%);
+  max-height:90vh;
+  overflow:auto;
+  border-radius:20px;
+  padding:23px;
+}
+
+.modalHead{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:15px;
+}
+
+.close{
+  border:0;
+  background:#edf1ee;
+  width:35px;
+  height:35px;
+  border-radius:50%;
+  font-weight:900;
+}
+
+.alert{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  z-index:2000;
+  background:#09251b;
+  color:#fff;
+  padding:14px 18px;
+  border-radius:12px;
+  box-shadow:var(--shadow);
+  max-width:350px;
+}
+
+.alert.error{
+  background:#b82727;
+}
+
+.alert.success{
+  background:#087443;
+}
+
+.mobileMenu{
+  display:none;
+}
+
+@media(max-width:900px){
+  .heroGrid,
+  .dashboard{
+    grid-template-columns:1fr;
+  }
+
+  .sidebar{
+    position:fixed;
+    left:-280px;
+    top:68px;
+    width:270px;
+    z-index:500;
+    transition:.25s;
+  }
+
+  .sidebar.open{
+    left:0;
+  }
+
+  .main{
+    padding:18px;
+  }
+
+  .grid4{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .serviceGrid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .planGrid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .mobileMenu{
+    display:block;
+  }
+}
+
+@media(max-width:600px){
+  .topbar{
+    padding:0 13px;
+  }
+
+  .topActions .hideMobile{
+    display:none;
+  }
+
+  .grid2,
+  .grid3,
+  .grid4,
+  .serviceGrid,
+  .planGrid{
+    grid-template-columns:1fr;
+  }
+
+  .hero{
+    padding:30px 0;
+  }
+
+  .heroCard{
+    padding:20px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div id="toast" class="toast"></div>
+<div id="alert" class="alert hidden"></div>
 
-<!-- LANDING -->
-<div id="landingPage" class="page">
- <header class="topbar">
-  <div class="brand">
-   <div class="logo">ATL</div>
-   <span>A T L DATA</span>
+<header class="topbar">
+  <div class="logo">
+    <div class="logoIcon">A</div>
+    <span>A T L DATA</span>
   </div>
-  <div class="nav-actions">
-   <button class="nav-btn" data-action="login">Login</button>
-   <button class="nav-btn" data-action="register">Register</button>
+
+  <div class="topActions">
+    <button class="btn light hideMobile" onclick="openSupport()">Support</button>
+    <button class="btn primary" onclick="goAuth()" id="topAuthBtn">Login</button>
+    <button class="btn light mobileMenu" onclick="toggleSidebar()">☰</button>
   </div>
-  <button class="menu-btn" id="landingMenu">☰</button>
- </header>
+</header>
 
- <section class="hero">
-  <div class="container hero-grid">
-   <div>
-    <div class="badge badge-success">Professional Digital Service Platform</div>
-    <h1>Fast & Simple <span>Digital Services</span></h1>
-    <p>
-     Manage your wallet, data plans, airtime, bills and transaction history
-     from one simple A T L DATA platform.
-    </p>
-    <div class="hero-buttons">
-     <button class="btn btn-primary" data-action="register">Create Account</button>
-     <button class="btn btn-secondary" data-action="login">Login</button>
+<!-- PUBLIC HOME -->
+<section id="publicHome" class="page">
+  <div class="container hero">
+    <div class="heroGrid">
+
+      <div>
+        <div class="badge green">A T L DATA • DIGITAL SERVICES</div>
+
+        <h1>
+          Simple.
+          <span>Fast.</span>
+          Reliable.
+        </h1>
+
+        <p>
+          A professional digital service dashboard for data,
+          airtime, bills, wallet management and account services.
+        </p>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:22px">
+          <button class="btn primary" onclick="goAuth('register')">
+            Create Account
+          </button>
+
+          <button class="btn light" onclick="goAuth('login')">
+            Login
+          </button>
+        </div>
+      </div>
+
+      <div class="heroCard">
+        <h3>Why A T L DATA?</h3>
+
+        <p>
+          Manage your account, view services and access
+          your dashboard from one place.
+        </p>
+
+        <div class="grid grid2">
+          <div>
+            <b>📶 Data</b>
+            <br>
+            <small>Plans from Worker</small>
+          </div>
+
+          <div>
+            <b>📱 Airtime</b>
+            <br>
+            <small>Sandbox service</small>
+          </div>
+
+          <div>
+            <b>💳 Wallet</b>
+            <br>
+            <small>Demo wallet</small>
+          </div>
+
+          <div>
+            <b>🔐 Secure</b>
+            <br>
+            <small>Firebase Auth</small>
+          </div>
+        </div>
+      </div>
+
     </div>
-   </div>
-
-   <div class="hero-card">
-    <small>Demo Wallet</small>
-    <div class="balance-big">₦0.00</div>
-    <p>Secure account dashboard with Firebase Authentication and transaction records.</p>
-   </div>
   </div>
- </section>
-
- <section class="section">
-  <div class="container">
-   <div class="section-title">
-    <h2>Our Services</h2>
-    <p>Everything organized in one dashboard.</p>
-   </div>
-
-   <div class="feature-grid">
-    <div class="card">
-     <div class="feature-icon">📱</div>
-     <h3>Data Plans</h3>
-     <p>MTN, Airtel, Glo and 9mobile plans loaded from the Cloudflare Worker.</p>
-    </div>
-    <div class="card">
-     <div class="feature-icon">💳</div>
-     <h3>Wallet</h3>
-     <p>View balance and submit deposit requests for admin approval.</p>
-    </div>
-    <div class="card">
-     <div class="feature-icon">📜</div>
-     <h3>Transactions</h3>
-     <p>Keep your deposit and service activity organized.</p>
-    </div>
-    <div class="card">
-     <div class="feature-icon">🎧</div>
-     <h3>Support</h3>
-     <p>Contact A T L DATA support whenever you need assistance.</p>
-    </div>
-   </div>
-  </div>
- </section>
-</div>
-
+</section>
 
 <!-- AUTH -->
-<div id="authPage" class="page hidden">
- <div class="auth-wrap">
-  <div class="auth-box">
-
-   <div class="back-row">
-    <button class="btn btn-secondary" id="authBack">← Back</button>
-   </div>
-
-   <div class="auth-head">
-    <div class="logo">ATL</div>
-    <h1 id="authTitle">Login</h1>
-    <p id="authSubtitle">Sign in to your A T L DATA account.</p>
-   </div>
-
-   <div id="authMessage"></div>
-
-   <!-- LOGIN -->
-   <form id="loginForm">
-    <div class="form-group">
-     <label>Email</label>
-     <input id="loginEmail" type="email" required autocomplete="email">
-    </div>
-
-    <div class="form-group">
-     <label>Password</label>
-     <input id="loginPassword" type="password" required autocomplete="current-password">
-    </div>
-
-    <button class="btn btn-primary" style="width:100%" type="submit">
-     Login
-    </button>
-
-    <div class="auth-footer">
-     <span>Forgot password?</span>
-     <span class="link" id="forgotPassword">Reset password</span>
-     <br><br>
-     <span>Don't have an account?</span>
-     <span class="link" id="showRegister">Register</span>
-    </div>
-   </form>
-
-   <!-- REGISTER -->
-   <form id="registerForm" class="hidden">
-    <div class="form-group">
-     <label>Full Name</label>
-     <input id="regName" type="text" required autocomplete="name">
-    </div>
-
-    <div class="form-group">
-     <label>Email</label>
-     <input id="regEmail" type="email" required autocomplete="email">
-    </div>
-
-    <div class="form-group">
-     <label>Password</label>
-     <input id="regPassword" type="password" minlength="6" required autocomplete="new-password">
-    </div>
-
-    <div class="form-group">
-     <label>Confirm Password</label>
-     <input id="regConfirm" type="password" minlength="6" required autocomplete="new-password">
-    </div>
-
-    <button class="btn btn-primary" style="width:100%" type="submit">
-     Create Account
-    </button>
-
-    <div class="auth-footer">
-     <span>Already have an account?</span>
-     <span class="link" id="showLogin">Login</span>
-    </div>
-   </form>
-
-  </div>
- </div>
-</div>
-
-
-<!-- VERIFICATION MODAL -->
-<div class="modal-bg" id="verificationModal">
- <div class="modal">
-  <div class="modal-head">
-   <h2>Verify your email</h2>
-   <button class="close" data-close="verificationModal">×</button>
-  </div>
-
-  <div class="alert alert-info">
-   We sent a verification link to your email address.
-  </div>
-
-  <p style="line-height:1.6;color:#65736b">
-   Open your email, click the verification link, then return here and
-   press the button below.
-  </p>
-
-  <br>
-
-  <button class="btn btn-primary" style="width:100%" id="checkVerification">
-   I Have Verified My Email
-  </button>
-
-  <br><br>
-
-  <button class="btn btn-secondary" style="width:100%" id="resendVerification">
-   Resend Verification Email
-  </button>
- </div>
-</div>
-
-
-<!-- APP -->
-<div id="appPage" class="page hidden">
-
- <div class="dashboard">
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar" id="sidebar">
-
-   <div class="side-brand">
-    <div class="brand">
-     <div class="logo">ATL</div>
-     <span>A T L DATA</span>
-    </div>
-   </div>
-
-   <div class="side-title">Main</div>
-
-   <button class="side-link active" data-page="dashboard">
-    🏠 Dashboard
-   </button>
-
-   <button class="side-link" data-page="data">
-    📱 Data Plans
-   </button>
-
-   <button class="side-link" data-page="airtime">
-    📞 Airtime
-   </button>
-
-   <button class="side-link" data-page="bills">
-    💡 Bills
-   </button>
-
-   <button class="side-link" data-page="wallet">
-    💳 Wallet / Deposit
-   </button>
-
-   <button class="side-link" data-page="transactions">
-    📜 Transactions
-   </button>
-
-   <button class="side-link" data-page="support">
-    🎧 Support
-   </button>
-
-   <div class="side-title">Account</div>
-
-   <button class="side-link" data-page="account">
-    👤 My Account
-   </button>
-
-   <button class="side-link" id="logoutButton">
-    🚪 Logout
-   </button>
-
-   <div id="adminMenu" class="hidden">
-
-    <div class="side-title">Admin Panel</div>
-
-    <button class="side-link" data-page="admin">
-     📊 Admin Dashboard
-    </button>
-
-    <button class="side-link" data-page="adminDeposits">
-     💰 User Funding
-    </button>
-
-    <button class="side-link" data-page="adminUsers">
-     👥 Users
-    </button>
-
-    <button class="side-link" data-page="adminTransactions">
-     📜 All Transactions
-    </button>
-
-    <button class="side-link" data-page="adminPlans">
-     📱 Data Plans
-    </button>
-
-    <button class="side-link" data-page="adminSupport">
-     🎧 Support
-    </button>
-
-   </div>
-
-  </aside>
-
-
-  <!-- MAIN -->
-  <main class="main">
-
-   <div class="dashboard-top">
-    <div style="display:flex;align-items:center;gap:12px">
-     <button class="menu-btn" id="mobileMenu">☰</button>
-     <strong id="pageTitle">Dashboard</strong>
-    </div>
-
-    <div style="display:flex;align-items:center;gap:10px">
-     <span id="userNameTop">User</span>
-     <button class="btn btn-secondary" id="topLogout">Logout</button>
-    </div>
-   </div>
-
-   <div class="dashboard-content">
-
-    <!-- DASHBOARD -->
-    <section class="app-section" id="page-dashboard">
-
-     <div class="page-head">
-      <div>
-       <h2>Dashboard</h2>
-       <p style="color:var(--muted);margin-top:5px">
-        Welcome back, <span id="welcomeName">User</span>.
-       </p>
-      </div>
-     </div>
-
-     <div class="stats">
-      <div class="stat">
-       <small>Wallet Balance</small>
-       <strong id="dashBalance">₦0.00</strong>
-      </div>
-
-      <div class="stat">
-       <small>Total Transactions</small>
-       <strong id="dashTransactions">0</strong>
-      </div>
-
-      <div class="stat">
-       <small>Pending Deposits</small>
-       <strong id="dashPending">0</strong>
-      </div>
-
-      <div class="stat">
-       <small>Account</small>
-       <strong style="font-size:17px">Active</strong>
-      </div>
-     </div>
-
-     <div class="page-head">
-      <h2>Quick Services</h2>
-     </div>
-
-     <div class="quick-grid">
-
-      <button class="service-btn" data-page="data">
-       <div class="icon">📱</div>
-       <strong>Buy Data</strong>
-       <span>MTN • Airtel • Glo • 9mobile</span>
-      </button>
-
-      <button class="service-btn" data-page="airtime">
-       <div class="icon">📞</div>
-       <strong>Airtime</strong>
-       <span>Open airtime service</span>
-      </button>
-
-      <button class="service-btn" data-page="wallet">
-       <div class="icon">💳</div>
-       <strong>Fund Wallet</strong>
-       <span>Submit deposit request</span>
-      </button>
-
-      <button class="service-btn" data-page="transactions">
-       <div class="icon">📜</div>
-       <strong>Transactions</strong>
-       <span>View your history</span>
-      </button>
-
-     </div>
-
-     <br>
-
-     <div class="card">
-      <div class="page-head">
-       <h3>Recent Transactions</h3>
-       <button class="btn btn-secondary" data-page="transactions">
-        View All
-       </button>
-      </div>
-      <div id="recentTransactions"></div>
-     </div>
-
-    </section>
-
-
-    <!-- DATA -->
-    <section class="app-section hidden" id="page-data">
-
-     <div class="page-head">
-      <div>
-       <h2>Data Plans</h2>
-       <p style="color:var(--muted)">
-        Plans are loaded from the A T L DATA Cloudflare Worker.
-       </p>
-      </div>
-
-      <button class="btn btn-primary" id="reloadPlans">
-       ↻ Reload Plans
-      </button>
-     </div>
-
-     <div id="plansMessage"></div>
-     <div id="plansContainer" class="plan-grid">
-      <div class="loading">Loading data plans...</div>
-     </div>
-
-    </section>
-
-
-    <!-- AIRTIME -->
-    <section class="app-section hidden" id="page-airtime">
-
-     <div class="page-head">
-      <h2>Airtime</h2>
-     </div>
-
-     <div class="card">
-      <div class="alert alert-info">
-       Airtime service is currently in sandbox mode.
-      </div>
-
-      <form id="airtimeForm">
-
-       <div class="form-group">
-        <label>Network</label>
-        <select id="airtimeNetwork" required>
-         <option value="">Select network</option>
-         <option>MTN</option>
-         <option>Airtel</option>
-         <option>Glo</option>
-         <option>9mobile</option>
-        </select>
-       </div>
-
-       <div class="form-group">
-        <label>Phone Number</label>
-        <input id="airtimePhone" type="tel" maxlength="11" required>
-       </div>
-
-       <div class="form-group">
-        <label>Amount (₦)</label>
-        <input id="airtimeAmount" type="number" min="50" required>
-       </div>
-
-       <button class="btn btn-primary" type="submit">
-        Continue
-       </button>
-
-      </form>
-     </div>
-
-    </section>
-
-
-    <!-- BILLS -->
-    <section class="app-section hidden" id="page-bills">
-
-     <div class="page-head">
-      <h2>Pay Bills</h2>
-     </div>
-
-     <div class="card">
-
-      <div class="form-group">
-       <label>Select Bill Type</label>
-       <select id="billType">
-        <option value="">Select service</option>
-        <option value="electricity">Electricity</option>
-        <option value="cable">Cable TV</option>
-        <option value="internet">Internet</option>
-        <option value="education">Education</option>
-       </select>
-      </div>
-
-      <div id="billFormArea"></div>
-
-     </div>
-
-    </section>
-
-
-    <!-- WALLET -->
-    <section class="app-section hidden" id="page-wallet">
-
-     <div class="page-head">
-      <div>
-       <h2>Wallet & Deposit</h2>
-       <p style="color:var(--muted)">
-        Current balance: <strong id="walletBalance">₦0.00</strong>
-       </p>
-      </div>
-     </div>
-
-     <div class="card">
-
-      <div class="deposit-box">
-       <h3>Deposit Account</h3>
-       <p><strong>Bank:</strong> Palmpay</p>
-       <p><strong>Account Name:</strong> A T L Data</p>
-       <p><strong>Account Number:</strong> 7073160817</p>
-
-       <div class="copy-row">
-        <input value="7073160817" readonly id="accountNumber">
-        <button class="btn btn-secondary" id="copyAccount">
-         Copy
+<section id="authPage" class="page hidden">
+  <div class="authWrap">
+
+    <div class="authCard">
+
+      <div class="tabs">
+        <button id="loginTab" class="active"
+                onclick="setAuthMode('login')">
+          Login
         </button>
-       </div>
+
+        <button id="registerTab"
+                onclick="setAuthMode('register')">
+          Register
+        </button>
       </div>
 
-      <form id="depositForm">
+      <div id="loginBox">
 
-       <div class="form-group">
-        <label>Amount Sent (₦)</label>
-        <input id="depositAmount" type="number" min="100" required>
-       </div>
+        <h2>Welcome Back</h2>
 
-       <div class="form-group">
-        <label>Payment Reference</label>
-        <input id="depositReference" type="text" required>
-       </div>
+        <p style="color:var(--muted)">
+          Login to your A T L DATA account.
+        </p>
 
-       <button class="btn btn-primary" type="submit">
-        Submit Deposit Request
-       </button>
+        <div class="field">
+          <label>Email</label>
+          <input id="loginEmail"
+                 type="email"
+                 placeholder="you@example.com">
+        </div>
 
-      </form>
+        <div class="field">
+          <label>Password</label>
+          <input id="loginPassword"
+                 type="password"
+                 placeholder="Password">
+        </div>
 
-     </div>
+        <button class="btn primary"
+                style="width:100%"
+                onclick="loginUser()">
+          Login
+        </button>
 
-     <br>
+        <button class="btn light"
+                style="width:100%;margin-top:8px"
+                onclick="resetPassword()">
+          Forgot Password?
+        </button>
 
-     <div class="card">
-      <h3 style="margin-bottom:15px">My Deposit Requests</h3>
-      <div id="depositHistory"></div>
-     </div>
+        <button class="btn light"
+                style="width:100%;margin-top:8px"
+                onclick="backToHome()">
+          ← Back
+        </button>
 
-    </section>
-
-
-    <!-- TRANSACTIONS -->
-    <section class="app-section hidden" id="page-transactions">
-
-     <div class="page-head">
-      <h2>Transactions</h2>
-      <button class="btn btn-secondary" id="refreshTransactions">
-       ↻ Refresh
-      </button>
-     </div>
-
-     <div class="table-wrap">
-      <div id="transactionTable"></div>
-     </div>
-
-    </section>
-
-
-    <!-- SUPPORT -->
-    <section class="app-section hidden" id="page-support">
-
-     <div class="page-head">
-      <h2>Support</h2>
-     </div>
-
-     <div class="quick-grid">
-
-      <button class="service-btn" id="supportEmail">
-       <div class="icon">📧</div>
-       <strong>Email Support</strong>
-       <span>Send a support email</span>
-      </button>
-
-      <button class="service-btn" id="supportWhatsApp">
-       <div class="icon">💬</div>
-       <strong>WhatsApp</strong>
-       <span>Open WhatsApp support</span>
-      </button>
-
-      <button class="service-btn" data-page="transactions">
-       <div class="icon">📜</div>
-       <strong>Transaction Help</strong>
-       <span>Check transaction history</span>
-      </button>
-
-      <button class="service-btn" data-page="wallet">
-       <div class="icon">💳</div>
-       <strong>Deposit Help</strong>
-       <span>Check funding requests</span>
-      </button>
-
-     </div>
-
-    </section>
-
-
-    <!-- ACCOUNT -->
-    <section class="app-section hidden" id="page-account">
-
-     <div class="page-head">
-      <h2>My Account</h2>
-     </div>
-
-     <div class="card">
-
-      <div class="form-group">
-       <label>Name</label>
-       <input id="accountName" readonly>
       </div>
 
-      <div class="form-group">
-       <label>Email</label>
-       <input id="accountEmail" readonly>
+      <div id="registerBox" class="hidden">
+
+        <h2>Create Account</h2>
+
+        <p style="color:var(--muted)">
+          Register your A T L DATA account.
+        </p>
+
+        <div class="field">
+          <label>Full Name</label>
+          <input id="registerName"
+                 placeholder="Full name">
+        </div>
+
+        <div class="field">
+          <label>Email</label>
+          <input id="registerEmail"
+                 type="email"
+                 placeholder="you@example.com">
+        </div>
+
+        <div class="field">
+          <label>Password</label>
+          <input id="registerPassword"
+                 type="password"
+                 placeholder="At least 6 characters">
+        </div>
+
+        <button class="btn primary"
+                style="width:100%"
+                onclick="registerUser()">
+          Create Account
+        </button>
+
+        <button class="btn light"
+                style="width:100%;margin-top:8px"
+                onclick="setAuthMode('login')">
+          ← Back to Login
+        </button>
+
       </div>
 
-      <div class="form-group">
-       <label>Email Verification</label>
-       <input id="accountVerification" readonly>
-      </div>
+    </div>
+  </div>
+</section>
 
-      <button class="btn btn-secondary" id="sendVerificationAccount">
-       Send Verification Email
-      </button>
+<!-- VERIFY -->
+<section id="verifyPage" class="page hidden">
+  <div class="authWrap">
+    <div class="authCard">
 
-     </div>
+      <div style="font-size:45px;text-align:center">✉️</div>
 
-    </section>
+      <h2 style="text-align:center">
+        Verify Your Email
+      </h2>
 
-
-    <!-- ADMIN DASHBOARD -->
-    <section class="app-section hidden" id="page-admin">
-
-     <div class="page-head">
-      <div>
-       <h2>Admin Dashboard</h2>
-       <p style="color:var(--muted)">
-        A T L DATA administration panel
-       </p>
-      </div>
-     </div>
-
-     <div class="stats">
-
-      <div class="stat">
-       <small>Total Users</small>
-       <strong id="adminUsersCount">0</strong>
-      </div>
-
-      <div class="stat">
-       <small>Pending Deposits</small>
-       <strong id="adminPendingCount">0</strong>
-      </div>
-
-      <div class="stat">
-       <small>Total Transactions</small>
-       <strong id="adminTransactionsCount">0</strong>
-      </div>
-
-      <div class="stat">
-       <small>Worker Status</small>
-       <strong id="workerStatus" style="font-size:16px">
-        Checking...
-       </strong>
-      </div>
-
-     </div>
-
-     <div class="quick-grid">
-
-      <button class="service-btn" data-page="adminDeposits">
-       <div class="icon">💰</div>
-       <strong>User Funding</strong>
-       <span>Approve or reject deposits</span>
-      </button>
-
-      <button class="service-btn" data-page="adminUsers">
-       <div class="icon">👥</div>
-       <strong>Users</strong>
-       <span>View registered users</span>
-      </button>
-
-      <button class="service-btn" data-page="adminTransactions">
-       <div class="icon">📜</div>
-       <strong>Transactions</strong>
-       <span>View all transactions</span>
-      </button>
-
-      <button class="service-btn" data-page="adminPlans">
-       <div class="icon">📱</div>
-       <strong>Data Plans</strong>
-       <span>Check Worker plans</span>
-      </button>
-
-     </div>
-
-    </section>
-
-
-    <!-- ADMIN DEPOSITS -->
-    <section class="app-section hidden" id="page-adminDeposits">
-
-     <div class="page-head">
-      <h2>User Funding / Deposits</h2>
-      <button class="btn btn-secondary" id="refreshAdminDeposits">
-       ↻ Refresh
-      </button>
-     </div>
-
-     <div class="table-wrap">
-      <div id="adminDepositsTable"></div>
-     </div>
-
-    </section>
-
-
-    <!-- ADMIN USERS -->
-    <section class="app-section hidden" id="page-adminUsers">
-
-     <div class="page-head">
-      <h2>Users</h2>
-      <button class="btn btn-secondary" id="refreshAdminUsers">
-       ↻ Refresh
-      </button>
-     </div>
-
-     <div class="table-wrap">
-      <div id="adminUsersTable"></div>
-     </div>
-
-    </section>
-
-
-    <!-- ADMIN TRANSACTIONS -->
-    <section class="app-section hidden" id="page-adminTransactions">
-
-     <div class="page-head">
-      <h2>All Transactions</h2>
-      <button class="btn btn-secondary" id="refreshAdminTransactions">
-       ↻ Refresh
-      </button>
-     </div>
-
-     <div class="table-wrap">
-      <div id="adminTransactionsTable"></div>
-     </div>
-
-    </section>
-
-
-    <!-- ADMIN PLANS -->
-    <section class="app-section hidden" id="page-adminPlans">
-
-     <div class="page-head">
-      <h2>Data Plans</h2>
-      <button class="btn btn-primary" id="adminReloadPlans">
-       ↻ Load Plans
-      </button>
-     </div>
-
-     <div id="adminPlansContainer" class="plan-grid">
-      <div class="loading">Press Load Plans.</div>
-     </div>
-
-    </section>
-
-
-    <!-- ADMIN SUPPORT -->
-    <section class="app-section hidden" id="page-adminSupport">
-
-     <div class="card">
-      <h2>Support Management</h2>
-      <br>
-      <p style="color:var(--muted);line-height:1.6">
-       Support contact is currently handled through email and WhatsApp.
-       Use the buttons below to open the support channels.
+      <p id="verifyText"
+         style="text-align:center;color:var(--muted)">
       </p>
-      <br>
-      <button class="btn btn-primary" id="adminSupportEmail">
-       Email Support
+
+      <button class="btn primary"
+              style="width:100%"
+              onclick="checkVerification()">
+        I Have Verified My Email
       </button>
-     </div>
 
-    </section>
+      <button class="btn light"
+              style="width:100%;margin-top:8px"
+              onclick="resendVerification()">
+        Resend Verification Email
+      </button>
 
-   </div>
+      <button class="btn danger"
+              style="width:100%;margin-top:8px"
+              onclick="logoutUser()">
+        Logout
+      </button>
 
-  </main>
- </div>
+    </div>
+  </div>
+</section>
 
+<!-- USER APP -->
+<section id="appPage" class="page hidden">
 
- <div class="mobile-bottom">
-  <button data-page="dashboard">
-   <span>🏠</span>Home
+<div class="dashboard">
+
+<aside id="sidebar" class="sidebar">
+
+  <div class="sideTitle">
+    A T L DATA
+  </div>
+
+  <div class="sideGroup">MAIN</div>
+
+  <button class="sideBtn active"
+          onclick="userPage('dashboard',this)">
+    🏠 Dashboard
   </button>
-  <button data-page="data">
-   <span>📱</span>Data
+
+  <button class="sideBtn"
+          onclick="userPage('data',this)">
+    📶 Data
   </button>
-  <button data-page="wallet">
-   <span>💳</span>Wallet
+
+  <button class="sideBtn"
+          onclick="userPage('airtime',this)">
+    📱 Airtime
   </button>
-  <button data-page="transactions">
-   <span>📜</span>History
+
+  <button class="sideBtn"
+          onclick="userPage('bills',this)">
+    💡 Bills
   </button>
-  <button data-page="account">
-   <span>👤</span>Account
+
+  <div class="sideGroup">ACCOUNT</div>
+
+  <button class="sideBtn"
+          onclick="userPage('wallet',this)">
+    💳 Wallet
   </button>
- </div>
+
+  <button class="sideBtn"
+          onclick="userPage('transactions',this)">
+    ↔ Transactions
+  </button>
+
+  <button class="sideBtn"
+          onclick="userPage('account',this)">
+    👤 My Account
+  </button>
+
+  <div id="adminNav" class="hidden">
+
+    <div class="sideGroup">
+      ADMIN
+    </div>
+
+    <button class="sideBtn"
+            onclick="openAdmin()">
+      ⚙️ Admin Dashboard
+    </button>
+
+  </div>
+
+  <div class="sideGroup">SUPPORT</div>
+
+  <button class="sideBtn"
+          onclick="openSupport()">
+    💬 Support
+  </button>
+
+  <button class="sideBtn"
+          onclick="logoutUser()">
+    🚪 Logout
+  </button>
+
+</aside>
+
+<main class="main">
+
+<div id="userDashboard">
+
+  <div class="pageHead">
+    <div>
+      <h1>Dashboard</h1>
+      <p id="welcomeUser">
+        Welcome to A T L DATA
+      </p>
+    </div>
+
+    <button class="btn light"
+            onclick="refreshUserDashboard()">
+      ↻ Refresh
+    </button>
+  </div>
+
+  <div class="grid grid4">
+
+    <div class="stat">
+      <div class="icon">💳</div>
+      <small>Wallet Balance</small>
+      <strong id="dashBalance">₦0.00</strong>
+    </div>
+
+    <div class="stat">
+      <div class="icon">↔</div>
+      <small>Transactions</small>
+      <strong id="dashTransactions">0</strong>
+    </div>
+
+    <div class="stat">
+      <div class="icon">⏳</div>
+      <small>Pending Deposits</small>
+      <strong id="dashPending">0</strong>
+    </div>
+
+    <div class="stat">
+      <div class="icon">👤</div>
+      <small>Account</small>
+      <strong style="font-size:18px">
+        Active
+      </strong>
+    </div>
+
+  </div>
+
+  <div class="section">
+
+    <div class="sectionTitle">
+      <h2>Services</h2>
+      <p>Choose a service.</p>
+    </div>
+
+    <div class="serviceGrid">
+
+      <div class="service">
+        <div class="icon">📶</div>
+        <h3>Buy Data</h3>
+        <p style="color:var(--muted)">
+          View available data plans.
+        </p>
+        <button class="btn primary"
+                onclick="userPage('data')">
+          Open Data
+        </button>
+      </div>
+
+      <div class="service">
+        <div class="icon">📱</div>
+        <h3>Airtime</h3>
+        <p style="color:var(--muted)">
+          Airtime sandbox service.
+        </p>
+        <button class="btn primary"
+                onclick="userPage('airtime')">
+          Open Airtime
+        </button>
+      </div>
+
+      <div class="service">
+        <div class="icon">💡</div>
+        <h3>Pay Bills</h3>
+        <p style="color:var(--muted)">
+          Electricity and TV interfaces.
+        </p>
+        <button class="btn primary"
+                onclick="userPage('bills')">
+          Open Bills
+        </button>
+      </div>
+
+      <div class="service">
+        <div class="icon">💳</div>
+        <h3>Wallet</h3>
+        <p style="color:var(--muted)">
+          Manage your demo wallet.
+        </p>
+        <button class="btn primary"
+                onclick="userPage('wallet')">
+          Open Wallet
+        </button>
+      </div>
+
+    </div>
+  </div>
 
 </div>
 
+<!-- DATA -->
+<div id="userData" class="hidden">
 
-<!-- PLAN MODAL -->
-<div class="modal-bg" id="planModal">
- <div class="modal">
+  <div class="pageHead">
+    <div>
+      <h1>Data Plans</h1>
+      <p>Plans loaded from your Cloudflare Worker.</p>
+    </div>
 
-  <div class="modal-head">
-   <h2 id="planModalTitle">Data Plan</h2>
-   <button class="close" data-close="planModal">×</button>
+    <button class="btn light"
+            onclick="loadPlans()">
+      ↻ Reload Plans
+    </button>
   </div>
 
-  <div id="selectedPlanInfo"></div>
+  <div class="card">
 
-  <div class="alert alert-info">
-   This is sandbox mode. No real-money purchase will be submitted.
+    <div class="grid grid4">
+
+      <button class="btn primary"
+              onclick="loadPlans('mtn')">
+        MTN
+      </button>
+
+      <button class="btn light"
+              onclick="loadPlans('airtel')">
+        Airtel
+      </button>
+
+      <button class="btn light"
+              onclick="loadPlans('glo')">
+        Glo
+      </button>
+
+      <button class="btn light"
+              onclick="loadPlans('9mobile')">
+        9mobile
+      </button>
+
+    </div>
+
   </div>
 
-  <button class="btn btn-primary" style="width:100%" id="sandboxPlanButton">
-   Continue in Sandbox
-  </button>
+  <div style="height:18px"></div>
 
-  <br><br>
+  <div id="plansArea"
+       class="planGrid">
+    <div class="card">
+      Loading plans...
+    </div>
+  </div>
 
-  <button class="btn btn-secondary" style="width:100%" data-close="planModal">
-   Cancel
-  </button>
-
- </div>
 </div>
 
+<!-- AIRTIME -->
+<div id="userAirtime" class="hidden">
+
+  <div class="pageHead">
+    <div>
+      <h1>Airtime</h1>
+      <p>Sandbox airtime interface.</p>
+    </div>
+  </div>
+
+  <div class="card">
+
+    <div class="field">
+      <label>Network</label>
+
+      <select id="airtimeNetwork">
+        <option value="MTN">MTN</option>
+        <option value="Airtel">Airtel</option>
+        <option value="Glo">Glo</option>
+        <option value="9mobile">9mobile</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Phone Number</label>
+      <input id="airtimePhone"
+             placeholder="08012345678">
+    </div>
+
+    <div class="field">
+      <label>Amount</label>
+      <input id="airtimeAmount"
+             type="number"
+             placeholder="100">
+    </div>
+
+    <button class="btn primary"
+            onclick="sandboxAirtime()">
+      Continue
+    </button>
+
+  </div>
+
+</div>
+
+<!-- BILLS -->
+<div id="userBills" class="hidden">
+
+  <div class="pageHead">
+    <div>
+      <h1>Pay Bills</h1>
+      <p>Choose a bill service.</p>
+    </div>
+  </div>
+
+  <div class="grid grid3">
+
+    <button class="service"
+            onclick="openBill('electricity')">
+      <div class="icon">💡</div>
+      <h3>Electricity</h3>
+      <p>Electricity payment interface.</p>
+    </button>
+
+    <button class="service"
+            onclick="openBill('cable')">
+      <div class="icon">📺</div>
+      <h3>Cable TV</h3>
+      <p>DStv / GOtv / Startimes interface.</p>
+    </button>
+
+    <button class="service"
+            onclick="openBill('internet')">
+      <div class="icon">🌐</div>
+      <h3>Internet</h3>
+      <p>Internet subscription interface.</p>
+    </button>
+
+  </div>
+
+</div>
+
+<!-- WALLET -->
+<div id="userWallet" class="hidden">
+
+  <div class="pageHead">
+    <div>
+      <h1>Wallet</h1>
+      <p>Demo wallet and deposit requests.</p>
+    </div>
+  </div>
+
+  <div class="balance">
+
+    <small>Current Balance</small>
+
+    <strong id="walletBalance">
+      ₦0.00
+    </strong>
+
+    <button class="btn gold"
+            onclick="openDeposit()">
+      + Deposit Request
+    </button>
+
+  </div>
+
+  <div style="height:20px"></div>
+
+  <div class="card">
+    <h3>Deposit Account</h3>
+
+    <p>
+      <b>Account Name:</b> A T L Data
+    </p>
+
+    <p>
+      <b>Account Number:</b> 7073160817
+    </p>
+
+    <p>
+      <b>Bank:</b> PalmPay
+    </p>
+
+    <div class="notice">
+      This interface is for demo/testing purposes.
+      Deposits require admin approval.
+    </div>
+  </div>
+
+  <div style="height:20px"></div>
+
+  <div class="card">
+    <h3>Deposit History</h3>
+    <div id="depositHistory"></div>
+  </div>
+
+</div>
+
+<!-- TRANSACTIONS -->
+<div id="userTransactions" class="hidden">
+
+  <div class="pageHead">
+    <div>
+      <h1>Transactions</h1>
+      <p>Your transaction history.</p>
+    </div>
+
+    <button class="btn light"
+            onclick="loadUserTransactions()">
+      ↻ Refresh
+    </button>
+  </div>
+
+  <div class="tableWrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Amount</th>
+          <th>Status</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+
+      <tbody id="userTxTable">
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- ACCOUNT -->
+<div id="userAccount" class="hidden">
+
+  <div class="pageHead">
+    <div>
+      <h1>My Account</h1>
+      <p>Profile and account information.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div id="accountInfo"></div>
+  </div>
+
+</div>
+
+</main>
+</div>
+</section>
+
+<!-- ADMIN -->
+<section id="adminPage" class="page hidden">
+
+<div class="dashboard">
+
+<aside id="adminSidebar" class="sidebar">
+
+<div class="sideTitle">
+A T L DATA ADMIN
+</div>
+
+<div class="sideGroup">OVERVIEW</div>
+
+<button class="sideBtn active"
+ onclick="adminPage('overview',this)">
+📊 Dashboard
+</button>
+
+<div class="sideGroup">FINANCE</div>
+
+<button class="sideBtn"
+ onclick="adminPage('funding',this)">
+💰 User Funding / Debit
+</button>
+
+<button class="sideBtn"
+ onclick="adminPage('transactions',this)">
+↔ Transactions
+</button>
+
+<div class="sideGroup">SERVICES</div>
+
+<button class="sideBtn"
+ onclick="adminPage('data',this)">
+📶 Data Plans
+</button>
+
+<button class="sideBtn"
+ onclick="adminPage('datatype',this)">
+📦 Data Types
+</button>
+
+<button class="sideBtn"
+ onclick="adminPage('cable',this)">
+📺 Cable Sub Plans
+</button>
+
+<button class="sideBtn"
+ onclick="adminPage('services',this)">
+⚙️ Services Management
+</button>
+
+<button class="sideBtn"
+ onclick="adminPage('discounts',this)">
+🏷️ Service Discounts
+</button>
+
+<button class="sideBtn"
+ onclick="adminPage('charges',this)">
+💵 Service Charges
+</button>
+
+<div class="sideGroup">USERS</div>
+
+<button class="sideBtn"
+ onclick="adminPage('users',this)">
+👥 Users
+</button>
+
+<button class="sideBtn"
+ onclick="adminPage('kyc',this)">
+🔐 KYC & Limits
+</button>
+
+<button class="sideBtn"
+ onclick="adminPage('restricted',this)">
+🚫 Restricted Users
+</button>
+
+<div class="sideGroup">COMMUNICATION</div>
+
+<button class="sideBtn"
+ onclick="adminPage('notifications',this)">
+🔔 Notifications
+</button>
+
+<div class="sideGroup">ANALYTICS</div>
+
+<button class="sideBtn"
+ onclick="adminPage('analytics',this)">
+📈 Analytics
+</button>
+
+<button class="sideBtn"
+ onclick="adminPage('calculator',this)">
+🧮 Sales Calculator
+</button>
+
+<div class="sideGroup">STAFF</div>
+
+<button class="sideBtn"
+ onclick="adminPage('staff',this)">
+👨‍💼 Staff
+</button>
+
+<button class="sideBtn"
+ onclick="adminPage('roles',this)">
+🛡️ Roles
+</button>
+
+<div class="sideGroup">API</div>
+
+<button class="sideBtn"
+ onclick="adminPage('apiSecurity',this)">
+🔑 API Security
+</button>
+
+<button class="sideBtn"
+ onclick="adminPage('apiRequests',this)">
+🔌 API Access Requests
+</button>
+
+<div class="sideGroup">SYSTEM</div>
+
+<button class="sideBtn"
+ onclick="adminPage('configuration',this)">
+⚙️ Configuration
+</button>
+
+<button class="sideBtn"
+ onclick="openSupport()">
+💬 WhatsApp Support
+</button>
+
+<button class="sideBtn"
+ onclick="openEmailSupport()">
+✉️ Support Email
+</button>
+
+<button class="sideBtn"
+ onclick="backToUserPanel()">
+↩ Back to User Panel
+</button>
+
+</aside>
+
+<main class="main">
+
+<!-- ADMIN OVERVIEW -->
+<div id="adminOverview">
+
+<div class="pageHead">
+<div>
+<h1>Admin Dashboard</h1>
+<p>Complete A T L DATA management center.</p>
+</div>
+
+<button class="btn light"
+onclick="loadAdmin()">
+↻ Refresh
+</button>
+</div>
+
+<div class="grid grid4">
+
+<div class="stat">
+<div class="icon">👥</div>
+<small>Total Users</small>
+<strong id="adminUsers">0</strong>
+</div>
+
+<div class="stat">
+<div class="icon">💳</div>
+<small>API Balance</small>
+<strong id="adminApiBalance">--</strong>
+</div>
+
+<div class="stat">
+<div class="icon">⏳</div>
+<small>Pending Deposits</small>
+<strong id="adminPending">0</strong>
+</div>
+
+<div class="stat">
+<div class="icon">↔</div>
+<small>Transactions</small>
+<strong id="adminTxCount">0</strong>
+</div>
+
+</div>
+
+<div class="section">
+
+<div class="grid grid4">
+
+<div class="card">
+<h3>📶 Data</h3>
+<p id="adminDataCount">Loading...</p>
+</div>
+
+<div class="card">
+<h3>📱 Airtime</h3>
+<p>Sandbox</p>
+</div>
+
+<div class="card">
+<h3>📺 Cable</h3>
+<p>Sandbox</p>
+</div>
+
+<div class="card">
+<h3>💡 Electricity</h3>
+<p>Sandbox</p>
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+<h3>Recent Transactions</h3>
+<div id="adminRecentTx"></div>
+</div>
+
+</div>
+
+<!-- FUNDING -->
+<div id="adminFunding" class="hidden">
+
+<div class="pageHead">
+<div>
+<h1>User Funding / Debit</h1>
+<p>Review deposit requests and manage demo wallet adjustments.</p>
+</div>
+</div>
+
+<div class="card">
+<div id="adminDeposits"></div>
+</div>
+
+<div style="height:20px"></div>
+
+<div class="card">
+<h3>Manual Demo Wallet Adjustment</h3>
+
+<div class="field">
+<label>User UID</label>
+<input id="adjustUid"
+placeholder="Firebase UID">
+</div>
+
+<div class="field">
+<label>Amount</label>
+<input id="adjustAmount"
+type="number"
+placeholder="100">
+</div>
+
+<div class="grid grid2">
+
+<button class="btn primary"
+onclick="adminCredit()">
++ Credit Demo Wallet
+</button>
+
+<button class="btn danger"
+onclick="adminDebit()">
+− Debit Demo Wallet
+</button>
+
+</div>
+</div>
+
+</div>
+
+<!-- TRANSACTIONS -->
+<div id="adminTransactions" class="hidden">
+
+<div class="pageHead">
+<div>
+<h1>All Transactions</h1>
+<p>System transaction records.</p>
+</div>
+</div>
+
+<div class="tableWrap">
+<table>
+<thead>
+<tr>
+<th>User</th>
+<th>Type</th>
+<th>Description</th>
+<th>Amount</th>
+<th>Status</th>
+<th>Date</th>
+</tr>
+</thead>
+
+<tbody id="adminTxTable"></tbody>
+</table>
+</div>
+
+</div>
+
+<!-- DATA -->
+<div id="adminData" class="hidden">
+
+<div class="pageHead">
+<div>
+<h1>Data Plans</h1>
+<p>Live catalog from Cloudflare Worker.</p>
+</div>
+
+<button class="btn primary"
+onclick="adminLoadPlans('mtn')">
+Load MTN
+</button>
+</div>
+
+<div class="grid grid4">
+
+<button class="btn primary"
+onclick="adminLoadPlans('mtn')">
+MTN
+</button>
+
+<button class="btn light"
+onclick="adminLoadPlans('airtel')">
+Airtel
+</button>
+
+<button class="btn light"
+onclick="adminLoadPlans('glo')">
+Glo
+</button>
+
+<button class="btn light"
+onclick="adminLoadPlans('9mobile')">
+9mobile
+</button>
+
+</div>
+
+<div style="height:18px"></div>
+
+<div class="card">
+<div id="adminPlans"></div>
+</div>
+
+</div>
+
+<!-- DATA TYPES -->
+<div id="adminDatatype" class="hidden">
+
+<div class="pageHead">
+<div>
+<h1>Data Types</h1>
+<p>Manage the data categories displayed in the system.</p>
+</div>
+</div>
+
+<div class="grid grid3">
+
+<div class="card">
+<h3>📅 Daily</h3>
+<p>Daily data plans.</p>
+<button class="btn light"
+onclick="demoAction('Daily data type selected')">
+Manage
+</button>
+</div>
+
+<div class="card">
+<h3>📆 Weekly</h3>
+<p>Weekly data plans.</p>
+<button class="btn light"
+onclick="demoAction('Weekly data type selected')">
+Manage
+</button>
+</div>
+
+<div class="card">
+<h3>🗓️ Monthly</h3>
+<p>Monthly data plans.</p>
+<button class="btn light"
+onclick="demoAction('Monthly data type selected')">
+Manage
+</button>
+</div>
+
+</div>
+
+</div>
+
+<!-- CABLE -->
+<div id="adminCable" class="hidden">
+
+<div class="pageHead">
+<div>
+<h1>Cable Sub Plans</h1>
+<p>Manage cable service configuration.</p>
+</div>
+</div>
+
+<div class="grid grid3">
+
+<div class="card">
+<h3>📺 DStv</h3>
+<p>Subscription configuration.</p>
+<button class="btn light"
+onclick="demoAction('DStv management opened')">
+Manage
+</button>
+</div>
+
+<div class="card">
+<h3>📺 GOtv</h3>
+<p>Subscription configuration.</p>
+<button class="btn light"
+onclick="demoAction('GOtv management opened')">
+Manage
+</button>
+</div>
+
+<div class="card">
+<h3>📺 Startimes</h3>
+<p>Subscription configuration.</p>
+<button class="btn light"
+onclick="demoAction('Startimes management opened')">
+Manage
+</button>
+</div>
+
+</div>
+
+</div>
+
+<!-- SERVICES -->
+<div id="adminServices" class="hidden">
+
+<div class="pageHead">
+<div>
+<h1>Services Management</h1>
+<p>Control the services visible to users.</p>
+</div>
+</div>
+
+<div class="grid grid3">
+
+<div class="card">
+<h3>📶 Data</h3>
+<p>Enabled</p>
+<button class="btn primary"
+onclick="toggleService(this)">
+Enabled
+</button>
+</div>
+
+<div class="card">
+<h3>📱 Airtime</h3>
+<p>Sandbox</p>
+<button class="btn primary"
+onclick="toggleService(this)">
+Enabled
+</button>
+</div>
+
+<div class="card">
+<h3>💡 Electricity</h3>
+<p>Sandbox</p>
+<button class="btn primary"
+onclick="toggleService(this)">
+Enabled
+</button>
+</div>
+
+</div>
+
+</div>
+
+<!-- DISCOUNTS -->
+<div id="adminDiscounts" class="hidden">
+
+<div class="pageHead">
+<div>
+<h1>Service Discounts</h1>
+<p>Configure demo service discounts.</p>
+</div>
+</div>
+
+<div class="card">
+
+<div class="field">
+<label>Service</label>
+<select id="discountService">
+<option>Data</option>
+<option>Airtime</option>
+<option>Cable</option>
+<option>Electricity</option>
+</select>
+</div>
+
+<div class="field">
+<label>Discount Percentage</label>
+<input id="discountPercent"
+type="number"
+min="0"
+max="100"
+value="0">
+</div>
+
+<button class="btn primary"
+onclick="saveDiscount()">
+Save Discount
+</button>
+
+</div>
+
+</div>
+
+<!-- CHARGES -->
+<div id="adminCharges" class="hidden">
+
+<div class="pageHead">
+<div>
+<h1>Service Charges</h1>
+<p>Configure demo service charges.</p>
+</div>
+</div>
+
+<div class="card">
+
+<div class="field">
+<label>Service</label>
+<select id="chargeService">
+<option>Data</option>
+<option>Airtime</option>
+<option>Cable</option>
+<option>Electricity</option>
+</select>
+</div>
+
+<div class="field">
+<label>Charge</label>
+<input id="chargeAmount"
+type="number"
+value="0">
+</div>
+
+<button class="btn primary"
+onclick="saveCharge()">
+Save Charge
+</button>
+
+</div>
+
+</div>
+
+<!-- USERS -->
+<div id="adminUsersPage" class="hidden">
+
+<div class="pageHead">
+<div>
+<h1>Users</h1>
+<p>Registered Firebase accounts.</p>
+</div>
+
+<button class="btn light"
+onclick="loadAdminUsers()">
+↻ Refresh
+</button>
+</div>
+
+<div class="tableWrap">
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Email</th>
+<th>UID</th>
+<th>Balance</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody id="adminUsersTable"></tbody>
+</table>
+</div>
+
+</div>
+
+<!-- KYC -->
+<div id="adminKyc" class="hidden">
+
+<div class="pageHead">
+<div>
+<h1>KYC & Limit Management</h1>
+<p>Demo account verification and limits.</p>
+</div>
+</div>
+
+<div class="grid grid3">
+
+<div class="card">
+<h3>🔐 Limit Management</h3>
+<p>Demo transaction limits.</p>
+<button class="btn light"
+onclick="demoAction('Limit Management opened')">
+Open
+</button>
+</div>
+
+<div class="card">
+<h3>🪪 KYC Channels</h3>
+<p>Verification configuration.</p>
+<button class="btn light"
+onclick="demoAction('KYC Channels opened')">
+Open
+</button>
+</div>
+
+<div class="card">
+<h3>🔎 Validation Monitor</h3>
+<p>Monitor verification status.</p>
+<button class="btn light"
+onclick="demoAction('Validation Monitor opened')">
+Open
+</button>
+</div>
+
+</div>
+
+</div>
+
+<!-- RESTRICTED -->
+<div id="adminRestricted" class="hidden">
+
+<div class="pageHead">
+<div>
+<h1>Restricted Users</h1>
+<p>Demo account restriction management.</p>
+</div>
+</div>
+
+<div class="card">
+
+<div class="field">
+<label>User UID</label>
+<input id="restrictedUid"
+placeholder="Firebase UID">
+</div>
+
+<button class="btn danger"
+onclick="restrictUser()">
+Restrict User
+</button>
+
+</div>
+
+</div>
+
+<!-- NOTIFICATIONS -->
+<div id="adminNotifications" class="hidden">
+
+<div class="pageHead">
+<div>
+<h1>Push Notifications</h1>
+<p>System notification center.</p>
+</div>
+</div>
+
+<div class="card">
+
+<div class="field">
+<label>Notification Title</label>
+<input id="notificationTitle"
+placeholder="Notification title">
+</div>
+
+<div class="field">
+<label>Message</label>
+<textarea id="notificationMessage"
+rows="5"
+placeholder="Write message"></textarea>
+</div>
+
+<button class="btn primary"
+onclick="sendDemoNotification()">
+Send Notification
+</button>
+
+</div>
+
+</div>
+
+<!-- ANALYTICS -->
+<div id="adminAnalytics" class="hidden">
+
+<div class="pageHead">
+<div>
+<h1>Analytics</h1>
+<p>System statistics.</p>
+</div>
+</div>
+
+<div class="grid grid4">
+
+<div class="stat">
+<small>Total Users</small>
+<strong id="analyticsUsers">0</strong>
+</div>
+
+<div class="stat">
+<small>Total Transactions</small>
+<strong id="analyticsTx">0</strong>
+</div>
+
+<div class="stat">
+<small>Pending Deposits</small>
+<strong id="analyticsPending">0</strong>
+</div>
+
+<div class="stat">
+<small>Data Plans</small>
+<strong id="analyticsPlans">0</strong>
+</div>
+
+</div>
+
+</div>
+
+<!-- CALCULATOR -->
+<div id="adminCalculator" class="hidden">
+
+<div class="pageHead">
+<div>
+<h1>Sales Calculator</h1>
+<p>Calculate demo sales and margins.</p>
+</div>
+</div>
+
+<div class="card">
+
+<div class="field">
+<label>Cost Price</label>
+<input id="calcCost"
+type="number"
+value="0">
+</div>
+
+<div class="field">
+<label>Selling Price</label>
+<input id="calcSelling"
+type="number"
+value="0">
+</div>
+
+<button class="btn primary"
+onclick="calculateSale()">
+Calculate
+</button>
+
+<div id="calcResult"
+style="margin-top:18px"></div>
+
+</div>
+
+</div>
+
+<!-- STAFF -->
+<div id="adminStaff" class="hidden">
+
+<div class="pageHead">
+<div>
+<h1>Staff Management</h1>
+<p>Demo staff management center.</p>
+</div>
+</div>
+
+<div class="card">
+
+<div class="field">
+<label>Staff Email</label>
+<input id="staffEmail"
+type="email"
+placeholder="staff@example.com">
+</div>
+
+<button class="btn primary"
+onclick="addDemoStaff()">
+Add Staff
+</button>
+
+</div>
+
+</div>
+
+<!-- ROLES -->
+<div id="adminRoles" class="hidden">
+
+<div class="pageHead">
+<div>
+<h1>Roles & Permissions</h1>
+<p>Manage administrator permissions.</p>
+</div>
+</div>
+
+<div class="grid grid3">
+
+<div class="card">
+<h3>Super Admin</h3>
+<p>Full system access.</p>
+<span class="badge green">Active</span>
+</div>
+
+<div class="card">
+<h3>Finance Admin</h3>
+<p>Funding and transaction access.</p>
+<span class="badge orange">Demo</span>
+</div>
+
+<div class="card">
+<h3>Support Staff</h3>
+<p>User support access.</p>
+<span class="badge orange">Demo</span>
+</div>
+
+</div>
+
+</div>
+
+<!-- API SECURITY -->
+<div id="adminApiSecurity" class="hidden">
+
+<div class="pageHead">
+<div>
+<h1>API Security</h1>
+<p>Security configuration for Worker-based APIs.</p>
+</div>
+</div>
+
+<div class="notice">
+API secrets must remain on Cloudflare Worker.
+Never place provider API secrets inside this HTML file.
+</div>
+
+<div style="height:15px"></div>
+
+<div class="card">
+<h3>Cloudflare Worker</h3>
+<p id="workerStatus">
+Checking...
+</p>
+
+<button class="btn primary"
+onclick="checkWorker()">
+Check Worker
+</button>
+</div>
+
+</div>
+
+<!-- API REQUESTS -->
+<div id="adminApiRequests" class="hidden">
+
+<div class="pageHead">
+<div>
+<h1>API Access Requests</h1>
+<p>Manage demo API access requests.</p>
+</div>
+</div>
+
+<div class="card">
+<div class="empty">
+No pending API access requests.
+</div>
+</div>
+
+</div>
+
+<!-- CONFIGURATION -->
+<div id="adminConfiguration" class="hidden">
+
+<div class="pageHead">
+<div>
+<h1>Configuration</h1>
+<p>System configuration.</p>
+</div>
+</div>
+
+<div class="card">
+
+<div class="field">
+<label>Business Name</label>
+<input id="configBusiness"
+value="A T L DATA">
+</div>
+
+<div class="field">
+<label>Support Email</label>
+<input id="configEmail"
+value="lawanahmadt03@gmail.com">
+</div>
+
+<div class="field">
+<label>Environment</label>
+<select id="configEnvironment">
+<option>Sandbox / Test</option>
+<option>Production</option>
+</select>
+</div>
+
+<button class="btn primary"
+onclick="saveConfiguration()">
+Save Configuration
+</button>
+
+</div>
+
+</div>
+
+</main>
+</div>
+
+</section>
+
+<!-- MODAL -->
+<div id="modal" class="modal hidden"
+     onclick="closeModalOutside(event)">
+
+<div class="modalBox">
+
+<div class="modalHead">
+<h3 id="modalTitle">A T L DATA</h3>
+
+<button class="close"
+onclick="closeModal()">
+×
+</button>
+</div>
+
+<div id="modalBody"></div>
+
+</div>
+</div>
 
 <script>
-/* =========================================================
-   A T L DATA
-   SINGLE FILE PROFESSIONAL FRONTEND
-========================================================= */
 
-/* ---------------- FIREBASE ---------------- */
+/* =====================================================
+   FIREBASE
+===================================================== */
 
 const firebaseConfig = {
- apiKey:"AIzaSyA_x5ZYj7D5Dt_9Bq-NzlchpRPRd3QN21I",
- authDomain:"a-t-l-data.firebaseapp.com",
- projectId:"a-t-l-data",
- storageBucket:"a-t-l-data.firebasestorage.app",
- messagingSenderId:"519558305824",
- appId:"1:519558305824:web:cf6dd75ef20ef708c24445"
+  apiKey:"AIzaSyA_x5ZYj7D5Dt_9Bq-NzlchpRPRd3QN21I",
+  authDomain:"a-t-l-data.firebaseapp.com",
+  projectId:"a-t-l-data",
+  storageBucket:"a-t-l-data.firebasestorage.app",
+  messagingSenderId:"519558305824",
+  appId:"1:519558305824:web:cf6dd75ef20ef708c24445"
 };
 
 firebase.initializeApp(firebaseConfig);
 
-const auth = firebase.auth();
-const db = firebase.firestore();
+const auth=firebase.auth();
+const db=firebase.firestore();
 
+const ADMIN_EMAIL="lawanahmadt03@gmail.com";
 
-/* ---------------- CONFIG ---------------- */
+const WORKER=
+"https://broad-thunder-82c2.lawanahmadt03.workers.dev";
 
-const ADMIN_EMAIL = "lawanahmadt03@gmail.com";
+let currentUser=null;
+let currentUserData=null;
+let currentPlans=[];
+let currentNetwork="mtn";
 
-const WORKER =
- "https://broad-thunder-82c2.lawanahmadt03.workers.dev";
+/* =====================================================
+   HELPERS
+===================================================== */
 
-const SUPPORT_EMAIL =
- "lawanahmadt03@gmail.com";
-
-const SUPPORT_WHATSAPP =
- "2347073160817";
-
-
-/* ---------------- STATE ---------------- */
-
-let currentUser = null;
-let currentUserData = null;
-let isAdmin = false;
-
-let currentPage = "dashboard";
-let previousPage = "dashboard";
-
-let allPlans = {
- mtn:[],
- airtel:[],
- glo:[],
- "9mobile":[]
-};
-
-let selectedPlan = null;
-
-
-/* ---------------- HELPERS ---------------- */
-
-const $ = id => document.getElementById(id);
-
-function money(value){
- const n = Number(value || 0);
- return "₦" + n.toLocaleString("en-NG",{
-  minimumFractionDigits:2,
-  maximumFractionDigits:2
- });
-}
-
-function escapeHTML(value){
- return String(value ?? "")
-  .replaceAll("&","&amp;")
-  .replaceAll("<","&lt;")
-  .replaceAll(">","&gt;")
-  .replaceAll('"',"&quot;")
-  .replaceAll("'","&#039;");
-}
-
-function showToast(message){
- const toast = $("toast");
- toast.textContent = message;
- toast.classList.add("show");
-
- clearTimeout(window.__toastTimer);
-
- window.__toastTimer =
- setTimeout(()=>toast.classList.remove("show"),3500);
-}
-
-function showMessage(id,message,type="info"){
- const el = $(id);
- if(!el)return;
-
- el.innerHTML =
- `<div class="alert alert-${type}">
- ${escapeHTML(message)}
- </div>`;
-}
-
-function clearMessage(id){
- const el = $(id);
- if(el)el.innerHTML="";
-}
-
-function formatDate(timestamp){
- try{
-  if(!timestamp)return "-";
-
-  if(timestamp.toDate){
-   return timestamp.toDate().toLocaleString("en-NG");
-  }
-
-  return new Date(timestamp).toLocaleString("en-NG");
- }catch{
-  return "-";
- }
-}
-
-function friendlyError(error){
- if(!error)return "Something went wrong.";
-
- const code = error.code || "";
-
- const map = {
-  "auth/invalid-email":"Please enter a valid email address.",
-  "auth/user-not-found":"No account was found with this email.",
-  "auth/wrong-password":"Incorrect password.",
-  "auth/invalid-credential":"Email or password is incorrect.",
-  "auth/email-already-in-use":"This email is already registered.",
-  "auth/weak-password":"Password must contain at least 6 characters.",
-  "auth/too-many-requests":"Too many attempts. Please try again later.",
-  "auth/network-request-failed":"Network connection failed."
- };
-
- return map[code] || error.message || "Something went wrong.";
-}
-
-
-/* ---------------- LANDING / AUTH ---------------- */
-
-function openAuth(mode){
- $("landingPage").classList.add("hidden");
- $("authPage").classList.remove("hidden");
-
- if(mode==="register"){
-  showRegister();
- }else{
-  showLogin();
- }
-}
-
-function showLogin(){
- $("authTitle").textContent="Login";
- $("authSubtitle").textContent=
- "Sign in to your A T L DATA account.";
-
- $("loginForm").classList.remove("hidden");
- $("registerForm").classList.add("hidden");
-
- clearMessage("authMessage");
-}
-
-function showRegister(){
- $("authTitle").textContent="Create Account";
- $("authSubtitle").textContent=
- "Register your A T L DATA account.";
-
- $("loginForm").classList.add("hidden");
- $("registerForm").classList.remove("hidden");
-
- clearMessage("authMessage");
-}
-
-function backFromAuth(){
- $("authPage").classList.add("hidden");
- $("landingPage").classList.remove("hidden");
- showLogin();
-}
-
-
-/* ---------------- AUTH EVENTS ---------------- */
-
-$("loginForm").addEventListener("submit",async e=>{
- e.preventDefault();
-
- const email = $("loginEmail").value.trim();
- const password = $("loginPassword").value;
-
- try{
-
-  const credential =
-   await auth.signInWithEmailAndPassword(email,password);
-
-  const user = credential.user;
-
-  await user.reload();
-
-  if(!user.emailVerified){
-   $("verificationModal").classList.add("show");
-   showMessage(
-    "authMessage",
-    "Please verify your email before entering the dashboard.",
-    "info"
-   );
-   return;
-  }
-
-  showToast("Login successful.");
-
- }catch(error){
-
-  showMessage(
-   "authMessage",
-   friendlyError(error),
-   "error"
+function money(n){
+  return "₦"+Number(n||0).toLocaleString(
+    "en-NG",
+    {
+      minimumFractionDigits:2,
+      maximumFractionDigits:2
+    }
   );
- }
-});
+}
 
+function esc(value){
+  return String(value??"")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
 
-$("registerForm").addEventListener("submit",async e=>{
- e.preventDefault();
+function alertMsg(message,type=""){
+  const el=document.getElementById("alert");
 
- const name = $("regName").value.trim();
- const email = $("regEmail").value.trim();
- const password = $("regPassword").value;
- const confirm = $("regConfirm").value;
+  el.textContent=message;
 
- if(password!==confirm){
-  showMessage(
-   "authMessage",
-   "Passwords do not match.",
-   "error"
-  );
-  return;
- }
+  el.className="alert "+type;
 
- if(password.length<6){
-  showMessage(
-   "authMessage",
-   "Password must contain at least 6 characters.",
-   "error"
-  );
-  return;
- }
+  clearTimeout(window.alertTimer);
 
- try{
+  window.alertTimer=setTimeout(()=>{
+    el.className="alert hidden";
+  },4500);
+}
 
-  const credential =
-   await auth.createUserWithEmailAndPassword(
-    email,password
-   );
+function demoAction(message){
+  alertMsg(message,"success");
+}
 
-  const user = credential.user;
+function isAdmin(){
+  return currentUser &&
+    currentUser.email &&
+    currentUser.email.toLowerCase()===ADMIN_EMAIL;
+}
 
-  await db.collection("users")
-   .doc(user.uid)
-   .set({
-    uid:user.uid,
-    name:name,
-    email:email,
-    balance:0,
-    role:email.toLowerCase()===ADMIN_EMAIL.toLowerCase()
-      ?"admin"
-      :"user",
-    createdAt:firebase.firestore.FieldValue.serverTimestamp(),
-    updatedAt:firebase.firestore.FieldValue.serverTimestamp()
-   });
+/* =====================================================
+   NAVIGATION
+===================================================== */
 
-  await user.sendEmailVerification();
+function hideAll(){
+  [
+    "publicHome",
+    "authPage",
+    "verifyPage",
+    "appPage",
+    "adminPage"
+  ].forEach(id=>{
+    document.getElementById(id).classList.add("hidden");
+  });
+}
 
-  showToast("Account created. Verification email sent.");
+function goAuth(mode="login"){
+  hideAll();
 
-  $("verificationModal").classList.add("show");
+  document
+    .getElementById("authPage")
+    .classList.remove("hidden");
 
- }catch(error){
+  setAuthMode(mode);
+}
 
-  showMessage(
-   "authMessage",
-   friendlyError(error),
-   "error"
-  );
- }
-});
+function backToHome(){
+  hideAll();
 
+  document
+    .getElementById("publicHome")
+    .classList.remove("hidden");
+}
 
-$("showRegister").addEventListener("click",showRegister);
-$("showLogin").addEventListener("click",showLogin);
-$("authBack").addEventListener("click",backFromAuth);
+function setAuthMode(mode){
 
+  const login=document.getElementById("loginBox");
+  const register=document.getElementById("registerBox");
 
-$("forgotPassword").addEventListener("click",async()=>{
- const email = $("loginEmail").value.trim();
+  const lt=document.getElementById("loginTab");
+  const rt=document.getElementById("registerTab");
 
- if(!email){
-  showMessage(
-   "authMessage",
-   "Enter your email first.",
-   "info"
-  );
-  return;
- }
-
- try{
-  await auth.sendPasswordResetEmail(email);
-
-  showMessage(
-   "authMessage",
-   "Password reset email sent.",
-   "success"
-  );
-
- }catch(error){
-  showMessage(
-   "authMessage",
-   friendlyError(error),
-   "error"
-  );
- }
-});
-
-
-$("resendVerification").addEventListener("click",async()=>{
- if(!auth.currentUser)return;
-
- try{
-  await auth.currentUser.sendEmailVerification();
-  showToast("Verification email sent again.");
- }catch(error){
-  showToast(friendlyError(error));
- }
-});
-
-
-$("checkVerification").addEventListener("click",async()=>{
- if(!auth.currentUser)return;
-
- try{
-
-  await auth.currentUser.reload();
-
-  if(auth.currentUser.emailVerified){
-
-   $("verificationModal").classList.remove("show");
-
-   showToast("Email verified successfully.");
-
-   await startApplication();
-
+  if(mode==="register"){
+    login.classList.add("hidden");
+    register.classList.remove("hidden");
+    lt.classList.remove("active");
+    rt.classList.add("active");
   }else{
+    register.classList.add("hidden");
+    login.classList.remove("hidden");
+    rt.classList.remove("active");
+    lt.classList.add("active");
+  }
+}
 
-   showToast(
-    "Email is not verified yet. Open the email and click the link."
-   );
+function toggleSidebar(){
+  document
+    .getElementById("sidebar")
+    .classList.toggle("open");
+}
 
+function userPage(page,button){
+
+  document
+    .querySelectorAll("#sidebar .sideBtn")
+    .forEach(x=>x.classList.remove("active"));
+
+  if(button){
+    button.classList.add("active");
   }
 
- }catch(error){
-  showToast(friendlyError(error));
- }
-});
+  [
+    "userDashboard",
+    "userData",
+    "userAirtime",
+    "userBills",
+    "userWallet",
+    "userTransactions",
+    "userAccount"
+  ].forEach(id=>{
+    document.getElementById(id).classList.add("hidden");
+  });
 
+  const map={
+    dashboard:"userDashboard",
+    data:"userData",
+    airtime:"userAirtime",
+    bills:"userBills",
+    wallet:"userWallet",
+    transactions:"userTransactions",
+    account:"userAccount"
+  };
 
-/* ---------------- AUTH STATE ---------------- */
+  document
+    .getElementById(map[page])
+    .classList.remove("hidden");
 
-auth.onAuthStateChanged(async user=>{
+  document
+    .getElementById("sidebar")
+    .classList.remove("open");
 
- if(!user){
+  if(page==="data"){
+    loadPlans(currentNetwork);
+  }
+
+  if(page==="wallet"){
+    loadWallet();
+  }
+
+  if(page==="transactions"){
+    loadUserTransactions();
+  }
+
+  if(page==="account"){
+    renderAccount();
+  }
+}
+
+/* =====================================================
+   AUTHENTICATION
+===================================================== */
+
+async function registerUser(){
+
+  const name=document
+    .getElementById("registerName")
+    .value.trim();
+
+  const email=document
+    .getElementById("registerEmail")
+    .value.trim();
+
+  const password=document
+    .getElementById("registerPassword")
+    .value;
+
+  if(!name||!email||!password){
+    alertMsg("Please fill all fields.","error");
+    return;
+  }
+
+  if(password.length<6){
+    alertMsg(
+      "Password must be at least 6 characters.",
+      "error"
+    );
+    return;
+  }
+
+  try{
+
+    const cred=
+      await auth.createUserWithEmailAndPassword(
+        email,
+        password
+      );
+
+    await cred.user.updateProfile({
+      displayName:name
+    });
+
+    await db.collection("users")
+      .doc(cred.user.uid)
+      .set({
+        uid:cred.user.uid,
+        name:name,
+        email:email,
+        balance:0,
+        role:"user",
+        status:"active",
+        createdAt:
+          firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+    await cred.user.sendEmailVerification();
+
+    currentUser=cred.user;
+
+    showVerify();
+
+    alertMsg(
+      "Account created. Check your email.",
+      "success"
+    );
+
+  }catch(error){
+
+    alertMsg(
+      firebaseError(error.code),
+      "error"
+    );
+  }
+}
+
+async function loginUser(){
+
+  const email=document
+    .getElementById("loginEmail")
+    .value.trim();
+
+  const password=document
+    .getElementById("loginPassword")
+    .value;
+
+  if(!email||!password){
+    alertMsg("Enter email and password.","error");
+    return;
+  }
+
+  try{
+
+    const result=
+      await auth.signInWithEmailAndPassword(
+        email,
+        password
+      );
+
+    currentUser=result.user;
+
+    await result.user.reload();
+
+    currentUser=auth.currentUser;
+
+    if(!currentUser.emailVerified){
+      showVerify();
+      return;
+    }
+
+    openCorrectDashboard();
+
+  }catch(error){
+
+    alertMsg(
+      firebaseError(error.code),
+      "error"
+    );
+  }
+}
+
+function firebaseError(code){
+
+  const errors={
+    "auth/email-already-in-use":
+      "This email is already registered.",
+
+    "auth/invalid-email":
+      "Please enter a valid email.",
+
+    "auth/weak-password":
+      "Password is too weak.",
+
+    "auth/user-not-found":
+      "Account not found.",
+
+    "auth/wrong-password":
+      "Incorrect password.",
+
+    "auth/invalid-credential":
+      "Invalid email or password.",
+
+    "auth/too-many-requests":
+      "Too many attempts. Try again later."
+  };
+
+  return errors[code]||"Something went wrong. Please try again.";
+}
+
+async function resetPassword(){
+
+  const email=document
+    .getElementById("loginEmail")
+    .value.trim();
+
+  if(!email){
+    alertMsg(
+      "Enter your email first.",
+      "error"
+    );
+    return;
+  }
+
+  try{
+
+    await auth.sendPasswordResetEmail(email);
+
+    alertMsg(
+      "Password reset email sent.",
+      "success"
+    );
+
+  }catch(error){
+
+    alertMsg(
+      firebaseError(error.code),
+      "error"
+    );
+  }
+}
+
+function showVerify(){
+
+  hideAll();
+
+  document
+    .getElementById("verifyPage")
+    .classList.remove("hidden");
+
+  document
+    .getElementById("verifyText")
+    .innerHTML=
+    `Verification email sent to <b>${esc(
+      currentUser?.email||""
+    )}</b>.`;
+}
+
+async function resendVerification(){
+
+  try{
+
+    await currentUser.sendEmailVerification();
+
+    alertMsg(
+      "Verification email sent again.",
+      "success"
+    );
+
+  }catch(error){
+
+    alertMsg(
+      error.message,
+      "error"
+    );
+  }
+}
+
+async function checkVerification(){
+
+  if(!currentUser){
+    return;
+  }
+
+  await currentUser.reload();
+
+  currentUser=auth.currentUser;
+
+  if(!currentUser.emailVerified){
+
+    alertMsg(
+      "Your email is not verified yet.",
+      "error"
+    );
+
+    return;
+  }
+
+  alertMsg(
+    "Email verified successfully.",
+    "success"
+  );
+
+  openCorrectDashboard();
+}
+
+async function logoutUser(){
+
+  await auth.signOut();
+
   currentUser=null;
   currentUserData=null;
-  isAdmin=false;
 
-  $("appPage").classList.add("hidden");
-  $("authPage").classList.add("hidden");
-  $("landingPage").classList.remove("hidden");
+  hideAll();
 
-  return;
- }
+  document
+    .getElementById("publicHome")
+    .classList.remove("hidden");
 
- currentUser=user;
+  document
+    .getElementById("topAuthBtn")
+    .textContent="Login";
+}
 
- try{
-  await user.reload();
- }catch{}
+function openCorrectDashboard(){
 
- if(!user.emailVerified){
-
-  $("landingPage").classList.add("hidden");
-  $("authPage").classList.remove("hidden");
-
-  $("verificationModal").classList.add("show");
-
-  return;
- }
-
- await startApplication();
-});
-
-
-async function startApplication(){
-
- if(!auth.currentUser)return;
-
- currentUser=auth.currentUser;
-
- try{
-
-  const ref =
-   db.collection("users").doc(currentUser.uid);
-
-  const snap=await ref.get();
-
-  if(snap.exists){
-   currentUserData=snap.data();
-  }else{
-
-   currentUserData={
-    uid:currentUser.uid,
-    name:currentUser.email.split("@")[0],
-    email:currentUser.email,
-    balance:0
-   };
-
-   await ref.set({
-    ...currentUserData,
-    createdAt:firebase.firestore.FieldValue.serverTimestamp()
-   },{
-    merge:true
-   });
+  if(!currentUser){
+    return;
   }
 
- }catch(error){
+  document
+    .getElementById("topAuthBtn")
+    .textContent="Dashboard";
 
-  currentUserData={
-   uid:currentUser.uid,
-   name:currentUser.email.split("@")[0],
-   email:currentUser.email,
-   balance:0
+  hideAll();
+
+  document
+    .getElementById("appPage")
+    .classList.remove("hidden");
+
+  document
+    .getElementById("adminNav")
+    .classList.toggle(
+      "hidden",
+      !isAdmin()
+    );
+
+  refreshUserDashboard();
+}
+
+/* =====================================================
+   USER DATA
+===================================================== */
+
+async function getUserData(){
+
+  if(!currentUser){
+    return null;
+  }
+
+  const snap=
+    await db.collection("users")
+      .doc(currentUser.uid)
+      .get();
+
+  if(!snap.exists){
+
+    await db.collection("users")
+      .doc(currentUser.uid)
+      .set({
+        uid:currentUser.uid,
+        name:currentUser.displayName||"",
+        email:currentUser.email,
+        balance:0,
+        role:isAdmin()?"admin":"user",
+        status:"active",
+        createdAt:
+          firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+    return {
+      uid:currentUser.uid,
+      name:currentUser.displayName||"",
+      email:currentUser.email,
+      balance:0,
+      role:isAdmin()?"admin":"user",
+      status:"active"
+    };
+  }
+
+  return {
+    id:snap.id,
+    ...snap.data()
   };
- }
-
- isAdmin =
- currentUser.email.toLowerCase() ===
- ADMIN_EMAIL.toLowerCase();
-
- $("landingPage").classList.add("hidden");
- $("authPage").classList.add("hidden");
- $("appPage").classList.remove("hidden");
-
- if(isAdmin){
-  $("adminMenu").classList.remove("hidden");
- }else{
-  $("adminMenu").classList.add("hidden");
- }
-
- updateUserUI();
-
- await loadDashboard();
-
- await checkWorker();
-
- loadPlans();
 }
 
+async function refreshUserDashboard(){
 
-/* ---------------- USER UI ---------------- */
+  currentUserData=await getUserData();
 
-function updateUserUI(){
-
- const name =
- currentUserData?.name ||
- currentUser?.email?.split("@")[0] ||
- "User";
-
- $("userNameTop").textContent=name;
- $("welcomeName").textContent=name;
-
- $("accountName").value=name;
- $("accountEmail").value=currentUser?.email || "";
-
- $("accountVerification").value =
- currentUser?.emailVerified
- ?"Verified"
- :"Not Verified";
-
- updateBalance(
-  currentUserData?.balance || 0
- );
-}
-
-function updateBalance(balance){
-
- $("dashBalance").textContent=money(balance);
- $("walletBalance").textContent=money(balance);
-}
-
-
-/* ---------------- PAGE NAVIGATION ---------------- */
-
-function openPage(page){
-
- if(!currentUser)return;
-
- if(page.startsWith("admin") && !isAdmin){
-  showToast("Admin access required.");
-  return;
- }
-
- previousPage=currentPage;
- currentPage=page;
-
- document.querySelectorAll(".app-section")
- .forEach(section=>{
-  section.classList.add("hidden");
- });
-
- const target=$("page-"+page);
-
- if(!target){
-  currentPage="dashboard";
-  $("page-dashboard").classList.remove("hidden");
-  return;
- }
-
- target.classList.remove("hidden");
-
- document.querySelectorAll(".side-link")
- .forEach(button=>{
-  button.classList.toggle(
-   "active",
-   button.dataset.page===page
-  );
- });
-
- const titles={
-  dashboard:"Dashboard",
-  data:"Data Plans",
-  airtime:"Airtime",
-  bills:"Pay Bills",
-  wallet:"Wallet / Deposit",
-  transactions:"Transactions",
-  support:"Support",
-  account:"My Account",
-  admin:"Admin Dashboard",
-  adminDeposits:"User Funding",
-  adminUsers:"Users",
-  adminTransactions:"All Transactions",
-  adminPlans:"Data Plans",
-  adminSupport:"Support"
- };
-
- $("pageTitle").textContent=titles[page] || "A T L DATA";
-
- $("sidebar").classList.remove("open");
-
- if(page==="dashboard")loadDashboard();
- if(page==="transactions")loadTransactions();
- if(page==="wallet")loadDeposits();
- if(page==="admin")loadAdminDashboard();
- if(page==="adminDeposits")loadAdminDeposits();
- if(page==="adminUsers")loadAdminUsers();
- if(page==="adminTransactions")loadAdminTransactions();
- if(page==="account")updateUserUI();
- if(page==="data")loadPlans();
-}
-
-
-/* Every navigation button uses this listener */
-document.addEventListener("click",e=>{
-
- const pageButton=e.target.closest("[data-page]");
-
- if(pageButton){
-  e.preventDefault();
-  openPage(pageButton.dataset.page);
- }
-
- const actionButton=e.target.closest("[data-action]");
-
- if(actionButton){
-  e.preventDefault();
-  openAuth(actionButton.dataset.action);
- }
-
- const closeButton=e.target.closest("[data-close]");
-
- if(closeButton){
-  const modal=$(closeButton.dataset.close);
-  if(modal)modal.classList.remove("show");
- }
-});
-
-
-$("mobileMenu").addEventListener("click",()=>{
- $("sidebar").classList.toggle("open");
-});
-
-
-$("topLogout").addEventListener("click",logout);
-$("logoutButton").addEventListener("click",logout);
-
-
-async function logout(){
-
- try{
-  await auth.signOut();
-  showToast("Logged out.");
- }catch(error){
-  showToast(friendlyError(error));
- }
-}
-
-
-/* ---------------- DASHBOARD ---------------- */
-
-async function loadDashboard(){
-
- if(!currentUser)return;
-
- try{
-
-  const userSnap =
-   await db.collection("users")
-   .doc(currentUser.uid)
-   .get();
-
-  if(userSnap.exists){
-   currentUserData=userSnap.data();
-   updateUserUI();
+  if(!currentUserData){
+    return;
   }
 
-  const snap =
-   await db.collection("transactions")
-   .where("uid","==",currentUser.uid)
-   .limit(50)
-   .get();
+  document
+    .getElementById("welcomeUser")
+    .textContent=
+    `Welcome, ${currentUserData.name||currentUser.email}`;
 
-  const docs=snap.docs.map(d=>({
-   id:d.id,
-   ...d.data()
-  }));
+  document
+    .getElementById("dashBalance")
+    .textContent=
+    money(currentUserData.balance);
 
-  docs.sort((a,b)=>{
-   const ta=a.createdAt?.seconds || 0;
-   const tb=b.createdAt?.seconds || 0;
-   return tb-ta;
-  });
+  document
+    .getElementById("walletBalance")
+    .textContent=
+    money(currentUserData.balance);
 
-  $("dashTransactions").textContent=docs.length;
-
-  const pending =
-   await db.collection("deposits")
-   .where("uid","==",currentUser.uid)
-   .where("status","==","pending")
-   .get();
-
-  $("dashPending").textContent=pending.size;
-
-  renderRecentTransactions(docs.slice(0,5));
-
- }catch(error){
-
-  console.error(error);
-
-  $("recentTransactions").innerHTML=
-   `<div class="empty">No transaction data yet.</div>`;
- }
+  await loadUserTransactionCount();
+  await loadPendingCount();
 }
 
+async function loadWallet(){
 
-function renderRecentTransactions(items){
+  currentUserData=await getUserData();
 
- if(!items.length){
-  $("recentTransactions").innerHTML=
-   `<div class="empty">No transactions yet.</div>`;
-  return;
- }
-
- $("recentTransactions").innerHTML=
- items.map(t=>`
-
-  <div style="
-   padding:14px 0;
-   border-bottom:1px solid #edf1ef;
-   display:flex;
-   justify-content:space-between;
-   gap:10px;
-  ">
-
-   <div>
-    <strong>${escapeHTML(t.type || "Transaction")}</strong>
-    <div style="font-size:12px;color:#78857e;margin-top:4px">
-     ${escapeHTML(t.description || "")}
-    </div>
-   </div>
-
-   <div style="text-align:right">
-    <strong>${money(t.amount)}</strong>
-    <div style="font-size:11px;color:#78857e">
-     ${formatDate(t.createdAt)}
-    </div>
-   </div>
-
-  </div>
- `).join("");
-}
-
-
-/* ---------------- DATA PLANS ---------------- */
-
-async function fetchPlans(network){
-
- const response =
-  await fetch(
-   WORKER+"/test-plans/"+encodeURIComponent(network),
-   {
-    method:"GET",
-    headers:{
-     "Accept":"application/json"
-    }
-   }
-  );
-
- const text=await response.text();
-
- let data;
-
- try{
-  data=JSON.parse(text);
- }catch{
-  throw new Error(
-   "Worker returned an invalid response."
-  );
- }
-
- if(!response.ok){
-  throw new Error(
-   data.message ||
-   "Worker request failed."
-  );
- }
-
- let plans=[];
-
- if(Array.isArray(data)){
-  plans=data;
- }else if(Array.isArray(data.plans)){
-  plans=data.plans;
- }else if(Array.isArray(data.data)){
-  plans=data.data;
- }else if(data.data && Array.isArray(data.data.plans)){
-  plans=data.data.plans;
- }
-
- return plans;
-}
-
-
-async function loadPlans(){
-
- const container=$("plansContainer");
-
- container.innerHTML=
-  `<div class="loading">Loading MTN plans...</div>`;
-
- try{
-
-  const networks=["mtn","airtel","glo","9mobile"];
-
-  for(const network of networks){
-
-   try{
-    allPlans[network]=
-     await fetchPlans(network);
-   }catch(error){
-    console.error(network,error);
-    allPlans[network]=[];
-   }
-  }
-
-  renderAllPlans();
-
- }catch(error){
-
-  container.innerHTML="";
-  showMessage(
-   "plansMessage",
-   error.message,
-   "error"
-  );
- }
-}
-
-
-function normalizePlan(plan){
-
- const name =
-  plan.name ||
-  plan.plan_name ||
-  plan.title ||
-  plan.description ||
-  "Data Plan";
-
- const amount =
-  Number(
-   plan.amount ??
-   plan.price ??
-   plan.selling_price ??
-   plan.variation_amount ??
-   0
-  );
-
- return {
-  ...plan,
-  displayName:String(name),
-  displayAmount:amount
- };
-}
-
-
-function renderAllPlans(){
-
- const container=$("plansContainer");
-
- const networks=[
-  ["mtn","MTN"],
-  ["airtel","Airtel"],
-  ["glo","Glo"],
-  ["9mobile","9mobile"]
- ];
-
- let html="";
-
- for(const [key,label] of networks){
-
-  const plans=allPlans[key] || [];
-
-  html+=
-   `<div class="network-title">${label}</div>`;
-
-  if(!plans.length){
-
-   html+=
-    `<div class="empty" style="grid-column:1/-1">
-      No ${label} plans returned by Worker.
-     </div>`;
-
-   continue;
-  }
-
-  plans.forEach((raw,index)=>{
-
-   const p=normalizePlan(raw);
-
-   html+=`
-    <div class="plan">
-
-     <strong>${escapeHTML(p.displayName)}</strong>
-
-     <small>
-      ${label} data plan
-     </small>
-
-     <div class="price">
-      ${money(p.displayAmount)}
-     </div>
-
-     <button
-      class="btn btn-primary plan-select"
-      data-network="${escapeHTML(key)}"
-      data-index="${index}">
-      Select Plan
-     </button>
-
-    </div>
-   `;
-  });
- }
-
- container.innerHTML=html;
-
- container.querySelectorAll(".plan-select")
- .forEach(button=>{
-
-  button.addEventListener("click",()=>{
-
-   const network=button.dataset.network;
-   const index=Number(button.dataset.index);
-
-   const raw=allPlans[network][index];
-
-   openPlanModal(
-    network,
-    normalizePlan(raw)
-   );
-  });
- });
-}
-
-
-function openPlanModal(network,plan){
-
- selectedPlan={
-  network,
-  ...plan
- };
-
- $("planModalTitle").textContent=
-  network.toUpperCase()+" Data Plan";
-
- $("selectedPlanInfo").innerHTML=`
-
-  <div class="card" style="box-shadow:none;border:1px solid #e4ebe7">
-
-   <h3>${escapeHTML(plan.displayName)}</h3>
-
-   <p style="margin-top:8px;color:#68756e">
-    Network: ${escapeHTML(network.toUpperCase())}
-   </p>
-
-   <p style="
-    font-size:25px;
-    font-weight:900;
-    color:var(--green);
-    margin-top:10px
-   ">
-    ${money(plan.displayAmount)}
-   </p>
-
-  </div>
- `;
-
- $("planModal").classList.add("show");
-}
-
-
-$("reloadPlans").addEventListener("click",()=>{
- loadPlans();
-});
-
-
-$("adminReloadPlans").addEventListener("click",()=>{
- loadPlansForAdmin();
-});
-
-
-$("sandboxPlanButton").addEventListener("click",async()=>{
-
- if(!selectedPlan)return;
-
- $("planModal").classList.remove("show");
-
- showToast(
-  selectedPlan.displayName+
-  " selected in sandbox mode."
- );
-
-});
-
-
-/* ---------------- WALLET / DEPOSITS ---------------- */
-
-$("depositForm").addEventListener("submit",async e=>{
-
- e.preventDefault();
-
- if(!currentUser)return;
-
- const amount=Number($("depositAmount").value);
- const reference=$("depositReference").value.trim();
-
- if(amount<100){
-  showToast("Minimum deposit request is ₦100.");
-  return;
- }
-
- if(!reference){
-  showToast("Enter your payment reference.");
-  return;
- }
-
- try{
-
-  await db.collection("deposits").add({
-
-   uid:currentUser.uid,
-
-   name:
-    currentUserData?.name ||
-    currentUser.email,
-
-   email:currentUser.email,
-
-   amount:amount,
-
-   reference:reference,
-
-   status:"pending",
-
-   createdAt:
-    firebase.firestore.FieldValue.serverTimestamp()
-
-  });
-
-  await db.collection("transactions").add({
-
-   uid:currentUser.uid,
-
-   type:"Deposit",
-
-   amount:amount,
-
-   status:"pending",
-
-   description:"Wallet deposit request",
-
-   reference:reference,
-
-   createdAt:
-    firebase.firestore.FieldValue.serverTimestamp()
-
-  });
-
-  $("depositForm").reset();
-
-  showToast(
-   "Deposit request submitted successfully."
-  );
+  document
+    .getElementById("walletBalance")
+    .textContent=
+    money(currentUserData?.balance);
 
   await loadDeposits();
-  await loadDashboard();
+}
 
- }catch(error){
+async function loadUserTransactionCount(){
 
-  showToast(friendlyError(error));
- }
-});
+  if(!currentUser){
+    return;
+  }
 
+  const snap=
+    await db.collection("transactions")
+      .where("uid","==",currentUser.uid)
+      .get();
+
+  document
+    .getElementById("dashTransactions")
+    .textContent=
+    snap.size;
+}
+
+async function loadPendingCount(){
+
+  if(!currentUser){
+    return;
+  }
+
+  const snap=
+    await db.collection("deposits")
+      .where("uid","==",currentUser.uid)
+      .where("status","==","pending")
+      .get();
+
+  document
+    .getElementById("dashPending")
+    .textContent=
+    snap.size;
+}
+
+/* =====================================================
+   DEPOSIT
+===================================================== */
+
+function openDeposit(){
+
+  openModal(
+    "Deposit Request",
+    `
+    <div class="notice">
+      Submit a demo deposit request for administrator approval.
+    </div>
+
+    <br>
+
+    <div class="field">
+      <label>Amount</label>
+      <input id="depositAmount"
+             type="number"
+             placeholder="1000">
+    </div>
+
+    <div class="field">
+      <label>Reference</label>
+      <input id="depositReference"
+             placeholder="Payment reference">
+    </div>
+
+    <button class="btn primary"
+            style="width:100%"
+            onclick="submitDeposit()">
+      Submit Request
+    </button>
+    `
+  );
+}
+
+async function submitDeposit(){
+
+  const amount=Number(
+    document.getElementById("depositAmount").value
+  );
+
+  const reference=
+    document.getElementById("depositReference").value.trim();
+
+  if(!amount||amount<=0){
+    alertMsg(
+      "Enter a valid amount.",
+      "error"
+    );
+    return;
+  }
+
+  try{
+
+    await db.collection("deposits").add({
+      uid:currentUser.uid,
+      email:currentUser.email,
+      amount:amount,
+      reference:reference,
+      status:"pending",
+      createdAt:
+        firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    closeModal();
+
+    await loadWallet();
+
+    await refreshUserDashboard();
+
+    alertMsg(
+      "Deposit request submitted.",
+      "success"
+    );
+
+  }catch(error){
+
+    alertMsg(
+      error.message,
+      "error"
+    );
+  }
+}
 
 async function loadDeposits(){
 
- if(!currentUser)return;
+  const box=
+    document.getElementById("depositHistory");
 
- const box=$("depositHistory");
-
- try{
-
-  const snap =
-   await db.collection("deposits")
-   .where("uid","==",currentUser.uid)
-   .get();
-
-  const items=snap.docs.map(d=>({
-   id:d.id,
-   ...d.data()
-  }));
-
-  items.sort((a,b)=>{
-   return (b.createdAt?.seconds||0) -
-          (a.createdAt?.seconds||0);
-  });
-
-  if(!items.length){
-   box.innerHTML=
-    `<div class="empty">No deposit requests yet.</div>`;
-   return;
+  if(!currentUser){
+    return;
   }
 
-  box.innerHTML=items.map(d=>`
+  const snap=
+    await db.collection("deposits")
+      .where("uid","==",currentUser.uid)
+      .get();
 
-   <div style="
-    padding:14px 0;
-    border-bottom:1px solid #edf1ef;
-    display:flex;
-    justify-content:space-between;
-    gap:15px;
-   ">
+  if(snap.empty){
 
-    <div>
-     <strong>${money(d.amount)}</strong>
+    box.innerHTML=
+      `<div class="empty">No deposit requests.</div>`;
 
-     <div style="font-size:12px;color:#718078;margin-top:5px">
-      Ref: ${escapeHTML(d.reference || "-")}
-     </div>
+    return;
+  }
 
-     <div style="font-size:11px;color:#718078;margin-top:3px">
-      ${formatDate(d.createdAt)}
-     </div>
+  const rows=
+    snap.docs
+      .sort((a,b)=>{
+        const aa=a.data().createdAt?.seconds||0;
+        const bb=b.data().createdAt?.seconds||0;
+        return bb-aa;
+      })
+      .map(doc=>{
+
+        const d=doc.data();
+
+        return `
+        <div style="
+          padding:13px 0;
+          border-bottom:1px solid var(--border)
+        ">
+          <b>${money(d.amount)}</b>
+          <span class="badge ${
+            d.status==="approved"
+              ?"green"
+              :d.status==="rejected"
+              ?"red"
+              :"orange"
+          }">
+            ${esc(d.status)}
+          </span>
+          <br>
+          <small style="color:var(--muted)">
+            ${esc(d.reference||"No reference")}
+          </small>
+        </div>`;
+      })
+      .join("");
+
+  box.innerHTML=rows;
+}
+
+/* =====================================================
+   DATA PLANS FROM WORKER
+===================================================== */
+
+async function loadPlans(network="mtn"){
+
+  currentNetwork=network||"mtn";
+
+  const area=
+    document.getElementById("plansArea");
+
+  area.innerHTML=
+    `<div class="card">
+      Loading ${esc(currentNetwork)} plans...
+     </div>`;
+
+  try{
+
+    const response=
+      await fetch(
+        WORKER+
+        "/test-plans/"+
+        encodeURIComponent(currentNetwork)
+      );
+
+    const text=await response.text();
+
+    let data;
+
+    try{
+      data=JSON.parse(text);
+    }catch{
+      throw new Error(
+        "Worker returned invalid JSON."
+      );
+    }
+
+    if(!response.ok){
+      throw new Error(
+        data.message||
+        "Worker request failed."
+      );
+    }
+
+    let plans=[];
+
+    if(Array.isArray(data)){
+      plans=data;
+    }else if(Array.isArray(data.data)){
+      plans=data.data;
+    }else if(Array.isArray(data.plans)){
+      plans=data.plans;
+    }else if(data.data?.plans){
+      plans=data.data.plans;
+    }
+
+    currentPlans=plans;
+
+    if(!plans.length){
+
+      area.innerHTML=
+        `<div class="card">
+          <div class="empty">
+            No plans returned for ${esc(currentNetwork)}.
+          </div>
+        </div>`;
+
+      return;
+    }
+
+    area.innerHTML=
+      plans.map((plan,index)=>{
+
+        const name=
+          plan.name||
+          plan.plan_name||
+          plan.bundle||
+          plan.title||
+          plan.description||
+          "Data Plan";
+
+        const price=
+          plan.price||
+          plan.amount||
+          plan.selling_price||
+          0;
+
+        return `
+        <div class="plan">
+
+          <small style="color:var(--muted)">
+            ${esc(currentNetwork.toUpperCase())}
+          </small>
+
+          <h3>
+            ${esc(name)}
+          </h3>
+
+          <strong>
+            ${money(price)}
+          </strong>
+
+          <br><br>
+
+          <button class="btn primary"
+                  style="width:100%"
+                  onclick="selectPlan(${index})">
+            Select Plan
+          </button>
+
+        </div>`;
+      }).join("");
+
+  }catch(error){
+
+    area.innerHTML=
+      `<div class="card">
+        <div class="notice">
+          ${esc(error.message)}
+        </div>
+      </div>`;
+  }
+}
+
+function selectPlan(index){
+
+  const plan=currentPlans[index];
+
+  if(!plan){
+    return;
+  }
+
+  const name=
+    plan.name||
+    plan.plan_name||
+    plan.bundle||
+    plan.title||
+    "Data Plan";
+
+  const price=
+    plan.price||
+    plan.amount||
+    plan.selling_price||
+    0;
+
+  openModal(
+    "Data Plan",
+    `
+    <div class="card"
+         style="box-shadow:none">
+
+      <h3>${esc(name)}</h3>
+
+      <h2 style="color:var(--green)">
+        ${money(price)}
+      </h2>
+
+      <div class="field">
+        <label>Phone Number</label>
+        <input id="dataPhone"
+               placeholder="08012345678">
+      </div>
+
+      <div class="notice">
+        Test/Sandbox selection only.
+        No real purchase will be submitted.
+      </div>
+
+      <br>
+
+      <button class="btn primary"
+              style="width:100%"
+              onclick="sandboxDataPurchase()">
+        Continue Test Purchase
+      </button>
+
+    </div>
+    `
+  );
+}
+
+function sandboxDataPurchase(){
+
+  closeModal();
+
+  alertMsg(
+    "Test purchase selected. No real transaction was submitted.",
+    "success"
+  );
+}
+
+/* =====================================================
+   AIRTIME / BILLS
+===================================================== */
+
+function sandboxAirtime(){
+
+  const phone=
+    document.getElementById("airtimePhone").value.trim();
+
+  const amount=
+    Number(
+      document.getElementById("airtimeAmount").value
+    );
+
+  if(!phone||!amount){
+
+    alertMsg(
+      "Enter phone number and amount.",
+      "error"
+    );
+
+    return;
+  }
+
+  alertMsg(
+    "Airtime test request created. No real purchase was submitted.",
+    "success"
+  );
+}
+
+function openBill(type){
+
+  const title={
+    electricity:"Electricity",
+    cable:"Cable TV",
+    internet:"Internet"
+  }[type]||"Bill";
+
+  openModal(
+    title,
+    `
+    <div class="notice">
+      ${esc(title)} is currently available in sandbox mode.
     </div>
 
-    <span class="badge ${
-     d.status==="approved"
-      ?"badge-success"
-      :d.status==="rejected"
-       ?"badge-danger"
-       :"badge-pending"
-    }">
-     ${escapeHTML(d.status || "pending")}
-    </span>
+    <br>
 
-   </div>
+    <div class="field">
+      <label>Customer / Meter Number</label>
+      <input placeholder="Enter number">
+    </div>
 
-  `).join("");
+    <div class="field">
+      <label>Amount</label>
+      <input type="number"
+             placeholder="1000">
+    </div>
 
- }catch(error){
-
-  box.innerHTML=
-   `<div class="empty">Unable to load deposits.</div>`;
- }
+    <button class="btn primary"
+            style="width:100%"
+            onclick="closeModal();demoAction('Sandbox bill request created')">
+      Continue
+    </button>
+    `
+  );
 }
 
+/* =====================================================
+   USER TRANSACTIONS
+===================================================== */
 
-$("copyAccount").addEventListener("click",async()=>{
+async function loadUserTransactions(){
 
- try{
+  const tbody=
+    document.getElementById("userTxTable");
 
-  await navigator.clipboard.writeText(
-   "7073160817"
-  );
+  tbody.innerHTML=
+    `<tr>
+      <td colspan="5">Loading...</td>
+     </tr>`;
 
-  showToast("Account number copied.");
+  try{
 
- }catch{
-  showToast("Copy failed. Long-press the account number.");
- }
-});
+    const snap=
+      await db.collection("transactions")
+        .where("uid","==",currentUser.uid)
+        .get();
 
+    if(snap.empty){
 
-/* ---------------- TRANSACTIONS ---------------- */
+      tbody.innerHTML=
+        `<tr>
+          <td colspan="5">
+            No transactions yet.
+          </td>
+        </tr>`;
 
-async function loadTransactions(){
+      return;
+    }
 
- if(!currentUser)return;
+    const rows=
+      snap.docs
+        .sort((a,b)=>{
+          const aa=a.data().createdAt?.seconds||0;
+          const bb=b.data().createdAt?.seconds||0;
+          return bb-aa;
+        })
+        .map(doc=>{
 
- const box=$("transactionTable");
+          const d=doc.data();
 
- box.innerHTML=
-  `<div class="loading">Loading transactions...</div>`;
+          return `
+          <tr>
+            <td>${esc(d.type||"")}</td>
+            <td>${esc(d.description||"")}</td>
+            <td>${money(d.amount)}</td>
+            <td>
+              <span class="badge green">
+                ${esc(d.status||"success")}
+              </span>
+            </td>
+            <td>
+              ${formatDate(d.createdAt)}
+            </td>
+          </tr>`;
+        })
+        .join("");
 
- try{
+    tbody.innerHTML=rows;
 
-  const snap =
-   await db.collection("transactions")
-   .where("uid","==",currentUser.uid)
-   .get();
+  }catch(error){
 
-  const items=snap.docs.map(d=>({
-   id:d.id,
-   ...d.data()
-  }));
-
-  items.sort((a,b)=>{
-   return (b.createdAt?.seconds||0) -
-          (a.createdAt?.seconds||0);
-  });
-
-  if(!items.length){
-
-   box.innerHTML=
-    `<div class="empty">No transactions found.</div>`;
-
-   return;
+    tbody.innerHTML=
+      `<tr>
+        <td colspan="5">
+          ${esc(error.message)}
+        </td>
+      </tr>`;
   }
+}
 
-  box.innerHTML=`
+/* =====================================================
+   ACCOUNT
+===================================================== */
 
-   <table>
+async function renderAccount(){
 
-    <thead>
-     <tr>
-      <th>Type</th>
-      <th>Description</th>
-      <th>Amount</th>
-      <th>Status</th>
-      <th>Date</th>
-     </tr>
-    </thead>
+  const d=
+    await getUserData();
 
-    <tbody>
+  document
+    .getElementById("accountInfo")
+    .innerHTML=`
+      <h3>${esc(d?.name||"User")}</h3>
 
-     ${items.map(t=>`
+      <p>
+        <b>Email:</b>
+        ${esc(d?.email||currentUser.email)}
+      </p>
 
-      <tr>
+      <p>
+        <b>UID:</b>
+        ${esc(currentUser.uid)}
+      </p>
 
-       <td>${escapeHTML(t.type || "-")}</td>
-
-       <td>
-        ${escapeHTML(t.description || "-")}
-       </td>
-
-       <td>${money(t.amount)}</td>
-
-       <td>
-        <span class="badge ${
-         t.status==="approved" ||
-         t.status==="success"
-          ?"badge-success"
-          :t.status==="rejected" ||
-           t.status==="failed"
-           ?"badge-danger"
-           :"badge-pending"
-        }">
-         ${escapeHTML(t.status || "-")}
+      <p>
+        <b>Status:</b>
+        <span class="badge green">
+          ${esc(d?.status||"active")}
         </span>
-       </td>
+      </p>
 
-       <td>${formatDate(t.createdAt)}</td>
-
-      </tr>
-
-     `).join("")}
-
-    </tbody>
-
-   </table>
-  `;
-
- }catch(error){
-
-  box.innerHTML=
-   `<div class="empty">
-    Unable to load transactions.
-    </div>`;
- }
+      <p>
+        <b>Wallet:</b>
+        ${money(d?.balance)}
+      </p>
+    `;
 }
 
+/* =====================================================
+   ADMIN
+===================================================== */
 
-$("refreshTransactions").addEventListener(
- "click",
- loadTransactions
-);
+function openAdmin(){
 
+  if(!isAdmin()){
 
-/* ---------------- BILLS ---------------- */
+    alertMsg(
+      "Admin access denied.",
+      "error"
+    );
 
-$("billType").addEventListener("change",()=>{
-
- const type=$("billType").value;
- const area=$("billFormArea");
-
- if(!type){
-  area.innerHTML="";
-  return;
- }
-
- const names={
-  electricity:"Electricity",
-  cable:"Cable TV",
-  internet:"Internet",
-  education:"Education"
- };
-
- area.innerHTML=`
-
-  <div class="alert alert-info">
-   ${names[type]} service is currently in sandbox mode.
-  </div>
-
-  <div class="form-group">
-   <label>Customer / Meter / Smartcard Number</label>
-   <input id="billCustomer" required>
-  </div>
-
-  <div class="form-group">
-   <label>Amount (₦)</label>
-   <input id="billAmount" type="number" min="100" required>
-  </div>
-
-  <button class="btn btn-primary" id="billContinue">
-   Continue
-  </button>
- `;
-
- $("billContinue").addEventListener("click",()=>{
-
-  const customer=$("billCustomer").value.trim();
-  const amount=Number($("billAmount").value);
-
-  if(!customer || amount<100){
-   showToast("Enter valid bill details.");
-   return;
+    return;
   }
 
-  showToast(
-   names[type]+
-   " selected in sandbox mode."
-  );
- });
-});
+  hideAll();
 
+  document
+    .getElementById("adminPage")
+    .classList.remove("hidden");
 
-/* ---------------- AIRTIME ---------------- */
+  loadAdmin();
+}
 
-$("airtimeForm").addEventListener("submit",e=>{
+function backToUserPanel(){
 
- e.preventDefault();
+  hideAll();
 
- const network=$("airtimeNetwork").value;
- const phone=$("airtimePhone").value.trim();
- const amount=Number($("airtimeAmount").value);
+  document
+    .getElementById("appPage")
+    .classList.remove("hidden");
 
- if(!network || phone.length<10 || amount<50){
-  showToast("Enter valid airtime details.");
-  return;
- }
+  userPage("dashboard");
 
- showToast(
-  "Airtime request prepared in sandbox mode."
- );
-});
+  refreshUserDashboard();
+}
 
+async function loadAdmin(){
 
-/* ---------------- SUPPORT ---------------- */
+  if(!isAdmin()){
+    return;
+  }
 
-$("supportEmail").addEventListener("click",()=>{
- window.location.href=
-  "mailto:"+SUPPORT_EMAIL+
-  "?subject=A%20T%20L%20DATA%20Support";
-});
+  await loadAdminUsers();
 
-$("adminSupportEmail").addEventListener("click",()=>{
- window.location.href=
-  "mailto:"+SUPPORT_EMAIL+
-  "?subject=A%20T%20L%20DATA%20Admin%20Support";
-});
+  await loadAdminDeposits();
 
-$("supportWhatsApp").addEventListener("click",()=>{
- window.open(
-  "https://wa.me/"+SUPPORT_WHATSAPP,
-  "_blank"
-);
-});
-
-
-/* ---------------- ACCOUNT VERIFICATION ---------------- */
-
-$("sendVerificationAccount")
-.addEventListener("click",async()=>{
-
- if(!auth.currentUser)return;
-
- try{
-  await auth.currentUser.sendEmailVerification();
-  showToast("Verification email sent.");
- }catch(error){
-  showToast(friendlyError(error));
- }
-});
-
-
-/* ---------------- ADMIN DASHBOARD ---------------- */
-
-async function loadAdminDashboard(){
-
- if(!isAdmin)return;
-
- try{
-
-  const users =
-   await db.collection("users").get();
-
-  const deposits =
-   await db.collection("deposits")
-   .where("status","==","pending")
-   .get();
-
-  const transactions =
-   await db.collection("transactions").get();
-
-  $("adminUsersCount").textContent=users.size;
-  $("adminPendingCount").textContent=deposits.size;
-  $("adminTransactionsCount").textContent=
-   transactions.size;
+  await loadAdminTransactions();
 
   await checkWorker();
 
- }catch(error){
-
-  console.error(error);
- }
+  await loadAdminPlanCount();
 }
 
+function adminPage(page,button){
 
-async function checkWorker(){
+  document
+    .querySelectorAll("#adminSidebar .sideBtn")
+    .forEach(x=>x.classList.remove("active"));
 
- try{
-
-  const response =
-   await fetch(WORKER+"/health");
-
-  if(response.ok){
-
-   $("workerStatus").textContent="Online";
-   $("workerStatus").style.color="var(--success)";
-
-  }else{
-
-   $("workerStatus").textContent="Offline";
-   $("workerStatus").style.color="var(--danger)";
+  if(button){
+    button.classList.add("active");
   }
 
- }catch{
+  const ids=[
+    "adminOverview",
+    "adminFunding",
+    "adminTransactions",
+    "adminData",
+    "adminDatatype",
+    "adminCable",
+    "adminServices",
+    "adminDiscounts",
+    "adminCharges",
+    "adminUsersPage",
+    "adminKyc",
+    "adminRestricted",
+    "adminNotifications",
+    "adminAnalytics",
+    "adminCalculator",
+    "adminStaff",
+    "adminRoles",
+    "adminApiSecurity",
+    "adminApiRequests",
+    "adminConfiguration"
+  ];
 
-  $("workerStatus").textContent="Offline";
-  $("workerStatus").style.color="var(--danger)";
- }
+  ids.forEach(id=>{
+    document
+      .getElementById(id)
+      .classList.add("hidden");
+  });
+
+  const map={
+    overview:"adminOverview",
+    funding:"adminFunding",
+    transactions:"adminTransactions",
+    data:"adminData",
+    datatype:"adminDatatype",
+    cable:"adminCable",
+    services:"adminServices",
+    discounts:"adminDiscounts",
+    charges:"adminCharges",
+    users:"adminUsersPage",
+    kyc:"adminKyc",
+    restricted:"adminRestricted",
+    notifications:"adminNotifications",
+    analytics:"adminAnalytics",
+    calculator:"adminCalculator",
+    staff:"adminStaff",
+    roles:"adminRoles",
+    apiSecurity:"adminApiSecurity",
+    apiRequests:"adminApiRequests",
+    configuration:"adminConfiguration"
+  };
+
+  document
+    .getElementById(map[page])
+    .classList.remove("hidden");
+
+  if(page==="analytics"){
+    loadAdminAnalytics();
+  }
+
+  if(page==="users"){
+    loadAdminUsers();
+  }
+
+  if(page==="funding"){
+    loadAdminDeposits();
+  }
+
+  if(page==="transactions"){
+    loadAdminTransactions();
+  }
+
+  if(page==="data"){
+    adminLoadPlans("mtn");
+  }
 }
 
+/* =====================================================
+   ADMIN USERS
+===================================================== */
 
-/* ---------------- ADMIN DEPOSITS ---------------- */
+async function loadAdminUsers(){
+
+  if(!isAdmin()){
+    return;
+  }
+
+  try{
+
+    const snap=
+      await db.collection("users").get();
+
+    document
+      .getElementById("adminUsers")
+      .textContent=snap.size;
+
+    const table=
+      document.getElementById("adminUsersTable");
+
+    const rows=
+      snap.docs.map(doc=>{
+
+        const d=doc.data();
+
+        return `
+        <tr>
+          <td>${esc(d.name||"")}</td>
+          <td>${esc(d.email||"")}</td>
+          <td style="font-size:10px">
+            ${esc(doc.id)}
+          </td>
+          <td>${money(d.balance)}</td>
+          <td>
+            <span class="badge green">
+              ${esc(d.status||"active")}
+            </span>
+          </td>
+        </tr>`;
+      }).join("");
+
+    table.innerHTML=
+      rows||
+      `<tr>
+        <td colspan="5">No users.</td>
+       </tr>`;
+
+  }catch(error){
+
+    alertMsg(
+      error.message,
+      "error"
+    );
+  }
+}
+
+/* =====================================================
+   ADMIN DEPOSITS
+===================================================== */
 
 async function loadAdminDeposits(){
 
- if(!isAdmin)return;
+  const box=
+    document.getElementById("adminDeposits");
 
- const box=$("adminDepositsTable");
+  try{
 
- box.innerHTML=
-  `<div class="loading">Loading deposits...</div>`;
+    const snap=
+      await db.collection("deposits").get();
 
- try{
+    const pending=
+      snap.docs.filter(
+        d=>d.data().status==="pending"
+      ).length;
 
-  const snap=
-   await db.collection("deposits").get();
+    document
+      .getElementById("adminPending")
+      .textContent=pending;
 
-  const items=snap.docs.map(d=>({
-   id:d.id,
-   ...d.data()
-  }));
+    if(snap.empty){
 
-  items.sort((a,b)=>{
-   return (b.createdAt?.seconds||0) -
-          (a.createdAt?.seconds||0);
-  });
+      box.innerHTML=
+        `<div class="empty">
+          No deposit requests.
+         </div>`;
 
-  if(!items.length){
+      return;
+    }
 
-   box.innerHTML=
-    `<div class="empty">No deposit requests.</div>`;
-
-   return;
-  }
-
-  box.innerHTML=`
-
-   <table>
-
-    <thead>
-     <tr>
+    box.innerHTML=
+      `<div class="tableWrap">
+      <table>
+      <thead>
+      <tr>
       <th>User</th>
       <th>Amount</th>
       <th>Reference</th>
       <th>Status</th>
       <th>Action</th>
-     </tr>
-    </thead>
-
-    <tbody>
-
-     ${items.map(d=>`
-
-      <tr>
-
-       <td>
-        <strong>${escapeHTML(d.name || "-")}</strong>
-        <br>
-        <small>${escapeHTML(d.email || "")}</small>
-       </td>
-
-       <td>${money(d.amount)}</td>
-
-       <td>${escapeHTML(d.reference || "-")}</td>
-
-       <td>
-        <span class="badge ${
-         d.status==="approved"
-          ?"badge-success"
-          :d.status==="rejected"
-           ?"badge-danger"
-           :"badge-pending"
-        }">
-         ${escapeHTML(d.status || "pending")}
-        </span>
-       </td>
-
-       <td>
-
-        ${
-         d.status==="pending"
-         ?`
-          <button
-           class="btn btn-primary approve-deposit"
-           data-id="${d.id}">
-           Approve
-          </button>
-
-          <button
-           class="btn btn-danger reject-deposit"
-           data-id="${d.id}">
-           Reject
-          </button>
-         `
-         :"Completed"
-        }
-
-       </td>
-
       </tr>
+      </thead>
+      <tbody>
+      ${
+        snap.docs.map(doc=>{
 
-     `).join("")}
+          const d=doc.data();
 
-    </tbody>
+          return `
+          <tr>
+            <td>
+              ${esc(d.email||d.uid)}
+            </td>
 
-   </table>
-  `;
+            <td>
+              ${money(d.amount)}
+            </td>
 
-  box.querySelectorAll(".approve-deposit")
-   .forEach(btn=>{
-    btn.addEventListener(
-     "click",
-     ()=>approveDeposit(btn.dataset.id)
-    );
-   });
+            <td>
+              ${esc(d.reference||"")}
+            </td>
 
-  box.querySelectorAll(".reject-deposit")
-   .forEach(btn=>{
-    btn.addEventListener(
-     "click",
-     ()=>rejectDeposit(btn.dataset.id)
-    );
-   });
+            <td>
+              <span class="badge ${
+                d.status==="approved"
+                  ?"green"
+                  :d.status==="rejected"
+                  ?"red"
+                  :"orange"
+              }">
+                ${esc(d.status)}
+              </span>
+            </td>
 
- }catch(error){
+            <td>
+              ${
+                d.status==="pending"
+                ?
+                `
+                <button class="btn primary"
+                        onclick="approveDeposit('${doc.id}')">
+                  Approve
+                </button>
 
-  box.innerHTML=
-   `<div class="empty">
-    ${escapeHTML(error.message)}
-    </div>`;
- }
+                <button class="btn danger"
+                        onclick="rejectDeposit('${doc.id}')">
+                  Reject
+                </button>
+                `
+                :
+                "-"
+              }
+            </td>
+          </tr>`;
+        }).join("")
+      }
+      </tbody>
+      </table>
+      </div>`;
+
+  }catch(error){
+
+    box.innerHTML=
+      `<div class="notice">
+        ${esc(error.message)}
+      </div>`;
+  }
 }
 
+/* =====================================================
+   ADMIN APPROVE / REJECT
+===================================================== */
 
 async function approveDeposit(id){
 
- if(!isAdmin)return;
+  if(!isAdmin()){
+    return;
+  }
 
- try{
+  try{
 
-  await db.runTransaction(async transaction=>{
+    const ref=
+      db.collection("deposits").doc(id);
 
-   const depositRef=
-    db.collection("deposits").doc(id);
+    const deposit=
+      await ref.get();
 
-   const depositSnap=
-    await transaction.get(depositRef);
-
-   if(!depositSnap.exists){
-    throw new Error("Deposit not found.");
-   }
-
-   const deposit=depositSnap.data();
-
-   if(deposit.status!=="pending"){
-    throw new Error("This deposit has already been processed.");
-   }
-
-   const userRef=
-    db.collection("users").doc(deposit.uid);
-
-   const userSnap=
-    await transaction.get(userRef);
-
-   const userData=
-    userSnap.exists
-     ?userSnap.data()
-     :{balance:0};
-
-   const oldBalance=
-    Number(userData.balance || 0);
-
-   const amount=
-    Number(deposit.amount || 0);
-
-   const newBalance=
-    oldBalance+amount;
-
-   transaction.update(
-    depositRef,
-    {
-     status:"approved",
-     approvedAt:
-      firebase.firestore.FieldValue.serverTimestamp(),
-     approvedBy:currentUser.email
+    if(!deposit.exists){
+      throw new Error("Deposit not found.");
     }
-   );
 
-   transaction.set(
-    userRef,
-    {
-     balance:newBalance,
-     updatedAt:
-      firebase.firestore.FieldValue.serverTimestamp()
-    },
-    {merge:true}
-   );
+    const d=deposit.data();
 
-   const txRef=
-    db.collection("transactions").doc();
-
-   transaction.set(
-    txRef,
-    {
-     uid:deposit.uid,
-     type:"Deposit",
-     amount:amount,
-     status:"approved",
-     description:"Wallet deposit approved",
-     reference:deposit.reference || "",
-     approvedBy:currentUser.email,
-     createdAt:
-      firebase.firestore.FieldValue.serverTimestamp()
+    if(d.status!=="pending"){
+      throw new Error("Deposit already processed.");
     }
-   );
 
-  });
+    const userRef=
+      db.collection("users").doc(d.uid);
 
-  showToast("Deposit approved.");
+    const userSnap=
+      await userRef.get();
 
-  await loadAdminDeposits();
-  await loadAdminDashboard();
+    if(!userSnap.exists){
+      throw new Error("User account not found.");
+    }
 
- }catch(error){
+    const user=userSnap.data();
 
-  showToast(error.message);
- }
+    const oldBalance=
+      Number(user.balance||0);
+
+    const newBalance=
+      oldBalance+Number(d.amount||0);
+
+    await db.runTransaction(async transaction=>{
+
+      transaction.update(
+        userRef,
+        {
+          balance:newBalance
+        }
+      );
+
+      transaction.update(
+        ref,
+        {
+          status:"approved",
+          approvedAt:
+            firebase.firestore.FieldValue.serverTimestamp(),
+          approvedBy:currentUser.email
+        }
+      );
+
+      const txRef=
+        db.collection("transactions").doc();
+
+      transaction.set(
+        txRef,
+        {
+          uid:d.uid,
+          type:"deposit",
+          description:"Deposit approved",
+          amount:Number(d.amount||0),
+          status:"success",
+          createdAt:
+            firebase.firestore.FieldValue.serverTimestamp()
+        }
+      );
+
+    });
+
+    alertMsg(
+      "Deposit approved.",
+      "success"
+    );
+
+    loadAdminDeposits();
+
+  }catch(error){
+
+    alertMsg(
+      error.message,
+      "error"
+    );
+  }
 }
-
 
 async function rejectDeposit(id){
 
- if(!isAdmin)return;
-
- try{
-
-  await db.collection("deposits")
-   .doc(id)
-   .update({
-    status:"rejected",
-    rejectedAt:
-     firebase.firestore.FieldValue.serverTimestamp(),
-    rejectedBy:currentUser.email
-   });
-
-  showToast("Deposit rejected.");
-
-  await loadAdminDeposits();
-  await loadAdminDashboard();
-
- }catch(error){
-
-  showToast(error.message);
- }
-}
-
-
-$("refreshAdminDeposits")
- .addEventListener("click",loadAdminDeposits);
-
-
-/* ---------------- ADMIN USERS ---------------- */
-
-async function loadAdminUsers(){
-
- if(!isAdmin)return;
-
- const box=$("adminUsersTable");
-
- box.innerHTML=
-  `<div class="loading">Loading users...</div>`;
-
- try{
-
-  const snap=
-   await db.collection("users").get();
-
-  const items=snap.docs.map(d=>({
-   id:d.id,
-   ...d.data()
-  }));
-
-  if(!items.length){
-
-   box.innerHTML=
-    `<div class="empty">No users found.</div>`;
-
-   return;
+  if(!isAdmin()){
+    return;
   }
 
-  box.innerHTML=`
+  try{
 
-   <table>
+    await db.collection("deposits")
+      .doc(id)
+      .update({
+        status:"rejected",
+        rejectedAt:
+          firebase.firestore.FieldValue.serverTimestamp(),
+        rejectedBy:currentUser.email
+      });
 
-    <thead>
-     <tr>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Balance</th>
-      <th>Role</th>
-      <th>Created</th>
-     </tr>
-    </thead>
+    alertMsg(
+      "Deposit rejected.",
+      "success"
+    );
 
-    <tbody>
+    loadAdminDeposits();
 
-     ${items.map(u=>`
+  }catch(error){
 
-      <tr>
-
-       <td>${escapeHTML(u.name || "-")}</td>
-
-       <td>${escapeHTML(u.email || "-")}</td>
-
-       <td>${money(u.balance)}</td>
-
-       <td>
-        <span class="badge ${
-         u.role==="admin"
-          ?"badge-success"
-          :"badge-pending"
-        }">
-         ${escapeHTML(u.role || "user")}
-        </span>
-       </td>
-
-       <td>${formatDate(u.createdAt)}</td>
-
-      </tr>
-
-     `).join("")}
-
-    </tbody>
-
-   </table>
-  `;
-
- }catch(error){
-
-  box.innerHTML=
-   `<div class="empty">
-    ${escapeHTML(error.message)}
-    </div>`;
- }
+    alertMsg(
+      error.message,
+      "error"
+    );
+  }
 }
 
+/* =====================================================
+   ADMIN CREDIT / DEBIT
+===================================================== */
 
-$("refreshAdminUsers")
- .addEventListener("click",loadAdminUsers);
+async function adminCredit(){
 
+  await adjustWallet(true);
+}
 
-/* ---------------- ADMIN TRANSACTIONS ---------------- */
+async function adminDebit(){
+
+  await adjustWallet(false);
+}
+
+async function adjustWallet(credit){
+
+  const uid=
+    document.getElementById("adjustUid")
+      .value.trim();
+
+  const amount=
+    Number(
+      document.getElementById("adjustAmount")
+        .value
+    );
+
+  if(!uid||!amount||amount<=0){
+
+    alertMsg(
+      "Enter UID and valid amount.",
+      "error"
+    );
+
+    return;
+  }
+
+  try{
+
+    const ref=
+      db.collection("users").doc(uid);
+
+    const snap=
+      await ref.get();
+
+    if(!snap.exists){
+
+      alertMsg(
+        "User not found.",
+        "error"
+      );
+
+      return;
+    }
+
+    const old=
+      Number(snap.data().balance||0);
+
+    const next=
+      credit
+      ?old+amount
+      :old-amount;
+
+    if(next<0){
+
+      alertMsg(
+        "Balance cannot be negative.",
+        "error"
+      );
+
+      return;
+    }
+
+    await ref.update({
+      balance:next
+    });
+
+    await db.collection("transactions")
+      .add({
+        uid:uid,
+        type:credit?"admin-credit":"admin-debit",
+        description:
+          credit
+          ?"Admin demo credit"
+          :"Admin demo debit",
+        amount:amount,
+        status:"success",
+        createdAt:
+          firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+    alertMsg(
+      credit
+      ?"Wallet credited."
+      :"Wallet debited.",
+      "success"
+    );
+
+    loadAdminUsers();
+
+  }catch(error){
+
+    alertMsg(
+      error.message,
+      "error"
+    );
+  }
+}
+
+/* =====================================================
+   ADMIN TRANSACTIONS
+===================================================== */
 
 async function loadAdminTransactions(){
 
- if(!isAdmin)return;
+  const table=
+    document.getElementById("adminTxTable");
 
- const box=$("adminTransactionsTable");
+  try{
 
- box.innerHTML=
-  `<div class="loading">Loading transactions...</div>`;
+    const snap=
+      await db.collection("transactions").get();
 
- try{
+    document
+      .getElementById("adminTxCount")
+      .textContent=snap.size;
 
-  const snap=
-   await db.collection("transactions").get();
+    const rows=
+      snap.docs
+        .sort((a,b)=>{
+          const aa=a.data().createdAt?.seconds||0;
+          const bb=b.data().createdAt?.seconds||0;
+          return bb-aa;
+        })
+        .map(doc=>{
 
-  const items=snap.docs.map(d=>({
-   id:d.id,
-   ...d.data()
-  }));
+          const d=doc.data();
 
-  items.sort((a,b)=>{
-   return (b.createdAt?.seconds||0) -
-          (a.createdAt?.seconds||0);
-  });
+          return `
+          <tr>
+            <td>${esc(d.uid||"")}</td>
+            <td>${esc(d.type||"")}</td>
+            <td>${esc(d.description||"")}</td>
+            <td>${money(d.amount)}</td>
+            <td>
+              <span class="badge green">
+                ${esc(d.status||"success")}
+              </span>
+            </td>
+            <td>${formatDate(d.createdAt)}</td>
+          </tr>`;
+        }).join("");
 
-  if(!items.length){
+    table.innerHTML=
+      rows||
+      `<tr>
+        <td colspan="6">
+          No transactions.
+        </td>
+      </tr>`;
 
-   box.innerHTML=
-    `<div class="empty">No transactions found.</div>`;
+    const recent=
+      document.getElementById("adminRecentTx");
 
-   return;
-  }
-
-  box.innerHTML=`
-
-   <table>
-
-    <thead>
-     <tr>
+    recent.innerHTML=
+      rows
+      ?`
+      <div class="tableWrap">
+      <table>
+      <thead>
+      <tr>
       <th>Type</th>
-      <th>User UID</th>
       <th>Amount</th>
       <th>Status</th>
-      <th>Date</th>
-     </tr>
-    </thead>
-
-    <tbody>
-
-     ${items.map(t=>`
-
-      <tr>
-
-       <td>${escapeHTML(t.type || "-")}</td>
-
-       <td>
-        <small>${escapeHTML(t.uid || "-")}</small>
-       </td>
-
-       <td>${money(t.amount)}</td>
-
-       <td>
-        <span class="badge ${
-         t.status==="approved" ||
-         t.status==="success"
-          ?"badge-success"
-          :t.status==="rejected" ||
-           t.status==="failed"
-           ?"badge-danger"
-           :"badge-pending"
-        }">
-         ${escapeHTML(t.status || "-")}
-        </span>
-       </td>
-
-       <td>${formatDate(t.createdAt)}</td>
-
       </tr>
+      </thead>
+      <tbody>
+      ${
+        snap.docs.slice(0,5).map(doc=>{
+          const d=doc.data();
+          return `
+          <tr>
+            <td>${esc(d.type||"")}</td>
+            <td>${money(d.amount)}</td>
+            <td>
+              <span class="badge green">
+                ${esc(d.status||"success")}
+              </span>
+            </td>
+          </tr>`;
+        }).join("")
+      }
+      </tbody>
+      </table>
+      </div>
+      `
+      :
+      `<div class="empty">
+        No transactions.
+       </div>`;
 
-     `).join("")}
+  }catch(error){
 
-    </tbody>
-
-   </table>
-  `;
-
- }catch(error){
-
-  box.innerHTML=
-   `<div class="empty">
-    ${escapeHTML(error.message)}
-    </div>`;
- }
+    table.innerHTML=
+      `<tr>
+        <td colspan="6">
+          ${esc(error.message)}
+        </td>
+      </tr>`;
+  }
 }
 
+/* =====================================================
+   ADMIN DATA PLANS
+===================================================== */
 
-$("refreshAdminTransactions")
- .addEventListener(
-  "click",
-  loadAdminTransactions
-);
+async function adminLoadPlans(network){
 
+  const box=
+    document.getElementById("adminPlans");
 
-/* ---------------- ADMIN PLANS ---------------- */
+  box.innerHTML=
+    "Loading plans...";
 
-async function loadPlansForAdmin(){
+  try{
 
- const box=$("adminPlansContainer");
+    const response=
+      await fetch(
+        WORKER+
+        "/test-plans/"+
+        encodeURIComponent(network)
+      );
 
- box.innerHTML=
-  `<div class="loading">Loading plans...</div>`;
+    const data=
+      await response.json();
 
- try{
+    let plans=[];
 
-  const networks=["mtn","airtel","glo","9mobile"];
+    if(Array.isArray(data)){
+      plans=data;
+    }else if(Array.isArray(data.data)){
+      plans=data.data;
+    }else if(Array.isArray(data.plans)){
+      plans=data.plans;
+    }
 
-  let html="";
+    document
+      .getElementById("adminDataCount")
+      .textContent=
+      `${plans.length} plans`;
 
-  for(const network of networks){
+    box.innerHTML=
+      plans.length
+      ?
+      `<div class="tableWrap">
+      <table>
+      <thead>
+      <tr>
+      <th>Network</th>
+      <th>Plan</th>
+      <th>Price</th>
+      <th>Status</th>
+      </tr>
+      </thead>
+      <tbody>
+      ${
+        plans.map(p=>{
 
-   let plans=[];
+          const name=
+            p.name||
+            p.plan_name||
+            p.bundle||
+            p.title||
+            "Plan";
 
-   try{
-    plans=await fetchPlans(network);
-   }catch(error){
-    plans=[];
-   }
+          const price=
+            p.price||
+            p.amount||
+            p.selling_price||
+            0;
 
-   html+=
-    `<div class="network-title">
-     ${network.toUpperCase()}
-    </div>`;
+          return `
+          <tr>
+            <td>${esc(network)}</td>
+            <td>${esc(name)}</td>
+            <td>${money(price)}</td>
+            <td>
+              <span class="badge green">
+                Available
+              </span>
+            </td>
+          </tr>`;
+        }).join("")
+      }
+      </tbody>
+      </table>
+      </div>`
+      :
+      `<div class="empty">
+        No plans returned.
+       </div>`;
 
-   if(!plans.length){
+  }catch(error){
 
-    html+=
-     `<div class="empty" style="grid-column:1/-1">
-      No plans returned.
+    box.innerHTML=
+      `<div class="notice">
+        ${esc(error.message)}
       </div>`;
+  }
+}
 
-    continue;
-   }
+async function loadAdminPlanCount(){
 
-   plans.forEach(raw=>{
+  try{
 
-    const p=normalizePlan(raw);
+    const response=
+      await fetch(
+        WORKER+"/test-plans/mtn"
+      );
 
-    html+=`
+    const data=
+      await response.json();
 
-     <div class="plan">
+    let plans=[];
 
-      <strong>${escapeHTML(p.displayName)}</strong>
+    if(Array.isArray(data)){
+      plans=data;
+    }else if(Array.isArray(data.data)){
+      plans=data.data;
+    }else if(Array.isArray(data.plans)){
+      plans=data.plans;
+    }
 
-      <small>Worker Plan</small>
+    document
+      .getElementById("adminDataCount")
+      .textContent=
+      `${plans.length} plans`;
 
-      <div class="price">
-       ${money(p.displayAmount)}
-      </div>
+  }catch{}
+}
 
-     </div>
+/* =====================================================
+   ANALYTICS
+===================================================== */
+
+async function loadAdminAnalytics(){
+
+  const users=
+    await db.collection("users").get();
+
+  const tx=
+    await db.collection("transactions").get();
+
+  const dep=
+    await db.collection("deposits").get();
+
+  document
+    .getElementById("analyticsUsers")
+    .textContent=users.size;
+
+  document
+    .getElementById("analyticsTx")
+    .textContent=tx.size;
+
+  document
+    .getElementById("analyticsPending")
+    .textContent=
+    dep.docs.filter(
+      x=>x.data().status==="pending"
+    ).length;
+}
+
+/* =====================================================
+   WORKER
+===================================================== */
+
+async function checkWorker(){
+
+  const box=
+    document.getElementById("workerStatus");
+
+  try{
+
+    const response=
+      await fetch(
+        WORKER+"/health"
+      );
+
+    const data=
+      await response.json();
+
+    box.innerHTML=`
+      <span class="badge green">
+        Worker Online
+      </span>
+      <br><br>
+      ${esc(data.message||"Worker is running")}
     `;
-   });
+
+  }catch(error){
+
+    box.innerHTML=`
+      <span class="badge red">
+        Worker Offline
+      </span>
+    `;
+  }
+}
+
+/* =====================================================
+   SETTINGS / DEMO ADMIN FEATURES
+===================================================== */
+
+function toggleService(button){
+
+  if(button.textContent.includes("Enabled")){
+
+    button.textContent="Disabled";
+
+    button.className=
+      "btn danger";
+
+  }else{
+
+    button.textContent="Enabled";
+
+    button.className=
+      "btn primary";
+  }
+}
+
+function saveDiscount(){
+
+  const service=
+    document.getElementById("discountService").value;
+
+  const percent=
+    document.getElementById("discountPercent").value;
+
+  alertMsg(
+    `${service} discount saved: ${percent}%`,
+    "success"
+  );
+}
+
+function saveCharge(){
+
+  const service=
+    document.getElementById("chargeService").value;
+
+  const amount=
+    document.getElementById("chargeAmount").value;
+
+  alertMsg(
+    `${service} charge saved: ${money(amount)}`,
+    "success"
+  );
+}
+
+function restrictUser(){
+
+  const uid=
+    document.getElementById("restrictedUid")
+      .value.trim();
+
+  if(!uid){
+
+    alertMsg(
+      "Enter a UID.",
+      "error"
+    );
+
+    return;
   }
 
-  box.innerHTML=html;
-
- }catch(error){
-
-  box.innerHTML=
-   `<div class="empty">
-    ${escapeHTML(error.message)}
-    </div>`;
- }
+  alertMsg(
+    "Demo restriction action recorded for "+uid,
+    "success"
+  );
 }
 
+function sendDemoNotification(){
 
-/* ---------------- WORKER ---------------- */
+  const title=
+    document.getElementById("notificationTitle").value.trim();
 
-async function workerHealthOnLoad(){
+  const message=
+    document.getElementById("notificationMessage").value.trim();
 
- try{
+  if(!title||!message){
 
-  const response=
-   await fetch(WORKER+"/health");
+    alertMsg(
+      "Enter title and message.",
+      "error"
+    );
 
-  console.log(
-   "A T L DATA Worker:",
-   await response.text()
+    return;
+  }
+
+  alertMsg(
+    "Demo notification prepared.",
+    "success"
   );
-
- }catch(error){
-
-  console.warn(
-   "Worker health check failed:",
-   error
-  );
- }
 }
 
+function calculateSale(){
 
-/* ---------------- CLOSE MODALS ---------------- */
+  const cost=
+    Number(
+      document.getElementById("calcCost").value
+    );
 
-document.querySelectorAll(".modal-bg")
- .forEach(modal=>{
+  const selling=
+    Number(
+      document.getElementById("calcSelling").value
+    );
 
-  modal.addEventListener("click",e=>{
+  const profit=
+    selling-cost;
 
-   if(e.target===modal){
-    modal.classList.remove("show");
-   }
+  const margin=
+    selling>0
+    ?(profit/selling)*100
+    :0;
 
-  });
-});
+  document
+    .getElementById("calcResult")
+    .innerHTML=`
+      <div class="notice">
+        <b>Profit:</b> ${money(profit)}
+        <br>
+        <b>Margin:</b> ${margin.toFixed(2)}%
+      </div>
+    `;
+}
 
+function addDemoStaff(){
 
-/* ---------------- BROWSER BACK ---------------- */
+  const email=
+    document.getElementById("staffEmail")
+      .value.trim();
 
-window.addEventListener("popstate",()=>{
+  if(!email){
 
- if(currentUser){
+    alertMsg(
+      "Enter staff email.",
+      "error"
+    );
 
-  const page=
-   location.hash.replace("#/","") ||
-   "dashboard";
+    return;
+  }
 
-  openPage(
-   page.startsWith("admin") && !isAdmin
-    ?"dashboard"
-    :page
+  alertMsg(
+    "Demo staff record prepared.",
+    "success"
   );
+}
 
- }
+function saveConfiguration(){
+
+  const business=
+    document.getElementById("configBusiness").value;
+
+  alertMsg(
+    `${business} configuration saved locally for this session.`,
+    "success"
+  );
+}
+
+/* =====================================================
+   SUPPORT
+===================================================== */
+
+function openSupport(){
+
+  openModal(
+    "A T L DATA Support",
+    `
+    <div class="card"
+         style="box-shadow:none">
+
+      <h3>Need Help?</h3>
+
+      <p>
+        Contact A T L DATA support.
+      </p>
+
+      <button class="btn primary"
+              style="width:100%"
+              onclick="openWhatsApp()">
+        💬 WhatsApp Support
+      </button>
+
+      <button class="btn light"
+              style="width:100%;margin-top:8px"
+              onclick="openEmailSupport()">
+        ✉️ Email Support
+      </button>
+
+    </div>
+    `
+  );
+}
+
+function openWhatsApp(){
+
+  window.open(
+    "https://wa.me/2347073160817",
+    "_blank"
+  );
+}
+
+function openEmailSupport(){
+
+  window.location.href=
+    "mailto:lawanahmadt03@gmail.com?subject=A%20T%20L%20DATA%20Support";
+}
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+function openModal(title,body){
+
+  document
+    .getElementById("modalTitle")
+    .textContent=title;
+
+  document
+    .getElementById("modalBody")
+    .innerHTML=body;
+
+  document
+    .getElementById("modal")
+    .classList.remove("hidden");
+}
+
+function closeModal(){
+
+  document
+    .getElementById("modal")
+    .classList.add("hidden");
+}
+
+function closeModalOutside(event){
+
+  if(event.target.id==="modal"){
+    closeModal();
+  }
+}
+
+/* =====================================================
+   DATE
+===================================================== */
+
+function formatDate(timestamp){
+
+  if(!timestamp){
+    return "-";
+  }
+
+  try{
+
+    let date;
+
+    if(timestamp.toDate){
+      date=timestamp.toDate();
+    }else if(timestamp.seconds){
+      date=new Date(timestamp.seconds*1000);
+    }else{
+      return "-";
+    }
+
+    return date.toLocaleString("en-NG");
+
+  }catch{
+    return "-";
+  }
+}
+
+/* =====================================================
+   AUTH STATE
+===================================================== */
+
+auth.onAuthStateChanged(async user=>{
+
+  currentUser=user;
+
+  if(!user){
+
+    hideAll();
+
+    document
+      .getElementById("publicHome")
+      .classList.remove("hidden");
+
+    document
+      .getElementById("topAuthBtn")
+      .textContent="Login";
+
+    return;
+  }
+
+  await user.reload();
+
+  currentUser=auth.currentUser;
+
+  if(!currentUser.emailVerified){
+
+    showVerify();
+
+    return;
+  }
+
+  openCorrectDashboard();
 
 });
 
+/* =====================================================
+   INITIAL
+===================================================== */
 
-/* ---------------- INITIAL ---------------- */
+document.addEventListener(
+  "DOMContentLoaded",
+  ()=>{
+    hideAll();
 
-workerHealthOnLoad();
-
-console.log("A T L DATA loaded successfully.");
+    document
+      .getElementById("publicHome")
+      .classList.remove("hidden");
+  }
+);
 
 </script>
+
 </body>
 </html>
