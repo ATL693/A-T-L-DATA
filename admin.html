@@ -1,40 +1,564 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>A T L DATA — Admin Panel</title>
-<style>
-*{box-sizing:border-box;font-family:Arial,sans-serif}body{margin:0;background:#f3f7f5;color:#17251e}header{background:#063d26;color:#fff;padding:18px 20px;position:sticky;top:0;z-index:5}header h1{margin:0;font-size:22px}header p{margin:5px 0 0;opacity:.8;font-size:13px}main{max-width:1250px;margin:auto;padding:18px}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px}.btn{border:0;border-radius:8px;padding:11px 14px;font-weight:700;cursor:pointer}.btn.primary{background:#087443;color:#fff}.btn.light{background:#e5f3eb;color:#087443}.btn.gold{background:#ffd700;color:#063d26}.btn.danger{background:#b3261e;color:#fff}.status,.card{background:#fff;border-radius:14px;padding:18px;box-shadow:0 3px 12px #0000000d;margin-bottom:15px}.status h2{color:#087443;margin:0 0 8px}.status p{margin:0;color:#68756e;font-size:13px}.layout{display:grid;grid-template-columns:250px 1fr;gap:15px}.sidebar{background:#063d26;border-radius:14px;padding:10px;height:max-content;position:sticky;top:92px}.sidebar button{display:block;width:100%;text-align:left;background:transparent;color:#fff;border:0;border-radius:7px;padding:10px 11px;margin:2px 0;cursor:pointer}.sidebar button:hover,.sidebar button.active{background:#087443}.panel{min-width:0}.panel h2{margin-top:0;color:#087443}.panel-section{display:none}.panel-section.active{display:block}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.stat{text-align:center;background:#f5faf7;border:1px solid #dce9e1;border-radius:10px;padding:16px}.stat small{display:block;color:#68756e}.stat strong{display:block;color:#087443;font-size:22px;margin-top:5px}.search{width:100%;padding:12px;border:1px solid #ccd9d1;border-radius:8px;margin-bottom:12px}.users-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}.user{border:1px solid #dce7e0;border-radius:10px;padding:13px}.user strong{color:#087443;display:block;word-break:break-word}.user small{display:block;color:#68756e;margin-top:5px;word-break:break-word}.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.form-grid label{font-size:12px;font-weight:700}.form-grid input,.form-grid select,.form-grid textarea{width:100%;padding:11px;border:1px solid #ccd9d1;border-radius:8px;margin-top:5px}.form-grid textarea{min-height:90px}.full{grid-column:1/-1}.notice{padding:11px;border-radius:8px;background:#e9f3fb;color:#175d88;margin-bottom:12px;font-size:13px}.notice.error{background:#fde8e8;color:#a52323}.notice.ok{background:#e4f7eb;color:#176c39}@media(max-width:800px){.layout{grid-template-columns:1fr}.sidebar{position:static;display:grid;grid-template-columns:repeat(2,1fr);gap:3px}.sidebar button{font-size:12px}.stats{grid-template-columns:1fr 1fr}}@media(max-width:480px){.form-grid{grid-template-columns:1fr}.full{grid-column:auto}.stats{grid-template-columns:1fr}.sidebar{grid-template-columns:1fr}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>A T L Data — Admin Dashboard</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    body { background: #f3f7f5; color: #17251e; min-height: 100vh; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    .hidden { display: none !important; }
+
+    header {
+      background: #063d26;
+      color: white;
+      padding: 20px 15px;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    header h1 {
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+
+    .admin-status {
+      font-size: 13px;
+      opacity: .9;
+    }
+
+    main {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 18px 15px 40px;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .toolbar button {
+      flex: 1;
+      min-width: 140px;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-weight: bold;
+    }
+
+    .light-btn {
+      background: #e6f2ea;
+      color: #087443;
+    }
+
+    .primary-btn {
+      background: #087443;
+      color: white;
+    }
+
+    .admin-card {
+      background: white;
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.06);
+      margin-bottom: 16px;
+    }
+
+    .status-box {
+      padding: 16px;
+      border-radius: 12px;
+      background: #edf7f1;
+      color: #0d6843;
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
+
+    .status-box.error {
+      background: #fde8e8;
+      color: #a52323;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .stat-box {
+      background: #f9faf9;
+      border: 1px solid #e5e5e5;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .stat-box small {
+      display: block;
+      color: #777;
+      margin-bottom: 8px;
+    }
+
+    .stat-box strong {
+      display: block;
+      color: #087443;
+      font-size: 22px;
+    }
+
+    .search-box {
+      background: #fff;
+      border-radius: 12px;
+      border: 1px solid #e5e5e5;
+      padding: 14px;
+      margin-bottom: 15px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #dfe7e1;
+      border-radius: 10px;
+      outline: none;
+      background: #f9faf9;
+    }
+
+    .user-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .user-item {
+      border: 1px solid #e5e5e5;
+      border-radius: 12px;
+      padding: 14px;
+      background: #fff;
+    }
+
+    .user-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .user-name {
+      color: #087443;
+      font-weight: 900;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 800;
+      background: #eaf7ee;
+      color: #087443;
+    }
+
+    .badge.blocked {
+      background: #fde8e8;
+      color: #a52323;
+    }
+
+    .user-meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .user-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .mini-btn {
+      border: none;
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-weight: 800;
+    }
+
+    .mini-btn.green {
+      background: #eaf7ee;
+      color: #087443;
+    }
+
+    .mini-btn.red {
+      background: #fde8e8;
+      color: #a52323;
+    }
+
+    .mini-btn.grey {
+      background: #edf0ef;
+      color: #2b3d34;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 25px 10px;
+      color: #666;
+    }
+
+    @media (max-width: 700px) {
+      .stats-grid { grid-template-columns: 1fr; }
+      .user-meta { grid-template-columns: 1fr; }
+      .toolbar { flex-direction: column; }
+      .toolbar button { width: 100%; }
+    }
+  </style>
 </head>
 <body>
-<header><h1>🛠️ A T L DATA — Admin Panel</h1><p id="adminStatus">Checking administrator access…</p></header>
-<main>
-<div class="toolbar"><button class="btn light" type="button" id="backBtn">← Back to User Panel</button><button class="btn primary" type="button" id="refreshBtn">↻ Refresh</button><button class="btn danger" type="button" id="logoutBtn">Log out</button></div>
-<div id="accessMessage" class="status"><h2>Admin Access</h2><p>Only the configured administrator can use this panel.</p></div>
-<div id="adminApp" class="layout" hidden>
-<aside class="sidebar" id="adminNav"></aside>
-<section class="panel">
-<div id="panel-dashboard" class="panel-section active"><div class="card"><h2>Dashboard</h2><div class="stats"><div class="stat"><small>Total Users</small><strong id="totalUsers">0</strong></div><div class="stat"><small>Total Wallet</small><strong id="totalWallet">₦0.00</strong></div><div class="stat"><small>Tier 1 Users</small><strong id="tier1Users">0</strong></div></div></div></div>
-<div id="panel-users" class="panel-section"><div class="card"><h2>Users</h2><input class="search" id="userSearch" placeholder="Search email, name, phone or ID"><div class="users-grid" id="usersList">Loading users…</div></div></div>
-<div id="panel-transactions" class="panel-section"><div class="card"><h2>Transactions</h2><p>Transaction management is ready. Connect your transaction collection here.</p><button class="btn primary action" type="button">Refresh Transactions</button></div></div>
-<div id="panel-tools" class="panel-section"><div class="card"><h2 id="toolTitle">Management</h2><div class="notice">This admin action is available to the administrator. Connect it to your backend or Firestore rules before using it for real account changes.</div><div class="form-grid"><div><label>Reference or User ID<input id="toolReference"></label></div><div><label>Amount / Value<input id="toolValue" type="number"></label></div><div class="full"><label>Notes<textarea id="toolNotes"></textarea></label></div></div><br><button class="btn primary action" type="button">Save Test Configuration</button></div></div>
-</section></div>
-</main>
-<script type="module">
-import{initializeApp,getApps,getApp}from'https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js';
-import{getAuth,onAuthStateChanged,signOut}from'https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js';
-import{getFirestore,collection,getDocs}from'https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js';
-const config={apiKey:'AIzaSyA_x5ZYj7D5Dt_9Bq-NzlchpRPRd3QN21I',authDomain:'a-t-l-data.firebaseapp.com',projectId:'a-t-l-data',storageBucket:'a-t-l-data.firebasestorage.app',messagingSenderId:'519558305824',appId:'1:519558305824:web:cf6dd75ef20ef708c24445'};
-const ADMIN_EMAIL='lawanahmadt03@gmail.com';const app=getApps().length?getApp():initializeApp(config);const auth=getAuth(app),db=getFirestore(app);let users=[];
-const labels=['Dashboard','User Funding / Debit','Transactions','Data Plans','Data Type','Cable Sub Plan','KYC & Limit Management','Limit Management','Restricted Users','Upgraded Users','KYC Channels','Validation Monitor','Push Notifications','Send Notification','Notification Settings','Analytics','Sales Calculator','Users','Services Management','Service Discounts','Service Charges','Staff Management','Staff','Roles','API Security','API Access Requests','Configuration'];
-const nav=document.getElementById('adminNav');labels.forEach((label,i)=>{const b=document.createElement('button');b.type='button';b.textContent=label;b.dataset.panel=i===0?'dashboard':i===2?'transactions':i===17?'users':'tools';b.addEventListener('click',()=>openPanel(b.dataset.panel,label,b));nav.appendChild(b)});
-function openPanel(id,title,button){document.querySelectorAll('.panel-section').forEach(x=>x.classList.remove('active'));const panel=document.getElementById('panel-'+id);if(panel){panel.classList.add('active');if(id==='tools')document.getElementById('toolTitle').textContent=title}document.querySelectorAll('#adminNav button').forEach(x=>x.classList.remove('active'));button?.classList.add('active');history.pushState({adminPanel:id},'',`#${encodeURIComponent(title)}`)}
-function escapeHTML(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
-function render(){const list=document.getElementById('usersList');list.innerHTML=users.length?users.map(u=>`<div class="user"><strong>${escapeHTML(u.email||'No email')}</strong><small>Name: ${escapeHTML(u.fullName||u.name||'Not provided')}</small><small>Phone: ${escapeHTML(u.phone||'Not provided')}</small><small>Wallet: ₦${Number(u.walletBalance||u.balance||0).toLocaleString('en-NG',{minimumFractionDigits:2})}</small><small>ID: ${escapeHTML(u.uid||u.id)}</small></div>`).join(''):'<div class="notice">No users found.</div>';document.getElementById('totalUsers').textContent=users.length;document.getElementById('tier1Users').textContent=users.filter(u=>Number(u.tier||0)>=1).length;const total=users.reduce((n,u)=>n+Number(u.walletBalance||u.balance||0),0);document.getElementById('totalWallet').textContent='₦'+total.toLocaleString('en-NG',{minimumFractionDigits:2})}
-async function loadUsers(){document.getElementById('usersList').textContent='Loading users…';try{const snap=await getDocs(collection(db,'users'));users=snap.docs.map(d=>({id:d.id,...d.data()}));render()}catch(e){document.getElementById('usersList').innerHTML='<div class="notice error">Could not load users: '+escapeHTML(e.message)+'</div>'}}
-document.getElementById('userSearch').addEventListener('input',e=>{const q=e.target.value.toLowerCase();const old=users;users=old.filter(u=>JSON.stringify(u).toLowerCase().includes(q));render();users=old});document.getElementById('refreshBtn').addEventListener('click',loadUsers);document.getElementById('backBtn').addEventListener('click',()=>{if(history.length>1)history.back();else location.href='index.html'});document.getElementById('logoutBtn').addEventListener('click',()=>signOut(auth));document.querySelectorAll('.action').forEach(b=>b.addEventListener('click',()=>alert('Action selected. Connect this control to your secured backend before production use.')));window.addEventListener('popstate',()=>{const id=location.hash?'tools':'dashboard';openPanel(id,'Back',nav.querySelector('button'))});
-onAuthStateChanged(auth,async user=>{const allowed=user&&user.email&&user.email.toLowerCase()===ADMIN_EMAIL.toLowerCase();document.getElementById('adminApp').hidden=!allowed;document.getElementById('logoutBtn').hidden=!user;document.getElementById('adminStatus').textContent=allowed?'Admin access granted.':user?'Access denied for this account.':'Please sign in with the administrator account.';if(allowed)await loadUsers()});
-</script>
-</body></html>
+  <header>
+    <div class="header-inner">
+      <div>
+        <h1>🛠️ A T L Data</h1>
+        <div class="admin-status" id="adminStatus">Checking administrator access...</div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="toolbar">
+      <button class="light-btn" id="backBtn" type="button">← Back to Website</button>
+      <button class="primary-btn" id="refreshBtn" type="button">↻ Refresh</button>
+    </div>
+
+    <div id="accessMessage" class="status-box">
+      <strong>Admin Access</strong><br>
+      Only the configured admin can access this dashboard.
+    </div>
+
+    <div id="adminApp" class="hidden">
+      <div class="admin-card">
+        <div class="stats-grid">
+          <div class="stat-box">
+            <small>Total Users</small>
+            <strong id="totalUsers">0</strong>
+          </div>
+          <div class="stat-box">
+            <small>Total Wallet</small>
+            <strong id="totalWallet">₦0.00</strong>
+          </div>
+          <div class="stat-box">
+            <small>Verified Users</small>
+            <strong id="verifiedUsers">0</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="search-box">
+        <input type="search" id="userSearch" placeholder="Search user by name, email, phone or UID...">
+      </div>
+
+      <div class="admin-card">
+        <div class="user-list" id="usersList"></div>
+      </div>
+    </div>
+  </main>
+
+  <script type="module">
+    import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+    import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+    import { getFirestore, collection, getDocs, doc, updateDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: 'AIzaSyA_x5ZYj7D5Dt_9Bq-NzlchpRPRd3QN21I',
+      authDomain: 'a-t-l-data.firebaseapp.com',
+      projectId: 'a-t-l-data',
+      storageBucket: 'a-t-l-data.firebasestorage.app',
+      messagingSenderId: '519558305824',
+      appId: '1:519558305824:web:cf6dd75ef20ef708c24445'
+    };
+
+    const ADMIN_EMAIL = 'lawanahmadt03@gmail.com';
+    const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    let allUsers = [];
+    let currentUser = null;
+
+    const $ = (id) => document.getElementById(id);
+    const money = (n) => '₦' + Number(n || 0).toLocaleString('en-NG', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+
+    function escapeHTML(value) {
+      return String(value ?? '').replace(/[&<>"']/g, (char) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      }[char]));
+    }
+
+    async function loadUsers() {
+      const list = $('usersList');
+      list.innerHTML = '<div class="empty">Loading users...</div>';
+
+      try {
+        const snap = await getDocs(collection(db, 'users'));
+        allUsers = snap.docs.map((docSnap) => ({ id: docSnap.id, ...docSnap.data() }));
+        renderUsers();
+      } catch (error) {
+        list.innerHTML = '<div class="empty">Unable to load users.</div>';
+        console.error(error);
+      }
+    }
+
+    function renderUsers() {
+      const list = $('usersList');
+      const q = $('userSearch').value.trim().toLowerCase();
+      const filtered = !q ? allUsers : allUsers.filter((user) => {
+        const haystack = [user.name, user.email, user.phone, user.uid, user.id].join(' ').toLowerCase();
+        return haystack.includes(q);
+      });
+
+      const totalWallet = filtered.reduce((sum, user) => sum + Number(user.balance || 0), 0);
+      $('totalUsers').textContent = String(filtered.length);
+      $('totalWallet').textContent = money(totalWallet);
+      $('verifiedUsers').textContent = String(filtered.filter((user) => user.emailVerified).length);
+
+      if (!filtered.length) {
+        list.innerHTML = '<div class="empty">No users found.</div>';
+        return;
+      }
+
+      list.innerHTML = filtered.map((user) => {
+        const name = user.name || 'Unnamed User';
+        const email = user.email || 'No email';
+        const phone = user.phone || 'No phone';
+        const blocked = !!user.isBlocked;
+        const emailVerified = !!user.emailVerified;
+
+        return `
+          <div class="user-item">
+            <div class="user-head">
+              <div class="user-name">${escapeHTML(name)}</div>
+              <span class="badge ${blocked ? 'blocked' : ''}">${blocked ? 'Blocked' : (emailVerified ? 'Verified' : 'Pending')}</span>
+            </div>
+
+            <div class="user-meta">
+              <div><strong>Email:</strong> ${escapeHTML(email)}</div>
+              <div><strong>Phone:</strong> ${escapeHTML(phone)}</div>
+              <div><strong>Wallet:</strong> ${money(user.balance || 0)}</div>
+              <div><strong>Tier:</strong> ${escapeHTML(user.tier || 'basic')}</div>
+              <div><strong>UID:</strong> ${escapeHTML(user.uid || user.id || 'N/A')}</div>
+              <div><strong>Status:</strong> ${emailVerified ? 'verified' : 'not verified'}</div>
+            </div>
+
+            <div class="user-actions">
+              <button class="mini-btn green" type="button" onclick="toggleBlocked('${user.uid || user.id}')">${blocked ? 'Unblock' : 'Block'}</button>
+              <button class="mini-btn grey" type="button" onclick="setUserTier('${user.uid || user.id}', 'basic')">Tier: Basic</button>
+              <button class="mini-btn grey" type="button" onclick="setUserTier('${user.uid || user.id}', 'gold')">Tier: Gold</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    window.toggleBlocked = async (uid) => {
+      if (!uid) return;
+      const ref = doc(db, 'users', uid);
+      const current = await getDoc(ref);
+      const next = !Boolean(current.exists() ? current.data().isBlocked : false);
+      await updateDoc(ref, { isBlocked: next });
+      await loadUsers();
+    };
+
+    window.setUserTier = async (uid, tier) => {
+      if (!uid) return;
+      const ref = doc(db, 'users', uid);
+      await updateDoc(ref, { tier });
+      await loadUsers();
+    };
+
+    onAuthStateChanged(auth, async (user) => {
+      currentUser = user;
+      const allowed = !!user && !!user.email && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+      const adminApp = $('adminApp');
+      const accessMessage = $('accessMessage');
+      const adminStatus = $('adminStatus');
+
+      if (!user) {
+        adminStatus.textContent = 'No user signed in.';
+        accessMessage.className = 'status-box error';
+        accessMessage.innerHTML = '<strong>Access Denied</strong><br>Please login as the administrator.';
+        adminApp.classList.add('hidden');
+        return;
+      }
+
+      if (!allowed) {
+        adminStatus.textContent = 'Signed in as ' + user.email;
+        accessMessage.className = 'status-box error';
+        accessMessage.innerHTML = '<strong>Access Denied</strong><br>This account is not allowed to use the admin panel.';
+        adminApp.classList.add('hidden');
+        return;
+      }
+
+      adminStatus.textContent = 'Administrator access granted (' + user.email + ')';
+      accessMessage.className = 'status-box';
+      accessMessage.innerHTML = '<strong>Admin Access</strong><br>Administrator session is active and the dashboard is ready.';
+      adminApp.classList.remove('hidden');
+      await loadUsers();
+    });
+
+    $('backBtn').addEventListener('click', () => {
+      window.location.href = 'index.html';
+    });
+
+    $('refreshBtn').addEventListener('click', async () => {
+      await loadUsers();
+    });
+
+    $('userSearch').addEventListener('input', renderUsers);
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadUsers();
+    });
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
