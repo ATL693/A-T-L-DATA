@@ -4,2372 +4,1308 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#087443">
-<title>A T L DATA — Professional VTU Platform</title>
+<title>A T L DATA | Professional VTU</title>
 
 <script src="https://www.gstatic.com/firebasejs/12.2.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/12.2.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore-compat.js"></script>
 
 <style>
+*{box-sizing:border-box;margin:0;padding:0}
 :root{
  --green:#087443;
- --green2:#0a9554;
- --dark:#10251b;
+ --green2:#0a9255;
  --gold:#ffd700;
- --bg:#f5f8f6;
+ --dark:#10231b;
+ --bg:#f4f7f6;
  --white:#fff;
- --line:#e1e8e4;
- --text:#18251f;
  --muted:#718078;
- --red:#c62828;
- --orange:#a66a00;
- --blue:#2476d8;
- --shadow:0 8px 25px rgba(16,37,27,.07);
+ --danger:#d93025;
+ --success:#168447;
+ --shadow:0 8px 30px rgba(0,0,0,.08);
+ --radius:18px
 }
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
 body{
- margin:0;
- background:var(--bg);
- color:var(--text);
  font-family:Arial,Helvetica,sans-serif;
+ background:var(--bg);
+ color:#17231e;
+ min-height:100vh
 }
 button,input,select,textarea{font:inherit}
-button{cursor:pointer}
-button:disabled{opacity:.55;cursor:not-allowed}
+button{cursor:pointer;border:0}
 .hidden{display:none!important}
-
-.wrap{
- width:92%;
- max-width:1250px;
- margin:auto;
-}
-
+.page{min-height:100vh}
+.container{width:min(1180px,94%);margin:auto}
 .topbar{
- background:var(--dark);
- color:#fff;
- font-size:12px;
- padding:8px 0;
-}
-
-.topbar .wrap{
+ background:var(--white);
+ height:70px;
  display:flex;
+ align-items:center;
  justify-content:space-between;
- gap:10px;
-}
-
-.nav{
- background:#fff;
- border-bottom:1px solid var(--line);
+ padding:0 4%;
+ box-shadow:0 2px 15px rgba(0,0,0,.06);
  position:sticky;
  top:0;
- z-index:50;
+ z-index:50
 }
-
-.navinner{
- height:68px;
+.brand{
  display:flex;
  align-items:center;
- gap:12px;
-}
-
-.logo{
- border:0;
- background:none;
- color:var(--green);
+ gap:10px;
  font-weight:900;
- font-size:20px;
-}
-
-.navlinks{
- flex:1;
- display:flex;
- justify-content:center;
- gap:2px;
-}
-
-.navlinks button{
- border:0;
- background:none;
- padding:10px 11px;
- border-radius:9px;
- font-weight:700;
- color:#26372f;
-}
-
-.navlinks button:hover{
- background:#eaf5ee;
  color:var(--green);
+ font-size:20px
 }
-
-.menuBtn{
- display:none;
- border:0;
- background:#eaf5ee;
- border-radius:9px;
- padding:10px;
- font-size:20px;
-}
-
-.mobileMenu{
- display:none;
- background:#fff;
- border-bottom:1px solid var(--line);
- padding:10px 4%;
-}
-
-.mobileMenu button{
- width:100%;
- border:0;
- background:none;
- text-align:left;
- padding:12px;
- border-radius:8px;
- font-weight:700;
-}
-
-.mobileMenu button:hover{
- background:#eaf5ee;
- color:var(--green);
-}
-
-.btn{
- border:0;
- border-radius:10px;
- padding:11px 16px;
- font-weight:800;
- transition:.15s;
-}
-
-.btn:hover{
- transform:translateY(-1px);
-}
-
-.primary{
+.logo{
+ width:42px;height:42px;border-radius:12px;
  background:var(--green);
  color:#fff;
+ display:grid;place-items:center;
+ font-weight:900;
+ box-shadow:0 4px 12px rgba(8,116,67,.25)
 }
-
-.gold{
- background:var(--gold);
- color:#111;
-}
-
-.light{
- background:#eaf5ee;
+.nav-actions{display:flex;gap:8px;align-items:center}
+.nav-btn{
+ background:#eef7f2;
  color:var(--green);
-}
-
-.danger{
- background:#ffe6e2;
- color:#b42318;
-}
-
-.blue{
- background:#e7f0ff;
- color:#1459a8;
-}
-
-.page{
- padding:35px 0 70px;
- min-height:70vh;
-}
-
-.hero{
- background:linear-gradient(135deg,#e9f8ef,#fffbea);
- padding:65px 0;
-}
-
-.heroGrid{
- display:grid;
- grid-template-columns:1.15fr .85fr;
- gap:30px;
- align-items:center;
-}
-
-.hero h1{
- font-size:clamp(40px,6vw,68px);
- margin:15px 0;
- line-height:1;
-}
-
-.hero h1 span{
- color:var(--green);
-}
-
-.hero p{
- color:var(--muted);
- line-height:1.7;
- max-width:650px;
-}
-
-.heroButtons{
- display:flex;
- gap:10px;
- flex-wrap:wrap;
- margin-top:22px;
-}
-
-.card,
-.form,
-.service,
-.plan,
-.stat,
-.infoCard{
- background:#fff;
- border:1px solid var(--line);
- border-radius:17px;
- box-shadow:var(--shadow);
-}
-
-.card,
-.form,
-.infoCard{
- padding:20px;
-}
-
-.balance{
- background:linear-gradient(135deg,var(--green),var(--green2));
- color:#fff;
- padding:25px;
- border-radius:17px;
-}
-
-.balance strong{
- display:block;
- font-size:34px;
- margin:10px 0;
-}
-
-.quick{
- display:grid;
- grid-template-columns:repeat(3,1fr);
- gap:8px;
- margin-top:10px;
-}
-
-.quick button{
- border:1px solid var(--line);
- background:#fff;
+ padding:10px 15px;
  border-radius:10px;
- padding:11px;
- font-weight:700;
+ font-weight:700
 }
-
-.section{
- margin-top:32px;
+.nav-btn:hover{background:#dff0e7}
+.menu-btn{display:none;font-size:24px;background:none;color:var(--green)}
+.hero{
+ padding:70px 0;
+ background:linear-gradient(135deg,#eef9f3,#fff)
 }
-
-.grid4{
+.hero-grid{
+ display:grid;
+ grid-template-columns:1.2fr .8fr;
+ gap:40px;
+ align-items:center
+}
+.hero h1{
+ font-size:clamp(34px,6vw,64px);
+ line-height:1.05;
+ color:var(--dark);
+ margin-bottom:18px
+}
+.hero h1 span{color:var(--green)}
+.hero p{
+ color:#607068;
+ font-size:18px;
+ line-height:1.7;
+ margin-bottom:25px
+}
+.hero-buttons{display:flex;gap:12px;flex-wrap:wrap}
+.btn{
+ padding:12px 18px;
+ border-radius:11px;
+ font-weight:800;
+ transition:.2s;
+ display:inline-flex;
+ justify-content:center;
+ align-items:center;
+ gap:7px
+}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:var(--green);color:white}
+.btn-primary:hover{background:#075d37}
+.btn-secondary{background:white;color:var(--green);border:1px solid #d5e5dc}
+.btn-danger{background:#feeceb;color:var(--danger)}
+.btn-gold{background:var(--gold);color:#332d00}
+.btn-dark{background:#182b23;color:#fff}
+.hero-card{
+ background:white;
+ border-radius:24px;
+ padding:28px;
+ box-shadow:var(--shadow)
+}
+.balance-big{
+ font-size:36px;
+ font-weight:900;
+ color:var(--green);
+ margin:12px 0
+}
+.section{padding:55px 0}
+.section-title{text-align:center;margin-bottom:30px}
+.section-title h2{font-size:30px}
+.section-title p{color:var(--muted);margin-top:8px}
+.feature-grid{
  display:grid;
  grid-template-columns:repeat(4,1fr);
- gap:14px;
+ gap:18px
 }
-
-.service{
- padding:20px;
- text-align:left;
- min-height:150px;
-}
-
-.service:hover{
- border-color:#a9ceb9;
-}
-
-.service .icon{
- font-size:28px;
-}
-
-.service h3{
- margin:10px 0 7px;
-}
-
-.service p{
- color:var(--muted);
- line-height:1.5;
- font-size:13px;
-}
-
-.notice{
- padding:13px;
- border-radius:10px;
- background:#eaf5ee;
- color:var(--green);
- margin:12px 0;
- font-size:13px;
- line-height:1.5;
-}
-
-.notice.warn{
- background:#fff5d9;
- color:#8b6200;
-}
-
-.notice.error{
- background:#ffe7e4;
- color:#b42318;
-}
-
-.notice.success{
- background:#e3f7ea;
- color:var(--green);
-}
-
-.field{
- margin-bottom:14px;
-}
-
-.field label{
- display:block;
- font-size:12px;
- font-weight:800;
- margin-bottom:6px;
-}
-
-.field input,
-.field select,
-.field textarea{
- width:100%;
- border:1px solid #d7e3dc;
- border-radius:10px;
- padding:13px;
+.card{
  background:#fff;
- outline:none;
+ border-radius:var(--radius);
+ padding:22px;
+ box-shadow:var(--shadow)
 }
-
-.field textarea{
- min-height:100px;
- resize:vertical;
+.feature-icon{
+ width:50px;height:50px;border-radius:14px;
+ background:#e9f7ef;
+ color:var(--green);
+ display:grid;place-items:center;
+ font-size:23px;margin-bottom:15px
 }
-
-.field input:focus,
-.field select:focus,
-.field textarea:focus{
- border-color:var(--green);
-}
-
-.auth{
- min-height:70vh;
+.card h3{margin-bottom:8px}
+.card p{color:var(--muted);line-height:1.5}
+.auth-wrap{
+ min-height:100vh;
  display:grid;
  place-items:center;
-}
-
-.authBox{
- width:min(480px,100%);
- background:#fff;
- border:1px solid var(--line);
- border-radius:20px;
  padding:25px;
- box-shadow:var(--shadow);
+ background:linear-gradient(135deg,#eaf7ef,#fff)
 }
-
-.authTabs{
- display:flex;
- gap:5px;
- padding:4px;
- background:#edf5f0;
- border-radius:10px;
- margin-bottom:20px;
+.auth-box{
+ width:min(470px,100%);
+ background:white;
+ padding:30px;
+ border-radius:22px;
+ box-shadow:var(--shadow)
 }
-
-.authTabs button{
- flex:1;
- border:0;
- background:none;
- padding:10px;
- border-radius:8px;
- font-weight:800;
+.auth-head{text-align:center;margin-bottom:25px}
+.auth-head .logo{margin:auto auto 12px}
+.auth-head h1{color:var(--green)}
+.form-group{margin-bottom:15px}
+.form-group label{
+ display:block;font-size:14px;font-weight:700;margin-bottom:7px
 }
-
-.authTabs button.active{
- background:#fff;
- color:var(--green);
-}
-
-.tabs{
- display:flex;
- gap:8px;
- overflow:auto;
- margin:15px 0;
-}
-
-.tab{
- white-space:nowrap;
- border:1px solid var(--line);
- background:#fff;
- border-radius:10px;
- padding:11px 17px;
- font-weight:800;
-}
-
-.tab.active{
- background:var(--green);
- color:#fff;
-}
-
-.plans{
- display:grid;
- grid-template-columns:repeat(4,1fr);
- gap:13px;
-}
-
-.plan{
- padding:17px;
-}
-
-.planSize{
- font-size:20px;
- color:var(--green);
- font-weight:900;
-}
-
-.planPrice{
- font-size:20px;
- font-weight:900;
- margin:8px 0;
-}
-
-.plan small{
- display:block;
- color:var(--muted);
- margin:5px 0;
- line-height:1.4;
-}
-
-.plan button{
+.form-group input,
+.form-group select,
+.form-group textarea{
  width:100%;
- margin-top:10px;
+ border:1px solid #dce5e0;
+ border-radius:10px;
+ padding:12px 13px;
+ outline:none;
+ background:#fff
 }
-
-.tableWrap{
- overflow:auto;
- background:#fff;
- border:1px solid var(--line);
- border-radius:14px;
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+ border-color:var(--green);
+ box-shadow:0 0 0 3px rgba(8,116,67,.08)
 }
-
-table{
- width:100%;
- border-collapse:collapse;
- min-width:700px;
+.auth-footer{text-align:center;margin-top:18px;color:var(--muted)}
+.link{color:var(--green);font-weight:800;cursor:pointer}
+.alert{
+ padding:12px 14px;
+ border-radius:10px;
+ margin-bottom:15px;
+ font-size:14px
 }
-
-th,td{
- padding:12px;
- border-bottom:1px solid #edf1ee;
- text-align:left;
- font-size:13px;
-}
-
-th{
- background:#eff7f2;
-}
-
-.pill{
- display:inline-block;
- padding:4px 9px;
- border-radius:20px;
- font-size:11px;
- font-weight:900;
-}
-
-.pill.green{
- background:#def5e6;
- color:var(--green);
-}
-
-.pill.orange{
- background:#fff0ce;
- color:#8b6200;
-}
-
-.pill.red{
- background:#ffe4e1;
- color:#b42318;
-}
-
-.pill.blue{
- background:#e4efff;
- color:#1459a8;
-}
-
-.adminLayout{
+.alert-error{background:#fff0ef;color:#b42318}
+.alert-success{background:#ecf9f1;color:#16713c}
+.alert-info{background:#edf6ff;color:#1769aa}
+.dashboard{
+ min-height:100vh;
  display:grid;
- grid-template-columns:225px 1fr;
- gap:18px;
+ grid-template-columns:250px 1fr
 }
-
-.adminSide{
+.sidebar{
  background:#fff;
- border:1px solid var(--line);
- border-radius:15px;
- padding:9px;
- height:max-content;
+ border-right:1px solid #e6ece8;
  position:sticky;
- top:85px;
+ top:0;
+ height:100vh;
+ overflow:auto;
+ padding:20px 14px
 }
-
-.adminSide button{
- display:block;
+.side-brand{padding:8px 10px 25px}
+.side-link{
  width:100%;
- text-align:left;
- border:0;
  background:none;
- padding:11px;
- border-radius:9px;
- font-weight:700;
- color:#27382f;
+ text-align:left;
+ padding:12px 13px;
+ border-radius:10px;
+ margin:3px 0;
+ color:#526159;
+ font-weight:700
 }
-
-.adminSide button:hover,
-.adminSide button.active{
- background:#eaf5ee;
- color:var(--green);
+.side-link:hover,.side-link.active{
+ background:#eaf7ef;
+ color:var(--green)
 }
-
-.sideGroup{
- margin-top:8px;
- border-top:1px solid var(--line);
- padding-top:8px;
+.side-title{
+ font-size:11px;
+ color:#9aa59f;
+ margin:20px 10px 7px;
+ text-transform:uppercase;
+ font-weight:800
 }
-
+.main{
+ min-width:0;
+ padding-bottom:50px
+}
+.dashboard-top{
+ background:white;
+ min-height:70px;
+ padding:0 25px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ border-bottom:1px solid #e8eeea;
+ position:sticky;
+ top:0;
+ z-index:30
+}
+.dashboard-content{padding:25px}
 .stats{
  display:grid;
  grid-template-columns:repeat(4,1fr);
- gap:13px;
+ gap:16px;
+ margin-bottom:22px
 }
-
 .stat{
- padding:18px;
+ background:white;
+ padding:20px;
+ border-radius:16px;
+ box-shadow:var(--shadow)
 }
-
-.stat small{
- color:var(--muted);
-}
-
+.stat small{color:var(--muted)}
 .stat strong{
  display:block;
- font-size:27px;
+ font-size:25px;
  margin-top:8px;
+ color:var(--green)
 }
-
-.adminPage{
- display:none;
+.quick-grid{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:15px
 }
-
-.adminPage.active{
- display:block;
+.service-btn{
+ background:white;
+ border:1px solid #e2e9e5;
+ border-radius:16px;
+ padding:20px;
+ text-align:left;
+ transition:.2s
 }
-
-.adminHeader{
+.service-btn:hover{
+ border-color:var(--green);
+ transform:translateY(-2px);
+ box-shadow:var(--shadow)
+}
+.service-btn .icon{font-size:28px;margin-bottom:10px}
+.service-btn strong{display:block;margin-bottom:5px}
+.service-btn span{font-size:13px;color:var(--muted)}
+.page-head{
  display:flex;
- align-items:center;
  justify-content:space-between;
- gap:10px;
- flex-wrap:wrap;
+ align-items:center;
+ gap:12px;
+ margin-bottom:20px;
+ flex-wrap:wrap
 }
-
-.two{
+.page-head h2{font-size:26px}
+.table-wrap{
+ background:white;
+ border-radius:16px;
+ box-shadow:var(--shadow);
+ overflow:auto
+}
+table{width:100%;border-collapse:collapse;min-width:650px}
+th,td{
+ padding:14px 16px;
+ border-bottom:1px solid #edf1ef;
+ text-align:left;
+ font-size:14px
+}
+th{background:#f8faf9;color:#637169}
+.badge{
+ display:inline-block;
+ padding:5px 9px;
+ border-radius:999px;
+ font-size:11px;
+ font-weight:800
+}
+.badge-success{background:#e8f8ef;color:#16713c}
+.badge-pending{background:#fff7dc;color:#856700}
+.badge-danger{background:#ffeded;color:#b42318}
+.empty{
+ text-align:center;
+ padding:45px 20px;
+ color:var(--muted)
+}
+.plan-grid{
  display:grid;
- grid-template-columns:1fr 1fr;
- gap:15px;
+ grid-template-columns:repeat(4,1fr);
+ gap:14px
 }
-
-.three{
- display:grid;
- grid-template-columns:repeat(3,1fr);
- gap:15px;
+.network-title{
+ grid-column:1/-1;
+ font-size:20px;
+ color:var(--green);
+ margin-top:15px
 }
-
-.modal{
- display:none;
+.plan{
+ background:#fff;
+ border:1px solid #e2e9e5;
+ border-radius:15px;
+ padding:16px;
+ transition:.2s
+}
+.plan:hover{border-color:var(--green);box-shadow:var(--shadow)}
+.plan strong{font-size:18px}
+.plan small{display:block;color:var(--muted);margin:5px 0 13px}
+.plan .price{font-size:20px;font-weight:900;color:var(--green)}
+.plan button{width:100%;margin-top:12px}
+.loading{text-align:center;padding:35px;color:var(--muted)}
+.modal-bg{
  position:fixed;
  inset:0;
- background:#0009;
- z-index:200;
+ background:rgba(10,25,18,.55);
+ display:none;
  align-items:center;
  justify-content:center;
  padding:18px;
+ z-index:100
 }
-
-.modal.show{
- display:flex;
-}
-
-.modalBox{
+.modal-bg.show{display:flex}
+.modal{
+ width:min(520px,100%);
  background:#fff;
- width:min(550px,100%);
+ border-radius:20px;
+ padding:25px;
  max-height:90vh;
- overflow:auto;
- border-radius:18px;
- padding:23px;
+ overflow:auto
 }
-
-.modalHead{
+.modal-head{
  display:flex;
- align-items:center;
  justify-content:space-between;
- gap:10px;
+ align-items:center;
+ margin-bottom:18px
 }
-
 .close{
- border:0;
- background:#edf3ef;
- border-radius:8px;
- padding:6px 11px;
- font-size:20px;
+ background:#eef2ef;
+ width:36px;height:36px;
+ border-radius:50%;
+ font-size:20px
 }
-
-.alert{
+.deposit-box{
+ background:#f0f8f3;
+ border:1px solid #d8ebdf;
+ padding:16px;
+ border-radius:14px;
+ margin-bottom:18px
+}
+.deposit-box p{margin:6px 0}
+.copy-row{display:flex;gap:7px;margin-top:8px}
+.copy-row input{flex:1}
+.toast{
  position:fixed;
- right:15px;
- bottom:15px;
- z-index:500;
- max-width:370px;
+ bottom:20px;
+ right:20px;
+ max-width:340px;
+ background:#17231e;
+ color:white;
  padding:14px 17px;
- border-radius:10px;
- background:var(--dark);
- color:#fff;
+ border-radius:12px;
  box-shadow:var(--shadow);
+ transform:translateY(120px);
+ transition:.3s;
+ z-index:300
 }
-
-.alert.ok{
- background:var(--green);
+.toast.show{transform:translateY(0)}
+.mobile-bottom{
+ display:none
 }
-
-.alert.err{
- background:var(--red);
+.back-row{
+ display:flex;
+ gap:8px;
+ margin-bottom:18px
 }
-
-footer{
- background:var(--dark);
- color:#fff;
- padding:35px 0;
-}
-
-footer p{
- color:#b9cec2;
-}
-
-.backRow{
- margin-bottom:15px;
-}
-
-.empty{
- text-align:center;
- padding:30px;
- color:var(--muted);
-}
-
-@media(max-width:1050px){
- .navlinks{display:none}
- .menuBtn{display:block}
- .heroGrid{grid-template-columns:1fr}
- .grid4,.plans{grid-template-columns:repeat(2,1fr)}
+@media(max-width:1000px){
+ .feature-grid{grid-template-columns:repeat(2,1fr)}
  .stats{grid-template-columns:repeat(2,1fr)}
- .adminLayout{grid-template-columns:1fr}
- .adminSide{position:static}
- .two,.three{grid-template-columns:1fr}
+ .quick-grid{grid-template-columns:repeat(2,1fr)}
+ .plan-grid{grid-template-columns:repeat(3,1fr)}
 }
-
-@media(max-width:600px){
- .topbar .wrap{display:block}
- .grid4,.plans,.stats{grid-template-columns:1fr}
- .quick{grid-template-columns:1fr}
- .page{padding-top:25px}
+@media(max-width:760px){
+ .hero-grid{grid-template-columns:1fr}
+ .dashboard{display:block}
+ .sidebar{
+  position:fixed;
+  left:-270px;
+  top:0;
+  width:260px;
+  z-index:150;
+  transition:.25s
+ }
+ .sidebar.open{left:0}
+ .menu-btn{display:block}
+ .nav-actions .nav-btn{display:none}
+ .dashboard-top{padding:0 15px}
+ .dashboard-content{padding:15px 12px 75px}
+ .stats{grid-template-columns:repeat(2,1fr)}
+ .quick-grid{grid-template-columns:repeat(2,1fr)}
+ .plan-grid{grid-template-columns:repeat(2,1fr)}
+ .mobile-bottom{
+  position:fixed;
+  display:flex;
+  left:0;right:0;bottom:0;
+  height:62px;
+  background:#fff;
+  border-top:1px solid #ddd;
+  z-index:100;
+  justify-content:space-around
+ }
+ .mobile-bottom button{
+  background:none;
+  color:#647068;
+  font-size:11px;
+  font-weight:700
+ }
+ .mobile-bottom button span{display:block;font-size:20px;margin-bottom:2px}
+}
+@media(max-width:480px){
+ .feature-grid{grid-template-columns:1fr}
+ .stats{grid-template-columns:1fr 1fr}
+ .quick-grid{grid-template-columns:1fr 1fr}
+ .plan-grid{grid-template-columns:1fr 1fr}
  .hero{padding:45px 0}
+ .hero-card{padding:20px}
 }
 </style>
 </head>
 
 <body>
 
-<div class="topbar">
-<div class="wrap">
-<span>⚡ A T L DATA • DIGITAL SERVICES</span>
-<span>Support: 07073160817</span>
+<div id="toast" class="toast"></div>
+
+<!-- LANDING -->
+<div id="landingPage" class="page">
+ <header class="topbar">
+  <div class="brand">
+   <div class="logo">ATL</div>
+   <span>A T L DATA</span>
+  </div>
+  <div class="nav-actions">
+   <button class="nav-btn" data-action="login">Login</button>
+   <button class="nav-btn" data-action="register">Register</button>
+  </div>
+  <button class="menu-btn" id="landingMenu">☰</button>
+ </header>
+
+ <section class="hero">
+  <div class="container hero-grid">
+   <div>
+    <div class="badge badge-success">Professional Digital Service Platform</div>
+    <h1>Fast & Simple <span>Digital Services</span></h1>
+    <p>
+     Manage your wallet, data plans, airtime, bills and transaction history
+     from one simple A T L DATA platform.
+    </p>
+    <div class="hero-buttons">
+     <button class="btn btn-primary" data-action="register">Create Account</button>
+     <button class="btn btn-secondary" data-action="login">Login</button>
+    </div>
+   </div>
+
+   <div class="hero-card">
+    <small>Demo Wallet</small>
+    <div class="balance-big">₦0.00</div>
+    <p>Secure account dashboard with Firebase Authentication and transaction records.</p>
+   </div>
+  </div>
+ </section>
+
+ <section class="section">
+  <div class="container">
+   <div class="section-title">
+    <h2>Our Services</h2>
+    <p>Everything organized in one dashboard.</p>
+   </div>
+
+   <div class="feature-grid">
+    <div class="card">
+     <div class="feature-icon">📱</div>
+     <h3>Data Plans</h3>
+     <p>MTN, Airtel, Glo and 9mobile plans loaded from the Cloudflare Worker.</p>
+    </div>
+    <div class="card">
+     <div class="feature-icon">💳</div>
+     <h3>Wallet</h3>
+     <p>View balance and submit deposit requests for admin approval.</p>
+    </div>
+    <div class="card">
+     <div class="feature-icon">📜</div>
+     <h3>Transactions</h3>
+     <p>Keep your deposit and service activity organized.</p>
+    </div>
+    <div class="card">
+     <div class="feature-icon">🎧</div>
+     <h3>Support</h3>
+     <p>Contact A T L DATA support whenever you need assistance.</p>
+    </div>
+   </div>
+  </div>
+ </section>
 </div>
-</div>
-
-<nav class="nav">
-<div class="wrap navinner">
-
-<button class="logo" onclick="navigate('home')">
-A T L DATA
-</button>
-
-<div class="navlinks">
-<button onclick="navigate('home')">Home</button>
-<button onclick="navigate('data')">Data Plans</button>
-<button onclick="navigate('airtime')">Airtime</button>
-<button onclick="navigate('bills')">Bills</button>
-<button onclick="navigate('wallet')">Wallet</button>
-<button onclick="navigate('transactions')">Transactions</button>
-<button id="navAdmin" class="hidden" onclick="navigate('admin')">Admin</button>
-</div>
-
-<button id="navAuth" class="btn light" onclick="navigate('auth')">
-Login / Register
-</button>
-
-<button id="navAccount" class="btn primary hidden" onclick="navigate('account')">
-Account
-</button>
-
-<button class="menuBtn" onclick="toggleMobile()">
-☰
-</button>
-
-</div>
-</nav>
-
-<div id="mobileMenu" class="mobileMenu">
-
-<button onclick="navigate('home')">🏠 Home</button>
-<button onclick="navigate('data')">📶 Data Plans</button>
-<button onclick="navigate('airtime')">📱 Airtime</button>
-<button onclick="navigate('bills')">🧾 Bills</button>
-<button onclick="navigate('wallet')">💳 Wallet</button>
-<button onclick="navigate('transactions')">📜 Transactions</button>
-<button id="mobileAdmin" class="hidden" onclick="navigate('admin')">⚙️ Admin</button>
-<button id="mobileAccount" class="hidden" onclick="navigate('account')">👤 Account</button>
-<button id="mobileAuth" onclick="navigate('auth')">🔐 Login / Register</button>
-
-</div>
-
-
-<main>
-
-<!-- HOME -->
-<section id="page-home" class="page">
-
-<div class="hero">
-
-<div class="wrap heroGrid">
-
-<div>
-
-<div class="notice" style="display:inline-block">
-PROFESSIONAL DIGITAL SERVICES PLATFORM
-</div>
-
-<h1>
-A T L <span>DATA</span>
-</h1>
-
-<p>
-Buy and manage data plans, airtime, bills, wallet deposits
-and transaction history from one professional dashboard.
-</p>
-
-<div class="heroButtons">
-
-<button class="btn primary" onclick="navigate('data')">
-📶 View Data Plans
-</button>
-
-<button class="btn gold" onclick="navigate('wallet')">
-💳 Fund Wallet
-</button>
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="balance">
-
-<small>Wallet Balance</small>
-
-<strong id="homeBalance">₦0.00</strong>
-
-<span id="homeUser">
-Guest
-</span>
-
-</div>
-
-<div class="quick">
-
-<button onclick="navigate('transactions')">
-📜 History
-</button>
-
-<button onclick="navigate('account')">
-👤 Account
-</button>
-
-<button onclick="openSupport()">
-💬 Support
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<div class="wrap section">
-
-<h2>Services</h2>
-
-<div class="grid4">
-
-<button class="service" onclick="navigate('data')">
-<div class="icon">📶</div>
-<h3>Data Plans</h3>
-<p>MTN, Airtel, Glo and 9mobile plans.</p>
-</button>
-
-<button class="service" onclick="navigate('airtime')">
-<div class="icon">📱</div>
-<h3>Airtime</h3>
-<p>Airtime service and test flow.</p>
-</button>
-
-<button class="service" onclick="navigate('bills')">
-<div class="icon">🧾</div>
-<h3>Pay Bills</h3>
-<p>Electricity, cable, education and internet.</p>
-</button>
-
-<button class="service" onclick="navigate('wallet')">
-<div class="icon">💳</div>
-<h3>Wallet</h3>
-<p>Deposit requests and balance.</p>
-</button>
-
-</div>
-
-</div>
-
-
-<div class="wrap section">
-
-<h2>Networks</h2>
-
-<div class="grid4">
-
-<button class="service" onclick="openNetwork('mtn')">
-<div class="icon">🟡</div>
-<h3>MTN</h3>
-<p>View available MTN plans.</p>
-</button>
-
-<button class="service" onclick="openNetwork('airtel')">
-<div class="icon">🔴</div>
-<h3>Airtel</h3>
-<p>View available Airtel plans.</p>
-</button>
-
-<button class="service" onclick="openNetwork('glo')">
-<div class="icon">🟢</div>
-<h3>Glo</h3>
-<p>View available Glo plans.</p>
-</button>
-
-<button class="service" onclick="openNetwork('9mobile')">
-<div class="icon">🟢</div>
-<h3>9mobile</h3>
-<p>View available 9mobile plans.</p>
-</button>
-
-</div>
-
-</div>
-
-</section>
 
 
 <!-- AUTH -->
-<section id="page-auth" class="page hidden">
+<div id="authPage" class="page hidden">
+ <div class="auth-wrap">
+  <div class="auth-box">
+
+   <div class="back-row">
+    <button class="btn btn-secondary" id="authBack">← Back</button>
+   </div>
+
+   <div class="auth-head">
+    <div class="logo">ATL</div>
+    <h1 id="authTitle">Login</h1>
+    <p id="authSubtitle">Sign in to your A T L DATA account.</p>
+   </div>
+
+   <div id="authMessage"></div>
+
+   <!-- LOGIN -->
+   <form id="loginForm">
+    <div class="form-group">
+     <label>Email</label>
+     <input id="loginEmail" type="email" required autocomplete="email">
+    </div>
+
+    <div class="form-group">
+     <label>Password</label>
+     <input id="loginPassword" type="password" required autocomplete="current-password">
+    </div>
+
+    <button class="btn btn-primary" style="width:100%" type="submit">
+     Login
+    </button>
+
+    <div class="auth-footer">
+     <span>Forgot password?</span>
+     <span class="link" id="forgotPassword">Reset password</span>
+     <br><br>
+     <span>Don't have an account?</span>
+     <span class="link" id="showRegister">Register</span>
+    </div>
+   </form>
+
+   <!-- REGISTER -->
+   <form id="registerForm" class="hidden">
+    <div class="form-group">
+     <label>Full Name</label>
+     <input id="regName" type="text" required autocomplete="name">
+    </div>
+
+    <div class="form-group">
+     <label>Email</label>
+     <input id="regEmail" type="email" required autocomplete="email">
+    </div>
+
+    <div class="form-group">
+     <label>Password</label>
+     <input id="regPassword" type="password" minlength="6" required autocomplete="new-password">
+    </div>
+
+    <div class="form-group">
+     <label>Confirm Password</label>
+     <input id="regConfirm" type="password" minlength="6" required autocomplete="new-password">
+    </div>
+
+    <button class="btn btn-primary" style="width:100%" type="submit">
+     Create Account
+    </button>
+
+    <div class="auth-footer">
+     <span>Already have an account?</span>
+     <span class="link" id="showLogin">Login</span>
+    </div>
+   </form>
 
-<div class="wrap auth">
-
-<div class="authBox">
-
-<div class="backRow">
-<button class="btn light" onclick="goBack()">
-← Back
-</button>
-</div>
-
-<div class="authTabs">
-
-<button id="loginTab"
-class="active"
-onclick="setAuthMode('login')">
-Login
-</button>
-
-<button id="registerTab"
-onclick="setAuthMode('register')">
-Register
-</button>
-
-</div>
-
-<div id="authMessage"></div>
-
-<div id="registerFields" class="hidden">
-
-<div class="field">
-<label>Full Name</label>
-<input id="registerName" placeholder="Your full name">
-</div>
-
-</div>
-
-<div class="field">
-<label>Email Address</label>
-<input id="authEmail" type="email" placeholder="example@email.com">
-</div>
-
-<div class="field">
-<label>Password</label>
-<input id="authPassword" type="password" placeholder="Minimum 6 characters">
-</div>
-
-<button id="authSubmit"
-class="btn primary"
-style="width:100%"
-onclick="submitAuth()">
-Login
-</button>
-
-<button id="forgotBtn"
-class="btn light"
-style="width:100%;margin-top:8px"
-onclick="forgotPassword()">
-Forgot Password
-</button>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- VERIFY -->
-<section id="page-verify" class="page hidden">
-
-<div class="wrap auth">
-
-<div class="authBox">
-
-<div class="backRow">
-<button class="btn light" onclick="goBack()">
-← Back
-</button>
-</div>
-
-<h2>📧 Verify Email</h2>
-
-<p>
-A verification email has been sent to:
-</p>
-
-<strong id="verificationEmail"></strong>
-
-<div class="notice">
-Open your email and click the verification link.
-After that, return here and press the button below.
-</div>
-
-<button class="btn primary"
-style="width:100%"
-onclick="checkVerification()">
-I Have Verified
-</button>
-
-<button class="btn light"
-style="width:100%;margin-top:8px"
-onclick="resendVerification()">
-Resend Verification
-</button>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- DATA -->
-<section id="page-data" class="page hidden">
-
-<div class="wrap">
-
-<div class="backRow">
-<button class="btn light" onclick="goBack()">
-← Back
-</button>
-</div>
-
-<h2>📶 Data Plans</h2>
-
-<div class="notice warn">
-Test/Sandbox mode: plans are loaded from the Cloudflare Worker,
-but real-money purchase is disabled in this version.
-</div>
-
-<div class="form">
-
-<div class="field">
-<label>Recipient Phone Number</label>
-<input id="dataPhone"
-type="tel"
-inputmode="numeric"
-placeholder="08012345678">
-</div>
-
-</div>
-
-<div class="tabs">
-
-<button class="tab active"
-data-network="mtn"
-onclick="loadPlans('mtn')">
-MTN
-</button>
-
-<button class="tab"
-data-network="airtel"
-onclick="loadPlans('airtel')">
-Airtel
-</button>
-
-<button class="tab"
-data-network="glo"
-onclick="loadPlans('glo')">
-Glo
-</button>
-
-<button class="tab"
-data-network="9mobile"
-onclick="loadPlans('9mobile')">
-9mobile
-</button>
-
-</div>
-
-<div id="plansArea">
-
-<div class="notice">
-Select a network to load data plans.
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- AIRTIME -->
-<section id="page-airtime" class="page hidden">
-
-<div class="wrap">
-
-<div class="backRow">
-<button class="btn light" onclick="goBack()">← Back</button>
-</div>
-
-<h2>📱 Airtime</h2>
-
-<div class="form">
-
-<div class="notice warn">
-Sandbox/Test mode. No real airtime purchase will be made.
-</div>
-
-<div class="field">
-<label>Network</label>
-<select id="airtimeNetwork">
-<option>MTN</option>
-<option>Airtel</option>
-<option>Glo</option>
-<option>9mobile</option>
-</select>
-</div>
-
-<div class="field">
-<label>Phone Number</label>
-<input id="airtimePhone"
-inputmode="numeric"
-placeholder="08012345678">
-</div>
-
-<div class="field">
-<label>Amount</label>
-<input id="airtimeAmount"
-type="number"
-placeholder="500">
-</div>
-
-<button class="btn primary"
-onclick="testAirtime()">
-Continue
-</button>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- BILLS -->
-<section id="page-bills" class="page hidden">
-
-<div class="wrap">
-
-<div class="backRow">
-<button class="btn light" onclick="goBack()">← Back</button>
-</div>
-
-<h2>🧾 Pay Bills</h2>
-
-<div class="grid4">
-
-<button class="service" onclick="showBillForm('electricity')">
-<div class="icon">💡</div>
-<h3>Electricity</h3>
-<p>Electricity payment form.</p>
-</button>
-
-<button class="service" onclick="showBillForm('cable')">
-<div class="icon">📺</div>
-<h3>Cable TV</h3>
-<p>DStv, GOtv and Startimes.</p>
-</button>
-
-<button class="service" onclick="showBillForm('education')">
-<div class="icon">🎓</div>
-<h3>Education</h3>
-<p>NECO, WAEC and JAMB.</p>
-</button>
-
-<button class="service" onclick="showBillForm('internet')">
-<div class="icon">🌐</div>
-<h3>Internet</h3>
-<p>Internet service payment.</p>
-</button>
-
-</div>
-
-<div id="billFormArea"></div>
-
-</div>
-
-</section>
-
-
-<!-- WALLET -->
-<section id="page-wallet" class="page hidden">
-
-<div class="wrap">
-
-<div class="backRow">
-<button class="btn light" onclick="goBack()">← Back</button>
-</div>
-
-<h2>💳 Wallet</h2>
-
-<div class="two">
-
-<div class="balance">
-
-<small>Current Balance</small>
-
-<strong id="walletBalance">
-₦0.00
-</strong>
-
-<span id="walletEmail">
-Not logged in
-</span>
-
-</div>
-
-<div class="card">
-
-<h3>Deposit Account</h3>
-
-<p>
-<b>Bank:</b> PalmPay<br>
-<b>Account Name:</b> A T L Data<br>
-<b>Account Number:</b> 7073160817
-</p>
-
-<div class="notice warn">
-After making your payment, submit a deposit request.
-Admin approval is required before your wallet balance changes.
-</div>
-
-<button class="btn primary"
-onclick="openDepositModal()">
-➕ Submit Deposit
-</button>
-
-</div>
-
-</div>
-
-<h3>Deposit History</h3>
-
-<div id="depositHistory"></div>
-
-</div>
-
-</section>
-
-
-<!-- TRANSACTIONS -->
-<section id="page-transactions" class="page hidden">
-
-<div class="wrap">
-
-<div class="backRow">
-<button class="btn light" onclick="goBack()">← Back</button>
-</div>
-
-<h2>📜 Transaction History</h2>
-
-<div id="userTransactions"></div>
-
-</div>
-
-</section>
-
-
-<!-- ACCOUNT -->
-<section id="page-account" class="page hidden">
-
-<div class="wrap">
-
-<div class="backRow">
-<button class="btn light" onclick="goBack()">← Back</button>
-</div>
-
-<h2>👤 My Account</h2>
-
-<div id="accountArea"></div>
-
-</div>
-
-</section>
-
-
-<!-- ADMIN -->
-<section id="page-admin" class="page hidden">
-
-<div class="wrap">
-
-<div class="backRow">
-<button class="btn light" onclick="goBack()">← Back</button>
-</div>
-
-<div class="adminLayout">
-
-<aside class="adminSide">
-
-<button class="active"
-onclick="adminOpen('dashboard',this)">
-📊 Dashboard
-</button>
-
-<button onclick="adminOpen('funding',this)">
-💰 User Funding / Debit
-</button>
-
-<button onclick="adminOpen('transactions',this)">
-📜 Transactions
-</button>
-
-<button onclick="adminOpen('plans',this)">
-📶 Data Plans
-</button>
-
-<button onclick="adminOpen('datatype',this)">
-📱 Data Type
-</button>
-
-<button onclick="adminOpen('cable',this)">
-📺 Cable Sub Plan
-</button>
-
-<div class="sideGroup">
-
-<button onclick="adminOpen('kyc',this)">
-🛡️ KYC & Limit Management
-</button>
-
-<button onclick="adminOpen('limits',this)">
-Limit Management
-</button>
-
-<button onclick="adminOpen('restricted',this)">
-Restricted Users
-</button>
-
-<button onclick="adminOpen('upgraded',this)">
-Upgraded Users
-</button>
-
-<button onclick="adminOpen('kycchannels',this)">
-KYC Channels
-</button>
-
-<button onclick="adminOpen('validation',this)">
-Validation Monitor
-</button>
-
-</div>
-
-<div class="sideGroup">
-
-<button onclick="adminOpen('notifications',this)">
-🔔 Push Notifications
-</button>
-
-<button onclick="adminOpen('sendnotification',this)">
-Send Notification
-</button>
-
-<button onclick="adminOpen('notificationsettings',this)">
-Notification Settings
-</button>
-
-</div>
-
-<button onclick="adminOpen('analytics',this)">
-📈 Analytics
-</button>
-
-<button onclick="adminOpen('calculator',this)">
-🧮 Sales Calculator
-</button>
-
-<button onclick="adminOpen('users',this)">
-👥 Users
-</button>
-
-<button onclick="adminOpen('services',this)">
-⚙️ Services Management
-</button>
-
-<button onclick="adminOpen('discounts',this)">
-🏷️ Service Discounts
-</button>
-
-<button onclick="adminOpen('charges',this)">
-💵 Service Charges
-</button>
-
-<div class="sideGroup">
-
-<button onclick="adminOpen('staff',this)">
-👥 Staff Management
-</button>
-
-<button onclick="adminOpen('stafflist',this)">
-Staff
-</button>
-
-<button onclick="adminOpen('roles',this)">
-Roles
-</button>
-
-</div>
-
-<button onclick="adminOpen('security',this)">
-🔐 API Security
-</button>
-
-<button onclick="adminOpen('requests',this)">
-🔑 API Access Requests
-</button>
-
-<button onclick="adminOpen('configuration',this)">
-⚙️ Configuration
-</button>
-
-<div class="sideGroup">
-
-<button onclick="navigate('home')">
-← Back to User Panel
-</button>
-
-</div>
-
-</aside>
-
-
-<div class="adminContent">
-
-
-<!-- ADMIN DASHBOARD -->
-<div id="admin-dashboard"
-class="adminPage active">
-
-<div class="adminHeader">
-
-<div>
-<h2>Admin Dashboard</h2>
-<p>Overview and platform analytics.</p>
-</div>
-
-<button class="btn light"
-onclick="checkWorker()">
-Check Worker
-</button>
-
-</div>
-
-<div class="stats">
-
-<div class="stat">
-<small>Total Users</small>
-<strong id="adminUsersCount">0</strong>
-</div>
-
-<div class="stat">
-<small>Transactions</small>
-<strong id="adminTxCount">0</strong>
-</div>
-
-<div class="stat">
-<small>Pending Deposits</small>
-<strong id="adminPending">0</strong>
-</div>
-
-<div class="stat">
-<small>Approved Deposits</small>
-<strong id="adminApproved">0</strong>
-</div>
-
-</div>
-
-<div class="two section">
-
-<div class="card">
-<h3>API / Worker Status</h3>
-<div id="workerStatus">
-Checking...
-</div>
-</div>
-
-<div class="card">
-<h3>Platform Mode</h3>
-<p>
-<span class="pill orange">
-SANDBOX / TEST
-</span>
-</p>
-<p>
-Real-money provider purchases are disabled in this version.
-</p>
+  </div>
+ </div>
 </div>
 
-</div>
-
-<div class="card section">
-
-<h3>Transaction Breakdown</h3>
-
-<div class="three">
-
-<div class="infoCard">
-<b>Data Transactions</b>
-<h2 id="dataTxCount">0</h2>
-</div>
-
-<div class="infoCard">
-<b>Wallet Deposits</b>
-<h2 id="depositTxCount">0</h2>
-</div>
-
-<div class="infoCard">
-<b>Other Services</b>
-<h2 id="otherTxCount">0</h2>
-</div>
-
-</div>
-
-</div>
-
-<div class="card section">
-
-<h3>Recent Transactions</h3>
-
-<div id="recentTransactions"></div>
-
-</div>
-
-</div>
-
-
-<!-- FUNDING -->
-<div id="admin-funding"
-class="adminPage">
-
-<h2>User Funding / Debit</h2>
-
-<div class="notice">
-Use this section to review deposit requests. Wallet increases are recorded through admin approval.
-</div>
-
-<div id="adminDeposits"></div>
-
-</div>
-
-
-<!-- TRANSACTIONS -->
-<div id="admin-transactions"
-class="adminPage">
-
-<h2>Transactions</h2>
-
-<div id="adminTransactions"></div>
-
-</div>
-
-
-<!-- PLANS -->
-<div id="admin-plans"
-class="adminPage">
-
-<h2>Data Plans</h2>
-
-<div class="tabs">
-
-<button class="tab active"
-onclick="adminLoadPlans('mtn')">
-MTN
-</button>
-
-<button class="tab"
-onclick="adminLoadPlans('airtel')">
-Airtel
-</button>
-
-<button class="tab"
-onclick="adminLoadPlans('glo')">
-Glo
-</button>
-
-<button class="tab"
-onclick="adminLoadPlans('9mobile')">
-9mobile
-</button>
-
-</div>
-
-<div id="adminPlansArea"></div>
-
-</div>
-
-
-<!-- DATA TYPE -->
-<div id="admin-datatype" class="adminPage">
-
-<h2>Data Type</h2>
-
-<div class="three">
-
-<div class="card">
-<h3>SME</h3>
-<p>Data service category.</p>
-<button class="btn light"
-onclick="simpleAdminNotice('SME selected')">
-Manage
-</button>
-</div>
-
-<div class="card">
-<h3>Gifting</h3>
-<p>Data gifting category.</p>
-<button class="btn light"
-onclick="simpleAdminNotice('Gifting selected')">
-Manage
-</button>
-</div>
-
-<div class="card">
-<h3>Corporate</h3>
-<p>Corporate data category.</p>
-<button class="btn light"
-onclick="simpleAdminNotice('Corporate selected')">
-Manage
-</button>
-</div>
-
-</div>
-
-</div>
-
-
-<!-- CABLE -->
-<div id="admin-cable" class="adminPage">
-
-<h2>Cable Sub Plan</h2>
-
-<div class="three">
-
-<div class="card">
-<h3>DStv</h3>
-<p>Subscription management interface.</p>
-<button class="btn light"
-onclick="simpleAdminNotice('DStv management opened')">
-Manage
-</button>
-</div>
-
-<div class="card">
-<h3>GOtv</h3>
-<p>Subscription management interface.</p>
-<button class="btn light"
-onclick="simpleAdminNotice('GOtv management opened')">
-Manage
-</button>
-</div>
-
-<div class="card">
-<h3>Startimes</h3>
-<p>Subscription management interface.</p>
-<button class="btn light"
-onclick="simpleAdminNotice('Startimes management opened')">
-Manage
-</button>
-</div>
-
-</div>
-
-</div>
-
-
-<!-- KYC -->
-<div id="admin-kyc" class="adminPage">
-
-<h2>KYC & Limit Management</h2>
-
-<div class="notice warn">
-KYC status and limits should be connected to a properly authorized backend before production use.
-</div>
-
-<div class="three">
-
-<div class="card">
-<h3>Limit Management</h3>
-<p>Configure platform limits.</p>
-<button class="btn light"
-onclick="adminOpenById('limits')">
-Open
-</button>
-</div>
-
-<div class="card">
-<h3>Restricted Users</h3>
-<p>Review restricted accounts.</p>
-<button class="btn light"
-onclick="adminOpenById('restricted')">
-Open
-</button>
-</div>
-
-<div class="card">
-<h3>Upgraded Users</h3>
-<p>Review account tiers.</p>
-<button class="btn light"
-onclick="adminOpenById('upgraded')">
-Open
-</button>
-</div>
-
-</div>
-
-</div>
-
-
-<!-- LIMITS -->
-<div id="admin-limits" class="adminPage">
-
-<h2>Limit Management</h2>
-
-<div class="form">
-
-<div class="field">
-<label>Maximum Wallet Deposit</label>
-<input id="maxDeposit" type="number">
-</div>
-
-<div class="field">
-<label>Maximum Daily Transaction</label>
-<input id="dailyLimit" type="number">
-</div>
-
-<button class="btn primary"
-onclick="saveAdminConfig()">
-Save Configuration
-</button>
-
-</div>
-
-</div>
-
-
-<!-- RESTRICTED -->
-<div id="admin-restricted" class="adminPage">
-
-<h2>Restricted Users</h2>
-
-<div class="card">
-
-<p>
-This interface is ready for authorized restriction management.
-</p>
-
-<div class="field">
-<label>User Email</label>
-<input id="restrictEmail" placeholder="user@email.com">
-</div>
-
-<button class="btn danger"
-onclick="saveRestrictedUser()">
-Add to Local Restricted List
-</button>
-
-</div>
-
-<div id="restrictedList" class="section"></div>
-
-</div>
-
-
-<!-- UPGRADED -->
-<div id="admin-upgraded" class="adminPage">
-
-<h2>Upgraded Users</h2>
-
-<div class="card">
-
-<div class="field">
-<label>User Email</label>
-<input id="upgradeEmail" placeholder="user@email.com">
-</div>
-
-<button class="btn primary"
-onclick="saveUpgradedUser()">
-Add User Tier
-</button>
-
-</div>
-
-<div id="upgradedList" class="section"></div>
-
-</div>
-
-
-<!-- KYC CHANNELS -->
-<div id="admin-kycchannels" class="adminPage">
-
-<h2>KYC Channels</h2>
-
-<div class="three">
-
-<div class="card">
-<h3>Email Verification</h3>
-<span class="pill green">Active</span>
-</div>
-
-<div class="card">
-<h3>Firebase Authentication</h3>
-<span class="pill green">Active</span>
-</div>
 
-<div class="card">
-<h3>Advanced KYC</h3>
-<span class="pill orange">Backend Required</span>
-</div>
-
-</div>
-
-</div>
-
-
-<!-- VALIDATION -->
-<div id="admin-validation" class="adminPage">
+<!-- VERIFICATION MODAL -->
+<div class="modal-bg" id="verificationModal">
+ <div class="modal">
+  <div class="modal-head">
+   <h2>Verify your email</h2>
+   <button class="close" data-close="verificationModal">×</button>
+  </div>
 
-<h2>Validation Monitor</h2>
-
-<div class="card">
-
-<p>
-Use this page to monitor registration and platform validation events.
-</p>
-
-<button class="btn light"
-onclick="runValidationCheck()">
-Run Validation Check
-</button>
-
-<div id="validationResult"
-class="section">
-</div>
-
-</div>
+  <div class="alert alert-info">
+   We sent a verification link to your email address.
+  </div>
 
-</div>
+  <p style="line-height:1.6;color:#65736b">
+   Open your email, click the verification link, then return here and
+   press the button below.
+  </p>
 
+  <br>
 
-<!-- NOTIFICATIONS -->
-<div id="admin-notifications" class="adminPage">
+  <button class="btn btn-primary" style="width:100%" id="checkVerification">
+   I Have Verified My Email
+  </button>
 
-<h2>Push Notifications</h2>
+  <br><br>
 
-<div class="notice">
-Notification center for platform announcements.
+  <button class="btn btn-secondary" style="width:100%" id="resendVerification">
+   Resend Verification Email
+  </button>
+ </div>
 </div>
 
-<div id="notificationList"></div>
 
-</div>
+<!-- APP -->
+<div id="appPage" class="page hidden">
 
+ <div class="dashboard">
 
-<!-- SEND NOTIFICATION -->
-<div id="admin-sendnotification" class="adminPage">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
 
-<h2>Send Notification</h2>
+   <div class="side-brand">
+    <div class="brand">
+     <div class="logo">ATL</div>
+     <span>A T L DATA</span>
+    </div>
+   </div>
 
-<div class="form">
+   <div class="side-title">Main</div>
 
-<div class="field">
-<label>Title</label>
-<input id="notificationTitle"
-placeholder="Notification title">
-</div>
+   <button class="side-link active" data-page="dashboard">
+    🏠 Dashboard
+   </button>
 
-<div class="field">
-<label>Message</label>
-<textarea id="notificationMessage"
-placeholder="Notification message"></textarea>
-</div>
+   <button class="side-link" data-page="data">
+    📱 Data Plans
+   </button>
 
-<button class="btn primary"
-onclick="sendNotification()">
-Send Notification
-</button>
+   <button class="side-link" data-page="airtime">
+    📞 Airtime
+   </button>
 
-</div>
+   <button class="side-link" data-page="bills">
+    💡 Bills
+   </button>
 
-</div>
+   <button class="side-link" data-page="wallet">
+    💳 Wallet / Deposit
+   </button>
 
+   <button class="side-link" data-page="transactions">
+    📜 Transactions
+   </button>
 
-<!-- NOTIFICATION SETTINGS -->
-<div id="admin-notificationsettings" class="adminPage">
+   <button class="side-link" data-page="support">
+    🎧 Support
+   </button>
 
-<h2>Notification Settings</h2>
+   <div class="side-title">Account</div>
 
-<div class="card">
+   <button class="side-link" data-page="account">
+    👤 My Account
+   </button>
 
-<label>
-<input id="notifyEnabled" type="checkbox" checked>
- Enable platform notifications
-</label>
+   <button class="side-link" id="logoutButton">
+    🚪 Logout
+   </button>
 
-<br><br>
+   <div id="adminMenu" class="hidden">
 
-<button class="btn primary"
-onclick="saveNotificationSettings()">
-Save Settings
-</button>
+    <div class="side-title">Admin Panel</div>
 
-</div>
+    <button class="side-link" data-page="admin">
+     📊 Admin Dashboard
+    </button>
 
-</div>
+    <button class="side-link" data-page="adminDeposits">
+     💰 User Funding
+    </button>
 
+    <button class="side-link" data-page="adminUsers">
+     👥 Users
+    </button>
 
-<!-- ANALYTICS -->
-<div id="admin-analytics" class="adminPage">
+    <button class="side-link" data-page="adminTransactions">
+     📜 All Transactions
+    </button>
 
-<h2>Analytics</h2>
+    <button class="side-link" data-page="adminPlans">
+     📱 Data Plans
+    </button>
 
-<div class="stats">
+    <button class="side-link" data-page="adminSupport">
+     🎧 Support
+    </button>
 
-<div class="stat">
-<small>Users</small>
-<strong id="analyticsUsers">0</strong>
-</div>
+   </div>
 
-<div class="stat">
-<small>Transactions</small>
-<strong id="analyticsTransactions">0</strong>
-</div>
+  </aside>
 
-<div class="stat">
-<small>Deposits</small>
-<strong id="analyticsDeposits">0</strong>
-</div>
 
-<div class="stat">
-<small>Worker</small>
-<strong id="analyticsWorker">...</strong>
-</div>
+  <!-- MAIN -->
+  <main class="main">
 
-</div>
+   <div class="dashboard-top">
+    <div style="display:flex;align-items:center;gap:12px">
+     <button class="menu-btn" id="mobileMenu">☰</button>
+     <strong id="pageTitle">Dashboard</strong>
+    </div>
 
-</div>
+    <div style="display:flex;align-items:center;gap:10px">
+     <span id="userNameTop">User</span>
+     <button class="btn btn-secondary" id="topLogout">Logout</button>
+    </div>
+   </div>
 
+   <div class="dashboard-content">
 
-<!-- CALCULATOR -->
-<div id="admin-calculator" class="adminPage">
+    <!-- DASHBOARD -->
+    <section class="app-section" id="page-dashboard">
 
-<h2>Sales Calculator</h2>
+     <div class="page-head">
+      <div>
+       <h2>Dashboard</h2>
+       <p style="color:var(--muted);margin-top:5px">
+        Welcome back, <span id="welcomeName">User</span>.
+       </p>
+      </div>
+     </div>
 
-<div class="form">
+     <div class="stats">
+      <div class="stat">
+       <small>Wallet Balance</small>
+       <strong id="dashBalance">₦0.00</strong>
+      </div>
 
-<div class="field">
-<label>Cost Price</label>
-<input id="calcCost" type="number">
-</div>
+      <div class="stat">
+       <small>Total Transactions</small>
+       <strong id="dashTransactions">0</strong>
+      </div>
 
-<div class="field">
-<label>Selling Price</label>
-<input id="calcSell" type="number">
-</div>
+      <div class="stat">
+       <small>Pending Deposits</small>
+       <strong id="dashPending">0</strong>
+      </div>
 
-<button class="btn primary"
-onclick="calculateProfit()">
-Calculate
-</button>
-
-<div id="calculatorResult"
-class="notice section">
-Enter values above.
-</div>
+      <div class="stat">
+       <small>Account</small>
+       <strong style="font-size:17px">Active</strong>
+      </div>
+     </div>
 
-</div>
+     <div class="page-head">
+      <h2>Quick Services</h2>
+     </div>
 
-</div>
+     <div class="quick-grid">
 
+      <button class="service-btn" data-page="data">
+       <div class="icon">📱</div>
+       <strong>Buy Data</strong>
+       <span>MTN • Airtel • Glo • 9mobile</span>
+      </button>
 
-<!-- USERS -->
-<div id="admin-users" class="adminPage">
+      <button class="service-btn" data-page="airtime">
+       <div class="icon">📞</div>
+       <strong>Airtime</strong>
+       <span>Open airtime service</span>
+      </button>
 
-<h2>Users</h2>
+      <button class="service-btn" data-page="wallet">
+       <div class="icon">💳</div>
+       <strong>Fund Wallet</strong>
+       <span>Submit deposit request</span>
+      </button>
 
-<div id="allUsers"></div>
+      <button class="service-btn" data-page="transactions">
+       <div class="icon">📜</div>
+       <strong>Transactions</strong>
+       <span>View your history</span>
+      </button>
 
-</div>
+     </div>
 
+     <br>
 
-<!-- SERVICES -->
-<div id="admin-services" class="adminPage">
+     <div class="card">
+      <div class="page-head">
+       <h3>Recent Transactions</h3>
+       <button class="btn btn-secondary" data-page="transactions">
+        View All
+       </button>
+      </div>
+      <div id="recentTransactions"></div>
+     </div>
 
-<h2>Services Management</h2>
+    </section>
 
-<div class="three">
 
-<div class="card">
-<h3>Data</h3>
-<span class="pill green">Enabled</span>
-</div>
+    <!-- DATA -->
+    <section class="app-section hidden" id="page-data">
 
-<div class="card">
-<h3>Airtime</h3>
-<span class="pill green">Enabled</span>
-</div>
+     <div class="page-head">
+      <div>
+       <h2>Data Plans</h2>
+       <p style="color:var(--muted)">
+        Plans are loaded from the A T L DATA Cloudflare Worker.
+       </p>
+      </div>
 
-<div class="card">
-<h3>Bills</h3>
-<span class="pill green">Enabled</span>
-</div>
+      <button class="btn btn-primary" id="reloadPlans">
+       ↻ Reload Plans
+      </button>
+     </div>
 
-</div>
+     <div id="plansMessage"></div>
+     <div id="plansContainer" class="plan-grid">
+      <div class="loading">Loading data plans...</div>
+     </div>
 
-</div>
+    </section>
 
 
-<!-- DISCOUNTS -->
-<div id="admin-discounts" class="adminPage">
+    <!-- AIRTIME -->
+    <section class="app-section hidden" id="page-airtime">
 
-<h2>Service Discounts</h2>
+     <div class="page-head">
+      <h2>Airtime</h2>
+     </div>
 
-<div class="form">
+     <div class="card">
+      <div class="alert alert-info">
+       Airtime service is currently in sandbox mode.
+      </div>
 
-<div class="field">
-<label>Data Discount (%)</label>
-<input id="dataDiscount" type="number" min="0" max="100">
-</div>
+      <form id="airtimeForm">
 
-<div class="field">
-<label>Airtime Discount (%)</label>
-<input id="airtimeDiscount" type="number" min="0" max="100">
-</div>
+       <div class="form-group">
+        <label>Network</label>
+        <select id="airtimeNetwork" required>
+         <option value="">Select network</option>
+         <option>MTN</option>
+         <option>Airtel</option>
+         <option>Glo</option>
+         <option>9mobile</option>
+        </select>
+       </div>
 
-<button class="btn primary"
-onclick="saveDiscounts()">
-Save Discounts
-</button>
+       <div class="form-group">
+        <label>Phone Number</label>
+        <input id="airtimePhone" type="tel" maxlength="11" required>
+       </div>
 
-</div>
+       <div class="form-group">
+        <label>Amount (₦)</label>
+        <input id="airtimeAmount" type="number" min="50" required>
+       </div>
 
-</div>
+       <button class="btn btn-primary" type="submit">
+        Continue
+       </button>
 
+      </form>
+     </div>
 
-<!-- CHARGES -->
-<div id="admin-charges" class="adminPage">
+    </section>
 
-<h2>Service Charges</h2>
 
-<div class="form">
+    <!-- BILLS -->
+    <section class="app-section hidden" id="page-bills">
 
-<div class="field">
-<label>Data Service Charge</label>
-<input id="dataCharge" type="number">
-</div>
+     <div class="page-head">
+      <h2>Pay Bills</h2>
+     </div>
 
-<div class="field">
-<label>Airtime Service Charge</label>
-<input id="airtimeCharge" type="number">
-</div>
+     <div class="card">
 
-<button class="btn primary"
-onclick="saveCharges()">
-Save Charges
-</button>
+      <div class="form-group">
+       <label>Select Bill Type</label>
+       <select id="billType">
+        <option value="">Select service</option>
+        <option value="electricity">Electricity</option>
+        <option value="cable">Cable TV</option>
+        <option value="internet">Internet</option>
+        <option value="education">Education</option>
+       </select>
+      </div>
 
-</div>
+      <div id="billFormArea"></div>
 
-</div>
+     </div>
 
+    </section>
 
-<!-- STAFF -->
-<div id="admin-staff" class="adminPage">
 
-<h2>Staff Management</h2>
+    <!-- WALLET -->
+    <section class="app-section hidden" id="page-wallet">
 
-<div class="three">
+     <div class="page-head">
+      <div>
+       <h2>Wallet & Deposit</h2>
+       <p style="color:var(--muted)">
+        Current balance: <strong id="walletBalance">₦0.00</strong>
+       </p>
+      </div>
+     </div>
 
-<div class="card">
-<h3>Staff</h3>
-<p>Manage authorized staff records.</p>
-<button class="btn light"
-onclick="adminOpenById('stafflist')">
-Open Staff
-</button>
-</div>
+     <div class="card">
 
-<div class="card">
-<h3>Roles</h3>
-<p>Manage staff roles.</p>
-<button class="btn light"
-onclick="adminOpenById('roles')">
-Open Roles
-</button>
-</div>
+      <div class="deposit-box">
+       <h3>Deposit Account</h3>
+       <p><strong>Bank:</strong> Palmpay</p>
+       <p><strong>Account Name:</strong> A T L Data</p>
+       <p><strong>Account Number:</strong> 7073160817</p>
 
-<div class="card">
-<h3>Access</h3>
-<p>Admin authorization.</p>
-<span class="pill green">Protected</span>
-</div>
+       <div class="copy-row">
+        <input value="7073160817" readonly id="accountNumber">
+        <button class="btn btn-secondary" id="copyAccount">
+         Copy
+        </button>
+       </div>
+      </div>
 
-</div>
+      <form id="depositForm">
 
-</div>
+       <div class="form-group">
+        <label>Amount Sent (₦)</label>
+        <input id="depositAmount" type="number" min="100" required>
+       </div>
 
+       <div class="form-group">
+        <label>Payment Reference</label>
+        <input id="depositReference" type="text" required>
+       </div>
 
-<!-- STAFF LIST -->
-<div id="admin-stafflist" class="adminPage">
+       <button class="btn btn-primary" type="submit">
+        Submit Deposit Request
+       </button>
 
-<h2>Staff</h2>
+      </form>
 
-<div class="form">
+     </div>
 
-<div class="field">
-<label>Staff Email</label>
-<input id="staffEmail"
-placeholder="staff@email.com">
-</div>
+     <br>
 
-<div class="field">
-<label>Role</label>
-<select id="staffRole">
-<option>Support</option>
-<option>Manager</option>
-<option>Administrator</option>
-</select>
-</div>
+     <div class="card">
+      <h3 style="margin-bottom:15px">My Deposit Requests</h3>
+      <div id="depositHistory"></div>
+     </div>
 
-<button class="btn primary"
-onclick="addStaff()">
-Add Staff Record
-</button>
+    </section>
 
-</div>
 
-<div id="staffList"
-class="section">
-</div>
+    <!-- TRANSACTIONS -->
+    <section class="app-section hidden" id="page-transactions">
 
-</div>
+     <div class="page-head">
+      <h2>Transactions</h2>
+      <button class="btn btn-secondary" id="refreshTransactions">
+       ↻ Refresh
+      </button>
+     </div>
 
+     <div class="table-wrap">
+      <div id="transactionTable"></div>
+     </div>
 
-<!-- ROLES -->
-<div id="admin-roles" class="adminPage">
+    </section>
 
-<h2>Roles</h2>
 
-<div class="three">
+    <!-- SUPPORT -->
+    <section class="app-section hidden" id="page-support">
 
-<div class="card">
-<h3>Administrator</h3>
-<p>Full platform administration.</p>
-</div>
+     <div class="page-head">
+      <h2>Support</h2>
+     </div>
 
-<div class="card">
-<h3>Manager</h3>
-<p>Operational management.</p>
-</div>
+     <div class="quick-grid">
 
-<div class="card">
-<h3>Support</h3>
-<p>Customer support functions.</p>
-</div>
+      <button class="service-btn" id="supportEmail">
+       <div class="icon">📧</div>
+       <strong>Email Support</strong>
+       <span>Send a support email</span>
+      </button>
 
-</div>
+      <button class="service-btn" id="supportWhatsApp">
+       <div class="icon">💬</div>
+       <strong>WhatsApp</strong>
+       <span>Open WhatsApp support</span>
+      </button>
 
-</div>
+      <button class="service-btn" data-page="transactions">
+       <div class="icon">📜</div>
+       <strong>Transaction Help</strong>
+       <span>Check transaction history</span>
+      </button>
 
+      <button class="service-btn" data-page="wallet">
+       <div class="icon">💳</div>
+       <strong>Deposit Help</strong>
+       <span>Check funding requests</span>
+      </button>
 
-<!-- SECURITY -->
-<div id="admin-security" class="adminPage">
+     </div>
 
-<h2>API Security</h2>
+    </section>
 
-<div class="notice warn">
-Never put a VTU provider secret/API key inside this HTML file or GitHub Pages.
-Secrets must remain inside the Cloudflare Worker secret environment.
-</div>
 
-<div class="card">
+    <!-- ACCOUNT -->
+    <section class="app-section hidden" id="page-account">
 
-<p>
-<b>Frontend:</b>
-Firebase client configuration
-</p>
+     <div class="page-head">
+      <h2>My Account</h2>
+     </div>
 
-<p>
-<b>Provider secret:</b>
-Cloudflare Worker Secret
-</p>
+     <div class="card">
 
-<span class="pill green">
-Recommended Architecture
-</span>
+      <div class="form-group">
+       <label>Name</label>
+       <input id="accountName" readonly>
+      </div>
 
-</div>
+      <div class="form-group">
+       <label>Email</label>
+       <input id="accountEmail" readonly>
+      </div>
 
-</div>
+      <div class="form-group">
+       <label>Email Verification</label>
+       <input id="accountVerification" readonly>
+      </div>
 
+      <button class="btn btn-secondary" id="sendVerificationAccount">
+       Send Verification Email
+      </button>
 
-<!-- REQUESTS -->
-<div id="admin-requests" class="adminPage">
+     </div>
 
-<h2>API Access Requests</h2>
+    </section>
 
-<div class="card">
 
-<p>
-API access requests can be reviewed here.
-</p>
+    <!-- ADMIN DASHBOARD -->
+    <section class="app-section hidden" id="page-admin">
 
-<div class="field">
-<label>Request Email</label>
-<input id="apiRequestEmail"
-placeholder="developer@email.com">
-</div>
+     <div class="page-head">
+      <div>
+       <h2>Admin Dashboard</h2>
+       <p style="color:var(--muted)">
+        A T L DATA administration panel
+       </p>
+      </div>
+     </div>
 
-<button class="btn primary"
-onclick="saveApiRequest()">
-Submit Request
-</button>
+     <div class="stats">
 
-</div>
+      <div class="stat">
+       <small>Total Users</small>
+       <strong id="adminUsersCount">0</strong>
+      </div>
 
-<div id="apiRequestsList"
-class="section">
-</div>
+      <div class="stat">
+       <small>Pending Deposits</small>
+       <strong id="adminPendingCount">0</strong>
+      </div>
 
-</div>
+      <div class="stat">
+       <small>Total Transactions</small>
+       <strong id="adminTransactionsCount">0</strong>
+      </div>
 
+      <div class="stat">
+       <small>Worker Status</small>
+       <strong id="workerStatus" style="font-size:16px">
+        Checking...
+       </strong>
+      </div>
 
-<!-- CONFIGURATION -->
-<div id="admin-configuration" class="adminPage">
+     </div>
 
-<h2>Configuration</h2>
+     <div class="quick-grid">
 
-<div class="form">
+      <button class="service-btn" data-page="adminDeposits">
+       <div class="icon">💰</div>
+       <strong>User Funding</strong>
+       <span>Approve or reject deposits</span>
+      </button>
 
-<div class="field">
-<label>Business Name</label>
-<input id="businessName">
-</div>
+      <button class="service-btn" data-page="adminUsers">
+       <div class="icon">👥</div>
+       <strong>Users</strong>
+       <span>View registered users</span>
+      </button>
 
-<div class="field">
-<label>Support Phone</label>
-<input id="supportPhone">
-</div>
+      <button class="service-btn" data-page="adminTransactions">
+       <div class="icon">📜</div>
+       <strong>Transactions</strong>
+       <span>View all transactions</span>
+      </button>
 
-<div class="field">
-<label>Support Email</label>
-<input id="supportEmail">
-</div>
+      <button class="service-btn" data-page="adminPlans">
+       <div class="icon">📱</div>
+       <strong>Data Plans</strong>
+       <span>Check Worker plans</span>
+      </button>
 
-<button class="btn primary"
-onclick="saveConfiguration()">
-Save Configuration
-</button>
+     </div>
 
-</div>
+    </section>
 
-</div>
 
+    <!-- ADMIN DEPOSITS -->
+    <section class="app-section hidden" id="page-adminDeposits">
 
-</div>
-</div>
-</div>
+     <div class="page-head">
+      <h2>User Funding / Deposits</h2>
+      <button class="btn btn-secondary" id="refreshAdminDeposits">
+       ↻ Refresh
+      </button>
+     </div>
 
-</section>
+     <div class="table-wrap">
+      <div id="adminDepositsTable"></div>
+     </div>
 
-</main>
+    </section>
 
 
-<footer>
+    <!-- ADMIN USERS -->
+    <section class="app-section hidden" id="page-adminUsers">
 
-<div class="wrap">
+     <div class="page-head">
+      <h2>Users</h2>
+      <button class="btn btn-secondary" id="refreshAdminUsers">
+       ↻ Refresh
+      </button>
+     </div>
 
-<h2>A T L DATA</h2>
+     <div class="table-wrap">
+      <div id="adminUsersTable"></div>
+     </div>
 
-<p>
-Professional digital services platform.
-</p>
+    </section>
 
-<p>
-Data • Airtime • Bills • Wallet • Support
-</p>
 
-<p>
-Support: 07073160817
-</p>
+    <!-- ADMIN TRANSACTIONS -->
+    <section class="app-section hidden" id="page-adminTransactions">
 
-<p>
-Email: lawanahmadt03@gmail.com
-</p>
+     <div class="page-head">
+      <h2>All Transactions</h2>
+      <button class="btn btn-secondary" id="refreshAdminTransactions">
+       ↻ Refresh
+      </button>
+     </div>
 
-</div>
+     <div class="table-wrap">
+      <div id="adminTransactionsTable"></div>
+     </div>
 
-</footer>
+    </section>
 
 
-<!-- DEPOSIT MODAL -->
-<div id="depositModal" class="modal">
+    <!-- ADMIN PLANS -->
+    <section class="app-section hidden" id="page-adminPlans">
 
-<div class="modalBox">
+     <div class="page-head">
+      <h2>Data Plans</h2>
+      <button class="btn btn-primary" id="adminReloadPlans">
+       ↻ Load Plans
+      </button>
+     </div>
 
-<div class="modalHead">
+     <div id="adminPlansContainer" class="plan-grid">
+      <div class="loading">Press Load Plans.</div>
+     </div>
 
-<h2>Deposit Request</h2>
+    </section>
 
-<button class="close"
-onclick="closeModal('depositModal')">
-×
-</button>
 
-</div>
+    <!-- ADMIN SUPPORT -->
+    <section class="app-section hidden" id="page-adminSupport">
 
-<div class="notice">
+     <div class="card">
+      <h2>Support Management</h2>
+      <br>
+      <p style="color:var(--muted);line-height:1.6">
+       Support contact is currently handled through email and WhatsApp.
+       Use the buttons below to open the support channels.
+      </p>
+      <br>
+      <button class="btn btn-primary" id="adminSupportEmail">
+       Email Support
+      </button>
+     </div>
 
-<b>Bank:</b> PalmPay<br>
-<b>Account Name:</b> A T L Data<br>
-<b>Account Number:</b> 7073160817
+    </section>
 
-</div>
+   </div>
 
-<div class="field">
-<label>Amount</label>
-<input id="depositAmount"
-type="number"
-min="100"
-placeholder="1000">
-</div>
+  </main>
+ </div>
 
-<div class="field">
-<label>Payment Reference</label>
-<input id="depositReference"
-placeholder="Transaction reference">
-</div>
 
-<button class="btn primary"
-style="width:100%"
-onclick="submitDeposit()">
-Submit Deposit Request
-</button>
+ <div class="mobile-bottom">
+  <button data-page="dashboard">
+   <span>🏠</span>Home
+  </button>
+  <button data-page="data">
+   <span>📱</span>Data
+  </button>
+  <button data-page="wallet">
+   <span>💳</span>Wallet
+  </button>
+  <button data-page="transactions">
+   <span>📜</span>History
+  </button>
+  <button data-page="account">
+   <span>👤</span>Account
+  </button>
+ </div>
 
-</div>
 </div>
 
 
 <!-- PLAN MODAL -->
-<div id="planModal" class="modal">
+<div class="modal-bg" id="planModal">
+ <div class="modal">
 
-<div class="modalBox">
+  <div class="modal-head">
+   <h2 id="planModalTitle">Data Plan</h2>
+   <button class="close" data-close="planModal">×</button>
+  </div>
 
-<div class="modalHead">
+  <div id="selectedPlanInfo"></div>
 
-<h2>Data Plan</h2>
+  <div class="alert alert-info">
+   This is sandbox mode. No real-money purchase will be submitted.
+  </div>
 
-<button class="close"
-onclick="closeModal('planModal')">
-×
-</button>
+  <button class="btn btn-primary" style="width:100%" id="sandboxPlanButton">
+   Continue in Sandbox
+  </button>
 
+  <br><br>
+
+  <button class="btn btn-secondary" style="width:100%" data-close="planModal">
+   Cancel
+  </button>
+
+ </div>
 </div>
-
-<div id="selectedPlan"></div>
-
-<div class="notice warn">
-Sandbox/Test mode. No real-money data purchase will be made.
-</div>
-
-<button class="btn primary"
-style="width:100%"
-onclick="confirmPlanTest()">
-Confirm Test Selection
-</button>
-
-</div>
-</div>
-
-
-<div id="alert" class="alert hidden"></div>
 
 
 <script>
-
 /* =========================================================
-   FIREBASE
+   A T L DATA
+   SINGLE FILE PROFESSIONAL FRONTEND
 ========================================================= */
 
-const firebaseConfig={
+/* ---------------- FIREBASE ---------------- */
+
+const firebaseConfig = {
  apiKey:"AIzaSyA_x5ZYj7D5Dt_9Bq-NzlchpRPRd3QN21I",
  authDomain:"a-t-l-data.firebaseapp.com",
  projectId:"a-t-l-data",
@@ -2380,2882 +1316,1988 @@ const firebaseConfig={
 
 firebase.initializeApp(firebaseConfig);
 
-const auth=firebase.auth();
-const db=firebase.firestore();
+const auth = firebase.auth();
+const db = firebase.firestore();
 
 
-/* =========================================================
-   CONFIG
-========================================================= */
+/* ---------------- CONFIG ---------------- */
 
-const WORKER=
+const ADMIN_EMAIL = "lawanahmadt03@gmail.com";
+
+const WORKER =
  "https://broad-thunder-82c2.lawanahmadt03.workers.dev";
 
-const ADMIN_EMAIL=
+const SUPPORT_EMAIL =
  "lawanahmadt03@gmail.com";
 
-const SUPPORT_PHONE=
- "07073160817";
-
-let currentUser=null;
-let authMode="login";
-let currentNetwork="mtn";
-let selectedPlan=null;
-let plansCache={};
-let historyStack=[];
-let currentPage="home";
+const SUPPORT_WHATSAPP =
+ "2347073160817";
 
 
-/* =========================================================
-   HELPERS
-========================================================= */
+/* ---------------- STATE ---------------- */
 
-function $(id){
- return document.getElementById(id);
-}
+let currentUser = null;
+let currentUserData = null;
+let isAdmin = false;
+
+let currentPage = "dashboard";
+let previousPage = "dashboard";
+
+let allPlans = {
+ mtn:[],
+ airtel:[],
+ glo:[],
+ "9mobile":[]
+};
+
+let selectedPlan = null;
+
+
+/* ---------------- HELPERS ---------------- */
+
+const $ = id => document.getElementById(id);
 
 function money(value){
- return "₦"+Number(value||0).toLocaleString(
-  "en-NG",
-  {
-   minimumFractionDigits:2,
-   maximumFractionDigits:2
-  }
- );
+ const n = Number(value || 0);
+ return "₦" + n.toLocaleString("en-NG",{
+  minimumFractionDigits:2,
+  maximumFractionDigits:2
+ });
 }
 
 function escapeHTML(value){
- return String(value??"").replace(
-  /[&<>"']/g,
-  function(c){
-   return {
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    '"':"&quot;",
-    "'":"&#039;"
-   }[c];
-  }
- );
+ return String(value ?? "")
+  .replaceAll("&","&amp;")
+  .replaceAll("<","&lt;")
+  .replaceAll(">","&gt;")
+  .replaceAll('"',"&quot;")
+  .replaceAll("'","&#039;");
 }
 
-function notify(message,type=""){
- const box=$("alert");
+function showToast(message){
+ const toast = $("toast");
+ toast.textContent = message;
+ toast.classList.add("show");
 
- box.textContent=message;
+ clearTimeout(window.__toastTimer);
 
- box.className=
-  "alert "+
-  (type==="ok"?"ok":
-   type==="err"?"err":"");
-
- clearTimeout(window.noticeTimer);
-
- window.noticeTimer=
-  setTimeout(()=>{
-   box.classList.add("hidden");
-  },4500);
+ window.__toastTimer =
+ setTimeout(()=>toast.classList.remove("show"),3500);
 }
 
-function isAdmin(){
- return !!currentUser &&
- String(currentUser.email||"").toLowerCase()===
- ADMIN_EMAIL.toLowerCase();
+function showMessage(id,message,type="info"){
+ const el = $(id);
+ if(!el)return;
+
+ el.innerHTML =
+ `<div class="alert alert-${type}">
+ ${escapeHTML(message)}
+ </div>`;
+}
+
+function clearMessage(id){
+ const el = $(id);
+ if(el)el.innerHTML="";
 }
 
 function formatDate(timestamp){
-
- if(!timestamp)return"—";
-
  try{
+  if(!timestamp)return "-";
 
-  if(typeof timestamp.toDate==="function"){
+  if(timestamp.toDate){
    return timestamp.toDate().toLocaleString("en-NG");
   }
 
   return new Date(timestamp).toLocaleString("en-NG");
-
- }catch(e){
-
-  return"—";
+ }catch{
+  return "-";
  }
 }
 
+function friendlyError(error){
+ if(!error)return "Something went wrong.";
 
-/* =========================================================
-   NAVIGATION + BACK
-========================================================= */
+ const code = error.code || "";
 
-function navigate(page,push=true){
+ const map = {
+  "auth/invalid-email":"Please enter a valid email address.",
+  "auth/user-not-found":"No account was found with this email.",
+  "auth/wrong-password":"Incorrect password.",
+  "auth/invalid-credential":"Email or password is incorrect.",
+  "auth/email-already-in-use":"This email is already registered.",
+  "auth/weak-password":"Password must contain at least 6 characters.",
+  "auth/too-many-requests":"Too many attempts. Please try again later.",
+  "auth/network-request-failed":"Network connection failed."
+ };
 
- if(page==="auth"){
-  showPage("auth",push);
-  return;
- }
-
- const protectedPages=[
-  "data",
-  "airtime",
-  "bills",
-  "wallet",
-  "transactions",
-  "account",
-  "admin"
- ];
-
- if(protectedPages.includes(page)){
-
-  if(!currentUser){
-
-   setAuthMode("login");
-   showPage("auth",true);
-
-   notify(
-    "Please login first.",
-    "err"
-   );
-
-   return;
-  }
-
-  if(!currentUser.emailVerified){
-
-   showPage("verify",true);
-
-   notify(
-    "Please verify your email first.",
-    "err"
-   );
-
-   return;
-  }
- }
-
- if(page==="admin"&&!isAdmin()){
-
-  showPage("home",true);
-
-  notify(
-   "Admin access only.",
-   "err"
-  );
-
-  return;
- }
-
- showPage(page,push);
+ return map[code] || error.message || "Something went wrong.";
 }
 
-function showPage(page,push=true){
 
- if(push&&currentPage!==page){
+/* ---------------- LANDING / AUTH ---------------- */
 
-  historyStack.push(currentPage);
- }
+function openAuth(mode){
+ $("landingPage").classList.add("hidden");
+ $("authPage").classList.remove("hidden");
 
- document
-  .querySelectorAll(".page")
-  .forEach(x=>x.classList.add("hidden"));
-
- const target=
-  $("page-"+page);
-
- if(!target)return;
-
- target.classList.remove("hidden");
-
- currentPage=page;
-
- window.scrollTo({
-  top:0,
-  behavior:"smooth"
- });
-
- $("mobileMenu").style.display="none";
-
- if(page==="home")
-  refreshHeader();
-
- if(page==="data")
-  loadPlans(currentNetwork);
-
- if(page==="wallet")
-  loadWallet();
-
- if(page==="transactions")
-  loadUserTransactions();
-
- if(page==="account")
-  loadAccount();
-
- if(page==="admin")
-  loadAdminDashboard();
-
- if(page==="verify"&&currentUser)
-  $("verificationEmail").textContent=
-   currentUser.email;
-}
-
-function goBack(){
-
- if(historyStack.length){
-
-  const previous=
-   historyStack.pop();
-
-  showPage(previous,false);
-
+ if(mode==="register"){
+  showRegister();
  }else{
-
-  showPage("home",false);
+  showLogin();
  }
 }
 
-function toggleMobile(){
+function showLogin(){
+ $("authTitle").textContent="Login";
+ $("authSubtitle").textContent=
+ "Sign in to your A T L DATA account.";
 
- const menu=$("mobileMenu");
+ $("loginForm").classList.remove("hidden");
+ $("registerForm").classList.add("hidden");
 
- menu.style.display=
-  menu.style.display==="block"
-   ?"none"
-   :"block";
+ clearMessage("authMessage");
+}
+
+function showRegister(){
+ $("authTitle").textContent="Create Account";
+ $("authSubtitle").textContent=
+ "Register your A T L DATA account.";
+
+ $("loginForm").classList.add("hidden");
+ $("registerForm").classList.remove("hidden");
+
+ clearMessage("authMessage");
+}
+
+function backFromAuth(){
+ $("authPage").classList.add("hidden");
+ $("landingPage").classList.remove("hidden");
+ showLogin();
 }
 
 
-/* Browser back */
-window.addEventListener("popstate",function(){
- goBack();
+/* ---------------- AUTH EVENTS ---------------- */
+
+$("loginForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+
+ const email = $("loginEmail").value.trim();
+ const password = $("loginPassword").value;
+
+ try{
+
+  const credential =
+   await auth.signInWithEmailAndPassword(email,password);
+
+  const user = credential.user;
+
+  await user.reload();
+
+  if(!user.emailVerified){
+   $("verificationModal").classList.add("show");
+   showMessage(
+    "authMessage",
+    "Please verify your email before entering the dashboard.",
+    "info"
+   );
+   return;
+  }
+
+  showToast("Login successful.");
+
+ }catch(error){
+
+  showMessage(
+   "authMessage",
+   friendlyError(error),
+   "error"
+  );
+ }
 });
 
 
-/* =========================================================
-   AUTH
-========================================================= */
+$("registerForm").addEventListener("submit",async e=>{
+ e.preventDefault();
 
-function setAuthMode(mode){
+ const name = $("regName").value.trim();
+ const email = $("regEmail").value.trim();
+ const password = $("regPassword").value;
+ const confirm = $("regConfirm").value;
 
- authMode=mode;
+ if(password!==confirm){
+  showMessage(
+   "authMessage",
+   "Passwords do not match.",
+   "error"
+  );
+  return;
+ }
 
- $("loginTab").classList.toggle(
-  "active",
-  mode==="login"
- );
-
- $("registerTab").classList.toggle(
-  "active",
-  mode==="register"
- );
-
- $("registerFields").classList.toggle(
-  "hidden",
-  mode!=="register"
- );
-
- $("authSubmit").textContent=
-  mode==="register"
-   ?"Create Account"
-   :"Login";
-
- $("forgotBtn").classList.toggle(
-  "hidden",
-  mode!=="login"
- );
-
- $("authMessage").innerHTML="";
-}
-
-async function submitAuth(){
-
- const email=
-  $("authEmail").value.trim();
-
- const password=
-  $("authPassword").value;
-
- if(!email||!password){
-
-  $("authMessage").innerHTML=
-   '<div class="notice error">Please enter your email and password.</div>';
-
+ if(password.length<6){
+  showMessage(
+   "authMessage",
+   "Password must contain at least 6 characters.",
+   "error"
+  );
   return;
  }
 
  try{
 
-  if(authMode==="register"){
+  const credential =
+   await auth.createUserWithEmailAndPassword(
+    email,password
+   );
 
-   const name=
-    $("registerName").value.trim();
+  const user = credential.user;
 
-   if(!name){
-
-    $("authMessage").innerHTML=
-     '<div class="notice error">Please enter your full name.</div>';
-
-    return;
-   }
-
-   if(password.length<6){
-
-    $("authMessage").innerHTML=
-     '<div class="notice error">Password must be at least 6 characters.</div>';
-
-    return;
-   }
-
-   const result=
-    await auth.createUserWithEmailAndPassword(
-     email,
-     password
-    );
-
-   currentUser=result.user;
-
-   await result.user.updateProfile({
-    displayName:name
+  await db.collection("users")
+   .doc(user.uid)
+   .set({
+    uid:user.uid,
+    name:name,
+    email:email,
+    balance:0,
+    role:email.toLowerCase()===ADMIN_EMAIL.toLowerCase()
+      ?"admin"
+      :"user",
+    createdAt:firebase.firestore.FieldValue.serverTimestamp(),
+    updatedAt:firebase.firestore.FieldValue.serverTimestamp()
    });
 
-   await db
-    .collection("users")
-    .doc(result.user.uid)
-    .set({
-     uid:result.user.uid,
-     name:name,
-     email:email,
-     balance:0,
-     createdAt:
-      firebase.firestore.FieldValue.serverTimestamp()
-    },{merge:true});
+  await user.sendEmailVerification();
 
-   await result.user.sendEmailVerification();
+  showToast("Account created. Verification email sent.");
 
-   $("authMessage").innerHTML=
-    '<div class="notice success">Account created successfully. Verification email sent.</div>';
-
-   setTimeout(()=>{
-    showPage("verify",false);
-   },700);
-
-  }else{
-
-   const result=
-    await auth.signInWithEmailAndPassword(
-     email,
-     password
-    );
-
-   currentUser=result.user;
-
-   await currentUser.reload();
-
-   currentUser=auth.currentUser;
-
-   if(!currentUser.emailVerified){
-
-    showPage("verify",false);
-
-    notify(
-     "Please verify your email.",
-     "err"
-    );
-
-    return;
-   }
-
-   await ensureUserDocument();
-
-   notify(
-    "Login successful.",
-    "ok"
-   );
-
-   showPage("home",false);
-  }
+  $("verificationModal").classList.add("show");
 
  }catch(error){
 
-  let message=
-   error.message||"Authentication error.";
-
-  const messages={
-   "auth/email-already-in-use":
-    "This email is already registered.",
-   "auth/invalid-email":
-    "Please enter a valid email.",
-   "auth/weak-password":
-    "Password must contain at least 6 characters.",
-   "auth/user-not-found":
-    "Account not found.",
-   "auth/wrong-password":
-    "Incorrect password.",
-   "auth/invalid-credential":
-    "Incorrect email or password."
-  };
-
-  if(messages[error.code])
-   message=messages[error.code];
-
-  $("authMessage").innerHTML=
-   '<div class="notice error">'+
-   escapeHTML(message)+
-   '</div>';
+  showMessage(
+   "authMessage",
+   friendlyError(error),
+   "error"
+  );
  }
-}
+});
 
-async function ensureUserDocument(){
 
- if(!currentUser)return;
+$("showRegister").addEventListener("click",showRegister);
+$("showLogin").addEventListener("click",showLogin);
+$("authBack").addEventListener("click",backFromAuth);
 
- const ref=
-  db.collection("users")
-  .doc(currentUser.uid);
 
- const snap=
-  await ref.get();
-
- if(!snap.exists){
-
-  await ref.set({
-   uid:currentUser.uid,
-   name:currentUser.displayName||"",
-   email:currentUser.email,
-   balance:0,
-   createdAt:
-    firebase.firestore.FieldValue.serverTimestamp()
-  });
- }
-}
-
-async function forgotPassword(){
-
- const email=
-  $("authEmail").value.trim();
+$("forgotPassword").addEventListener("click",async()=>{
+ const email = $("loginEmail").value.trim();
 
  if(!email){
-
-  notify(
+  showMessage(
+   "authMessage",
    "Enter your email first.",
-   "err"
+   "info"
   );
-
   return;
  }
 
  try{
-
   await auth.sendPasswordResetEmail(email);
 
-  notify(
+  showMessage(
+   "authMessage",
    "Password reset email sent.",
-   "ok"
+   "success"
   );
 
  }catch(error){
-
-  notify(
-   error.message,
-   "err"
+  showMessage(
+   "authMessage",
+   friendlyError(error),
+   "error"
   );
  }
-}
+});
 
-async function resendVerification(){
 
- if(!currentUser)return;
+$("resendVerification").addEventListener("click",async()=>{
+ if(!auth.currentUser)return;
 
  try{
-
-  await currentUser.sendEmailVerification();
-
-  notify(
-   "Verification email sent again.",
-   "ok"
-  );
-
+  await auth.currentUser.sendEmailVerification();
+  showToast("Verification email sent again.");
  }catch(error){
-
-  notify(
-   error.message,
-   "err"
-  );
+  showToast(friendlyError(error));
  }
-}
+});
 
-async function checkVerification(){
 
- if(!currentUser)return;
+$("checkVerification").addEventListener("click",async()=>{
+ if(!auth.currentUser)return;
 
  try{
 
-  await currentUser.reload();
+  await auth.currentUser.reload();
 
-  currentUser=auth.currentUser;
+  if(auth.currentUser.emailVerified){
 
-  if(currentUser.emailVerified){
+   $("verificationModal").classList.remove("show");
 
-   await ensureUserDocument();
+   showToast("Email verified successfully.");
 
-   notify(
-    "Email verified successfully.",
-    "ok"
-   );
-
-   showPage("home",false);
+   await startApplication();
 
   }else{
 
-   notify(
-    "Email is still not verified.",
-    "err"
+   showToast(
+    "Email is not verified yet. Open the email and click the link."
    );
+
   }
 
  }catch(error){
-
-  notify(
-   error.message,
-   "err"
-  );
+  showToast(friendlyError(error));
  }
-}
+});
 
-async function logout(){
 
- await auth.signOut();
-
- currentUser=null;
-
- historyStack=[];
-
- showPage("home",false);
-
- refreshHeader();
-
- notify(
-  "You have been logged out.",
-  "ok"
- );
-}
+/* ---------------- AUTH STATE ---------------- */
 
 auth.onAuthStateChanged(async user=>{
 
+ if(!user){
+  currentUser=null;
+  currentUserData=null;
+  isAdmin=false;
+
+  $("appPage").classList.add("hidden");
+  $("authPage").classList.add("hidden");
+  $("landingPage").classList.remove("hidden");
+
+  return;
+ }
+
  currentUser=user;
 
- if(user){
+ try{
+  await user.reload();
+ }catch{}
 
-  await ensureUserDocument();
+ if(!user.emailVerified){
 
-  if(user.emailVerified){
+  $("landingPage").classList.add("hidden");
+  $("authPage").classList.remove("hidden");
 
-   refreshHeader();
+  $("verificationModal").classList.add("show");
 
-   if(currentPage==="verify")
-    showPage("home",false);
+  return;
+ }
 
+ await startApplication();
+});
+
+
+async function startApplication(){
+
+ if(!auth.currentUser)return;
+
+ currentUser=auth.currentUser;
+
+ try{
+
+  const ref =
+   db.collection("users").doc(currentUser.uid);
+
+  const snap=await ref.get();
+
+  if(snap.exists){
+   currentUserData=snap.data();
   }else{
 
-   $("verificationEmail").textContent=
-    user.email;
+   currentUserData={
+    uid:currentUser.uid,
+    name:currentUser.email.split("@")[0],
+    email:currentUser.email,
+    balance:0
+   };
 
-   if(currentPage!=="verify")
-    showPage("verify",false);
+   await ref.set({
+    ...currentUserData,
+    createdAt:firebase.firestore.FieldValue.serverTimestamp()
+   },{
+    merge:true
+   });
   }
 
- }else{
+ }catch(error){
 
-  refreshHeader();
+  currentUserData={
+   uid:currentUser.uid,
+   name:currentUser.email.split("@")[0],
+   email:currentUser.email,
+   balance:0
+  };
+ }
+
+ isAdmin =
+ currentUser.email.toLowerCase() ===
+ ADMIN_EMAIL.toLowerCase();
+
+ $("landingPage").classList.add("hidden");
+ $("authPage").classList.add("hidden");
+ $("appPage").classList.remove("hidden");
+
+ if(isAdmin){
+  $("adminMenu").classList.remove("hidden");
+ }else{
+  $("adminMenu").classList.add("hidden");
+ }
+
+ updateUserUI();
+
+ await loadDashboard();
+
+ await checkWorker();
+
+ loadPlans();
+}
+
+
+/* ---------------- USER UI ---------------- */
+
+function updateUserUI(){
+
+ const name =
+ currentUserData?.name ||
+ currentUser?.email?.split("@")[0] ||
+ "User";
+
+ $("userNameTop").textContent=name;
+ $("welcomeName").textContent=name;
+
+ $("accountName").value=name;
+ $("accountEmail").value=currentUser?.email || "";
+
+ $("accountVerification").value =
+ currentUser?.emailVerified
+ ?"Verified"
+ :"Not Verified";
+
+ updateBalance(
+  currentUserData?.balance || 0
+ );
+}
+
+function updateBalance(balance){
+
+ $("dashBalance").textContent=money(balance);
+ $("walletBalance").textContent=money(balance);
+}
+
+
+/* ---------------- PAGE NAVIGATION ---------------- */
+
+function openPage(page){
+
+ if(!currentUser)return;
+
+ if(page.startsWith("admin") && !isAdmin){
+  showToast("Admin access required.");
+  return;
+ }
+
+ previousPage=currentPage;
+ currentPage=page;
+
+ document.querySelectorAll(".app-section")
+ .forEach(section=>{
+  section.classList.add("hidden");
+ });
+
+ const target=$("page-"+page);
+
+ if(!target){
+  currentPage="dashboard";
+  $("page-dashboard").classList.remove("hidden");
+  return;
+ }
+
+ target.classList.remove("hidden");
+
+ document.querySelectorAll(".side-link")
+ .forEach(button=>{
+  button.classList.toggle(
+   "active",
+   button.dataset.page===page
+  );
+ });
+
+ const titles={
+  dashboard:"Dashboard",
+  data:"Data Plans",
+  airtime:"Airtime",
+  bills:"Pay Bills",
+  wallet:"Wallet / Deposit",
+  transactions:"Transactions",
+  support:"Support",
+  account:"My Account",
+  admin:"Admin Dashboard",
+  adminDeposits:"User Funding",
+  adminUsers:"Users",
+  adminTransactions:"All Transactions",
+  adminPlans:"Data Plans",
+  adminSupport:"Support"
+ };
+
+ $("pageTitle").textContent=titles[page] || "A T L DATA";
+
+ $("sidebar").classList.remove("open");
+
+ if(page==="dashboard")loadDashboard();
+ if(page==="transactions")loadTransactions();
+ if(page==="wallet")loadDeposits();
+ if(page==="admin")loadAdminDashboard();
+ if(page==="adminDeposits")loadAdminDeposits();
+ if(page==="adminUsers")loadAdminUsers();
+ if(page==="adminTransactions")loadAdminTransactions();
+ if(page==="account")updateUserUI();
+ if(page==="data")loadPlans();
+}
+
+
+/* Every navigation button uses this listener */
+document.addEventListener("click",e=>{
+
+ const pageButton=e.target.closest("[data-page]");
+
+ if(pageButton){
+  e.preventDefault();
+  openPage(pageButton.dataset.page);
+ }
+
+ const actionButton=e.target.closest("[data-action]");
+
+ if(actionButton){
+  e.preventDefault();
+  openAuth(actionButton.dataset.action);
+ }
+
+ const closeButton=e.target.closest("[data-close]");
+
+ if(closeButton){
+  const modal=$(closeButton.dataset.close);
+  if(modal)modal.classList.remove("show");
  }
 });
 
 
-/* =========================================================
-   HEADER
-========================================================= */
+$("mobileMenu").addEventListener("click",()=>{
+ $("sidebar").classList.toggle("open");
+});
 
-async function refreshHeader(){
 
- const logged=!!currentUser;
- const admin=isAdmin();
+$("topLogout").addEventListener("click",logout);
+$("logoutButton").addEventListener("click",logout);
 
- $("navAuth").classList.toggle(
-  "hidden",
-  logged
- );
 
- $("navAccount").classList.toggle(
-  "hidden",
-  !logged
- );
+async function logout(){
 
- $("mobileAuth").classList.toggle(
-  "hidden",
-  logged
- );
-
- $("mobileAccount").classList.toggle(
-  "hidden",
-  !logged
- );
-
- $("navAdmin").classList.toggle(
-  "hidden",
-  !admin
- );
-
- $("mobileAdmin").classList.toggle(
-  "hidden",
-  !admin
- );
-
- if(logged){
-
-  $("homeUser").textContent=
-   currentUser.displayName||
-   currentUser.email;
-
-  try{
-
-   $("homeBalance").textContent=
-    money(await getBalance());
-
-  }catch(e){}
-
- }else{
-
-  $("homeUser").textContent="Guest";
-
-  $("homeBalance").textContent="₦0.00";
+ try{
+  await auth.signOut();
+  showToast("Logged out.");
+ }catch(error){
+  showToast(friendlyError(error));
  }
 }
 
 
-/* =========================================================
-   WALLET
-========================================================= */
+/* ---------------- DASHBOARD ---------------- */
 
-async function getBalance(){
-
- if(!currentUser)return 0;
-
- const snap=
-  await db
-   .collection("users")
-   .doc(currentUser.uid)
-   .get();
-
- if(!snap.exists)return 0;
-
- return Number(
-  snap.data().balance||0
- );
-}
-
-async function loadWallet(){
+async function loadDashboard(){
 
  if(!currentUser)return;
 
- $("walletBalance").textContent=
-  money(await getBalance());
-
- $("walletEmail").textContent=
-  currentUser.email;
-
- await loadDepositHistory();
-}
-
-function openDepositModal(){
-
- if(!currentUser){
-
-  navigate("auth");
-
-  return;
- }
-
- $("depositAmount").value="";
- $("depositReference").value="";
-
- $("depositModal")
-  .classList.add("show");
-}
-
-async function submitDeposit(){
-
- if(!currentUser){
-
-  notify(
-   "Please login first.",
-   "err"
-  );
-
-  return;
- }
-
- const amount=
-  Number($("depositAmount").value);
-
- const reference=
-  $("depositReference")
-   .value.trim();
-
- if(!amount||amount<100){
-
-  notify(
-   "Enter a valid deposit amount.",
-   "err"
-  );
-
-  return;
- }
-
  try{
 
-  await db
-   .collection("deposits")
-   .add({
+  const userSnap =
+   await db.collection("users")
+   .doc(currentUser.uid)
+   .get();
 
-    uid:currentUser.uid,
-    userEmail:currentUser.email,
-    userName:
-     currentUser.displayName||"",
-    amount:amount,
-    reference:reference,
-    bank:"PalmPay",
-    accountName:"A T L Data",
-    accountNumber:"7073160817",
-    status:"pending",
-    createdAt:
-     firebase.firestore.FieldValue.serverTimestamp()
-   });
-
-  closeModal("depositModal");
-
-  notify(
-   "Deposit request submitted successfully.",
-   "ok"
-  );
-
-  loadDepositHistory();
-
- }catch(error){
-
-  notify(
-   error.message,
-   "err"
-  );
- }
-}
-
-async function loadDepositHistory(){
-
- const area=$("depositHistory");
-
- try{
-
-  const snap=
-   await db
-    .collection("deposits")
-    .where("uid","==",currentUser.uid)
-    .get();
-
-  const rows=
-   snap.docs
-   .map(d=>({
-    id:d.id,
-    ...d.data()
-   }))
-   .sort((a,b)=>
-    (b.createdAt?.seconds||0)-
-    (a.createdAt?.seconds||0)
-   );
-
-  if(!rows.length){
-
-   area.innerHTML=
-    '<div class="empty">No deposit requests yet.</div>';
-
-   return;
+  if(userSnap.exists){
+   currentUserData=userSnap.data();
+   updateUserUI();
   }
 
-  area.innerHTML=
-   '<div class="tableWrap"><table>'+
-   '<thead><tr>'+
-   '<th>Date</th>'+
-   '<th>Amount</th>'+
-   '<th>Reference</th>'+
-   '<th>Status</th>'+
-   '</tr></thead><tbody>'+
-   rows.map(x=>`
+  const snap =
+   await db.collection("transactions")
+   .where("uid","==",currentUser.uid)
+   .limit(50)
+   .get();
 
-   <tr>
-    <td>${formatDate(x.createdAt)}</td>
-    <td>${money(x.amount)}</td>
-    <td>${escapeHTML(x.reference||"—")}</td>
-    <td>${statusPill(x.status)}</td>
-   </tr>
+  const docs=snap.docs.map(d=>({
+   id:d.id,
+   ...d.data()
+  }));
 
-   `).join("")+
-   '</tbody></table></div>';
-
- }catch(error){
-
-  area.innerHTML=
-   '<div class="notice error">'+
-   escapeHTML(error.message)+
-   '</div>';
- }
-}
-
-function statusPill(status){
-
- const s=String(status||"pending");
-
- const cls=
-  s==="approved"
-   ?"green":
-  s==="rejected"
-   ?"red":
-  "orange";
-
- return '<span class="pill '+cls+'">'+
-  escapeHTML(s.toUpperCase())+
-  '</span>';
-}
-
-
-/* =========================================================
-   DATA PLANS — CLOUDFLARE WORKER
-========================================================= */
-
-function openNetwork(network){
-
- currentNetwork=network;
-
- navigate("data");
-
- loadPlans(network);
-}
-
-async function loadPlans(network){
-
- currentNetwork=network;
-
- document
-  .querySelectorAll("[data-network]")
-  .forEach(button=>{
-   button.classList.toggle(
-    "active",
-    button.dataset.network===network
-   );
+  docs.sort((a,b)=>{
+   const ta=a.createdAt?.seconds || 0;
+   const tb=b.createdAt?.seconds || 0;
+   return tb-ta;
   });
 
- const area=$("plansArea");
+  $("dashTransactions").textContent=docs.length;
 
- area.innerHTML=
-  '<div class="notice">Loading '+
-  network.toUpperCase()+
-  ' plans from Cloudflare Worker...</div>';
+  const pending =
+   await db.collection("deposits")
+   .where("uid","==",currentUser.uid)
+   .where("status","==","pending")
+   .get();
 
- try{
+  $("dashPending").textContent=pending.size;
 
-  if(!plansCache[network]){
-
-   const response=
-    await fetch(
-     WORKER+
-     "/test-plans/"+
-     encodeURIComponent(network)+
-     "?t="+Date.now(),
-     {
-      method:"GET",
-      cache:"no-store"
-     }
-    );
-
-   if(!response.ok){
-
-    throw new Error(
-     "Worker HTTP error: "+
-     response.status
-    );
-   }
-
-   const data=
-    await response.json();
-
-   const plans=
-    Array.isArray(data.plans)
-     ?data.plans
-     :[];
-
-   plansCache[network]=plans;
-  }
-
-  renderPlans(network);
+  renderRecentTransactions(docs.slice(0,5));
 
  }catch(error){
 
   console.error(error);
 
-  area.innerHTML=
-   '<div class="notice error">'+
-   '<b>Data plans could not be loaded.</b><br>'+
-   escapeHTML(error.message)+
-   '<br><br>'+
-   '<button class="btn primary" onclick="loadPlans(\''+
-   network+
-   '\')">Try Again</button>'+
-   '</div>';
+  $("recentTransactions").innerHTML=
+   `<div class="empty">No transaction data yet.</div>`;
  }
 }
 
-function formatDataSize(mb){
 
- const n=Number(mb);
+function renderRecentTransactions(items){
 
- if(!Number.isFinite(n))
-  return "Data";
-
- if(n>=1000){
-
-  const gb=n/1000;
-
-  return Number.isInteger(gb)
-   ?gb+"GB"
-   :gb.toFixed(1)+"GB";
- }
-
- return n+"MB";
-}
-
-function planSize(plan){
-
- if(plan.size_mb)
-  return formatDataSize(plan.size_mb);
-
- if(plan.size)
-  return plan.size;
-
- if(plan.plan_size)
-  return plan.plan_size;
-
- if(plan.name)
-  return plan.name;
-
- return "Data Plan";
-}
-
-function planPrice(plan){
-
- return Number(
-  plan.price ??
-  plan.amount ??
-  plan.selling_price ??
-  0
- );
-}
-
-function planName(plan){
-
- return plan.name||
-  plan.plan_name||
-  plan.title||
-  "Data Plan";
-}
-
-function renderPlans(network){
-
- const plans=
-  plansCache[network]||[];
-
- const area=$("plansArea");
-
- if(!plans.length){
-
-  area.innerHTML=
-   '<div class="notice error">'+
-   'No plans returned from the Worker.'+
-   '</div>';
-
+ if(!items.length){
+  $("recentTransactions").innerHTML=
+   `<div class="empty">No transactions yet.</div>`;
   return;
  }
 
- area.innerHTML=
-  '<div class="plans">'+
+ $("recentTransactions").innerHTML=
+ items.map(t=>`
 
-  plans.map((plan,index)=>`
+  <div style="
+   padding:14px 0;
+   border-bottom:1px solid #edf1ef;
+   display:flex;
+   justify-content:space-between;
+   gap:10px;
+  ">
 
-  <div class="plan">
-
-   <div class="planSize">
-    ${escapeHTML(planSize(plan))}
+   <div>
+    <strong>${escapeHTML(t.type || "Transaction")}</strong>
+    <div style="font-size:12px;color:#78857e;margin-top:4px">
+     ${escapeHTML(t.description || "")}
+    </div>
    </div>
 
-   <div class="planPrice">
-    ${money(planPrice(plan))}
+   <div style="text-align:right">
+    <strong>${money(t.amount)}</strong>
+    <div style="font-size:11px;color:#78857e">
+     ${formatDate(t.createdAt)}
+    </div>
    </div>
-
-   <small>
-    ${escapeHTML(planName(plan))}
-   </small>
-
-   <small>
-    ${escapeHTML(
-     plan.validity_days
-      ?plan.validity_days+" days"
-      :"Available plan"
-    )}
-   </small>
-
-   <button class="btn primary"
-   onclick="selectPlan(${index})">
-    Select Plan
-   </button>
 
   </div>
-
-  `).join("")+
-
-  '</div>';
+ `).join("");
 }
 
-function selectPlan(index){
 
- const plans=
-  plansCache[currentNetwork]||[];
+/* ---------------- DATA PLANS ---------------- */
 
- const plan=plans[index];
+async function fetchPlans(network){
 
- if(!plan)return;
-
- const phone=
-  $("dataPhone").value.trim();
-
- if(!/^0\d{10}$/.test(phone)){
-
-  notify(
-   "Enter a valid 11-digit Nigerian phone number.",
-   "err"
+ const response =
+  await fetch(
+   WORKER+"/test-plans/"+encodeURIComponent(network),
+   {
+    method:"GET",
+    headers:{
+     "Accept":"application/json"
+    }
+   }
   );
 
-  return;
+ const text=await response.text();
+
+ let data;
+
+ try{
+  data=JSON.parse(text);
+ }catch{
+  throw new Error(
+   "Worker returned an invalid response."
+  );
  }
 
- selectedPlan={
-  network:currentNetwork,
-  phone:phone,
-  plan:plan
+ if(!response.ok){
+  throw new Error(
+   data.message ||
+   "Worker request failed."
+  );
+ }
+
+ let plans=[];
+
+ if(Array.isArray(data)){
+  plans=data;
+ }else if(Array.isArray(data.plans)){
+  plans=data.plans;
+ }else if(Array.isArray(data.data)){
+  plans=data.data;
+ }else if(data.data && Array.isArray(data.data.plans)){
+  plans=data.data.plans;
+ }
+
+ return plans;
+}
+
+
+async function loadPlans(){
+
+ const container=$("plansContainer");
+
+ container.innerHTML=
+  `<div class="loading">Loading MTN plans...</div>`;
+
+ try{
+
+  const networks=["mtn","airtel","glo","9mobile"];
+
+  for(const network of networks){
+
+   try{
+    allPlans[network]=
+     await fetchPlans(network);
+   }catch(error){
+    console.error(network,error);
+    allPlans[network]=[];
+   }
+  }
+
+  renderAllPlans();
+
+ }catch(error){
+
+  container.innerHTML="";
+  showMessage(
+   "plansMessage",
+   error.message,
+   "error"
+  );
+ }
+}
+
+
+function normalizePlan(plan){
+
+ const name =
+  plan.name ||
+  plan.plan_name ||
+  plan.title ||
+  plan.description ||
+  "Data Plan";
+
+ const amount =
+  Number(
+   plan.amount ??
+   plan.price ??
+   plan.selling_price ??
+   plan.variation_amount ??
+   0
+  );
+
+ return {
+  ...plan,
+  displayName:String(name),
+  displayAmount:amount
  };
-
- $("selectedPlan").innerHTML=`
-
- <div class="card">
-
- <p>
- <b>Network:</b>
- ${escapeHTML(currentNetwork.toUpperCase())}
- </p>
-
- <p>
- <b>Plan:</b>
- ${escapeHTML(planName(plan))}
- </p>
-
- <p>
- <b>Data:</b>
- ${escapeHTML(planSize(plan))}
- </p>
-
- <p>
- <b>Price:</b>
- ${money(planPrice(plan))}
- </p>
-
- <p>
- <b>Recipient:</b>
- ${escapeHTML(phone)}
- </p>
-
- </div>
-
- `;
-
- $("planModal")
-  .classList.add("show");
-}
-
-function confirmPlanTest(){
-
- if(!selectedPlan)return;
-
- closeModal("planModal");
-
- notify(
-  "Test selection completed. No real-money purchase was made.",
-  "ok"
- );
-
-
- /* Record only a TEST transaction */
- if(currentUser){
-
-  db.collection("transactions")
-   .add({
-    uid:currentUser.uid,
-    service:"Data Test",
-    description:
-     selectedPlan.network+
-     " "+
-     planName(selectedPlan.plan),
-    amount:planPrice(selectedPlan.plan),
-    phone:selectedPlan.phone,
-    status:"test",
-    createdAt:
-     firebase.firestore.FieldValue.serverTimestamp()
-   })
-   .catch(console.error);
- }
 }
 
 
-/* =========================================================
-   AIRTIME
-========================================================= */
+function renderAllPlans(){
 
-function testAirtime(){
+ const container=$("plansContainer");
 
- const phone=
-  $("airtimePhone").value.trim();
-
- const amount=
-  Number($("airtimeAmount").value);
-
- if(!/^0\d{10}$/.test(phone)){
-
-  notify(
-   "Enter a valid 11-digit Nigerian phone number.",
-   "err"
-  );
-
-  return;
- }
-
- if(!amount||amount<50){
-
-  notify(
-   "Enter a valid airtime amount.",
-   "err"
-  );
-
-  return;
- }
-
- notify(
-  "Sandbox mode: no real airtime purchase was made.",
-  "ok"
- );
-}
-
-
-/* =========================================================
-   BILLS
-========================================================= */
-
-function showBillForm(type){
+ const networks=[
+  ["mtn","MTN"],
+  ["airtel","Airtel"],
+  ["glo","Glo"],
+  ["9mobile","9mobile"]
+ ];
 
  let html="";
 
- if(type==="electricity"){
+ for(const [key,label] of networks){
 
-  html=`
-  <div class="form section">
+  const plans=allPlans[key] || [];
 
-  <h3>💡 Electricity</h3>
+  html+=
+   `<div class="network-title">${label}</div>`;
 
-  <div class="notice warn">
-  Sandbox/Test mode.
-  </div>
+  if(!plans.length){
 
-  <div class="field">
-  <label>Provider</label>
-  <select>
-   <option>KEDCO</option>
-   <option>PHED</option>
-   <option>EKEDC</option>
-   <option>IKEDC</option>
-  </select>
-  </div>
+   html+=
+    `<div class="empty" style="grid-column:1/-1">
+      No ${label} plans returned by Worker.
+     </div>`;
 
-  <div class="field">
-  <label>Meter Number</label>
-  <input placeholder="Meter number">
-  </div>
+   continue;
+  }
 
-  <div class="field">
-  <label>Amount</label>
-  <input type="number" placeholder="Amount">
-  </div>
+  plans.forEach((raw,index)=>{
 
-  <button class="btn primary"
-  onclick="testBill('Electricity')">
-  Continue
-  </button>
+   const p=normalizePlan(raw);
 
-  </div>`;
+   html+=`
+    <div class="plan">
+
+     <strong>${escapeHTML(p.displayName)}</strong>
+
+     <small>
+      ${label} data plan
+     </small>
+
+     <div class="price">
+      ${money(p.displayAmount)}
+     </div>
+
+     <button
+      class="btn btn-primary plan-select"
+      data-network="${escapeHTML(key)}"
+      data-index="${index}">
+      Select Plan
+     </button>
+
+    </div>
+   `;
+  });
  }
 
- if(type==="cable"){
+ container.innerHTML=html;
 
-  html=`
-  <div class="form section">
+ container.querySelectorAll(".plan-select")
+ .forEach(button=>{
 
-  <h3>📺 Cable TV</h3>
+  button.addEventListener("click",()=>{
 
-  <div class="field">
-  <label>Provider</label>
-  <select>
-   <option>DStv</option>
-   <option>GOtv</option>
-   <option>Startimes</option>
-  </select>
-  </div>
+   const network=button.dataset.network;
+   const index=Number(button.dataset.index);
 
-  <div class="field">
-  <label>Smartcard / IUC Number</label>
-  <input placeholder="Number">
-  </div>
+   const raw=allPlans[network][index];
 
-  <button class="btn primary"
-  onclick="testBill('Cable TV')">
-  Continue
-  </button>
-
-  </div>`;
- }
-
- if(type==="education"){
-
-  html=`
-  <div class="form section">
-
-  <h3>🎓 Education</h3>
-
-  <div class="field">
-  <label>Service</label>
-  <select>
-   <option>NECO</option>
-   <option>WAEC</option>
-   <option>JAMB</option>
-  </select>
-  </div>
-
-  <div class="field">
-  <label>Candidate Number</label>
-  <input placeholder="Candidate number">
-  </div>
-
-  <button class="btn primary"
-  onclick="testBill('Education')">
-  Continue
-  </button>
-
-  </div>`;
- }
-
- if(type==="internet"){
-
-  html=`
-  <div class="form section">
-
-  <h3>🌐 Internet</h3>
-
-  <div class="field">
-  <label>Provider</label>
-  <input placeholder="Provider">
-  </div>
-
-  <div class="field">
-  <label>Account Number</label>
-  <input placeholder="Account number">
-  </div>
-
-  <button class="btn primary"
-  onclick="testBill('Internet')">
-  Continue
-  </button>
-
-  </div>`;
- }
-
- $("billFormArea").innerHTML=html;
+   openPlanModal(
+    network,
+    normalizePlan(raw)
+   );
+  });
+ });
 }
 
-function testBill(name){
 
- notify(
-  name+
-  " is currently in Sandbox/Test mode.",
-  "ok"
+function openPlanModal(network,plan){
+
+ selectedPlan={
+  network,
+  ...plan
+ };
+
+ $("planModalTitle").textContent=
+  network.toUpperCase()+" Data Plan";
+
+ $("selectedPlanInfo").innerHTML=`
+
+  <div class="card" style="box-shadow:none;border:1px solid #e4ebe7">
+
+   <h3>${escapeHTML(plan.displayName)}</h3>
+
+   <p style="margin-top:8px;color:#68756e">
+    Network: ${escapeHTML(network.toUpperCase())}
+   </p>
+
+   <p style="
+    font-size:25px;
+    font-weight:900;
+    color:var(--green);
+    margin-top:10px
+   ">
+    ${money(plan.displayAmount)}
+   </p>
+
+  </div>
+ `;
+
+ $("planModal").classList.add("show");
+}
+
+
+$("reloadPlans").addEventListener("click",()=>{
+ loadPlans();
+});
+
+
+$("adminReloadPlans").addEventListener("click",()=>{
+ loadPlansForAdmin();
+});
+
+
+$("sandboxPlanButton").addEventListener("click",async()=>{
+
+ if(!selectedPlan)return;
+
+ $("planModal").classList.remove("show");
+
+ showToast(
+  selectedPlan.displayName+
+  " selected in sandbox mode."
  );
-}
+
+});
 
 
-/* =========================================================
-   USER TRANSACTIONS
-========================================================= */
+/* ---------------- WALLET / DEPOSITS ---------------- */
 
-async function loadUserTransactions(){
+$("depositForm").addEventListener("submit",async e=>{
 
- const area=$("userTransactions");
+ e.preventDefault();
 
- if(!currentUser){
+ if(!currentUser)return;
 
-  area.innerHTML=
-   '<div class="notice error">Login required.</div>';
+ const amount=Number($("depositAmount").value);
+ const reference=$("depositReference").value.trim();
 
+ if(amount<100){
+  showToast("Minimum deposit request is ₦100.");
+  return;
+ }
+
+ if(!reference){
+  showToast("Enter your payment reference.");
   return;
  }
 
  try{
 
-  const snap=
-   await db
-    .collection("transactions")
-    .where("uid","==",currentUser.uid)
-    .get();
+  await db.collection("deposits").add({
 
-  const rows=
-   snap.docs
-   .map(d=>d.data())
-   .sort((a,b)=>
-    (b.createdAt?.seconds||0)-
-    (a.createdAt?.seconds||0)
-   );
+   uid:currentUser.uid,
 
-  if(!rows.length){
+   name:
+    currentUserData?.name ||
+    currentUser.email,
 
-   area.innerHTML=
-    '<div class="empty">No transactions yet.</div>';
+   email:currentUser.email,
+
+   amount:amount,
+
+   reference:reference,
+
+   status:"pending",
+
+   createdAt:
+    firebase.firestore.FieldValue.serverTimestamp()
+
+  });
+
+  await db.collection("transactions").add({
+
+   uid:currentUser.uid,
+
+   type:"Deposit",
+
+   amount:amount,
+
+   status:"pending",
+
+   description:"Wallet deposit request",
+
+   reference:reference,
+
+   createdAt:
+    firebase.firestore.FieldValue.serverTimestamp()
+
+  });
+
+  $("depositForm").reset();
+
+  showToast(
+   "Deposit request submitted successfully."
+  );
+
+  await loadDeposits();
+  await loadDashboard();
+
+ }catch(error){
+
+  showToast(friendlyError(error));
+ }
+});
+
+
+async function loadDeposits(){
+
+ if(!currentUser)return;
+
+ const box=$("depositHistory");
+
+ try{
+
+  const snap =
+   await db.collection("deposits")
+   .where("uid","==",currentUser.uid)
+   .get();
+
+  const items=snap.docs.map(d=>({
+   id:d.id,
+   ...d.data()
+  }));
+
+  items.sort((a,b)=>{
+   return (b.createdAt?.seconds||0) -
+          (a.createdAt?.seconds||0);
+  });
+
+  if(!items.length){
+   box.innerHTML=
+    `<div class="empty">No deposit requests yet.</div>`;
+   return;
+  }
+
+  box.innerHTML=items.map(d=>`
+
+   <div style="
+    padding:14px 0;
+    border-bottom:1px solid #edf1ef;
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+   ">
+
+    <div>
+     <strong>${money(d.amount)}</strong>
+
+     <div style="font-size:12px;color:#718078;margin-top:5px">
+      Ref: ${escapeHTML(d.reference || "-")}
+     </div>
+
+     <div style="font-size:11px;color:#718078;margin-top:3px">
+      ${formatDate(d.createdAt)}
+     </div>
+    </div>
+
+    <span class="badge ${
+     d.status==="approved"
+      ?"badge-success"
+      :d.status==="rejected"
+       ?"badge-danger"
+       :"badge-pending"
+    }">
+     ${escapeHTML(d.status || "pending")}
+    </span>
+
+   </div>
+
+  `).join("");
+
+ }catch(error){
+
+  box.innerHTML=
+   `<div class="empty">Unable to load deposits.</div>`;
+ }
+}
+
+
+$("copyAccount").addEventListener("click",async()=>{
+
+ try{
+
+  await navigator.clipboard.writeText(
+   "7073160817"
+  );
+
+  showToast("Account number copied.");
+
+ }catch{
+  showToast("Copy failed. Long-press the account number.");
+ }
+});
+
+
+/* ---------------- TRANSACTIONS ---------------- */
+
+async function loadTransactions(){
+
+ if(!currentUser)return;
+
+ const box=$("transactionTable");
+
+ box.innerHTML=
+  `<div class="loading">Loading transactions...</div>`;
+
+ try{
+
+  const snap =
+   await db.collection("transactions")
+   .where("uid","==",currentUser.uid)
+   .get();
+
+  const items=snap.docs.map(d=>({
+   id:d.id,
+   ...d.data()
+  }));
+
+  items.sort((a,b)=>{
+   return (b.createdAt?.seconds||0) -
+          (a.createdAt?.seconds||0);
+  });
+
+  if(!items.length){
+
+   box.innerHTML=
+    `<div class="empty">No transactions found.</div>`;
 
    return;
   }
 
-  area.innerHTML=
-   '<div class="tableWrap"><table>'+
-   '<thead><tr>'+
-   '<th>Date</th>'+
-   '<th>Service</th>'+
-   '<th>Amount</th>'+
-   '<th>Status</th>'+
-   '</tr></thead><tbody>'+
+  box.innerHTML=`
 
-   rows.map(x=>`
+   <table>
 
-   <tr>
-    <td>${formatDate(x.createdAt)}</td>
-    <td>${escapeHTML(
-     x.service||
-     x.description||
-     "Transaction"
-    )}</td>
-    <td>${money(x.amount)}</td>
-    <td>${statusPill(x.status)}</td>
-   </tr>
+    <thead>
+     <tr>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Amount</th>
+      <th>Status</th>
+      <th>Date</th>
+     </tr>
+    </thead>
 
-   `).join("")+
+    <tbody>
 
-   '</tbody></table></div>';
+     ${items.map(t=>`
+
+      <tr>
+
+       <td>${escapeHTML(t.type || "-")}</td>
+
+       <td>
+        ${escapeHTML(t.description || "-")}
+       </td>
+
+       <td>${money(t.amount)}</td>
+
+       <td>
+        <span class="badge ${
+         t.status==="approved" ||
+         t.status==="success"
+          ?"badge-success"
+          :t.status==="rejected" ||
+           t.status==="failed"
+           ?"badge-danger"
+           :"badge-pending"
+        }">
+         ${escapeHTML(t.status || "-")}
+        </span>
+       </td>
+
+       <td>${formatDate(t.createdAt)}</td>
+
+      </tr>
+
+     `).join("")}
+
+    </tbody>
+
+   </table>
+  `;
 
  }catch(error){
 
-  area.innerHTML=
-   '<div class="notice error">'+
-   escapeHTML(error.message)+
-   '</div>';
+  box.innerHTML=
+   `<div class="empty">
+    Unable to load transactions.
+    </div>`;
  }
 }
 
 
-/* =========================================================
-   ACCOUNT
-========================================================= */
+$("refreshTransactions").addEventListener(
+ "click",
+ loadTransactions
+);
 
-async function loadAccount(){
 
- const area=$("accountArea");
+/* ---------------- BILLS ---------------- */
 
- if(!currentUser){
+$("billType").addEventListener("change",()=>{
 
-  area.innerHTML=
-   '<div class="notice error">Login required.</div>';
+ const type=$("billType").value;
+ const area=$("billFormArea");
 
+ if(!type){
+  area.innerHTML="";
   return;
  }
 
- const balance=
-  await getBalance();
+ const names={
+  electricity:"Electricity",
+  cable:"Cable TV",
+  internet:"Internet",
+  education:"Education"
+ };
 
  area.innerHTML=`
 
- <div class="grid4">
+  <div class="alert alert-info">
+   ${names[type]} service is currently in sandbox mode.
+  </div>
 
- <div class="card">
- <h3>Profile</h3>
+  <div class="form-group">
+   <label>Customer / Meter / Smartcard Number</label>
+   <input id="billCustomer" required>
+  </div>
 
- <p>
- <b>Name:</b><br>
- ${escapeHTML(
-  currentUser.displayName||"Not set"
- )}
- </p>
+  <div class="form-group">
+   <label>Amount (₦)</label>
+   <input id="billAmount" type="number" min="100" required>
+  </div>
 
- <p>
- <b>Email:</b><br>
- ${escapeHTML(currentUser.email)}
- </p>
-
- <p>
- <b>Email Status:</b>
- ${currentUser.emailVerified
-  ?'<span class="pill green">Verified</span>'
-  :'<span class="pill orange">Unverified</span>'}
- </p>
-
- </div>
-
- <div class="card">
-
- <h3>Wallet</h3>
-
- <h2>${money(balance)}</h2>
-
- <button class="btn primary"
- onclick="navigate('wallet')">
- Open Wallet
- </button>
-
- </div>
-
- <div class="card">
-
- <h3>Transactions</h3>
-
- <p>View your transaction history.</p>
-
- <button class="btn light"
- onclick="navigate('transactions')">
- Open History
- </button>
-
- </div>
-
- <div class="card">
-
- <h3>Logout</h3>
-
- <p>Sign out from this device.</p>
-
- <button class="btn danger"
- onclick="logout()">
- Logout
- </button>
-
- </div>
-
- </div>
-
+  <button class="btn btn-primary" id="billContinue">
+   Continue
+  </button>
  `;
-}
 
+ $("billContinue").addEventListener("click",()=>{
 
-/* =========================================================
-   ADMIN
-========================================================= */
+  const customer=$("billCustomer").value.trim();
+  const amount=Number($("billAmount").value);
 
-function adminOpen(name,button){
+  if(!customer || amount<100){
+   showToast("Enter valid bill details.");
+   return;
+  }
 
- if(!isAdmin()){
-
-  notify(
-   "Admin access only.",
-   "err"
+  showToast(
+   names[type]+
+   " selected in sandbox mode."
   );
+ });
+});
 
+
+/* ---------------- AIRTIME ---------------- */
+
+$("airtimeForm").addEventListener("submit",e=>{
+
+ e.preventDefault();
+
+ const network=$("airtimeNetwork").value;
+ const phone=$("airtimePhone").value.trim();
+ const amount=Number($("airtimeAmount").value);
+
+ if(!network || phone.length<10 || amount<50){
+  showToast("Enter valid airtime details.");
   return;
  }
 
- document
-  .querySelectorAll(".adminPage")
-  .forEach(x=>
-   x.classList.remove("active")
-  );
+ showToast(
+  "Airtime request prepared in sandbox mode."
+ );
+});
 
- const target=
-  $("admin-"+name);
 
- if(target)
-  target.classList.add("active");
+/* ---------------- SUPPORT ---------------- */
 
- document
-  .querySelectorAll(".adminSide button")
-  .forEach(x=>
-   x.classList.remove("active")
-  );
+$("supportEmail").addEventListener("click",()=>{
+ window.location.href=
+  "mailto:"+SUPPORT_EMAIL+
+  "?subject=A%20T%20L%20DATA%20Support";
+});
 
- if(button)
-  button.classList.add("active");
+$("adminSupportEmail").addEventListener("click",()=>{
+ window.location.href=
+  "mailto:"+SUPPORT_EMAIL+
+  "?subject=A%20T%20L%20DATA%20Admin%20Support";
+});
 
- if(name==="dashboard")
-  loadAdminDashboard();
+$("supportWhatsApp").addEventListener("click",()=>{
+ window.open(
+  "https://wa.me/"+SUPPORT_WHATSAPP,
+  "_blank"
+);
+});
 
- if(name==="funding")
-  loadAdminDeposits();
 
- if(name==="transactions")
-  loadAdminTransactions();
+/* ---------------- ACCOUNT VERIFICATION ---------------- */
 
- if(name==="plans")
-  adminLoadPlans("mtn");
+$("sendVerificationAccount")
+.addEventListener("click",async()=>{
 
- if(name==="users")
-  loadAllUsers();
+ if(!auth.currentUser)return;
 
- if(name==="notifications")
-  loadNotifications();
+ try{
+  await auth.currentUser.sendEmailVerification();
+  showToast("Verification email sent.");
+ }catch(error){
+  showToast(friendlyError(error));
+ }
+});
 
- if(name==="restricted")
-  renderRestricted();
 
- if(name==="upgraded")
-  renderUpgraded();
-
- if(name==="stafflist")
-  renderStaff();
-
- if(name==="requests")
-  renderApiRequests();
-
- if(name==="configuration")
-  loadConfiguration();
-
- if(name==="limits")
-  loadAdminConfig();
-}
-
-function adminOpenById(name){
-
- const fakeButton=null;
-
- adminOpen(name,fakeButton);
-
- document
-  .querySelectorAll(".adminPage")
-  .forEach(x=>{
-
-   if(x.id==="admin-"+name)
-    x.classList.add("active");
-  });
-}
+/* ---------------- ADMIN DASHBOARD ---------------- */
 
 async function loadAdminDashboard(){
 
- if(!isAdmin())return;
+ if(!isAdmin)return;
 
  try{
 
-  const users=
+  const users =
    await db.collection("users").get();
 
-  const deposits=
-   await db.collection("deposits").get();
+  const deposits =
+   await db.collection("deposits")
+   .where("status","==","pending")
+   .get();
 
-  const transactions=
+  const transactions =
    await db.collection("transactions").get();
 
-  const pending=
-   deposits.docs.filter(
-    d=>d.data().status==="pending"
-   ).length;
-
-  const approved=
-   deposits.docs.filter(
-    d=>d.data().status==="approved"
-   ).length;
-
-  $("adminUsersCount").textContent=
-   users.size;
-
-  $("adminTxCount").textContent=
+  $("adminUsersCount").textContent=users.size;
+  $("adminPendingCount").textContent=deposits.size;
+  $("adminTransactionsCount").textContent=
    transactions.size;
 
-  $("adminPending").textContent=
-   pending;
-
-  $("adminApproved").textContent=
-   approved;
-
-  $("analyticsUsers").textContent=
-   users.size;
-
-  $("analyticsTransactions").textContent=
-   transactions.size;
-
-  $("analyticsDeposits").textContent=
-   deposits.size;
-
-  const dataTx=
-   transactions.docs.filter(
-    d=>String(d.data().service||"")
-     .toLowerCase()
-     .includes("data")
-   ).length;
-
-  $("dataTxCount").textContent=
-   dataTx;
-
-  $("depositTxCount").textContent=
-   deposits.size;
-
-  $("otherTxCount").textContent=
-   Math.max(
-    0,
-    transactions.size-dataTx
-   );
-
-  const recent=
-   transactions.docs
-   .map(d=>d.data())
-   .sort((a,b)=>
-    (b.createdAt?.seconds||0)-
-    (a.createdAt?.seconds||0)
-   )
-   .slice(0,10);
-
-  renderRecentTransactions(recent);
-
-  checkWorker();
+  await checkWorker();
 
  }catch(error){
 
-  notify(
-   error.message,
-   "err"
-  );
+  console.error(error);
  }
 }
 
-function renderRecentTransactions(rows){
-
- const area=$("recentTransactions");
-
- if(!rows.length){
-
-  area.innerHTML=
-   '<div class="empty">No transactions.</div>';
-
-  return;
- }
-
- area.innerHTML=
-  '<div class="tableWrap"><table>'+
-  '<thead><tr>'+
-  '<th>User</th>'+
-  '<th>Service</th>'+
-  '<th>Amount</th>'+
-  '<th>Status</th>'+
-  '<th>Date</th>'+
-  '</tr></thead><tbody>'+
-
-  rows.map(x=>`
-
-  <tr>
-   <td>${escapeHTML(x.uid||"")}</td>
-   <td>${escapeHTML(
-    x.service||
-    x.description||
-    ""
-   )}</td>
-   <td>${money(x.amount)}</td>
-   <td>${statusPill(x.status)}</td>
-   <td>${formatDate(x.createdAt)}</td>
-  </tr>
-
-  `).join("")+
-
-  '</tbody></table></div>';
-}
 
 async function checkWorker(){
 
  try{
 
-  const response=
-   await fetch(
-    WORKER+
-    "/health?t="+Date.now(),
-    {
-     cache:"no-store"
-    }
-   );
+  const response =
+   await fetch(WORKER+"/health");
 
-  const data=
-   await response.json();
+  if(response.ok){
 
-  const html=
-   '<span class="pill green">ONLINE</span> '+
-   escapeHTML(
-    data.message||
-    "Worker is running"
-   );
+   $("workerStatus").textContent="Online";
+   $("workerStatus").style.color="var(--success)";
 
-  if($("workerStatus"))
-   $("workerStatus").innerHTML=html;
+  }else{
 
-  if($("analyticsWorker"))
-   $("analyticsWorker").textContent=
-    "ONLINE";
+   $("workerStatus").textContent="Offline";
+   $("workerStatus").style.color="var(--danger)";
+  }
 
- }catch(error){
+ }catch{
 
-  const html=
-   '<span class="pill red">OFFLINE</span>';
-
-  if($("workerStatus"))
-   $("workerStatus").innerHTML=html;
-
-  if($("analyticsWorker"))
-   $("analyticsWorker").textContent=
-    "OFFLINE";
+  $("workerStatus").textContent="Offline";
+  $("workerStatus").style.color="var(--danger)";
  }
 }
 
 
-/* =========================================================
-   ADMIN DEPOSITS
-========================================================= */
+/* ---------------- ADMIN DEPOSITS ---------------- */
 
 async function loadAdminDeposits(){
 
- const area=$("adminDeposits");
+ if(!isAdmin)return;
 
- area.innerHTML=
-  '<div class="notice">Loading deposit requests...</div>';
+ const box=$("adminDepositsTable");
+
+ box.innerHTML=
+  `<div class="loading">Loading deposits...</div>`;
 
  try{
 
   const snap=
    await db.collection("deposits").get();
 
-  const rows=
-   snap.docs
-   .map(d=>({
-    id:d.id,
-    ...d.data()
-   }))
-   .sort((a,b)=>
-    (b.createdAt?.seconds||0)-
-    (a.createdAt?.seconds||0)
-   );
+  const items=snap.docs.map(d=>({
+   id:d.id,
+   ...d.data()
+  }));
 
-  if(!rows.length){
+  items.sort((a,b)=>{
+   return (b.createdAt?.seconds||0) -
+          (a.createdAt?.seconds||0);
+  });
 
-   area.innerHTML=
-    '<div class="empty">No deposit requests.</div>';
+  if(!items.length){
+
+   box.innerHTML=
+    `<div class="empty">No deposit requests.</div>`;
 
    return;
   }
 
-  area.innerHTML=
-   '<div class="tableWrap"><table>'+
-   '<thead><tr>'+
-   '<th>User</th>'+
-   '<th>Amount</th>'+
-   '<th>Reference</th>'+
-   '<th>Status</th>'+
-   '<th>Action</th>'+
-   '</tr></thead><tbody>'+
+  box.innerHTML=`
 
-   rows.map(x=>`
+   <table>
 
-   <tr>
+    <thead>
+     <tr>
+      <th>User</th>
+      <th>Amount</th>
+      <th>Reference</th>
+      <th>Status</th>
+      <th>Action</th>
+     </tr>
+    </thead>
 
-   <td>${escapeHTML(
-    x.userEmail||""
-   )}</td>
+    <tbody>
 
-   <td>${money(x.amount)}</td>
+     ${items.map(d=>`
 
-   <td>${escapeHTML(
-    x.reference||"—"
-   )}</td>
+      <tr>
 
-   <td>${statusPill(x.status)}</td>
+       <td>
+        <strong>${escapeHTML(d.name || "-")}</strong>
+        <br>
+        <small>${escapeHTML(d.email || "")}</small>
+       </td>
 
-   <td>
+       <td>${money(d.amount)}</td>
 
-   ${
-    x.status==="pending"
+       <td>${escapeHTML(d.reference || "-")}</td>
 
-    ?
+       <td>
+        <span class="badge ${
+         d.status==="approved"
+          ?"badge-success"
+          :d.status==="rejected"
+           ?"badge-danger"
+           :"badge-pending"
+        }">
+         ${escapeHTML(d.status || "pending")}
+        </span>
+       </td>
 
-    `<button class="btn primary"
-     onclick="approveDeposit('${x.id}')">
-     Approve
-     </button>
+       <td>
 
-     <button class="btn danger"
-     onclick="rejectDeposit('${x.id}')">
-     Reject
-     </button>`
+        ${
+         d.status==="pending"
+         ?`
+          <button
+           class="btn btn-primary approve-deposit"
+           data-id="${d.id}">
+           Approve
+          </button>
 
-    :
+          <button
+           class="btn btn-danger reject-deposit"
+           data-id="${d.id}">
+           Reject
+          </button>
+         `
+         :"Completed"
+        }
 
-    "Processed"
-   }
+       </td>
 
-   </td>
+      </tr>
 
-   </tr>
+     `).join("")}
 
-   `).join("")+
+    </tbody>
 
-   '</tbody></table></div>';
+   </table>
+  `;
+
+  box.querySelectorAll(".approve-deposit")
+   .forEach(btn=>{
+    btn.addEventListener(
+     "click",
+     ()=>approveDeposit(btn.dataset.id)
+    );
+   });
+
+  box.querySelectorAll(".reject-deposit")
+   .forEach(btn=>{
+    btn.addEventListener(
+     "click",
+     ()=>rejectDeposit(btn.dataset.id)
+    );
+   });
 
  }catch(error){
 
-  area.innerHTML=
-   '<div class="notice error">'+
-   escapeHTML(error.message)+
-   '</div>';
+  box.innerHTML=
+   `<div class="empty">
+    ${escapeHTML(error.message)}
+    </div>`;
  }
 }
+
 
 async function approveDeposit(id){
 
- if(!isAdmin())return;
+ if(!isAdmin)return;
 
  try{
 
-  await db.runTransaction(
-   async transaction=>{
+  await db.runTransaction(async transaction=>{
 
-    const depositRef=
-     db.collection("deposits").doc(id);
+   const depositRef=
+    db.collection("deposits").doc(id);
 
-    const depositSnap=
-     await transaction.get(depositRef);
+   const depositSnap=
+    await transaction.get(depositRef);
 
-    if(!depositSnap.exists)
-     throw new Error(
-      "Deposit not found."
-     );
-
-    const deposit=
-     depositSnap.data();
-
-    if(deposit.status!=="pending")
-     throw new Error(
-      "This deposit is already processed."
-     );
-
-    const userRef=
-     db.collection("users")
-     .doc(deposit.uid);
-
-    const userSnap=
-     await transaction.get(userRef);
-
-    const oldBalance=
-     Number(
-      userSnap.exists
-       ?userSnap.data().balance||0
-       :0
-     );
-
-    const amount=
-     Number(deposit.amount||0);
-
-    const newBalance=
-     oldBalance+amount;
-
-    transaction.set(
-     userRef,
-     {
-      balance:newBalance
-     },
-     {merge:true}
-    );
-
-    transaction.update(
-     depositRef,
-     {
-      status:"approved",
-      approvedBy:currentUser.email,
-      approvedAt:
-       firebase.firestore.FieldValue.serverTimestamp()
-     }
-    );
-
-    const txRef=
-     db.collection("transactions")
-     .doc();
-
-    transaction.set(
-     txRef,
-     {
-      uid:deposit.uid,
-      service:"Wallet Deposit",
-      description:"Wallet Deposit Approved",
-      amount:amount,
-      balanceAfter:newBalance,
-      status:"approved",
-      createdAt:
-       firebase.firestore.FieldValue.serverTimestamp()
-     }
-    );
+   if(!depositSnap.exists){
+    throw new Error("Deposit not found.");
    }
-  );
 
-  notify(
-   "Deposit approved successfully.",
-   "ok"
-  );
+   const deposit=depositSnap.data();
 
-  loadAdminDashboard();
+   if(deposit.status!=="pending"){
+    throw new Error("This deposit has already been processed.");
+   }
 
-  loadAdminDeposits();
+   const userRef=
+    db.collection("users").doc(deposit.uid);
+
+   const userSnap=
+    await transaction.get(userRef);
+
+   const userData=
+    userSnap.exists
+     ?userSnap.data()
+     :{balance:0};
+
+   const oldBalance=
+    Number(userData.balance || 0);
+
+   const amount=
+    Number(deposit.amount || 0);
+
+   const newBalance=
+    oldBalance+amount;
+
+   transaction.update(
+    depositRef,
+    {
+     status:"approved",
+     approvedAt:
+      firebase.firestore.FieldValue.serverTimestamp(),
+     approvedBy:currentUser.email
+    }
+   );
+
+   transaction.set(
+    userRef,
+    {
+     balance:newBalance,
+     updatedAt:
+      firebase.firestore.FieldValue.serverTimestamp()
+    },
+    {merge:true}
+   );
+
+   const txRef=
+    db.collection("transactions").doc();
+
+   transaction.set(
+    txRef,
+    {
+     uid:deposit.uid,
+     type:"Deposit",
+     amount:amount,
+     status:"approved",
+     description:"Wallet deposit approved",
+     reference:deposit.reference || "",
+     approvedBy:currentUser.email,
+     createdAt:
+      firebase.firestore.FieldValue.serverTimestamp()
+    }
+   );
+
+  });
+
+  showToast("Deposit approved.");
+
+  await loadAdminDeposits();
+  await loadAdminDashboard();
 
  }catch(error){
 
-  notify(
-   error.message,
-   "err"
-  );
+  showToast(error.message);
  }
 }
+
 
 async function rejectDeposit(id){
 
- if(!isAdmin())return;
+ if(!isAdmin)return;
 
  try{
 
-  await db
-   .collection("deposits")
+  await db.collection("deposits")
    .doc(id)
    .update({
     status:"rejected",
-    rejectedBy:currentUser.email,
     rejectedAt:
-     firebase.firestore.FieldValue.serverTimestamp()
+     firebase.firestore.FieldValue.serverTimestamp(),
+    rejectedBy:currentUser.email
    });
 
-  notify(
-   "Deposit rejected.",
-   "ok"
-  );
+  showToast("Deposit rejected.");
 
-  loadAdminDeposits();
+  await loadAdminDeposits();
+  await loadAdminDashboard();
 
  }catch(error){
 
-  notify(
-   error.message,
-   "err"
-  );
+  showToast(error.message);
  }
 }
 
 
-/* =========================================================
-   ADMIN TRANSACTIONS
-========================================================= */
-
-async function loadAdminTransactions(){
-
- const area=$("adminTransactions");
-
- try{
-
-  const snap=
-   await db.collection("transactions").get();
-
-  const rows=
-   snap.docs
-   .map(d=>d.data())
-   .sort((a,b)=>
-    (b.createdAt?.seconds||0)-
-    (a.createdAt?.seconds||0)
-   );
-
-  if(!rows.length){
-
-   area.innerHTML=
-    '<div class="empty">No transactions.</div>';
-
-   return;
-  }
-
-  area.innerHTML=
-   '<div class="tableWrap"><table>'+
-   '<thead><tr>'+
-   '<th>User</th>'+
-   '<th>Service</th>'+
-   '<th>Amount</th>'+
-   '<th>Status</th>'+
-   '<th>Date</th>'+
-   '</tr></thead><tbody>'+
-
-   rows.map(x=>`
-
-   <tr>
-   <td>${escapeHTML(x.uid||"")}</td>
-   <td>${escapeHTML(
-    x.service||
-    x.description||
-    ""
-   )}</td>
-   <td>${money(x.amount)}</td>
-   <td>${statusPill(x.status)}</td>
-   <td>${formatDate(x.createdAt)}</td>
-   </tr>
-
-   `).join("")+
-
-   '</tbody></table></div>';
-
- }catch(error){
-
-  area.innerHTML=
-   '<div class="notice error">'+
-   escapeHTML(error.message)+
-   '</div>';
- }
-}
+$("refreshAdminDeposits")
+ .addEventListener("click",loadAdminDeposits);
 
 
-/* =========================================================
-   ADMIN USERS
-========================================================= */
+/* ---------------- ADMIN USERS ---------------- */
 
-async function loadAllUsers(){
+async function loadAdminUsers(){
 
- const area=$("allUsers");
+ if(!isAdmin)return;
+
+ const box=$("adminUsersTable");
+
+ box.innerHTML=
+  `<div class="loading">Loading users...</div>`;
 
  try{
 
   const snap=
    await db.collection("users").get();
 
-  if(!snap.size){
+  const items=snap.docs.map(d=>({
+   id:d.id,
+   ...d.data()
+  }));
 
-   area.innerHTML=
-    '<div class="empty">No users.</div>';
+  if(!items.length){
+
+   box.innerHTML=
+    `<div class="empty">No users found.</div>`;
 
    return;
   }
 
-  area.innerHTML=
-   '<div class="tableWrap"><table>'+
-   '<thead><tr>'+
-   '<th>Name</th>'+
-   '<th>Email</th>'+
-   '<th>Balance</th>'+
-   '<th>Created</th>'+
-   '</tr></thead><tbody>'+
+  box.innerHTML=`
 
-   snap.docs.map(d=>{
+   <table>
 
-    const x=d.data();
+    <thead>
+     <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Balance</th>
+      <th>Role</th>
+      <th>Created</th>
+     </tr>
+    </thead>
 
-    return `
+    <tbody>
 
-    <tr>
-    <td>${escapeHTML(x.name||"—")}</td>
-    <td>${escapeHTML(x.email||"—")}</td>
-    <td>${money(x.balance)}</td>
-    <td>${formatDate(x.createdAt)}</td>
-    </tr>
+     ${items.map(u=>`
 
+      <tr>
+
+       <td>${escapeHTML(u.name || "-")}</td>
+
+       <td>${escapeHTML(u.email || "-")}</td>
+
+       <td>${money(u.balance)}</td>
+
+       <td>
+        <span class="badge ${
+         u.role==="admin"
+          ?"badge-success"
+          :"badge-pending"
+        }">
+         ${escapeHTML(u.role || "user")}
+        </span>
+       </td>
+
+       <td>${formatDate(u.createdAt)}</td>
+
+      </tr>
+
+     `).join("")}
+
+    </tbody>
+
+   </table>
+  `;
+
+ }catch(error){
+
+  box.innerHTML=
+   `<div class="empty">
+    ${escapeHTML(error.message)}
+    </div>`;
+ }
+}
+
+
+$("refreshAdminUsers")
+ .addEventListener("click",loadAdminUsers);
+
+
+/* ---------------- ADMIN TRANSACTIONS ---------------- */
+
+async function loadAdminTransactions(){
+
+ if(!isAdmin)return;
+
+ const box=$("adminTransactionsTable");
+
+ box.innerHTML=
+  `<div class="loading">Loading transactions...</div>`;
+
+ try{
+
+  const snap=
+   await db.collection("transactions").get();
+
+  const items=snap.docs.map(d=>({
+   id:d.id,
+   ...d.data()
+  }));
+
+  items.sort((a,b)=>{
+   return (b.createdAt?.seconds||0) -
+          (a.createdAt?.seconds||0);
+  });
+
+  if(!items.length){
+
+   box.innerHTML=
+    `<div class="empty">No transactions found.</div>`;
+
+   return;
+  }
+
+  box.innerHTML=`
+
+   <table>
+
+    <thead>
+     <tr>
+      <th>Type</th>
+      <th>User UID</th>
+      <th>Amount</th>
+      <th>Status</th>
+      <th>Date</th>
+     </tr>
+    </thead>
+
+    <tbody>
+
+     ${items.map(t=>`
+
+      <tr>
+
+       <td>${escapeHTML(t.type || "-")}</td>
+
+       <td>
+        <small>${escapeHTML(t.uid || "-")}</small>
+       </td>
+
+       <td>${money(t.amount)}</td>
+
+       <td>
+        <span class="badge ${
+         t.status==="approved" ||
+         t.status==="success"
+          ?"badge-success"
+          :t.status==="rejected" ||
+           t.status==="failed"
+           ?"badge-danger"
+           :"badge-pending"
+        }">
+         ${escapeHTML(t.status || "-")}
+        </span>
+       </td>
+
+       <td>${formatDate(t.createdAt)}</td>
+
+      </tr>
+
+     `).join("")}
+
+    </tbody>
+
+   </table>
+  `;
+
+ }catch(error){
+
+  box.innerHTML=
+   `<div class="empty">
+    ${escapeHTML(error.message)}
+    </div>`;
+ }
+}
+
+
+$("refreshAdminTransactions")
+ .addEventListener(
+  "click",
+  loadAdminTransactions
+);
+
+
+/* ---------------- ADMIN PLANS ---------------- */
+
+async function loadPlansForAdmin(){
+
+ const box=$("adminPlansContainer");
+
+ box.innerHTML=
+  `<div class="loading">Loading plans...</div>`;
+
+ try{
+
+  const networks=["mtn","airtel","glo","9mobile"];
+
+  let html="";
+
+  for(const network of networks){
+
+   let plans=[];
+
+   try{
+    plans=await fetchPlans(network);
+   }catch(error){
+    plans=[];
+   }
+
+   html+=
+    `<div class="network-title">
+     ${network.toUpperCase()}
+    </div>`;
+
+   if(!plans.length){
+
+    html+=
+     `<div class="empty" style="grid-column:1/-1">
+      No plans returned.
+      </div>`;
+
+    continue;
+   }
+
+   plans.forEach(raw=>{
+
+    const p=normalizePlan(raw);
+
+    html+=`
+
+     <div class="plan">
+
+      <strong>${escapeHTML(p.displayName)}</strong>
+
+      <small>Worker Plan</small>
+
+      <div class="price">
+       ${money(p.displayAmount)}
+      </div>
+
+     </div>
     `;
-
-   }).join("")+
-
-   '</tbody></table></div>';
-
- }catch(error){
-
-  area.innerHTML=
-   '<div class="notice error">'+
-   escapeHTML(error.message)+
-   '</div>';
- }
-}
-
-
-/* =========================================================
-   ADMIN DATA PLANS
-========================================================= */
-
-async function adminLoadPlans(network){
-
- const area=$("adminPlansArea");
-
- area.innerHTML=
-  '<div class="notice">Loading plans from Worker...</div>';
-
- try{
-
-  if(!plansCache[network])
-   await loadPlans(network);
-
-  const plans=
-   plansCache[network]||[];
-
-  if(!plans.length){
-
-   area.innerHTML=
-    '<div class="notice error">No plans returned.</div>';
-
-   return;
+   });
   }
 
-  area.innerHTML=
-   '<div class="plans">'+
-
-   plans.map(plan=>`
-
-   <div class="plan">
-
-   <div class="planSize">
-   ${escapeHTML(planSize(plan))}
-   </div>
-
-   <div class="planPrice">
-   ${money(planPrice(plan))}
-   </div>
-
-   <small>
-   ${escapeHTML(planName(plan))}
-   </small>
-
-   </div>
-
-   `).join("")+
-
-   '</div>';
+  box.innerHTML=html;
 
  }catch(error){
 
-  area.innerHTML=
-   '<div class="notice error">'+
-   escapeHTML(error.message)+
-   '</div>';
+  box.innerHTML=
+   `<div class="empty">
+    ${escapeHTML(error.message)}
+    </div>`;
  }
 }
 
 
-/* =========================================================
-   LOCAL ADMIN CONFIGURATION
-========================================================= */
+/* ---------------- WORKER ---------------- */
 
-function saveAdminConfig(){
-
- localStorage.setItem(
-  "atl_max_deposit",
-  $("maxDeposit").value
- );
-
- localStorage.setItem(
-  "atl_daily_limit",
-  $("dailyLimit").value
- );
-
- notify(
-  "Limit configuration saved.",
-  "ok"
- );
-}
-
-function loadAdminConfig(){
-
- $("maxDeposit").value=
-  localStorage.getItem(
-   "atl_max_deposit"
-  )||"";
-
- $("dailyLimit").value=
-  localStorage.getItem(
-   "atl_daily_limit"
-  )||"";
-}
-
-
-/* =========================================================
-   RESTRICTED USERS
-========================================================= */
-
-function saveRestrictedUser(){
-
- const email=
-  $("restrictEmail").value.trim();
-
- if(!email){
-
-  notify(
-   "Enter a user email.",
-   "err"
-  );
-
-  return;
- }
-
- const list=
-  JSON.parse(
-   localStorage.getItem(
-    "atl_restricted"
-   )||"[]"
-  );
-
- if(!list.includes(email))
-  list.push(email);
-
- localStorage.setItem(
-  "atl_restricted",
-  JSON.stringify(list)
- );
-
- $("restrictEmail").value="";
-
- renderRestricted();
-
- notify(
-  "Restricted-user list updated.",
-  "ok"
- );
-}
-
-function renderRestricted(){
-
- const area=$("restrictedList");
-
- const list=
-  JSON.parse(
-   localStorage.getItem(
-    "atl_restricted"
-   )||"[]"
-  );
-
- if(!list.length){
-
-  area.innerHTML=
-   '<div class="empty">No restricted users.</div>';
-
-  return;
- }
-
- area.innerHTML=
-  list.map(email=>`
-
-  <div class="card"
-  style="margin-bottom:8px">
-
-  ${escapeHTML(email)}
-
-  </div>
-
-  `).join("");
-}
-
-
-/* =========================================================
-   UPGRADED USERS
-========================================================= */
-
-function saveUpgradedUser(){
-
- const email=
-  $("upgradeEmail").value.trim();
-
- if(!email){
-
-  notify(
-   "Enter a user email.",
-   "err"
-  );
-
-  return;
- }
-
- const list=
-  JSON.parse(
-   localStorage.getItem(
-    "atl_upgraded"
-   )||"[]"
-  );
-
- if(!list.includes(email))
-  list.push(email);
-
- localStorage.setItem(
-  "atl_upgraded",
-  JSON.stringify(list)
- );
-
- $("upgradeEmail").value="";
-
- renderUpgraded();
-
- notify(
-  "User tier list updated.",
-  "ok"
- );
-}
-
-function renderUpgraded(){
-
- const area=$("upgradedList");
-
- const list=
-  JSON.parse(
-   localStorage.getItem(
-    "atl_upgraded"
-   )||"[]"
-  );
-
- if(!list.length){
-
-  area.innerHTML=
-   '<div class="empty">No upgraded users.</div>';
-
-  return;
- }
-
- area.innerHTML=
-  list.map(email=>`
-
-  <div class="card"
-  style="margin-bottom:8px">
-
-  ${escapeHTML(email)}
-
-  </div>
-
-  `).join("");
-}
-
-
-/* =========================================================
-   NOTIFICATIONS
-========================================================= */
-
-function sendNotification(){
-
- const title=
-  $("notificationTitle")
-   .value.trim();
-
- const message=
-  $("notificationMessage")
-   .value.trim();
-
- if(!title||!message){
-
-  notify(
-   "Enter notification title and message.",
-   "err"
-  );
-
-  return;
- }
-
- const list=
-  JSON.parse(
-   localStorage.getItem(
-    "atl_notifications"
-   )||"[]"
-  );
-
- list.unshift({
-  title:title,
-  message:message,
-  date:new Date().toISOString()
- });
-
- localStorage.setItem(
-  "atl_notifications",
-  JSON.stringify(list)
- );
-
- $("notificationTitle").value="";
- $("notificationMessage").value="";
-
- loadNotifications();
-
- notify(
-  "Notification created.",
-  "ok"
- );
-}
-
-function loadNotifications(){
-
- const area=$("notificationList");
-
- const list=
-  JSON.parse(
-   localStorage.getItem(
-    "atl_notifications"
-   )||"[]"
-  );
-
- if(!list.length){
-
-  area.innerHTML=
-   '<div class="empty">No notifications.</div>';
-
-  return;
- }
-
- area.innerHTML=
-  list.map(x=>`
-
-  <div class="card"
-  style="margin-bottom:10px">
-
-  <h3>${escapeHTML(x.title)}</h3>
-
-  <p>${escapeHTML(x.message)}</p>
-
-  <small>${escapeHTML(
-   new Date(x.date).toLocaleString("en-NG")
-  )}</small>
-
-  </div>
-
-  `).join("");
-}
-
-function saveNotificationSettings(){
-
- const enabled=
-  $("notifyEnabled").checked;
-
- localStorage.setItem(
-  "atl_notifications_enabled",
-  enabled?"1":"0"
- );
-
- notify(
-  "Notification settings saved.",
-  "ok"
- );
-}
-
-
-/* =========================================================
-   CALCULATOR
-========================================================= */
-
-function calculateProfit(){
-
- const cost=
-  Number($("calcCost").value);
-
- const sell=
-  Number($("calcSell").value);
-
- if(!Number.isFinite(cost)||
-    !Number.isFinite(sell)){
-
-  notify(
-   "Enter valid numbers.",
-   "err"
-  );
-
-  return;
- }
-
- const profit=sell-cost;
-
- $("calculatorResult").innerHTML=
-  "<b>Profit:</b> "+
-  money(profit)+
-  "<br><b>Margin:</b> "+
-  (
-   sell
-    ?((profit/sell)*100).toFixed(2)
-    :0
-  )+
-  "%";
-}
-
-
-/* =========================================================
-   DISCOUNTS / CHARGES
-========================================================= */
-
-function saveDiscounts(){
-
- localStorage.setItem(
-  "atl_data_discount",
-  $("dataDiscount").value
- );
-
- localStorage.setItem(
-  "atl_airtime_discount",
-  $("airtimeDiscount").value
- );
-
- notify(
-  "Discount settings saved.",
-  "ok"
- );
-}
-
-function saveCharges(){
-
- localStorage.setItem(
-  "atl_data_charge",
-  $("dataCharge").value
- );
-
- localStorage.setItem(
-  "atl_airtime_charge",
-  $("airtimeCharge").value
- );
-
- notify(
-  "Service charges saved.",
-  "ok"
- );
-}
-
-
-/* =========================================================
-   STAFF
-========================================================= */
-
-function addStaff(){
-
- const email=
-  $("staffEmail").value.trim();
-
- const role=
-  $("staffRole").value;
-
- if(!email){
-
-  notify(
-   "Enter staff email.",
-   "err"
-  );
-
-  return;
- }
-
- const list=
-  JSON.parse(
-   localStorage.getItem(
-    "atl_staff"
-   )||"[]"
-  );
-
- list.push({
-  email:email,
-  role:role
- });
-
- localStorage.setItem(
-  "atl_staff",
-  JSON.stringify(list)
- );
-
- $("staffEmail").value="";
-
- renderStaff();
-
- notify(
-  "Staff record added.",
-  "ok"
- );
-}
-
-function renderStaff(){
-
- const area=$("staffList");
-
- const list=
-  JSON.parse(
-   localStorage.getItem(
-    "atl_staff"
-   )||"[]"
-  );
-
- if(!list.length){
-
-  area.innerHTML=
-   '<div class="empty">No staff records.</div>';
-
-  return;
- }
-
- area.innerHTML=
-  '<div class="tableWrap"><table>'+
-  '<thead><tr>'+
-  '<th>Email</th>'+
-  '<th>Role</th>'+
-  '</tr></thead><tbody>'+
-
-  list.map(x=>`
-
-  <tr>
-  <td>${escapeHTML(x.email)}</td>
-  <td>${escapeHTML(x.role)}</td>
-  </tr>
-
-  `).join("")+
-
-  '</tbody></table></div>';
-}
-
-
-/* =========================================================
-   API REQUESTS
-========================================================= */
-
-function saveApiRequest(){
-
- const email=
-  $("apiRequestEmail").value.trim();
-
- if(!email){
-
-  notify(
-   "Enter request email.",
-   "err"
-  );
-
-  return;
- }
-
- const list=
-  JSON.parse(
-   localStorage.getItem(
-    "atl_api_requests"
-   )||"[]"
-  );
-
- list.push({
-  email:email,
-  date:new Date().toISOString()
- });
-
- localStorage.setItem(
-  "atl_api_requests",
-  JSON.stringify(list)
- );
-
- $("apiRequestEmail").value="";
-
- renderApiRequests();
-
- notify(
-  "API access request recorded.",
-  "ok"
- );
-}
-
-function renderApiRequests(){
-
- const area=$("apiRequestsList");
-
- const list=
-  JSON.parse(
-   localStorage.getItem(
-    "atl_api_requests"
-   )||"[]"
-  );
-
- if(!list.length){
-
-  area.innerHTML=
-   '<div class="empty">No API requests.</div>';
-
-  return;
- }
-
- area.innerHTML=
-  list.map(x=>`
-
-  <div class="card"
-  style="margin-bottom:8px">
-
-  <b>${escapeHTML(x.email)}</b>
-
-  <br>
-
-  <small>
-  ${escapeHTML(
-   new Date(x.date).toLocaleString("en-NG")
-  )}
-  </small>
-
-  </div>
-
-  `).join("");
-}
-
-
-/* =========================================================
-   CONFIGURATION
-========================================================= */
-
-function saveConfiguration(){
-
- localStorage.setItem(
-  "atl_business_name",
-  $("businessName").value
- );
-
- localStorage.setItem(
-  "atl_support_phone",
-  $("supportPhone").value
- );
-
- localStorage.setItem(
-  "atl_support_email",
-  $("supportEmail").value
- );
-
- notify(
-  "Configuration saved.",
-  "ok"
- );
-}
-
-function loadConfiguration(){
-
- $("businessName").value=
-  localStorage.getItem(
-   "atl_business_name"
-  )||
-  "A T L DATA";
-
- $("supportPhone").value=
-  localStorage.getItem(
-   "atl_support_phone"
-  )||
-  SUPPORT_PHONE;
-
- $("supportEmail").value=
-  localStorage.getItem(
-   "atl_support_email"
-  )||
-  "lawanahmadt03@gmail.com";
-}
-
-
-/* =========================================================
-   VALIDATION
-========================================================= */
-
-async function runValidationCheck(){
-
- const area=$("validationResult");
-
- area.innerHTML=
-  '<div class="notice">Running validation...</div>';
-
- let worker="OFFLINE";
+async function workerHealthOnLoad(){
 
  try{
 
-  const r=
-   await fetch(
-    WORKER+"/health"
-   );
+  const response=
+   await fetch(WORKER+"/health");
 
-  if(r.ok)
-   worker="ONLINE";
+  console.log(
+   "A T L DATA Worker:",
+   await response.text()
+  );
 
- }catch(e){}
+ }catch(error){
 
- area.innerHTML=`
-
- <div class="notice success">
-
- <b>Validation completed.</b><br><br>
-
- Firebase: ${
-  firebase.apps.length
-   ?"INITIALIZED"
-   :"NOT INITIALIZED"
- }<br>
-
- Authentication:
- ${
-  currentUser
-   ?"USER LOGGED IN"
-   :"NO USER SESSION"
- }<br>
-
- Cloudflare Worker:
- ${worker}
-
- </div>
-
- `;
+  console.warn(
+   "Worker health check failed:",
+   error
+  );
+ }
 }
 
 
-/* =========================================================
-   SIMPLE ADMIN ACTION
-========================================================= */
+/* ---------------- CLOSE MODALS ---------------- */
 
-function simpleAdminNotice(message){
+document.querySelectorAll(".modal-bg")
+ .forEach(modal=>{
 
- notify(
-  message+
-  " opened successfully.",
-  "ok"
- );
+  modal.addEventListener("click",e=>{
 
+   if(e.target===modal){
+    modal.classList.remove("show");
+   }
 
-/* =========================================================
-   SUPPORT
-========================================================= */
-
-function openSupport(){
-
- window.open(
-  "https://wa.me/2347073160817?text=Hello%20A%20T%20L%20DATA%2C%20I%20need%20support.",
-  "_blank"
- );
-}
+  });
+});
 
 
-/* =========================================================
-   MODAL
-========================================================= */
+/* ---------------- BROWSER BACK ---------------- */
 
-function closeModal(id){
+window.addEventListener("popstate",()=>{
 
- $(id).classList.remove("show");
-}
+ if(currentUser){
+
+  const page=
+   location.hash.replace("#/","") ||
+   "dashboard";
+
+  openPage(
+   page.startsWith("admin") && !isAdmin
+    ?"dashboard"
+    :page
+  );
+
+ }
+
+});
 
 
-/* =========================================================
-   STARTUP
-========================================================= */
+/* ---------------- INITIAL ---------------- */
 
-setAuthMode("login");
+workerHealthOnLoad();
 
-refreshHeader();
-
-showPage("home",false);
+console.log("A T L DATA loaded successfully.");
 
 </script>
-
 </body>
 </html>
