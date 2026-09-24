@@ -3489,7 +3489,31 @@ startApplication=async function(){
  }
 })();
 </script>
+<script>
+/* A T L DATA - VTUGate wallet balance card in the admin dashboard (paste after the buy block, before </body>) */
+(function(){
+ const LOW = 2000; /* warn when the VTUGate wallet is below this amount (naira) */
+ async function addBalance(){
+  const v = $("admView");
+  if(!v || v.querySelector("#vtuBal")) return;
+  const stats = v.querySelector(".stats");
+  if(!stats || !v.querySelector(".quick-grid")) return; /* only on the admin home screen */
+  stats.insertAdjacentHTML("afterend", '<div class="card" id="vtuBal" style="margin-bottom:16px">VTUGate wallet: loading...</div>');
+  const box = $("vtuBal");
+  try{
+   const t = await auth.currentUser.getIdToken();
+   const r = await fetch(WORKER + "/admin/vtu-balance", { headers: { Authorization: "Bearer " + t } });
+   const d = await r.json();
+   if(!d.status) throw new Error("x");
+   const low = d.wallet_balance < LOW;
+   box.innerHTML = '<small style="color:var(--muted)">VTUGate wallet balance</small>' +
+    '<div style="font-size:24px;font-weight:900;color:' + (low ? 'var(--danger)' : 'var(--green)') + '">' + money(d.wallet_balance) + '</div>' +
+    (low ? '<div class="alert alert-error" style="margin-top:10px">Balance is low. Fund your VTUGate wallet or purchases will fail.</div>' : '');
+  }catch(e){ box.textContent = "Could not load VTUGate balance."; }
+ }
+ new MutationObserver(addBalance).observe($("page-admin"), { childList: true, subtree: true });
+})();
+</script>
 
- 
 </body>
 </html>
