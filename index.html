@@ -3530,6 +3530,51 @@ startApplication=async function(){
  l.href = src;
 })();
 </script>
+ 
+<script>
+/* A T L DATA - real airtime purchase (paste after the last script, before </body>) */
+(function(){
+ const note = document.querySelector("#page-airtime .alert-info");
+ if(note) note.textContent = "Your wallet will be charged when you press Buy Airtime.";
+
+ const old = $("airtimeForm"), form = old.cloneNode(true);
+ old.replaceWith(form);
+ const btn = form.querySelector('button[type="submit"]');
+ if(btn) btn.textContent = "Buy Airtime";
+
+ form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const network = $("airtimeNetwork").value.toLowerCase();
+  const phone = $("airtimePhone").value.trim();
+  const amount = Number($("airtimeAmount").value);
+  if(!network || !/^0[789][01]\d{8}$/.test(phone) || !Number.isInteger(amount) || amount < 50 || amount > 50000)
+   return showToast("Enter a valid network, 11-digit phone number and amount (50 - 50,000).");
+
+  let fee = 0;
+  try{
+   const c = await db.collection("config").doc("charges").get();
+   if(c.exists) fee = Math.ceil(Number(c.data().airtime || 0));
+  }catch(x){}
+  if(!confirm("Buy " + money(amount) + " " + network.toUpperCase() + " airtime for " + phone + "?\nTotal charge: " + money(amount + fee))) return;
+
+  btn.disabled = true; btn.textContent = "Processing...";
+  try{
+   const token = await auth.currentUser.getIdToken(true);
+   const r = await fetch(WORKER + "/buy-airtime", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token },
+    body: JSON.stringify({ network, phone, amount })
+   });
+   const d = await r.json();
+   showToast(d.message || "Done.");
+   if(r.ok){ form.reset(); await loadDashboard(); }
+  }catch(x){
+   showToast("Network error. Please check Transactions before trying again.");
+  }
+  btn.disabled = false; btn.textContent = "Buy Airtime";
+ });
+})();
+</script>
 
 </body>
 </html>
