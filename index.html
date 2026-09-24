@@ -3430,7 +3430,48 @@ startApplication=async function(){
  if(currentUserData&&currentUserData.isBlocked&&!isAdmin){await auth.signOut();showToast("Your account is restricted. Please contact support.")}
 };
 })();
-  
+ 
+</script>
+ 
+<script>
+/* A T L DATA - real data purchase (paste after the admin panel block, before </body>) */
+(function(){
+ const _open = openPlanModal;
+ openPlanModal = function(network, plan){
+  _open(network, plan);
+  $("selectedPlanInfo").insertAdjacentHTML("beforeend",
+   '<div class="form-group" style="margin-top:14px"><label>Phone number</label><input id="buyPhone" type="tel" maxlength="11" placeholder="08012345678"></div>');
+  const note = document.querySelector("#planModal .alert-info");
+  if(note) note.textContent = "Your wallet will be charged when you press Buy Now.";
+ };
+
+ const old = $("sandboxPlanButton"), btn = old.cloneNode(true);
+ old.replaceWith(btn);
+ btn.textContent = "Buy Now";
+
+ btn.addEventListener("click", async () => {
+  if(!selectedPlan) return;
+  const phone = ($("buyPhone").value || "").trim();
+  if(!/^0[789][01]\d{8}$/.test(phone)) return showToast("Enter a valid 11-digit phone number.");
+  if(!confirm("Buy " + selectedPlan.displayName + " for " + phone + " at " + money(selectedPlan.displayAmount) + "?")) return;
+
+  btn.disabled = true; btn.textContent = "Processing...";
+  try{
+   const token = await auth.currentUser.getIdToken(true);
+   const r = await fetch(WORKER + "/buy-data", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token },
+    body: JSON.stringify({ network: selectedPlan.network, plan_code: String(selectedPlan.code), phone })
+   });
+   const d = await r.json();
+   showToast(d.message || "Done.");
+   if(r.ok){ $("planModal").classList.remove("show"); await loadDashboard(); }
+  }catch(e){
+   showToast("Network error. Please check Transactions before trying again.");
+  }
+  btn.disabled = false; btn.textContent = "Buy Now";
+ });
+})();
 </script>
 
 </body>
