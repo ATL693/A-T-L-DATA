@@ -3575,6 +3575,45 @@ startApplication=async function(){
  });
 })();
 </script>
+ 
+<script>
+/* A T L DATA - auto logout after inactivity + remember last open page across refresh */
+(function(){
+ const TIMEOUT_MIN = 25;
+
+ /* ---- auto logout after inactivity ---- */
+ let timer = null;
+ function resetTimer(){
+  if(!currentUser) return;
+  clearTimeout(timer);
+  timer = setTimeout(async () => {
+   if(currentUser){
+    await auth.signOut();
+    showToast("You were logged out after " + TIMEOUT_MIN + " minutes of inactivity.");
+   }
+  }, TIMEOUT_MIN * 60 * 1000);
+ }
+ ["click","keydown","touchstart","scroll"].forEach((ev) => document.addEventListener(ev, resetTimer, { passive: true }));
+ auth.onAuthStateChanged((u) => { if(u) resetTimer(); else clearTimeout(timer); });
+
+ /* ---- remember last open page, restore it on refresh ---- */
+ const _openPage = openPage;
+ openPage = function(page){
+  _openPage(page);
+  try{ sessionStorage.setItem("atl_last_page", page); }catch(e){}
+ };
+
+ const _start = startApplication;
+ startApplication = async function(){
+  await _start();
+  let saved = null;
+  try{ saved = sessionStorage.getItem("atl_last_page"); }catch(e){}
+  if(saved && saved !== "dashboard" && $("page-" + saved) && !(saved.startsWith("admin") && !isAdmin)){
+   openPage(saved);
+  }
+ };
+})();
+</script>
 
 </body>
 </html>
