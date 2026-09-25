@@ -3653,6 +3653,57 @@ startApplication=async function(){
  };
 })();
 </script>
+ 
+<script>
+/* A T L DATA - automatic deposit account (BillStack). Paste after the last script, before </body> */
+(function(){
+ const dep = document.querySelector(".deposit-box");
+ if(!dep) return;
+
+ const card = document.createElement("div");
+ card.className = "deposit-box";
+ card.id = "myDepositAccount";
+ card.style.marginBottom = "18px";
+ card.innerHTML = '<h3>Your Personal Deposit Account</h3><p>Loading your account...</p>';
+ dep.parentNode.insertBefore(card, dep);
+ dep.querySelector("h3").textContent = "Alternative: Manual Deposit";
+
+ async function loadMyAccount(){
+  if(!currentUser) return;
+  try{
+   const token = await auth.currentUser.getIdToken();
+   const r = await fetch(WORKER + "/account/create", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token }
+   });
+   const d = await r.json();
+   if(!d.status || !d.data) { card.innerHTML = '<h3>Your Personal Deposit Account</h3><p>' + escapeHTML(d.message || "Could not load your account.") + '</p>'; return; }
+   card.innerHTML = `
+    <h3>Your Personal Deposit Account</h3>
+    <p>Transfer any amount here and your wallet is credited automatically, usually within a minute.</p>
+    <p><strong>Bank:</strong> ${escapeHTML(d.data.bank_name)}</p>
+    <p><strong>Account Name:</strong> ${escapeHTML(d.data.account_name)}</p>
+    <p><strong>Account Number:</strong> ${escapeHTML(d.data.account_number)}</p>
+    <div class="copy-row">
+     <input value="${escapeHTML(d.data.account_number)}" readonly id="myAccountNumber">
+     <button class="btn btn-secondary" id="copyMyAccount">Copy</button>
+    </div>
+   `;
+   const btn = $("copyMyAccount");
+   if(btn) btn.addEventListener("click", async () => {
+    try{ await navigator.clipboard.writeText(d.data.account_number); showToast("Account number copied."); }
+    catch{ showToast("Copy failed. Long-press the account number."); }
+   });
+  }catch(e){
+   card.innerHTML = '<h3>Your Personal Deposit Account</h3><p>Network error. Please reload this page.</p>';
+  }
+ }
+
+ const _openPage = openPage;
+ openPage = function(page){ _openPage(page); if(page === "wallet") loadMyAccount(); };
+ if(currentPage === "wallet") loadMyAccount();
+})();
+</script>
 
 </body>
 </html>
