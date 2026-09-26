@@ -3338,8 +3338,8 @@ console.log("A T L DATA loaded successfully.");
  };
 })();
 </script>
-
- <script>
+ 
+<script>
 /* A T L DATA - Admin Panel add-on */
 (function(){
 const F=firebase.firestore.FieldValue, ts=()=>F.serverTimestamp(), e_=escapeHTML;
@@ -3372,7 +3372,7 @@ const sel=(k,l,o)=>`<div class="form-group"><label>${l}</label><select data-k="$
 const vals=el=>Object.fromEntries([...el.querySelectorAll("[data-k]")].map(i=>[i.dataset.k,i.type==="checkbox"?i.checked:i.type==="number"?Number(i.value||0):i.value.trim()]));
 const addForm=(c,f)=>card(`<div data-form>${f}<button class="btn btn-primary" data-adm="add" data-c="${c}">Add</button></div>`);
 const list=async(c,fn)=>{const s=await db.collection(c).limit(200).get();const a=s.docs.map(d=>({id:d.id,...d.data()})).sort((x,y)=>(y.createdAt?.seconds||0)-(x.createdAt?.seconds||0));return card(a.length?a.map(fn).join(""):'<div class="empty">Nothing here yet.</div>')};
-const cfg=(n,fs,note="")=>async()=>{const s=await db.collection("config").doc(n).get();const d=s.exists?s.data():{};return card(`${note?`<div class="anote">${note}</div>`:""}<div data-form>${fs.map(([k,l,t])=>t==="c"?`<label class="chk"><input type="checkbox" data-k="${k}" ${d[k]?"checked":""}> ${l}</label>`:`<div class="form-group"><label>${l}</label><input data-k="${k}" type="${t==="n"?"number":"text"}" value="${e_(d[k]??"")}"></div>`).join("")}<button class="btn btn-primary" data-adm="save" data-c="${n}">Save changes</button></div>`)};
+const cfg=(n,fs,note="")=>async()=>{const s=await db.collection("config").doc(n).get();const d=s.exists?s.data():{};return card(`${note?`<div class="anote">${note}</div>`:""}<div data-form>${fs.map(([k,l,t])=>t==="c"?`<label class="chk"><input type="checkbox" data-k="${k}" ${d[k]?"checked":""}> ${l}</label>`:`<div class="form-group"><label>${l}</label><input data-k="${k}" type="${t==="n"?"number":t==="pw"?"password":"text"}" value="${e_(d[k]??"")}" ${t==="pw"?"autocomplete=\"off\" placeholder=\"Leave blank to use the Cloudflare secret\"":""}></div>`).join("")}<button class="btn btn-primary" data-adm="save" data-c="${n}">Save changes</button></div>`)};
 async function loadUsers(){try{users=(await db.collection("users").get()).docs.map(d=>({id:d.id,...d.data()}))}catch(e){console.error(e)}}
 const uCard=u=>{const b=!!u.isBlocked;return row(`${e_(u.name||"Unnamed")} <span class="badge ${b?"badge-danger":"badge-success"}">${b?"Blocked":"Active"}</span>`,`${e_(u.email||"")} • ${money(u.balance)} • Tier: ${e_(u.tier||"basic")}`,bt(b?"Unblock":"Block","btn-secondary","block","",u.id)+bt("Basic","btn-secondary","tier","",u.id,"","basic")+bt("Gold","btn-gold","tier","",u.id,"","gold"))};
 function renderUsers(){const q=($("admSearch").value||"").toLowerCase(),f=users.filter(u=>[u.name,u.email,u.id].join(" ").toLowerCase().includes(q));$("admUsers").innerHTML=f.length?f.map(uCard).join(""):'<div class="empty">No users found.</div>'}
@@ -3401,7 +3401,7 @@ const V={
   return `<div class="stats">${stat("Transactions",t.length)}${stat("Successful sales",ok.length)}${stat("Sales value",money(ok.reduce((s,x)=>s+Number(x.amount||0),0)))}</div>`+card(Object.entries(by).map(([k,v])=>row(e_(k),money(v))).join("")||'<div class="empty">No sales yet.</div>')},
  calc:async()=>card(`<div id="admCalc">${inp("cost","Cost price (₦)","number")}${inp("sell","Selling price (₦)","number")}${inp("qty","Quantity","number")}<div class="alert alert-info" id="admCalcOut">Enter prices to see profit.</div></div>`),
  staff:async()=>addForm("staff",`${inp("email","Staff email","email")}${sel("role","Role",["support","accountant","manager"])}`)+await list("staff",s=>row(e_(s.email),`Role: ${e_(s.role)}`,del("staff",s.id))),
- apisec:cfg("security",[["ipWhitelist","Enable IP whitelist","c"],["ips","Allowed IPs (comma separated)"],["rateLimit","Max purchases per minute","n"]],"Never store the VTUGate API key here or in the frontend. Keep it in your Cloudflare Worker / Cloud Function secrets."),
+ apisec:cfg("security",[["ipWhitelist","Enable IP whitelist","c"],["ips","Allowed IPs (comma separated)"],["rateLimit","Max purchases per minute","n"],["vtugateApiKey","VTUGate API Key","pw"],["billstackApiKey","BillStack Secret Key","pw"]],"Keys entered here are stored in Firestore and can only be read by the admin account, never by regular users. A blank key field falls back to the one saved in your Cloudflare Worker secrets."),
  apireq:()=>list("apiRequests",r=>row(e_(r.name||r.email||r.id),`${e_(r.email||"")} • ${e_(r.status||"pending")} • ${formatDate(r.createdAt)}`,bt("Approve","btn-primary","set","apiRequests",r.id,"status","approved")+bt("Reject","btn-danger","set","apiRequests",r.id,"status","rejected"))),
  config:cfg("general",[["siteName","Site name"],["supportPhone","Support phone"],["whatsapp","WhatsApp number"],["maintenance","Maintenance mode","c"]])
 };
@@ -3469,8 +3469,7 @@ startApplication=async function(){
  if(currentUserData&&currentUserData.isBlocked&&!isAdmin){await auth.signOut();showToast("Your account is restricted. Please contact support.")}
 };
 })();
- 
-</script>
+<script>
  
 <script>
 /* A T L DATA - real data purchase (paste after the admin panel block, before </body>) */
