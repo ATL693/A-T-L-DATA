@@ -3703,6 +3703,138 @@ startApplication=async function(){
  if(currentPage === "wallet") loadMyAccount();
 })();
 </script>
+ 
+<script>
+/* A T L DATA - Admin Panel add-on */
+(function(){
+const F=firebase.firestore.FieldValue, ts=()=>F.serverTimestamp(), e_=escapeHTML;
+let cur="home", users=[];
+
+/* ---- deposit account (Wema) ---- */
+const dep=document.querySelector(".deposit-box");
+if(dep){
+ dep.innerHTML=`<h3>Deposit Account</h3><p><strong>Bank:</strong> Wema Bank</p><p><strong>Account Name:</strong> SELLANDEARN/LAWAN AHMAD TIJJANI</p><p><strong>Account Number:</strong> 9817460070</p><div class="copy-row"><input value="9817460070" readonly id="accountNumber"><button class="btn btn-secondary" id="copyAccount">Copy</button></div>`;
+ $("copyAccount").onclick=async()=>{try{await navigator.clipboard.writeText("9817460070");showToast("Account number copied.")}catch{showToast("Copy failed. Long-press the account number.")}};
+}
+
+/* ---- replace old admin pages ---- */
+["Deposits","Users","Transactions","Plans","Support"].forEach(n=>{const el=$("page-admin"+n);if(el)el.remove()});
+$("adminMenu").innerHTML='<div class="side-title">Admin Panel</div><button class="side-link" data-page="admin">🛠️ Admin Dashboard</button>';
+$("page-admin").innerHTML=`<div class="back-row"><button class="btn btn-secondary" id="admBack">← Back</button></div><div class="page-head"><div><h2 id="admTitle">Admin Dashboard</h2><p style="color:var(--muted)">Worker: <strong id="workerStatus">Checking...</strong></p></div></div><div id="admView"></div>`;
+const st=document.createElement("style");
+st.textContent=`.arow{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 0;border-bottom:1px solid #edf1ef}.arow small{display:block;color:var(--muted);margin-top:4px}.acts{display:flex;gap:6px;flex-wrap:wrap}.acts .btn{padding:8px 11px;font-size:13px}.chk{display:flex;align-items:center;gap:8px;margin-bottom:14px;font-weight:700}.chk input{width:auto}.anote{font-size:13px;color:var(--danger);margin-bottom:14px;line-height:1.5}.acard{margin-bottom:16px}`;
+document.head.appendChild(st);
+
+/* ---- helpers ---- */
+const M=[["users","👥 Users Management"],["funding","💰 Funding / Debit"],["tx","🧾 Transactions"],["plans","📶 Data Plans"],["services","⚙️ Services Management"],["discounts","🏷️ Discounts"],["charges","💳 Service Charges"],["limits","🪪 KYC & Limits"],["restricted","🚫 Restricted Users"],["notif","🔔 Notifications"],["analytics","📈 Analytics"],["calc","🧮 Sales Calculator"],["staff","🧑‍💼 Staff / Roles"],["apisec","🔐 API Security"],["apireq","🔑 API Access Requests"],["config","🛠️ Configuration"]];
+const stat=(l,v)=>`<div class="stat"><small>${l}</small><strong>${v}</strong></div>`;
+const card=h=>`<div class="card acard">${h}</div>`;
+const row=(t,s,b="")=>`<div class="arow"><div><strong>${t}</strong><small>${s}</small></div><div class="acts">${b}</div></div>`;
+const bt=(l,c,a,col,id,f,v)=>`<button class="btn ${c}" data-adm="${a}" data-c="${col||""}" data-id="${id||""}" data-f="${f||""}" data-v="${v??""}">${l}</button>`;
+const del=(c,id)=>bt("Delete","btn-danger","del",c,id);
+const inp=(k,l,t="text")=>`<div class="form-group"><label>${l}</label><input data-k="${k}" type="${t}"></div>`;
+const sel=(k,l,o)=>`<div class="form-group"><label>${l}</label><select data-k="${k}">${o.map(x=>`<option>${x}</option>`).join("")}</select></div>`;
+const vals=el=>Object.fromEntries([...el.querySelectorAll("[data-k]")].map(i=>[i.dataset.k,i.type==="checkbox"?i.checked:i.type==="number"?Number(i.value||0):i.value.trim()]));
+const addForm=(c,f)=>card(`<div data-form>${f}<button class="btn btn-primary" data-adm="add" data-c="${c}">Add</button></div>`);
+const list=async(c,fn)=>{const s=await db.collection(c).limit(200).get();const a=s.docs.map(d=>({id:d.id,...d.data()})).sort((x,y)=>(y.createdAt?.seconds||0)-(x.createdAt?.seconds||0));return card(a.length?a.map(fn).join(""):'<div class="empty">Nothing here yet.</div>')};
+const cfg=(n,fs,note="")=>async()=>{const s=await db.collection("config").doc(n).get();const d=s.exists?s.data():{};return card(`${note?`<div class="anote">${note}</div>`:""}<div data-form>${fs.map(([k,l,t])=>t==="c"?`<label class="chk"><input type="checkbox" data-k="${k}" ${d[k]?"checked":""}> ${l}</label>`:`<div class="form-group"><label>${l}</label><input data-k="${k}" type="${t==="n"?"number":"text"}" value="${e_(d[k]??"")}"></div>`).join("")}<button class="btn btn-primary" data-adm="save" data-c="${n}">Save changes</button></div>`)};
+async function loadUsers(){try{users=(await db.collection("users").get()).docs.map(d=>({id:d.id,...d.data()}))}catch(e){console.error(e)}}
+const uCard=u=>{const b=!!u.isBlocked;return row(`${e_(u.name||"Unnamed")} <span class="badge ${b?"badge-danger":"badge-success"}">${b?"Blocked":"Active"}</span>`,`${e_(u.email||"")} • ${money(u.balance)} • Tier: ${e_(u.tier||"basic")}`,bt(b?"Unblock":"Block","btn-secondary","block","",u.id)+bt("Basic","btn-secondary","tier","",u.id,"","basic")+bt("Gold","btn-gold","tier","",u.id,"","gold"))};
+function renderUsers(){const q=($("admSearch").value||"").toLowerCase(),f=users.filter(u=>[u.name,u.email,u.id].join(" ").toLowerCase().includes(q));$("admUsers").innerHTML=f.length?f.map(uCard).join(""):'<div class="empty">No users found.</div>'}
+
+/* ---- views ---- */
+const V={
+ home:async()=>{const p=(await db.collection("deposits").where("status","==","pending").get()).size;return `<div class="stats">${stat("Total Users",users.length)}${stat("Total Wallet",money(users.reduce((s,u)=>s+Number(u.balance||0),0)))}${stat("Pending Deposits",p)}${stat("Blocked Users",users.filter(u=>u.isBlocked).length)}</div><div class="quick-grid">${M.map(([k,t])=>`<button class="service-btn" data-ago="${k}"><strong>${t}</strong></button>`).join("")}</div>`},
+ users:async()=>`<div class="card acard"><input id="admSearch" type="search" placeholder="Search by name, email or UID" style="width:100%;padding:12px;border:1px solid #dce5e0;border-radius:10px"></div>${card('<div id="admUsers"></div>')}`,
+ restricted:async()=>{const r=users.filter(u=>u.isBlocked);return card(r.length?r.map(uCard).join(""):'<div class="empty">No restricted users.</div>')},
+ funding:async()=>{
+  const s=await db.collection("deposits").where("status","==","pending").get();
+  const r=s.docs.map(d=>({id:d.id,...d.data()}));
+  return card(`<h3 style="margin-bottom:10px">Pending deposit requests</h3>${r.length?r.map(d=>row(`${e_(d.name||d.email||"-")} — ${money(d.amount)}`,`Ref: ${e_(d.reference||"-")} • ${formatDate(d.createdAt)}`,bt("Approve","btn-primary","approve","",d.id)+bt("Reject","btn-danger","reject","",d.id))).join(""):'<div class="empty">No pending deposits.</div>'}`)
+  +card(`<h3 style="margin-bottom:12px">Manual credit / debit</h3><div data-form>${inp("u","User email or UID")}${inp("a","Amount (₦)","number")}${sel("t","Type",["Credit","Debit"])}${inp("n","Note")}<button class="btn btn-primary" data-adm="fund">Submit</button></div>`)},
+ tx:()=>list("transactions",t=>row(`${e_(t.type||"-")} — ${money(t.amount)}`,`${e_(t.description||t.uid||"")} • ${e_(t.status||"-")} • ${formatDate(t.createdAt)}`)),
+ plans:async()=>addForm("plans",`${sel("network","Network",["MTN","Airtel","Glo","9mobile"])}${inp("name","Plan name (e.g. 1GB 30 days)")}${inp("price","Selling price (₦)","number")}${inp("cost","Cost price (₦)","number")}${inp("code","VTUGate plan code")}`)+await list("plans",p=>row(`${e_(p.network)} ${e_(p.name)}`,`Price ${money(p.price)} • Cost ${money(p.cost)} • Code ${e_(p.code)} • ${p.active===false?"off":"on"}`,bt(p.active===false?"Turn on":"Turn off","btn-secondary","set","plans",p.id,"active",p.active===false?"true":"false")+del("plans",p.id))),
+ services:cfg("services",[["data","Data enabled","c"],["airtime","Airtime enabled","c"],["bills","Bills enabled","c"]]),
+ discounts:cfg("discounts",[["basic","Basic tier discount (%)","n"],["gold","Gold tier discount (%)","n"]]),
+ charges:cfg("charges",[["data","Data charge (₦)","n"],["airtime","Airtime charge (₦)","n"],["bills","Bills charge (₦)","n"]]),
+ limits:cfg("limits",[["kycRequired","Require KYC before purchases","c"],["kycAbove","KYC required above (₦)","n"],["dailyBasic","Daily limit: Basic (₦)","n"],["dailyGold","Daily limit: Gold (₦)","n"]]),
+ notif:async()=>addForm("notifications",`${inp("title","Title")}${inp("message","Message")}`)+await list("notifications",n=>row(e_(n.title),`${e_(n.message)} • ${formatDate(n.createdAt)}`,del("notifications",n.id))),
+ analytics:async()=>{
+  const t=(await db.collection("transactions").limit(500).get()).docs.map(d=>d.data());
+  const ok=t.filter(x=>x.status==="success"&&!/deposit|admin/i.test(x.type||"")),by={};
+  ok.forEach(x=>{by[x.type]=(by[x.type]||0)+Number(x.amount||0)});
+  return `<div class="stats">${stat("Transactions",t.length)}${stat("Successful sales",ok.length)}${stat("Sales value",money(ok.reduce((s,x)=>s+Number(x.amount||0),0)))}</div>`+card(Object.entries(by).map(([k,v])=>row(e_(k),money(v))).join("")||'<div class="empty">No sales yet.</div>')},
+ calc:async()=>card(`<div id="admCalc">${inp("cost","Cost price (₦)","number")}${inp("sell","Selling price (₦)","number")}${inp("qty","Quantity","number")}<div class="alert alert-info" id="admCalcOut">Enter prices to see profit.</div></div>`),
+ staff:async()=>addForm("staff",`${inp("email","Staff email","email")}${sel("role","Role",["support","accountant","manager"])}`)+await list("staff",s=>row(e_(s.email),`Role: ${e_(s.role)}`,del("staff",s.id))),
+ apisec:cfg("security",[["ipWhitelist","Enable IP whitelist","c"],["ips","Allowed IPs (comma separated)"],["rateLimit","Max purchases per minute","n"]],"Never store the VTUGate API key here or in the frontend. Keep it in your Cloudflare Worker / Cloud Function secrets."),
+ apireq:()=>list("apiRequests",r=>row(e_(r.name||r.email||r.id),`${e_(r.email||"")} • ${e_(r.status||"pending")} • ${formatDate(r.createdAt)}`,bt("Approve","btn-primary","set","apiRequests",r.id,"status","approved")+bt("Reject","btn-danger","set","apiRequests",r.id,"status","rejected"))),
+ config:cfg("general",[["siteName","Site name"],["supportPhone","Support phone"],["whatsapp","WhatsApp number"],["maintenance","Maintenance mode","c"]])
+};
+
+async function go(k){
+ cur=k;
+ $("admTitle").textContent=k==="home"?"Admin Dashboard":M.find(m=>m[0]===k)[1];
+ $("admBack").textContent=k==="home"?"← Back to Website":"← Back";
+ $("admView").innerHTML='<div class="loading">Loading...</div>';
+ try{$("admView").innerHTML=await V[k]();if(k==="users")renderUsers()}
+ catch(e){console.error(e);$("admView").innerHTML='<div class="alert alert-error">Unable to load. Check your Firestore rules.</div>'}
+}
+async function open_(){if(!isAdmin)return;await loadUsers();go("home")}
+loadAdminDashboard=open_; /* openPage("admin") now opens this panel */
+$("admBack").onclick=()=>cur==="home"?openPage("dashboard"):go("home");
+
+/* ---- actions ---- */
+async function approve(id){
+ await db.runTransaction(async t=>{
+  const dr=db.collection("deposits").doc(id),ds=await t.get(dr);
+  if(!ds.exists)throw new Error("Deposit not found.");
+  const d=ds.data();if(d.status!=="pending")throw new Error("This deposit was already processed.");
+  const ur=db.collection("users").doc(d.uid),us=await t.get(ur),amt=Number(d.amount||0);
+  t.update(dr,{status:"approved",approvedAt:ts(),approvedBy:currentUser.email});
+  t.set(ur,{balance:Number(us.exists?us.data().balance||0:0)+amt,updatedAt:ts()},{merge:true});
+  t.set(db.collection("transactions").doc(),{uid:d.uid,type:"Deposit",amount:amt,status:"approved",description:"Wallet deposit approved",reference:d.reference||"",approvedBy:currentUser.email,createdAt:ts()});
+ });
+ showToast("Deposit approved.");
+}
+document.addEventListener("click",async ev=>{
+ const g=ev.target.closest("[data-ago]");if(g&&isAdmin)return go(g.dataset.ago);
+ const b=ev.target.closest("[data-adm]");if(!b||!isAdmin)return;
+ const a=b.dataset.adm,d=b.dataset,f=b.closest("[data-form]");
+ try{
+  if(a==="save"){await db.collection("config").doc(d.c).set(vals(f),{merge:true});showToast("Saved.");return}
+  if(a==="add")await db.collection(d.c).add({...vals(f),createdAt:ts()});
+  else if(a==="del"){if(!confirm("Delete this item?"))return;await db.collection(d.c).doc(d.id).delete()}
+  else if(a==="set")await db.collection(d.c).doc(d.id).update({[d.f]:d.v==="true"?true:d.v==="false"?false:d.v});
+  else if(a==="block"){const u=users.find(x=>x.id===d.id);await db.collection("users").doc(d.id).update({isBlocked:!u.isBlocked});await loadUsers()}
+  else if(a==="tier"){await db.collection("users").doc(d.id).update({tier:d.v});await loadUsers()}
+  else if(a==="approve")await approve(d.id);
+  else if(a==="reject"){await db.collection("deposits").doc(d.id).update({status:"rejected",rejectedAt:ts(),rejectedBy:currentUser.email});showToast("Deposit rejected.")}
+  else if(a==="fund"){
+   const v=vals(f),k=v.u.toLowerCase(),u=users.find(x=>(x.email||"").toLowerCase()===k||x.id===v.u),debit=v.t==="Debit";
+   if(!u)return showToast("User not found.");
+   if(!(v.a>0))return showToast("Enter a valid amount.");
+   if(debit&&Number(u.balance||0)<v.a)return showToast("User balance is too low.");
+   await db.collection("users").doc(u.id).update({balance:F.increment(debit?-v.a:v.a),updatedAt:ts()});
+   await db.collection("transactions").add({uid:u.id,type:debit?"Admin Debit":"Admin Credit",amount:v.a,status:"success",description:v.n||"Manual "+(debit?"debit":"credit")+" by admin",createdAt:ts()});
+   await loadUsers();showToast("Done.");
+  }
+  go(cur);
+ }catch(err){console.error(err);showToast(err.message||"Action failed. Check your Firestore rules.")}
+});
+document.addEventListener("input",ev=>{
+ if(ev.target.id==="admSearch")renderUsers();
+ const c=ev.target.closest("#admCalc");
+ if(c){const v=vals(c);$("admCalcOut").textContent=`Profit: ${money((v.sell-v.cost)*v.qty)} • Total sales: ${money(v.sell*v.qty)} • Margin: ${v.sell?((v.sell-v.cost)/v.sell*100).toFixed(1):0}%`}
+});
+
+/* ---- restricted users cannot use the site ---- */
+const _start=startApplication;
+startApplication=async function(){
+ await _start();
+ if(currentUserData&&currentUserData.isBlocked&&!isAdmin){await auth.signOut();showToast("Your account is restricted. Please contact support.")}
+};
+})();
+</script>
 
 </body>
 </html>
