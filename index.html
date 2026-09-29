@@ -3921,6 +3921,106 @@ startApplication=async function(){
  }
 })();
 </script>
+ 
+<script>
+/* A T L DATA - dark/gold theme + Data Plans grouped by SME/Gifting/Corporate per network */
+(function(){
+ var css = document.createElement("style");
+ css.textContent = `
+  :root{
+   --green:#f2c94c; --green2:#f7d670; --gold:#f2c94c; --dark:#f5f5f5;
+   --bg:#0b0b0d; --white:#161618; --muted:#9aa0a6; --danger:#ff6161; --success:#3ddc84;
+  }
+  body{ background:var(--bg); color:#f0f0f0; }
+  .topbar,.dashboard-top,.sidebar,.card,.stat,.auth-box,.modal,.table-wrap,.hero-card,.service-btn,.plan,.form-group input,.form-group select,.form-group textarea{
+   background:#161618 !important; color:#f0f0f0 !important; border-color:#2a2a2e !important;
+  }
+  .side-link{ color:#c9c9cc !important; }
+  .side-link:hover,.side-link.active{ background:#232326 !important; color:var(--gold) !important; }
+  th{ background:#1c1c1f !important; color:#c9c9cc !important; }
+  td{ border-color:#2a2a2e !important; }
+  .badge-success{ background:#123c26 !important; color:#3ddc84 !important; }
+  .badge-danger{ background:#3c1414 !important; color:#ff6161 !important; }
+  .badge-pending{ background:#3c3312 !important; color:#f2c94c !important; }
+  .logo{ background:var(--gold) !important; color:#111 !important; }
+  .btn-primary{ background:var(--gold) !important; color:#111 !important; }
+  .btn-secondary{ background:#1f1f22 !important; color:#f0f0f0 !important; border-color:#2f2f33 !important; }
+  .deposit-box{ background:#161618 !important; border-color:#2a2a2e !important; }
+  .plan-tabs{ display:flex; gap:8px; overflow-x:auto; margin:12px 0; grid-column:1/-1; }
+  .plan-tab{ background:#1f1f22; color:#c9c9cc; border:1px solid #2f2f33; padding:8px 16px; border-radius:999px; white-space:nowrap; font-weight:700; font-size:13px; }
+  .plan-tab.active{ background:var(--gold); color:#111; border-color:var(--gold); }
+ `;
+ document.head.appendChild(css);
+
+ function categorize(name){
+  var n = name.toLowerCase();
+  if(n.indexOf("sme") !== -1) return "SME";
+  if(n.indexOf("gift") !== -1) return "Gifting";
+  if(n.indexOf("corp") !== -1 || /\bcg\b/.test(n)) return "Corporate";
+  return "Standard";
+ }
+ var activeTab = {};
+
+ renderAllPlans = function(){
+  var container = $("plansContainer");
+  var networks = [["mtn","MTN"],["airtel","Airtel"],["glo","Glo"],["9mobile","9mobile"]];
+  var html = "";
+
+  networks.forEach(function(pair){
+   var key = pair[0], label = pair[1];
+   var raw = allPlans[key] || [];
+   html += '<div class="network-title">' + label + '</div>';
+   if(!raw.length){
+    html += '<div class="empty" style="grid-column:1/-1">No ' + label + ' plans returned by Worker.</div>';
+    return;
+   }
+   var norm = raw.map(function(r){ return normalizePlan(r); });
+   var cats = {};
+   norm.forEach(function(p){ var c = categorize(p.displayName); (cats[c] = cats[c] || []).push(p); });
+   var order = ["SME","Gifting","Corporate","Standard"].filter(function(c){ return cats[c] && cats[c].length; });
+
+   if(order.length > 1){
+    if(!activeTab[key] || order.indexOf(activeTab[key]) === -1) activeTab[key] = order[0];
+    html += '<div class="plan-tabs" data-tabs-for="' + key + '">' + order.map(function(c){
+     return '<button type="button" class="plan-tab ' + (c === activeTab[key] ? "active" : "") + '" data-net="' + key + '" data-cat="' + c + '">' + c + '</button>';
+    }).join("") + '</div>';
+   } else {
+    activeTab[key] = order[0] || "Standard";
+   }
+
+   var shown = cats[activeTab[key]] || [];
+   if(!shown.length){
+    html += '<div class="empty" style="grid-column:1/-1">No plans in this category.</div>';
+   }
+   shown.forEach(function(p){
+    var idx = raw.indexOf(norm.find(function(x){ return x === p; }) ? raw[norm.indexOf(p)] : null);
+    idx = norm.indexOf(p);
+    html += '<div class="plan">' +
+     '<strong>' + escapeHTML(p.displayName) + '</strong>' +
+     '<small>' + label + ' data plan</small>' +
+     '<div class="price">' + money(p.displayAmount) + '</div>' +
+     '<button class="btn btn-primary plan-select" data-network="' + escapeHTML(key) + '" data-index="' + idx + '">Select Plan</button>' +
+     '</div>';
+   });
+  });
+
+  container.innerHTML = html;
+  container.querySelectorAll(".plan-select").forEach(function(button){
+   button.addEventListener("click", function(){
+    var network = button.dataset.network, index = Number(button.dataset.index);
+    var raw = allPlans[network][index];
+    openPlanModal(network, normalizePlan(raw));
+   });
+  });
+  container.querySelectorAll(".plan-tab").forEach(function(tab){
+   tab.addEventListener("click", function(){
+    activeTab[tab.dataset.net] = tab.dataset.cat;
+    renderAllPlans();
+   });
+  });
+ };
+})();
+</script>
 
 </body>
 </html>
