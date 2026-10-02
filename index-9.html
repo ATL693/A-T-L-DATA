@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="theme-color" content="#0b0b0d">
+<title>A T L DATA | Fast Data, Airtime &amp; Bills</title>
+
+<script src="https://www.gstatic.com/firebasejs/12.2.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.2.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore-compat.js"></script>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+ --gold:#5b6eff; --gold2:#7b8bff; --ink:#0b0d14; --panel:#141722; --panel2:#1b1f2e;
+ --border:#262b3d; --text:#eef0f6; --muted:#9aa3b7; --danger:#ff6b6b; --success:#34d399;
+ --radius:16px
+}
+:root[data-theme="light"]{
+ --gold:#4f46e5; --gold2:#6366f1; --ink:#f6f7fb; --panel:#ffffff; --panel2:#f1f2f8;
+ --border:#e3e5ef; --text:#15171f; --muted:#666c7c; --danger:#dc2626; --success:#059669;
+}
+html,body{height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;background:var(--ink);color:var(--text);min-height:100vh;
+ padding-top:env(safe-area-inset-top,0);padding-bottom:env(safe-area-inset-bottom,0);transition:background .2s,color .2s}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+a{color:inherit;text-decoration:none}
+.hidden{display:none!important}
+.page{min-height:100vh}
+.container{width:min(1100px,94%);margin:auto}
+img{max-width:100%}
+
+/* ---- topbar / brand ---- */
+.topbar{height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 5%;
+ background:var(--panel);position:sticky;top:0;z-index:50;border-bottom:1px solid var(--border)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;letter-spacing:.3px}
+.logo{width:38px;height:38px;border-radius:11px;background:var(--gold);color:#fff;display:grid;place-items:center;font-weight:900;overflow:hidden}
+.logo img{width:100%;height:100%;display:block}
+.nav-actions{display:flex;gap:8px}
+.btn{padding:11px 18px;border-radius:12px;font-weight:700;font-size:14px;display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:.15s}
+.btn-gold{background:var(--gold);color:#fff}
+.btn-gold:hover{background:var(--gold2)}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+.btn-ghost{background:var(--panel2);color:var(--text)}
+.btn-danger{background:#2a1414;color:var(--danger)}
+.btn-block{width:100%}
+.btn-sm{padding:8px 12px;font-size:13px;border-radius:9px}
+
+/* ---- hero / landing ---- */
+.hero{padding:64px 0 40px}
+.eyebrow{display:inline-block;font-size:12px;font-weight:700;color:var(--gold);background:rgba(242,201,76,.1);
+ border:1px solid rgba(242,201,76,.3);padding:6px 12px;border-radius:999px;margin-bottom:18px}
+.hero h1{font-size:clamp(30px,7vw,52px);line-height:1.08;font-weight:800;margin-bottom:16px}
+.hero h1 span{color:var(--gold)}
+.hero p{color:var(--muted);font-size:16px;line-height:1.6;margin-bottom:26px;max-width:52ch}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap}
+.hero-card{background:var(--panel);border:1px solid var(--border);border-radius:20px;padding:26px;margin-top:36px}
+.hero-card small{color:var(--muted)}
+.hero-balance{font-size:32px;font-weight:800;color:var(--gold);margin:8px 0}
+.feature-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:20px 0 60px}
+.feature{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:20px}
+.feature .ic{width:42px;height:42px;border-radius:12px;background:rgba(242,201,76,.12);display:grid;place-items:center;font-size:20px;margin-bottom:12px}
+.feature h3{font-size:15px;margin-bottom:6px}
+.feature p{font-size:13px;color:var(--muted);line-height:1.5}
+
+/* ---- auth ---- */
+.auth-wrap{min-height:100vh;display:grid;place-items:center;padding:24px}
+.auth-box{width:min(420px,100%);background:var(--panel);border:1px solid var(--border);border-radius:20px;padding:28px}
+.auth-head{text-align:center;margin-bottom:22px}
+.auth-head .logo{margin:0 auto 12px}
+.auth-head h2{font-size:20px;margin-bottom:4px}
+.auth-head p{color:var(--muted);font-size:13px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:6px}
+.field input,.field select{width:100%;background:var(--panel2);border:1px solid var(--border);border-radius:10px;
+ padding:12px 13px;outline:none}
+.field input:focus,.field select:focus{border-color:var(--gold)}
+.link-txt{color:var(--gold);font-weight:700;cursor:pointer}
+.alert{padding:11px 13px;border-radius:10px;font-size:13px;margin-bottom:14px;line-height:1.5}
+.alert-error{background:#2a1414;color:#ff8f8f}
+.alert-success{background:#122a1c;color:#6fe3a0}
+.alert-info{background:#16222e;color:#8fc4ff}
+
+/* ---- app shell ---- */
+.app-shell{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+.sidebar{background:var(--panel);border-right:1px solid var(--border);padding:18px 12px;position:sticky;top:0;
+ height:100vh;overflow:auto;padding-top:calc(18px + env(safe-area-inset-top,0))}
+.side-brand{padding:6px 10px 20px}
+.side-title{font-size:11px;color:#6b7076;margin:16px 10px 6px;font-weight:700}
+.side-link{width:100%;text-align:left;padding:11px 12px;border-radius:10px;margin:2px 0;color:#c9c9cc;font-weight:600;font-size:14px;display:flex;align-items:center;gap:9px}
+.side-link:hover{background:var(--panel2)}
+.side-link.active{background:rgba(242,201,76,.12);color:var(--gold)}
+.main{min-width:0;padding-bottom:70px}
+.app-top{height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;
+ border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--panel);z-index:30}
+.menu-btn{display:none;font-size:22px}
+.content{padding:20px}
+.page-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+.page-head h2{font-size:22px}
+.page-head p{color:var(--muted);font-size:13px;margin-top:4px}
+
+/* ---- cards / grids ---- */
+.card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.stat{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px}
+.stat small{color:var(--muted);font-size:12px}
+.stat strong{display:block;font-size:22px;margin-top:6px}
+.quick-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.qbtn{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:18px;text-align:left;transition:.15s}
+.qbtn:hover{border-color:var(--gold)}
+.qbtn .ic{font-size:22px;margin-bottom:8px}
+.qbtn strong{display:block;font-size:14px;margin-bottom:3px}
+.qbtn span{font-size:12px;color:var(--muted)}
+
+.table-wrap{background:var(--panel);border:1px solid var(--border);border-radius:14px;overflow:auto}
+table{width:100%;border-collapse:collapse;min-width:600px}
+th,td{padding:12px 14px;border-bottom:1px solid var(--border);text-align:left;font-size:13px}
+th{color:var(--muted);font-weight:700;background:var(--panel2)}
+.empty{text-align:center;padding:40px 16px;color:var(--muted)}
+.badge{display:inline-block;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700}
+.badge-ok{background:#122a1c;color:var(--success)}
+.badge-bad{background:#2a1414;color:var(--danger)}
+.badge-wait{background:#2e2610;color:var(--gold)}
+
+.network-title{grid-column:1/-1;font-size:16px;font-weight:800;color:var(--gold);margin-top:14px}
+.plan-tabs{display:flex;gap:8px;overflow-x:auto;margin:10px 0;grid-column:1/-1}
+.plan-tab{background:var(--panel2);color:#c9c9cc;border:1px solid var(--border);padding:7px 15px;border-radius:999px;white-space:nowrap;font-weight:700;font-size:12px}
+.plan-tab.active{background:var(--gold);color:#fff;border-color:var(--gold)}
+.plan-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.plan{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:15px;transition:.15s}
+.plan:hover{border-color:var(--gold)}
+.plan strong{font-size:15px}
+.plan small{display:block;color:var(--muted);margin:5px 0 10px;font-size:12px}
+.plan .price{font-size:18px;font-weight:800;color:var(--gold)}
+.plan button{width:100%;margin-top:10px}
+.loading{text-align:center;padding:30px;color:var(--muted)}
+
+.deposit-box{background:var(--panel2);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:16px}
+.deposit-box h3{font-size:15px;margin-bottom:8px}
+.deposit-box p{margin:5px 0;font-size:13px;color:#d6d6d8}
+.copy-row{display:flex;gap:8px;margin-top:10px}
+.copy-row input{flex:1;background:var(--ink);border:1px solid var(--border);border-radius:10px;padding:10px}
+
+/* ---- modal / toast ---- */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;padding:16px;z-index:200}
+.modal-bg.show{display:flex}
+.modal{width:min(460px,100%);background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:22px;max-height:88vh;overflow:auto}
+.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.close{width:32px;height:32px;border-radius:50%;background:var(--panel2);font-size:18px}
+.toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0));right:16px;left:16px;max-width:380px;margin:auto;
+ background:var(--panel2);border:1px solid var(--border);color:var(--text);padding:13px 16px;border-radius:12px;
+ transform:translateY(140px);transition:.3s;z-index:400;font-size:14px}
+.toast.show{transform:translateY(0)}
+.theme-toggle{width:38px;height:38px;border-radius:10px;background:var(--panel2);border:1px solid var(--border);font-size:17px;display:grid;place-items:center}
+
+.pin-dots{display:flex;gap:10px;justify-content:center;margin:18px 0}
+.pin-dots span{width:14px;height:14px;border-radius:50%;border:2px solid var(--border)}
+.pin-dots span.filled{background:var(--gold);border-color:var(--gold)}
+.pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:260px;margin:auto}
+.pin-key{background:var(--panel2);border:1px solid var(--border);border-radius:12px;padding:16px 0;font-size:18px;font-weight:700}
+
+.mobile-bottom{display:none}
+.back-row{display:flex;gap:8px;margin-bottom:16px}
+
+@media(max-width:1000px){
+ .feature-grid{grid-template-columns:repeat(2,1fr)}
+ .stats{grid-template-columns:repeat(2,1fr)}
+ .quick-grid{grid-template-columns:repeat(2,1fr)}
+ .plan-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:760px){
+ .app-shell{display:block}
+ .sidebar{position:fixed;left:-260px;top:0;width:250px;z-index:150;transition:.25s;padding-top:calc(18px + env(safe-area-inset-top,0))}
+ .sidebar.open{left:0}
+ .menu-btn{display:block}
+ .nav-actions .btn-outline{display:none}
+ .content{padding:14px 12px 80px}
+ .mobile-bottom{position:fixed;display:flex;left:0;right:0;bottom:0;height:60px;background:var(--panel);
+  border-top:1px solid var(--border);z-index:100;justify-content:space-around;padding-bottom:env(safe-area-inset-bottom,0)}
+ .mobile-bottom button{background:none;color:#8a8f94;font-size:10px;font-weight:700}
+ .mobile-bottom button.active{color:var(--gold)}
+ .mobile-bottom button span{display:block;font-size:19px;margin-bottom:2px}
+}
+@media(max-width:480px){
+ .feature-grid,.stats,.quick-grid,.plan-grid{grid-template-columns:1fr 1fr}
+ .hero{padding:44px 0 30px}
+}
+::selection{background:var(--gold);color:#fff}
+</style>
+</head>
+<body>
+
+<div id="toast" class="toast"></div>
+<div id="authGate" style="position:fixed;inset:0;background:var(--ink);z-index:9999;display:flex;align-items:center;justify-content:center;color:var(--gold);font-weight:700;text-align:center;padding:24px;font-size:14px;line-height:1.6">Loading…</div>
+<script>
+(function(){
+ var g=document.getElementById("authGate");
+ window.addEventListener("error",function(e){
+  if(g&&g.parentNode)g.innerHTML='<div>Something went wrong loading the page:<br><br><code style="color:#ff8f8f;font-size:12px;word-break:break-all">'+String(e.message||e)+'</code><br><br>Please screenshot this and send it back.</div>';
+ });
+ setTimeout(function(){ if(g&&g.parentNode&&g.textContent.trim()==="Loading…") g.remove(); },6000);
+
+ var saved=null; try{saved=localStorage.getItem("atl_theme");}catch(e){}
+ var theme=saved||(window.matchMedia&&window.matchMedia("(prefers-color-scheme: light)").matches?"light":"dark");
+ document.documentElement.setAttribute("data-theme",theme);
+
+ document.addEventListener("DOMContentLoaded",function(){
+  function paintToggleIcons(){
+   var icon=document.documentElement.getAttribute("data-theme")==="light"?"☀️":"🌙";
+   ["themeToggleLanding","themeToggleApp"].forEach(function(id){var b=document.getElementById(id);if(b)b.textContent=icon;});
+  }
+  paintToggleIcons();
+  ["themeToggleLanding","themeToggleApp"].forEach(function(id){
+   var b=document.getElementById(id);
+   if(b)b.addEventListener("click",function(){
+    var next=document.documentElement.getAttribute("data-theme")==="light"?"dark":"light";
+    document.documentElement.setAttribute("data-theme",next);
+    try{localStorage.setItem("atl_theme",next);}catch(e){}
+    paintToggleIcons();
+   });
+  });
+  var fy=document.getElementById("footYear"); if(fy)fy.textContent=new Date().getFullYear();
+ });
+})();
+</script>
+
+<!-- ===================== LANDING ===================== -->
+<div id="landingPage" class="page hidden">
+ <header class="topbar">
+  <div class="brand"><span class="logo" id="logoSlotA">A</span> A T L DATA</div>
+  <div class="nav-actions">
+   <button class="theme-toggle" id="themeToggleLanding" title="Toggle dark/light">🌙</button>
+   <button class="btn btn-outline" data-action="login">Login</button>
+   <button class="btn btn-gold" data-action="register">Create account</button>
+  </div>
+ </header>
+
+ <section class="hero container">
+  <div class="eyebrow">Licensed digital services platform</div>
+  <h1>Data and airtime, <span>delivered instantly.</span></h1>
+  <p>A T L DATA is a secure platform for buying data, airtime and paying bills across every Nigerian network — backed by a wallet that funds itself automatically the moment you pay.</p>
+  <div class="hero-actions">
+   <button class="btn btn-gold" data-action="register">Create your account</button>
+   <button class="btn btn-outline" data-action="login">Sign in</button>
+  </div>
+  <div class="hero-card">
+   <small>Wallet balance on sign-up</small>
+   <div class="hero-balance">₦0.00</div>
+   <p style="color:var(--muted);font-size:13px">Fund it instantly with your own dedicated bank account — no manual approval, no waiting.</p>
+  </div>
+ </section>
+
+ <section class="container feature-grid">
+  <div class="feature"><div class="ic">📶</div><h3>All four networks</h3><p>MTN, Airtel, Glo and 9mobile — live prices, no markup surprises.</p></div>
+  <div class="feature"><div class="ic">📞</div><h3>Instant airtime</h3><p>Recharge any Nigerian number in seconds, any time of day.</p></div>
+  <div class="feature"><div class="ic">🏦</div><h3>Dedicated account number</h3><p>Every customer gets their own account. Transfer once, balance updates automatically.</p></div>
+  <div class="feature"><div class="ic">🔒</div><h3>PIN-protected</h3><p>A private 4-digit transaction PIN authorizes every purchase.</p></div>
+ </section>
+
+ <footer style="border-top:1px solid var(--border);padding:22px 0;text-align:center;color:var(--muted);font-size:12px">
+  © <span id="footYear"></span> A T L DATA. All rights reserved. &nbsp;·&nbsp; Developer: A T L CO.LTD
+ </footer>
+</div>
+
+<!-- ===================== AUTH ===================== -->
+<div id="authPage" class="page hidden">
+ <div class="auth-wrap">
+  <div class="auth-box">
+   <div class="back-row"><button class="btn btn-ghost btn-sm" id="authBack">← Back</button></div>
+   <div class="auth-head">
+    <div class="logo" id="logoSlotB">A</div>
+    <h2 id="authTitle">Welcome back</h2>
+    <p id="authSubtitle">Sign in to your A T L DATA account</p>
+   </div>
+   <div id="authMessage"></div>
+
+   <form id="loginForm">
+    <div class="field"><label>Email</label><input id="loginEmail" type="email" required autocomplete="username"></div>
+    <div class="field"><label>Password</label><input id="loginPassword" type="password" required autocomplete="current-password"></div>
+    <button class="btn btn-gold btn-block" type="submit">Login</button>
+    <p style="text-align:center;margin-top:16px;font-size:13px;color:var(--muted)">
+     <span class="link-txt" id="forgotPassword">Forgot password?</span><br><br>
+     No account? <span class="link-txt" id="showRegister">Register</span>
+    </p>
+   </form>
+
+   <form id="registerForm" class="hidden">
+    <div class="field"><label>Full name</label><input id="regName" required autocomplete="name"></div>
+    <div class="field"><label>Email</label><input id="regEmail" type="email" required autocomplete="username"></div>
+    <div class="field"><label>Phone number</label><input id="regPhone" type="tel" maxlength="11" placeholder="080xxxxxxxx" required></div>
+    <div class="field"><label>Password</label><input id="regPassword" type="password" minlength="6" required autocomplete="new-password"></div>
+    <div class="field"><label>Confirm password</label><input id="regConfirm" type="password" minlength="6" required autocomplete="new-password"></div>
+    <button class="btn btn-gold btn-block" type="submit">Create account</button>
+    <p style="text-align:center;margin-top:16px;font-size:13px;color:var(--muted)">
+     Already registered? <span class="link-txt" id="showLogin">Login</span>
+    </p>
+   </form>
+  </div>
+ </div>
+</div>
+
+<!-- verification modal -->
+<div class="modal-bg" id="verificationModal">
+ <div class="modal">
+  <div class="modal-head"><h3>Verify your email</h3><button class="close" data-close="verificationModal">×</button></div>
+  <div class="alert alert-info">We sent a verification link to your email address.</div>
+  <p style="color:var(--muted);font-size:13px;line-height:1.6;margin-bottom:16px">Open the email, tap the link, then come back and press the button below.</p>
+  <button class="btn btn-gold btn-block" id="checkVerification">I've verified my email</button><br><br>
+  <button class="btn btn-outline btn-block" id="resendVerification">Resend verification email</button>
+ </div>
+</div>
+
+<!-- set / enter PIN modal -->
+<div class="modal-bg" id="pinModal">
+ <div class="modal">
+  <div class="modal-head"><h3 id="pinTitle">Enter your PIN</h3><button class="close" data-close="pinModal">×</button></div>
+  <p id="pinSub" style="color:var(--muted);font-size:13px;text-align:center;margin-bottom:6px">Enter your 4-digit transaction PIN</p>
+  <div class="pin-dots" id="pinDots"><span></span><span></span><span></span><span></span></div>
+  <div class="pin-pad" id="pinPad"></div>
+ </div>
+</div>
+
+<!-- ===================== APP ===================== -->
+<div id="appPage" class="page hidden">
+ <div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+   <div class="side-brand"><div class="brand"><span class="logo" id="logoSlotC">A</span> A T L DATA</div></div>
+   <div class="side-title">MAIN</div>
+   <button class="side-link active" data-page="dashboard">🏠 Dashboard</button>
+   <button class="side-link" data-page="data">📶 Buy Data</button>
+   <button class="side-link" data-page="airtime">📞 Airtime</button>
+   <button class="side-link" data-page="bills">💡 Bills</button>
+   <button class="side-link" data-page="wallet">🏦 Wallet</button>
+   <button class="side-link" data-page="transactions">📜 Transactions</button>
+   <button class="side-link" data-page="support">🎧 Support</button>
+   <div class="side-title">ACCOUNT</div>
+   <button class="side-link" data-page="account">👤 My Account</button>
+   <button class="side-link" id="logoutBtn">🚪 Logout</button>
+   <div id="adminMenu" class="hidden">
+    <div class="side-title">ADMIN</div>
+    <button class="side-link" data-page="admin">🛠️ Admin Dashboard</button>
+   </div>
+   <div style="padding:16px 10px;color:var(--muted);font-size:11px">Developer: A T L CO.LTD</div>
+  </aside>
+
+  <main class="main">
+   <div class="app-top">
+    <div style="display:flex;align-items:center;gap:10px">
+     <button class="menu-btn" id="mobileMenu">☰</button>
+     <strong id="pageTitle">Dashboard</strong>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;font-size:13px">
+     <button class="theme-toggle" id="notifBell" title="Notifications" style="position:relative">🔔<span id="notifDot" class="hidden" style="position:absolute;top:5px;right:5px;width:8px;height:8px;border-radius:50%;background:var(--danger)"></span></button>
+     <button class="theme-toggle" id="themeToggleApp" title="Toggle dark/light">🌙</button>
+     <span id="userNameTop" style="color:var(--muted)">User</span>
+     <button class="btn btn-outline btn-sm" id="topLogout">Logout</button>
+    </div>
+   </div>
+
+   <div class="content">
+
+    <!-- DASHBOARD -->
+    <section class="app-section" id="page-dashboard">
+     <div class="page-head"><div><h2>Welcome back, <span id="welcomeName">there</span></h2><p>Here's what's happening with your account.</p></div></div>
+     <div class="stats">
+      <div class="stat"><small>Wallet balance</small><strong id="dashBalance">₦0.00</strong></div>
+      <div class="stat"><small>Total transactions</small><strong id="dashTxCount">0</strong></div>
+      <div class="stat"><small>Account tier</small><strong id="dashTier">Basic</strong></div>
+      <div class="stat"><small>Status</small><strong style="color:var(--success)">Active</strong></div>
+     </div>
+     <div class="page-head"><h3 style="font-size:16px">Quick services</h3></div>
+     <div class="quick-grid">
+      <button class="qbtn" data-page="data"><div class="ic">📶</div><strong>Buy data</strong><span>All networks</span></button>
+      <button class="qbtn" data-page="airtime"><div class="ic">📞</div><strong>Airtime</strong><span>Instant top-up</span></button>
+      <button class="qbtn" data-page="wallet"><div class="ic">🏦</div><strong>Fund wallet</strong><span>Auto or manual</span></button>
+      <button class="qbtn" data-page="transactions"><div class="ic">📜</div><strong>History</strong><span>All activity</span></button>
+     </div>
+     <br>
+     <div class="card">
+      <div class="page-head"><h3 style="font-size:15px">Recent activity</h3><button class="btn btn-outline btn-sm" data-page="transactions">View all</button></div>
+      <div id="recentTx"></div>
+     </div>
+    </section>
+
+    <!-- DATA -->
+    <section class="app-section hidden" id="page-data">
+     <div class="page-head"><div><h2>Buy Data</h2><p>Prices update live from our network partner.</p></div>
+      <button class="btn btn-outline btn-sm" id="reloadPlans">↻ Reload</button></div>
+     <div id="plansMessage"></div>
+     <div id="plansContainer" class="plan-grid"><div class="loading">Loading data plans…</div></div>
+    </section>
+
+    <!-- AIRTIME -->
+    <section class="app-section hidden" id="page-airtime">
+     <div class="page-head"><h2>Buy Airtime</h2></div>
+     <div class="card">
+      <form id="airtimeForm">
+       <div class="field"><label>Network</label>
+        <select id="airtimeNetwork" required><option value="">Select network</option>
+         <option value="mtn">MTN</option><option value="airtel">Airtel</option><option value="glo">Glo</option><option value="9mobile">9mobile</option>
+        </select></div>
+       <div class="field"><label>Phone number</label><input id="airtimePhone" type="tel" maxlength="11" required></div>
+       <div class="field"><label>Amount (₦)</label><input id="airtimeAmount" type="number" min="50" max="50000" required></div>
+       <button class="btn btn-gold btn-block" type="submit">Buy Airtime</button>
+      </form>
+     </div>
+    </section>
+
+    <!-- BILLS -->
+    <section class="app-section hidden" id="page-bills">
+     <div class="page-head"><h2>Pay Bills</h2></div>
+     <div class="card">
+      <div class="alert alert-info">Electricity, cable TV and exam-pin bills are coming soon. Contact support if you need one urgently.</div>
+      <div class="field"><label>Select service</label>
+       <select id="billType"><option value="">Select service</option>
+        <option>Electricity</option><option>Cable TV</option><option>Internet</option><option>Exam PIN (WAEC/NECO)</option>
+       </select></div>
+     </div>
+    </section>
+
+    <!-- WALLET -->
+    <section class="app-section hidden" id="page-wallet">
+     <div class="page-head"><div><h2>Wallet</h2><p>Balance: <strong id="walletBalance" style="color:var(--gold)">₦0.00</strong></p></div></div>
+     <div id="baBox" class="deposit-box"><h3>Your personal deposit account</h3><p>Loading…</p></div>
+     <div class="deposit-box">
+      <h3>Manual deposit (fallback)</h3>
+      <p><strong>Bank:</strong> Wema Bank</p>
+      <p><strong>Account name:</strong> SELLANDEARN/LAWAN AHMAD TIJJANI</p>
+      <p><strong>Account number:</strong> 9817460070</p>
+      <div class="copy-row"><input id="manualAcct" value="9817460070" readonly><button class="btn btn-outline btn-sm" id="copyManual">Copy</button></div>
+     </div>
+     <br>
+     <div class="card"><h3 style="font-size:15px;margin-bottom:10px">Deposit history</h3><div id="depositHistory"></div></div>
+    </section>
+
+    <!-- TRANSACTIONS -->
+    <section class="app-section hidden" id="page-transactions">
+     <div class="page-head"><h2>Transactions</h2><button class="btn btn-outline btn-sm" id="refreshTx">↻ Refresh</button></div>
+     <div class="table-wrap"><div id="txTable"></div></div>
+    </section>
+
+    <!-- SUPPORT -->
+    <section class="app-section hidden" id="page-support">
+     <div class="page-head"><h2>Support</h2></div>
+     <div class="quick-grid">
+      <button class="qbtn" id="supportEmail"><div class="ic">📧</div><strong>Email support</strong><span>Get a response by email</span></button>
+      <button class="qbtn" id="supportWhatsApp"><div class="ic">💬</div><strong>WhatsApp</strong><span>Chat with us</span></button>
+     </div>
+    </section>
+
+    <!-- ACCOUNT -->
+    <section class="app-section hidden" id="page-account">
+     <div class="page-head"><h2>My Account</h2></div>
+     <div class="card">
+      <div class="field"><label>Name</label><input id="accName"></div>
+      <div class="field"><label>Phone</label><input id="accPhone"></div>
+      <button class="btn btn-gold" id="saveProfile">Save changes</button>
+     </div>
+     <br>
+     <div class="card">
+      <div class="field"><label>Email</label><input id="accEmail" readonly></div>
+      <div class="field"><label>Email verification</label><input id="accVerified" readonly></div>
+      <button class="btn btn-outline" id="sendVerifyAcct">Send verification email</button>
+     </div>
+     <br>
+     <div class="card">
+      <h3 style="font-size:15px;margin-bottom:10px">Transaction PIN</h3>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:12px">Required before every data or airtime purchase.</p>
+      <button class="btn btn-outline" id="setPinBtn">Set / change PIN</button>
+     </div>
+    </section>
+
+    <!-- ADMIN (rendered by admin.js below) -->
+    <section class="app-section hidden" id="page-admin">
+     <div class="page-head"><div><h2 id="admTitle">Admin Dashboard</h2><p>Worker: <strong id="workerStatus">Checking…</strong></p></div></div>
+     <div id="admView"></div>
+    </section>
+
+   </div>
+  </main>
+ </div>
+
+ <div class="mobile-bottom">
+  <button data-page="dashboard"><span>🏠</span>Home</button>
+  <button data-page="data"><span>📶</span>Data</button>
+  <button data-page="wallet"><span>🏦</span>Wallet</button>
+  <button data-page="transactions"><span>📜</span>History</button>
+  <button data-page="account"><span>👤</span>Account</button>
+ </div>
+</div>
+
+<!-- notifications modal -->
+<div class="modal-bg" id="notifModal">
+ <div class="modal">
+  <div class="modal-head"><h3>Notifications</h3><button class="close" data-close="notifModal">×</button></div>
+  <div id="notifList"><div class="loading">Loading…</div></div>
+ </div>
+</div>
+
+<!-- plan purchase modal -->
+<div class="modal-bg" id="planModal">
+ <div class="modal">
+  <div class="modal-head"><h3 id="planModalTitle">Data Plan</h3><button class="close" data-close="planModal">×</button></div>
+  <div id="selectedPlanInfo"></div>
+  <div class="field" style="margin-top:14px"><label>Phone number</label><input id="buyPhone" type="tel" maxlength="11" placeholder="08012345678"></div>
+  <button class="btn btn-gold btn-block" id="buyDataBtn">Buy Now</button>
+ </div>
+</div>
+
+<script>
+/* ===================== A T L DATA — core app ===================== */
+const firebaseConfig = {
+ apiKey:"AIzaSyA_x5ZYj7D5Dt_9Bq-NzlchpRPRd3QN21I", authDomain:"a-t-l-data.firebaseapp.com",
+ projectId:"a-t-l-data", storageBucket:"a-t-l-data.firebasestorage.app",
+ messagingSenderId:"519558305824", appId:"1:519558305824:web:cf6dd75ef20ef708c24445"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth(), db = firebase.firestore();
+const ADMIN_EMAIL = "lawanahmadt03@gmail.com";
+const WORKER = "https://api.atldata.com.ng";
+const SUPPORT_EMAIL = "lawanahmadt03@gmail.com";
+const SUPPORT_WHATSAPP = "2347073160817";
+const LOGO_SVG_B64 = "PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMGE5MjU1Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMDYzZDI2Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSIxMTIiIGZpbGw9InVybCgjZykiLz48cGF0aCBkPSJNMTUwIDM5MiBMMjU2IDE0MiBMMzYyIDM5MiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjQyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cGF0aCBkPSJNMTk4IDMxOCBIMzE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmQ3MDAiIHN0cm9rZS13aWR0aD0iMzAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0yMjIgOTIgQTUyIDUyIDAgMCAxIDI5MCA5MiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZkNzAwIiBzdHJva2Utd2lkdGg9IjIwIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cGF0aCBkPSJNMTkwIDU4IEE5NCA5NCAwIDAgMSAzMjIgNTgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZDcwMCIgc3Ryb2tlLXdpZHRoPSIyMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBvcGFjaXR5PSIuNjUiLz48L3N2Zz4=";
+const LOGO_SRC = "data:image/svg+xml;base64," + LOGO_SVG_B64;
+document.querySelectorAll("#logoSlotA,#logoSlotB,#logoSlotC").forEach(el=>{el.innerHTML='<img src="'+LOGO_SRC+'" alt="ATL">';});
+
+let currentUser=null, currentUserData=null, isAdmin=false, currentPage="dashboard";
+let allPlans={mtn:[],airtel:[],glo:[],"9mobile":[]}, selectedPlan=null, activeTab={};
+const $=id=>document.getElementById(id);
+const money=n=>"₦"+Number(n||0).toLocaleString("en-NG",{minimumFractionDigits:2,maximumFractionDigits:2});
+const escapeHTML=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+function showToast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");clearTimeout(window.__tt);window.__tt=setTimeout(()=>t.classList.remove("show"),3500);}
+function showMsg(id,msg,type="info"){const el=$(id);if(el)el.innerHTML='<div class="alert alert-'+type+'">'+escapeHTML(msg)+"</div>";}
+function clearMsg(id){const el=$(id);if(el)el.innerHTML="";}
+function formatDate(ts){try{if(!ts)return"-";if(ts.toDate)return ts.toDate().toLocaleString("en-NG");return new Date(ts).toLocaleString("en-NG");}catch{return"-";}}
+function friendlyError(e){const m={"auth/invalid-email":"Enter a valid email address.","auth/user-not-found":"No account found with this email.",
+ "auth/wrong-password":"Incorrect password.","auth/invalid-credential":"Email or password is incorrect.",
+ "auth/email-already-in-use":"This email is already registered.","auth/weak-password":"Password needs at least 6 characters.",
+ "auth/too-many-requests":"Too many attempts. Try again shortly.","auth/network-request-failed":"Network error."};
+ return m[e&&e.code]||(e&&e.message)||"Something went wrong.";}
+
+/* ---- persistence + auth gate (avoid flash) ---- */
+auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(()=>{});
+function releaseGate(){const g=$("authGate");if(g)g.remove();}
+setTimeout(releaseGate,4000);
+
+/* ---- auth nav ---- */
+function openAuth(mode){$("landingPage").classList.add("hidden");$("authPage").classList.remove("hidden");mode==="register"?showRegister():showLogin();}
+function showLogin(){$("authTitle").textContent="Welcome back";$("authSubtitle").textContent="Sign in to your account";$("loginForm").classList.remove("hidden");$("registerForm").classList.add("hidden");clearMsg("authMessage");}
+function showRegister(){$("authTitle").textContent="Create your account";$("authSubtitle").textContent="Takes less than a minute";$("loginForm").classList.add("hidden");$("registerForm").classList.remove("hidden");clearMsg("authMessage");}
+function backFromAuth(){$("authPage").classList.add("hidden");$("landingPage").classList.remove("hidden");showLogin();}
+
+$("loginForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+ try{
+  const cred=await auth.signInWithEmailAndPassword($("loginEmail").value.trim(),$("loginPassword").value);
+  await cred.user.reload();
+  if(!cred.user.emailVerified){$("verificationModal").classList.add("show");showMsg("authMessage","Please verify your email to continue.","info");return;}
+  showToast("Welcome back.");
+ }catch(err){showMsg("authMessage",friendlyError(err),"error");}
+});
+$("registerForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+ const name=$("regName").value.trim(),email=$("regEmail").value.trim(),phone=$("regPhone").value.trim(),
+  pw=$("regPassword").value,pw2=$("regConfirm").value;
+ if(pw!==pw2)return showMsg("authMessage","Passwords do not match.","error");
+ if(!/^0[789][01]\d{8}$/.test(phone))return showMsg("authMessage","Enter a valid 11-digit phone number.","error");
+ try{
+  const cred=await auth.createUserWithEmailAndPassword(email,pw);
+  await db.collection("users").doc(cred.user.uid).set({
+   uid:cred.user.uid,name,email,phone,balance:0,tier:"basic",
+   role:email.toLowerCase()===ADMIN_EMAIL.toLowerCase()?"admin":"user",
+   createdAt:firebase.firestore.FieldValue.serverTimestamp(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+  });
+  await cred.user.sendEmailVerification();
+  showToast("Account created. Check your email.");
+  $("verificationModal").classList.add("show");
+ }catch(err){showMsg("authMessage",friendlyError(err),"error");}
+});
+$("showRegister").addEventListener("click",showRegister);
+$("showLogin").addEventListener("click",showLogin);
+$("authBack").addEventListener("click",backFromAuth);
+$("forgotPassword").addEventListener("click",async()=>{
+ const email=$("loginEmail").value.trim();
+ if(!email)return showMsg("authMessage","Enter your email first.","info");
+ try{await auth.sendPasswordResetEmail(email);showMsg("authMessage","Password reset email sent.","success");}
+ catch(err){showMsg("authMessage",friendlyError(err),"error");}
+});
+$("resendVerification").addEventListener("click",async()=>{
+ if(!auth.currentUser)return;
+ try{await auth.currentUser.sendEmailVerification();showToast("Verification email sent again.");}catch(err){showToast(friendlyError(err));}
+});
+$("checkVerification").addEventListener("click",async()=>{
+ if(!auth.currentUser)return;
+ try{await auth.currentUser.reload();
+  if(auth.currentUser.emailVerified){$("verificationModal").classList.remove("show");showToast("Email verified.");await startApp();}
+  else showToast("Not verified yet — open the email link first.");
+ }catch(err){showToast(friendlyError(err));}
+});
+
+/* ---- inactivity logout ---- */
+let idleTimer=null;
+function resetIdle(){if(!currentUser)return;clearTimeout(idleTimer);idleTimer=setTimeout(async()=>{if(currentUser){await auth.signOut();showToast("Logged out after 25 minutes of inactivity.");}},25*60*1000);}
+["click","keydown","touchstart","scroll"].forEach(ev=>document.addEventListener(ev,resetIdle,{passive:true}));
+
+/* ---- auth state ---- */
+auth.onAuthStateChanged(async user=>{
+ setTimeout(releaseGate,60);
+ if(!user){currentUser=null;currentUserData=null;isAdmin=false;
+  $("appPage").classList.add("hidden");$("authPage").classList.add("hidden");$("landingPage").classList.remove("hidden");return;}
+ currentUser=user; try{await user.reload();}catch{}
+ if(!user.emailVerified){$("landingPage").classList.add("hidden");$("authPage").classList.remove("hidden");$("verificationModal").classList.add("show");return;}
+ await startApp();
+});
+
+async function startApp(){
+ if(!auth.currentUser)return;
+ currentUser=auth.currentUser;
+ try{
+  const ref=db.collection("users").doc(currentUser.uid);
+  const snap=await ref.get();
+  if(snap.exists)currentUserData=snap.data();
+  else{currentUserData={uid:currentUser.uid,name:currentUser.email.split("@")[0],email:currentUser.email,balance:0,tier:"basic"};
+   await ref.set({...currentUserData,createdAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});}
+ }catch{currentUserData={uid:currentUser.uid,name:currentUser.email.split("@")[0],email:currentUser.email,balance:0,tier:"basic"};}
+
+ if(currentUserData.isBlocked===true){await auth.signOut();showToast("Your account is restricted. Please contact support.");return;}
+ isAdmin=currentUser.email.toLowerCase()===ADMIN_EMAIL.toLowerCase();
+ $("landingPage").classList.add("hidden");$("authPage").classList.add("hidden");$("appPage").classList.remove("hidden");
+ $("adminMenu").classList.toggle("hidden",!isAdmin);
+ updateUserUI(); resetIdle();
+ let saved=null; try{saved=sessionStorage.getItem("atl_last_page");}catch{}
+ if(saved && $("page-"+saved) && !(saved.startsWith("admin")&&!isAdmin)) openPage(saved); else openPage("dashboard");
+ checkUnreadNotif();
+}
+
+function updateUserUI(){
+ const name=currentUserData?.name||currentUser?.email?.split("@")[0]||"User";
+ $("userNameTop").textContent=name; $("welcomeName").textContent=name;
+ $("accName").value=name; $("accPhone").value=currentUserData?.phone||""; $("accEmail").value=currentUser?.email||"";
+ $("accVerified").value=currentUser?.emailVerified?"Verified":"Not verified";
+ $("dashTier").textContent=(currentUserData?.tier||"basic")[0].toUpperCase()+(currentUserData?.tier||"basic").slice(1);
+ updateBalance(currentUserData?.balance||0);
+}
+function updateBalance(bal){$("dashBalance").textContent=money(bal);$("walletBalance").textContent=money(bal);}
+
+/* ---- navigation ---- */
+function openPage(page){
+ if(!currentUser)return;
+ if(page.startsWith("admin")&&!isAdmin){showToast("Admin access required.");return;}
+ currentPage=page; try{sessionStorage.setItem("atl_last_page",page);}catch{}
+ document.querySelectorAll(".app-section").forEach(s=>s.classList.add("hidden"));
+ const target=$("page-"+page); if(!target){currentPage="dashboard";$("page-dashboard").classList.remove("hidden");return;}
+ target.classList.remove("hidden");
+ document.querySelectorAll(".side-link,.mobile-bottom button").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
+ const titles={dashboard:"Dashboard",data:"Buy Data",airtime:"Airtime",bills:"Bills",wallet:"Wallet",transactions:"Transactions",support:"Support",account:"My Account",admin:"Admin"};
+ $("pageTitle").textContent=titles[page]||"A T L DATA";
+ $("sidebar").classList.remove("open");
+ if(page==="dashboard")loadDashboard();
+ if(page==="transactions")loadTransactions();
+ if(page==="wallet"){loadDeposits();loadMyDepositAccount();}
+ if(page==="data")loadPlans();
+ if(page==="admin")openAdmin();
+}
+document.addEventListener("click",e=>{
+ const p=e.target.closest("[data-page]"); if(p){e.preventDefault();openPage(p.dataset.page);}
+ const a=e.target.closest("[data-action]"); if(a){e.preventDefault();openAuth(a.dataset.action);}
+ const c=e.target.closest("[data-close]"); if(c){const m=$(c.dataset.close);if(m)m.classList.remove("show");}
+});
+$("mobileMenu").addEventListener("click",()=>$("sidebar").classList.toggle("open"));
+async function logout(){try{await auth.signOut();showToast("Logged out.");}catch(err){showToast(friendlyError(err));}}
+$("topLogout").addEventListener("click",logout); $("logoutBtn").addEventListener("click",logout);
+
+/* ---- dashboard ---- */
+async function loadDashboard(){
+ if(!currentUser)return;
+ try{
+  const us=await db.collection("users").doc(currentUser.uid).get();
+  if(us.exists){currentUserData=us.data();updateUserUI();}
+  const snap=await db.collection("transactions").where("uid","==",currentUser.uid).limit(50).get();
+  const docs=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+  $("dashTxCount").textContent=docs.length;
+  renderRecent(docs.slice(0,5));
+ }catch{$("recentTx").innerHTML='<div class="empty">No activity yet.</div>';}
+}
+function renderRecent(items){
+ if(!items.length){$("recentTx").innerHTML='<div class="empty">No transactions yet.</div>';return;}
+ $("recentTx").innerHTML=items.map(t=>
+  '<div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)">'+
+  '<div><strong style="font-size:14px">'+escapeHTML(t.type||"Transaction")+'</strong><div style="font-size:12px;color:var(--muted);margin-top:3px">'+escapeHTML(t.description||"")+'</div></div>'+
+  '<div style="text-align:right"><strong>'+money(t.amount)+'</strong><div style="font-size:11px;color:var(--muted)">'+formatDate(t.createdAt)+'</div></div></div>'
+ ).join("");
+}
+
+/* ---- data plans ---- */
+async function fetchPlans(network){
+ const r=await fetch(WORKER+"/test-plans/"+encodeURIComponent(network));
+ const d=await r.json().catch(()=>null);
+ if(!d)throw new Error("Invalid response from server.");
+ return Array.isArray(d.plans)?d.plans:[];
+}
+async function loadPlans(){
+ $("plansContainer").innerHTML='<div class="loading">Loading plans…</div>';
+ try{
+  for(const n of ["mtn","airtel","glo","9mobile"]){try{allPlans[n]=await fetchPlans(n);}catch{allPlans[n]=[];}}
+  renderAllPlans();
+ }catch(err){$("plansContainer").innerHTML="";showMsg("plansMessage",err.message,"error");}
+}
+function normalizePlan(p){
+ const name=p.name||p.plan_name||p.title||"Data Plan";
+ const amount=Number(p.price??p.amount??0);
+ return{...p,displayName:String(name),displayAmount:amount};
+}
+function categorize(name){
+ const n=name.toLowerCase();
+ if(n.includes("sme"))return"SME";
+ if(n.includes("gift"))return"Gifting";
+ if(n.includes("corp")||/\bcg\b/.test(n))return"Corporate";
+ return"Standard";
+}
+function renderAllPlans(){
+ const networks=[["mtn","MTN"],["airtel","Airtel"],["glo","Glo"],["9mobile","9mobile"]];
+ let html="";
+ networks.forEach(([key,label])=>{
+  const raw=allPlans[key]||[];
+  html+='<div class="network-title">'+label+"</div>";
+  if(!raw.length){html+='<div class="empty" style="grid-column:1/-1">No '+label+' plans available right now.</div>';return;}
+  const norm=raw.map(normalizePlan);
+  const cats={}; norm.forEach(p=>{const c=categorize(p.displayName);(cats[c]=cats[c]||[]).push(p);});
+  const order=["SME","Gifting","Corporate","Standard"].filter(c=>cats[c]&&cats[c].length);
+  if(order.length>1){
+   if(!activeTab[key]||!order.includes(activeTab[key]))activeTab[key]=order[0];
+   html+='<div class="plan-tabs">'+order.map(c=>'<button type="button" class="plan-tab '+(c===activeTab[key]?"active":"")+'" data-net="'+key+'" data-cat="'+c+'">'+c+"</button>").join("")+"</div>";
+  }else activeTab[key]=order[0]||"Standard";
+  const shown=cats[activeTab[key]]||[];
+  shown.forEach(p=>{
+   const idx=norm.indexOf(p);
+   html+='<div class="plan"><strong>'+escapeHTML(p.displayName)+"</strong><small>"+label+' data plan</small><div class="price">'+money(p.displayAmount)+
+    '</div><button class="btn btn-gold plan-select" data-network="'+escapeHTML(key)+'" data-index="'+idx+'">Select</button></div>';
+  });
+ });
+ $("plansContainer").innerHTML=html;
+ $("plansContainer").querySelectorAll(".plan-select").forEach(b=>b.addEventListener("click",()=>{
+  const net=b.dataset.network,idx=Number(b.dataset.index);
+  openPlanModal(net,normalizePlan(allPlans[net][idx]));
+ }));
+ $("plansContainer").querySelectorAll(".plan-tab").forEach(t=>t.addEventListener("click",()=>{activeTab[t.dataset.net]=t.dataset.cat;renderAllPlans();}));
+}
+$("reloadPlans").addEventListener("click",loadPlans);
+
+function openPlanModal(network,plan){
+ selectedPlan={network,...plan};
+ $("planModalTitle").textContent=network.toUpperCase()+" Data Plan";
+ $("selectedPlanInfo").innerHTML='<div class="card"><h3>'+escapeHTML(plan.displayName)+"</h3><p style=\"color:var(--muted);margin-top:6px\">"+
+  network.toUpperCase()+'</p><p style="font-size:22px;font-weight:800;color:var(--gold);margin-top:8px">'+money(plan.displayAmount)+"</p></div>";
+ $("buyPhone").value="";
+ $("planModal").classList.add("show");
+}
+$("buyDataBtn").addEventListener("click",async()=>{
+ if(!selectedPlan)return;
+ const phone=($("buyPhone").value||"").trim();
+ if(!/^0[789][01]\d{8}$/.test(phone))return showToast("Enter a valid 11-digit phone number.");
+ if(!confirm("Buy "+selectedPlan.displayName+" for "+phone+" at "+money(selectedPlan.displayAmount)+"?"))return;
+ $("planModal").classList.remove("show");
+ const pin=await requirePin(); if(pin===null){$("planModal").classList.add("show");return;}
+ const btn=$("buyDataBtn"); btn.disabled=true; btn.textContent="Processing…";
+ try{
+  const token=await auth.currentUser.getIdToken(true);
+  const r=await fetch(WORKER+"/buy-data",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+token},
+   body:JSON.stringify({network:selectedPlan.network,plan_code:String(selectedPlan.code),phone,pin})});
+  const d=await r.json(); showToast(d.message||"Done.");
+  if(r.ok){$("planModal").classList.remove("show");await loadDashboard();}
+ }catch{showToast("Network error. Check Transactions before retrying.");}
+ btn.disabled=false; btn.textContent="Buy Now";
+});
+
+/* ---- airtime ---- */
+$("airtimeForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+ const network=$("airtimeNetwork").value,phone=$("airtimePhone").value.trim(),amount=Number($("airtimeAmount").value);
+ if(!network||!/^0[789][01]\d{8}$/.test(phone)||!Number.isInteger(amount)||amount<50||amount>50000)
+  return showToast("Enter a valid network, phone number and amount.");
+ if(!confirm("Buy "+money(amount)+" "+network.toUpperCase()+" airtime for "+phone+"?"))return;
+ const pin=await requirePin(); if(pin===null)return;
+ const btn=e.target.querySelector('button[type="submit"]'); btn.disabled=true; btn.textContent="Processing…";
+ try{
+  const token=await auth.currentUser.getIdToken(true);
+  const r=await fetch(WORKER+"/buy-airtime",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+token},
+   body:JSON.stringify({network,phone,amount,pin})});
+  const d=await r.json(); showToast(d.message||"Done.");
+  if(r.ok){e.target.reset();await loadDashboard();}
+ }catch{showToast("Network error. Check Transactions before retrying.");}
+ btn.disabled=false; btn.textContent="Buy Airtime";
+});
+
+/* ---- transaction PIN (client gate; also verified server-side) ---- */
+async function sha256Hex(str){
+ const buf=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(str));
+ return[...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,"0")).join("");
+}
+function pinPromise(mode){
+ return new Promise(resolve=>{
+  let entered=""; const modal=$("pinModal"),dots=$("pinDots").children,pad=$("pinPad");
+  $("pinTitle").textContent=mode==="set"?"Set your PIN":"Enter your PIN";
+  $("pinSub").textContent=mode==="set"?"Choose a 4-digit PIN you'll remember":"Enter your 4-digit transaction PIN";
+  function render(){for(let i=0;i<4;i++)dots[i].classList.toggle("filled",i<entered.length);}
+  function keys(){
+   const arr=["1","2","3","4","5","6","7","8","9","⌫","0","OK"];
+   pad.innerHTML=arr.map(k=>'<button type="button" class="pin-key" data-k="'+k+'">'+k+"</button>").join("");
+   pad.querySelectorAll(".pin-key").forEach(b=>b.addEventListener("click",()=>{
+    const k=b.dataset.k;
+    if(k==="⌫")entered=entered.slice(0,-1);
+    else if(k==="OK"){if(entered.length===4){cleanup();resolve(entered);}}
+    else if(entered.length<4)entered+=k;
+    render();
+   }));
+  }
+  function cleanup(){modal.classList.remove("show");}
+  const closeBtn=modal.querySelector(".close");
+  const onClose=()=>{cleanup();resolve(null);};
+  closeBtn.onclick=onClose;
+  render(); keys(); modal.classList.add("show");
+ });
+}
+async function requirePin(){
+ if(!currentUserData?.pinHash){showToast("Please set a transaction PIN first (My Account).");openPage("account");return null;}
+ const pin=await pinPromise("enter"); if(pin===null)return null;
+ const hash=await sha256Hex(pin+currentUser.uid);
+ if(hash!==currentUserData.pinHash){showToast("Incorrect PIN.");return null;}
+ return pin;
+}
+$("setPinBtn").addEventListener("click",async()=>{
+ if(currentUserData?.pinHash){
+  const old=await requirePin(); if(old===null)return;
+ }
+ const p1=await pinPromise("set"); if(p1===null)return;
+ const p2=await pinPromise("set"); if(p2===null)return;
+ if(p1!==p2)return showToast("PINs did not match. Try again.");
+ const hash=await sha256Hex(p1+currentUser.uid);
+ await db.collection("users").doc(currentUser.uid).update({pinHash:hash,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
+ currentUserData.pinHash=hash; showToast("Transaction PIN saved.");
+});
+
+/* ---- wallet: BillStack personal account + manual ---- */
+async function loadMyDepositAccount(){
+ if(!currentUser)return;
+ const box=$("baBox");
+ try{
+  const token=await auth.currentUser.getIdToken();
+  const r=await fetch(WORKER+"/account/create",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+token}});
+  const d=await r.json();
+  if(!d.status||!d.data){box.innerHTML="<h3>Your personal deposit account</h3><p>"+escapeHTML(d.message||"Could not load account.")+"</p>";return;}
+  box.innerHTML='<h3>Your personal deposit account</h3><p>Transfer any amount here — your wallet updates automatically, usually within a minute.</p>'+
+   "<p><strong>Bank:</strong> "+escapeHTML(d.data.bank_name)+"</p>"+
+   "<p><strong>Account name:</strong> "+escapeHTML(d.data.account_name)+"</p>"+
+   "<p><strong>Account number:</strong> "+escapeHTML(d.data.account_number)+'</p>'+
+   '<div class="copy-row"><input id="myAcctNum" value="'+escapeHTML(d.data.account_number)+'" readonly><button class="btn btn-outline btn-sm" id="copyMyAcct">Copy</button></div>';
+  $("copyMyAcct").addEventListener("click",async()=>{try{await navigator.clipboard.writeText(d.data.account_number);showToast("Copied.");}catch{showToast("Copy failed — long-press to copy.");}});
+ }catch{box.innerHTML="<h3>Your personal deposit account</h3><p>Network error. Reload this page.</p>";}
+}
+$("copyManual").addEventListener("click",async()=>{try{await navigator.clipboard.writeText("9817460070");showToast("Copied.");}catch{showToast("Copy failed — long-press to copy.");}});
+async function loadDeposits(){
+ if(!currentUser)return; const box=$("depositHistory");
+ try{
+  const snap=await db.collection("transactions").where("uid","==",currentUser.uid).where("type","==","Deposit").get();
+  const items=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+  if(!items.length){box.innerHTML='<div class="empty">No deposits yet.</div>';return;}
+  box.innerHTML=items.map(d=>
+   '<div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)">'+
+   "<div><strong>"+money(d.amount)+'</strong><div style="font-size:12px;color:var(--muted)">'+formatDate(d.createdAt)+"</div></div>"+
+   '<span class="badge badge-'+(d.status==="success"?"ok":d.status==="failed"?"bad":"wait")+'">'+escapeHTML(d.status||"pending")+"</span></div>"
+  ).join("");
+ }catch{box.innerHTML='<div class="empty">Unable to load deposits.</div>';}
+}
+
+/* ---- transactions ---- */
+async function loadTransactions(){
+ if(!currentUser)return; const box=$("txTable"); box.innerHTML='<div class="loading">Loading…</div>';
+ try{
+  const snap=await db.collection("transactions").where("uid","==",currentUser.uid).get();
+  const items=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+  if(!items.length){box.innerHTML='<div class="empty">No transactions found.</div>';return;}
+  box.innerHTML='<table><thead><tr><th>Type</th><th>Description</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead><tbody>'+
+   items.map(t=>"<tr><td>"+escapeHTML(t.type||"-")+"</td><td>"+escapeHTML(t.description||"-")+"</td><td>"+money(t.amount)+
+    '</td><td><span class="badge badge-'+(["success","approved"].includes(t.status)?"ok":["failed","rejected"].includes(t.status)?"bad":"wait")+'">'+
+    escapeHTML(t.status||"-")+"</span></td><td>"+formatDate(t.createdAt)+"</td></tr>").join("")+"</tbody></table>";
+ }catch{box.innerHTML='<div class="empty">Unable to load transactions.</div>';}
+}
+$("refreshTx").addEventListener("click",loadTransactions);
+
+/* ---- bills (placeholder) ---- */
+$("billType").addEventListener("change",()=>{if($("billType").value)showToast($("billType").value+" is coming soon.");});
+
+/* ---- account ---- */
+$("saveProfile").addEventListener("click",async()=>{
+ const name=$("accName").value.trim(),phone=$("accPhone").value.trim();
+ if(!name)return showToast("Enter your name.");
+ await db.collection("users").doc(currentUser.uid).update({name,phone,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
+ currentUserData.name=name; currentUserData.phone=phone; updateUserUI(); showToast("Profile updated.");
+});
+$("sendVerifyAcct").addEventListener("click",async()=>{try{await auth.currentUser.sendEmailVerification();showToast("Verification email sent.");}catch(err){showToast(friendlyError(err));}});
+
+/* ---- support ---- */
+$("supportEmail").addEventListener("click",()=>{window.location.href="mailto:"+SUPPORT_EMAIL+"?subject=A%20T%20L%20DATA%20Support";});
+$("supportWhatsApp").addEventListener("click",()=>{window.open("https://wa.me/"+SUPPORT_WHATSAPP,"_blank");});
+
+/* ---- notifications ---- */
+async function fetchNotifications(){
+ const snap=await db.collection("notifications").limit(50).get();
+ return snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+}
+async function checkUnreadNotif(){
+ try{
+  const items=await fetchNotifications(); if(!items.length)return;
+  let lastSeen=0; try{lastSeen=Number(localStorage.getItem("atl_notif_seen")||0);}catch{}
+  const newest=items[0].createdAt?.seconds||0;
+  $("notifDot").classList.toggle("hidden",newest<=lastSeen);
+ }catch{}
+}
+$("notifBell").addEventListener("click",async()=>{
+ $("notifModal").classList.add("show");
+ $("notifList").innerHTML='<div class="loading">Loading…</div>';
+ try{
+  const items=await fetchNotifications();
+  $("notifList").innerHTML=items.length?items.map(n=>
+   '<div style="padding:12px 0;border-bottom:1px solid var(--border)"><strong style="font-size:14px">'+escapeHTML(n.title||"Notice")+
+   '</strong><div style="font-size:13px;color:var(--muted);margin-top:4px">'+escapeHTML(n.message||"")+
+   '</div><div style="font-size:11px;color:var(--muted);margin-top:4px">'+formatDate(n.createdAt)+"</div></div>"
+  ).join(""):'<div class="empty">No notifications yet.</div>';
+  if(items.length){try{localStorage.setItem("atl_notif_seen",String(items[0].createdAt?.seconds||Date.now()/1000));}catch{}}
+  $("notifDot").classList.add("hidden");
+ }catch{$("notifList").innerHTML='<div class="empty">Unable to load notifications.</div>';}
+});
+
+/* ---- worker health ---- */
+(async()=>{try{const r=await fetch(WORKER+"/health");console.log("Worker:",await r.text());}catch(e){console.warn("Worker health check failed",e);}})();
+
+document.querySelectorAll(".modal-bg").forEach(m=>m.addEventListener("click",e=>{if(e.target===m)m.classList.remove("show");}));
+</script>
+
+<script>
+/* ===================== A T L DATA — admin panel (17 sections) ===================== */
+(function(){
+const F=firebase.firestore.FieldValue, ts=()=>F.serverTimestamp();
+let cur="home", users=[];
+const M=[["users","👥 Users Management"],["funding","💰 Funding / Debit"],["tx","🧾 Transactions"],["plans","📶 Data Plans"],
+ ["services","⚙️ Services Management"],["discounts","🏷️ Discounts"],["charges","💳 Service Charges"],["limits","🪪 KYC & Limits"],
+ ["restricted","🚫 Restricted Users"],["notif","🔔 Notifications"],["analytics","📈 Analytics"],["calc","🧮 Sales Calculator"],
+ ["staff","🧑‍💼 Staff / Roles"],["apisec","🔐 API Security"],["keys","💳 Payment Gateway"],["apireq","🔑 API Access Requests"],["config","🛠️ Configuration"]];
+
+const stat=(l,v)=>'<div class="stat"><small>'+l+"</small><strong>"+v+"</strong></div>";
+const card=h=>'<div class="card" style="margin-bottom:14px">'+h+"</div>";
+const row=(t,s,b)=>'<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:13px 0;border-bottom:1px solid var(--border)">'+
+ '<div><strong style="font-size:14px">'+t+'</strong><div style="font-size:12px;color:var(--muted);margin-top:3px">'+s+"</div></div>"+
+ '<div style="display:flex;gap:6px;flex-wrap:wrap">'+(b||"")+"</div></div>";
+const bt=(l,cls,attrs)=>'<button class="btn '+cls+' btn-sm" '+attrs+">"+l+"</button>";
+const del=(c,id)=>bt("Delete","btn-danger",'data-a="del" data-c="'+c+'" data-id="'+id+'"');
+const inp=(k,l,t)=>'<div class="field"><label>'+l+'</label><input data-k="'+k+'" type="'+(t||"text")+'"></div>';
+const sel=(k,l,o)=>'<div class="field"><label>'+l+'</label><select data-k="'+k+'">'+o.map(x=>"<option>"+x+"</option>").join("")+"</select></div>";
+const vals=el=>Object.fromEntries([...el.querySelectorAll("[data-k]")].map(i=>[i.dataset.k,i.type==="checkbox"?i.checked:i.type==="number"?Number(i.value||0):i.value.trim()]));
+const addForm=(c,f)=>card('<div data-form>'+f+'<button class="btn btn-gold" data-a="add" data-c="'+c+'">Add</button></div>');
+const list=async(c,fn)=>{const s=await db.collection(c).limit(200).get();const a=s.docs.map(d=>({id:d.id,...d.data()})).sort((x,y)=>(y.createdAt?.seconds||0)-(x.createdAt?.seconds||0));return card(a.length?a.map(fn).join(""):'<div class="empty">Nothing here yet.</div>');};
+const cfg=(n,fs,note)=>async()=>{const s=await db.collection("config").doc(n).get();const d=s.exists?s.data():{};
+ return card((note?'<div class="alert alert-error" style="margin-bottom:14px">'+note+"</div>":"")+
+  '<div data-form>'+fs.map(([k,l,t])=>t==="c"?'<label style="display:flex;gap:8px;align-items:center;margin-bottom:12px;font-weight:700"><input type="checkbox" data-k="'+k+'" '+(d[k]?"checked":"")+"> "+l+"</label>":
+   '<div class="field"><label>'+l+'</label><input data-k="'+k+'" type="'+(t==="n"?"number":t==="pw"?"password":"text")+'" value="'+escapeHTML(d[k]??"")+'" '+(t==="pw"?'placeholder="Leave blank to use the Cloudflare secret"':"")+"></div>").join("")+
+  '<button class="btn btn-gold" data-a="save" data-c="'+n+'">Save changes</button></div>');};
+async function loadUsers(){try{users=(await db.collection("users").get()).docs.map(d=>({id:d.id,...d.data()}));}catch(e){console.error(e);}}
+const uCard=u=>{const b=!!u.isBlocked;return row(escapeHTML(u.name||"Unnamed")+' <span class="badge badge-'+(b?"bad":"ok")+'">'+(b?"Blocked":"Active")+"</span>",
+ escapeHTML(u.email||"")+" • "+money(u.balance)+" • Tier: "+escapeHTML(u.tier||"basic"),
+ bt(b?"Unblock":"Block","btn-outline",'data-a="block" data-id="'+u.id+'"')+bt("Basic","btn-outline",'data-a="tier" data-id="'+u.id+'" data-v="basic"')+bt("Gold","btn-gold",'data-a="tier" data-id="'+u.id+'" data-v="gold"'));};
+function renderUsers(){const q=($("admSearch").value||"").toLowerCase();const f=users.filter(u=>[u.name,u.email,u.id].join(" ").toLowerCase().includes(q));$("admUsers").innerHTML=f.length?f.map(uCard).join(""):'<div class="empty">No users found.</div>';}
+
+const V={
+ home:async()=>{const p=(await db.collection("deposits").where("status","==","pending").get()).size;
+  return '<div class="stats">'+stat("Total users",users.length)+stat("Total wallet",money(users.reduce((s,u)=>s+Number(u.balance||0),0)))+stat("Pending deposits",p)+stat("Blocked users",users.filter(u=>u.isBlocked).length)+'</div>'+
+  '<div class="quick-grid">'+M.map(([k,t])=>'<button class="qbtn" data-ago="'+k+'"><strong style="font-size:13px">'+t+"</strong></button>").join("")+"</div>";},
+ users:async()=>'<div class="card" style="margin-bottom:14px"><input id="admSearch" type="search" placeholder="Search by name, email or UID" style="width:100%;background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:11px;color:#fff"></div>'+card('<div id="admUsers"></div>'),
+ restricted:async()=>{const r=users.filter(u=>u.isBlocked);return card(r.length?r.map(uCard).join(""):'<div class="empty">No restricted users.</div>');},
+ funding:async()=>{const s=await db.collection("deposits").where("status","==","pending").get();const r=s.docs.map(d=>({id:d.id,...d.data()}));
+  return card("<h3 style=\"margin-bottom:10px;font-size:15px\">Pending deposit requests</h3>"+(r.length?r.map(d=>row(escapeHTML(d.name||d.email||"-")+" — "+money(d.amount),"Ref: "+escapeHTML(d.reference||"-")+" • "+formatDate(d.createdAt),
+   bt("Approve","btn-gold",'data-a="approve" data-id="'+d.id+'"')+bt("Reject","btn-danger",'data-a="reject" data-id="'+d.id+'"'))).join(""):'<div class="empty">No pending deposits.</div>'))
+  +card('<h3 style="margin-bottom:12px;font-size:15px">Manual credit / debit</h3><div data-form>'+inp("u","User email or UID")+inp("a","Amount (₦)","number")+sel("t","Type",["Credit","Debit"])+inp("n","Note")+'<button class="btn btn-gold" data-a="fund">Submit</button></div>');},
+ tx:()=>list("transactions",t=>row(escapeHTML(t.type||"-")+" — "+money(t.amount),escapeHTML(t.description||t.uid||"")+" • "+escapeHTML(t.status||"-")+" • "+formatDate(t.createdAt))),
+ plans:async()=>addForm("plans",sel("network","Network",["MTN","Airtel","Glo","9mobile"])+inp("name","Plan name")+inp("price","Selling price (₦)","number")+inp("cost","Cost price (₦)","number")+inp("code","VTUGate plan code"))
+  +await list("plans",p=>row(escapeHTML(p.network)+" "+escapeHTML(p.name),"Price "+money(p.price)+" • Cost "+money(p.cost)+" • "+(p.active===false?"off":"on"),
+   bt(p.active===false?"Turn on":"Turn off","btn-outline",'data-a="set" data-c="plans" data-id="'+p.id+'" data-f="active" data-v="'+(p.active===false?"true":"false")+'"')+del("plans",p.id))),
+ services:cfg("services",[["data","Data enabled","c"],["airtime","Airtime enabled","c"],["bills","Bills enabled","c"]]),
+ discounts:cfg("discounts",[["basic","Basic tier discount (%)","n"],["gold","Gold tier discount (%)","n"]]),
+ charges:cfg("charges",[["data","Data charge (₦)","n"],["airtime","Airtime charge (₦)","n"],["bills","Bills charge (₦)","n"]]),
+ limits:cfg("limits",[["kycRequired","Require KYC before purchases","c"],["kycAbove","KYC required above (₦)","n"],["dailyBasic","Daily limit: Basic (₦)","n"],["dailyGold","Daily limit: Gold (₦)","n"]]),
+ notif:async()=>addForm("notifications",inp("title","Title")+inp("message","Message"))+await list("notifications",n=>row(escapeHTML(n.title),escapeHTML(n.message)+" • "+formatDate(n.createdAt),del("notifications",n.id))),
+ analytics:async()=>{const t=(await db.collection("transactions").limit(500).get()).docs.map(d=>d.data());
+  const ok=t.filter(x=>x.status==="success"&&!/deposit|admin/i.test(x.type||"")),by={};ok.forEach(x=>{by[x.type]=(by[x.type]||0)+Number(x.amount||0);});
+  return '<div class="stats">'+stat("Transactions",t.length)+stat("Successful sales",ok.length)+stat("Sales value",money(ok.reduce((s,x)=>s+Number(x.amount||0),0)))+"</div>"+
+   card(Object.entries(by).map(([k,v])=>row(escapeHTML(k),money(v))).join("")||'<div class="empty">No sales yet.</div>');},
+ calc:async()=>card('<div id="admCalc">'+inp("cost","Cost price (₦)","number")+inp("sell","Selling price (₦)","number")+inp("qty","Quantity","number")+'<div class="alert alert-info" id="admCalcOut">Enter prices to see profit.</div></div>'),
+ staff:async()=>addForm("staff",inp("email","Staff email","email")+sel("role","Role",["support","accountant","manager"]))+await list("staff",s=>row(escapeHTML(s.email),"Role: "+escapeHTML(s.role),del("staff",s.id))),
+ apisec:cfg("security",[["ipWhitelist","Enable IP whitelist","c"],["ips","Allowed IPs (comma separated)"],["rateLimit","Max purchases per minute","n"]],
+  "IP whitelist protects the VTUGate balance card below (admin-only). It never blocks customer purchases."),
+ keys:cfg("keys",[["vtugateApiKey","VTUGate API Key","pw"],["billstackApiKey","BillStack Secret Key","pw"]],
+  "Keys here are stored in Firestore and readable only by the admin account. A blank field falls back to the Cloudflare Worker secret."),
+ apireq:()=>list("apiRequests",r=>row(escapeHTML(r.name||r.email||r.id),escapeHTML(r.email||"")+" • "+escapeHTML(r.status||"pending")+" • "+formatDate(r.createdAt),
+  bt("Approve","btn-gold",'data-a="set" data-c="apiRequests" data-id="'+r.id+'" data-f="status" data-v="approved"')+bt("Reject","btn-danger",'data-a="set" data-c="apiRequests" data-id="'+r.id+'" data-f="status" data-v="rejected"'))),
+ config:cfg("general",[["siteName","Site name"],["supportPhone","Support phone"],["whatsapp","WhatsApp number"],["maintenance","Maintenance mode","c"]])
+};
+
+let vtuBalTimer=null;
+async function addVtuBalanceCard(){
+ if(cur!=="home")return; const v=$("admView"); if(!v||v.querySelector("#vtuBal"))return;
+ const stats=v.querySelector(".stats"); if(!stats||!v.querySelector(".quick-grid"))return;
+ stats.insertAdjacentHTML("afterend",'<div class="card" id="vtuBal" style="margin-bottom:14px">VTUGate wallet: loading…</div>');
+ const box=$("vtuBal");
+ try{
+  const t=await auth.currentUser.getIdToken();
+  const r=await fetch(WORKER+"/admin/vtu-balance",{headers:{Authorization:"Bearer "+t}});
+  const d=await r.json(); if(!d.status)throw new Error("x");
+  const low=d.wallet_balance<2000;
+  box.innerHTML='<small style="color:var(--muted)">VTUGate wallet balance</small><div style="font-size:22px;font-weight:800;color:'+(low?"var(--danger)":"var(--success)")+'">'+money(d.wallet_balance)+"</div>"+
+   (low?'<div class="alert alert-error" style="margin-top:10px">Balance is low. Fund your VTUGate wallet or purchases will fail.</div>':"");
+ }catch{box.textContent="Could not load VTUGate balance.";}
+}
+
+async function go(k){
+ if(!V[k])k="home"; cur=k;
+ $("admTitle").textContent=k==="home"?"Admin Dashboard":M.find(m=>m[0]===k)[1];
+ $("admView").innerHTML='<div class="loading">Loading…</div>';
+ try{$("admView").innerHTML=await V[k]();if(k==="users")renderUsers();if(k==="home")addVtuBalanceCard();}
+ catch(e){console.error(e);$("admView").innerHTML='<div class="alert alert-error">Unable to load. Check your Firestore rules.</div>';}
+}
+async function openAdmin(){if(!isAdmin)return;await loadUsers();go("home");
+ try{const r=await fetch(WORKER+"/health");$("workerStatus").textContent=r.ok?"Online":"Offline";$("workerStatus").style.color=r.ok?"var(--success)":"var(--danger)";}
+ catch{$("workerStatus").textContent="Offline";$("workerStatus").style.color="var(--danger)";}}
+
+async function approve(id){
+ await db.runTransaction(async t=>{
+  const dr=db.collection("deposits").doc(id),ds=await t.get(dr); if(!ds.exists)throw new Error("Deposit not found.");
+  const d=ds.data(); if(d.status!=="pending")throw new Error("Already processed.");
+  const ur=db.collection("users").doc(d.uid),us=await t.get(ur),amt=Number(d.amount||0);
+  t.update(dr,{status:"approved",approvedAt:ts(),approvedBy:currentUser.email});
+  t.set(ur,{balance:Number(us.exists?us.data().balance||0:0)+amt,updatedAt:ts()},{merge:true});
+  t.set(db.collection("transactions").doc(),{uid:d.uid,type:"Deposit",amount:amt,status:"success",description:"Wallet deposit approved",reference:d.reference||"",approvedBy:currentUser.email,createdAt:ts()});
+ });
+ showToast("Deposit approved.");
+}
+document.addEventListener("click",async ev=>{
+ const g=ev.target.closest("[data-ago]"); if(g&&isAdmin)return go(g.dataset.ago);
+ const b=ev.target.closest("[data-a]"); if(!b||!isAdmin)return;
+ const a=b.dataset.a,d=b.dataset,f=b.closest("[data-form]");
+ try{
+  if(a==="save"){await db.collection("config").doc(d.c).set(vals(f),{merge:true});showToast("Saved.");return;}
+  if(a==="add")await db.collection(d.c).add({...vals(f),createdAt:ts()});
+  else if(a==="del"){if(!confirm("Delete this item?"))return;await db.collection(d.c).doc(d.id).delete();}
+  else if(a==="set")await db.collection(d.c).doc(d.id).update({[d.f]:d.v==="true"?true:d.v==="false"?false:d.v});
+  else if(a==="block"){const u=users.find(x=>x.id===d.id);await db.collection("users").doc(d.id).update({isBlocked:!u.isBlocked});await loadUsers();}
+  else if(a==="tier"){await db.collection("users").doc(d.id).update({tier:d.v});await loadUsers();}
+  else if(a==="approve")await approve(d.id);
+  else if(a==="reject"){await db.collection("deposits").doc(d.id).update({status:"rejected",rejectedAt:ts(),rejectedBy:currentUser.email});showToast("Deposit rejected.");}
+  else if(a==="fund"){
+   const v=vals(f),key=v.u.toLowerCase(),u=users.find(x=>(x.email||"").toLowerCase()===key||x.id===v.u),debit=v.t==="Debit";
+   if(!u)return showToast("User not found.");
+   if(!(v.a>0))return showToast("Enter a valid amount.");
+   if(debit&&Number(u.balance||0)<v.a)return showToast("User balance is too low.");
+   await db.collection("users").doc(u.id).update({balance:F.increment(debit?-v.a:v.a),updatedAt:ts()});
+   await db.collection("transactions").add({uid:u.id,type:debit?"Admin Debit":"Admin Credit",amount:v.a,status:"success",description:v.n||"Manual "+(debit?"debit":"credit")+" by admin",createdAt:ts()});
+   await loadUsers(); showToast("Done.");
+  }
+  go(cur);
+ }catch(err){console.error(err);showToast(err.message||"Action failed. Check your Firestore rules.");}
+});
+document.addEventListener("input",ev=>{
+ if(ev.target.id==="admSearch")renderUsers();
+ const c=ev.target.closest("#admCalc");
+ if(c){const v=vals(c);$("admCalcOut").textContent="Profit: "+money((v.sell-v.cost)*v.qty)+" • Total sales: "+money(v.sell*v.qty)+" • Margin: "+(v.sell?((v.sell-v.cost)/v.sell*100).toFixed(1):0)+"%";}
+});
+window.openAdmin=openAdmin;
+})();
+</script>
+
+<script>
+/* ---------- PWA install support (self-contained, no extra files) ---------- */
+(function(){
+ var iconSvg = LOGO_SRC;
+ var manifest = {
+  name:"A T L DATA", short_name:"ATL DATA", start_url:"./index.html", scope:"./",
+  display:"standalone", background_color:"#0b0b0d", theme_color:"#0b0b0d",
+  icons:[{src:iconSvg,sizes:"192x192",type:"image/svg+xml",purpose:"any"},{src:iconSvg,sizes:"512x512",type:"image/svg+xml",purpose:"any"}]
+ };
+ var link=document.createElement("link"); link.rel="manifest";
+ link.href=URL.createObjectURL(new Blob([JSON.stringify(manifest)],{type:"application/json"}));
+ document.head.appendChild(link);
+ var appleIcon=document.createElement("link"); appleIcon.rel="apple-touch-icon"; appleIcon.href=iconSvg; document.head.appendChild(appleIcon);
+ [["apple-mobile-web-app-capable","yes"],["apple-mobile-web-app-title","A T L DATA"],["apple-mobile-web-app-status-bar-style","black-translucent"]]
+  .forEach(function(p){var m=document.createElement("meta");m.name=p[0];m.content=p[1];document.head.appendChild(m);});
+ if("serviceWorker" in navigator){
+  var swCode="self.addEventListener('install',e=>self.skipWaiting());self.addEventListener('activate',e=>self.clients.claim());self.addEventListener('fetch',function(e){});";
+  navigator.serviceWorker.register(URL.createObjectURL(new Blob([swCode],{type:"text/javascript"}))).catch(function(){});
+ }
+})();
+</script>
+</body>
+</html>
