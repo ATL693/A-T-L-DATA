@@ -1211,6 +1211,49 @@ newBtn.addEventListener("click", async function(){
 
 })();
 </script>
+ 
+<script>
+/* A T L DATA - favicon, social-share preview, trust badges */
+(function(){
+ /* favicon */
+ var fav = document.querySelector('link[rel="icon"]');
+ if(!fav){ fav = document.createElement("link"); fav.rel = "icon"; document.head.appendChild(fav); }
+ fav.href = LOGO_SRC;
+
+ /* SEO + social share preview (WhatsApp, Facebook, Twitter) */
+ var metas = [
+  ["description","Buy MTN, Airtel, Glo and 9mobile data and airtime instantly on A T L DATA. Fund your wallet automatically with your own dedicated bank account."],
+  ["og:title","A T L DATA — Data, Airtime & Bills, Delivered Instantly"],
+  ["og:description","Instant data and airtime on every Nigerian network, with a wallet that funds itself automatically."],
+  ["og:type","website"],
+  ["og:url","https://atldata.com.ng"],
+  ["og:image",LOGO_SRC],
+  ["twitter:card","summary"],
+  ["twitter:title","A T L DATA"],
+  ["twitter:description","Instant data, airtime and bills — all in one place."]
+ ];
+ metas.forEach(function(pair){
+  var isOg = pair[0].indexOf(":") !== -1;
+  var sel = isOg ? 'meta[property="'+pair[0]+'"]' : 'meta[name="'+pair[0]+'"]';
+  var m = document.querySelector(sel);
+  if(!m){ m = document.createElement("meta"); if(isOg) m.setAttribute("property",pair[0]); else m.setAttribute("name",pair[0]); document.head.appendChild(m); }
+  m.setAttribute("content", pair[1]);
+ });
+
+ /* trust badges under the hero buttons */
+ var actions = document.querySelector(".hero-actions");
+ if(actions && !document.getElementById("trustRow")){
+  var row = document.createElement("div");
+  row.id = "trustRow";
+  row.style.cssText = "display:flex;gap:18px;flex-wrap:wrap;margin-top:22px;color:var(--muted);font-size:13px";
+  row.innerHTML =
+   '<span>🔒 Secure payments</span>' +
+   '<span>⚡ Instant delivery</span>' +
+   '<span>🎧 Responsive support</span>';
+  actions.parentNode.insertBefore(row, actions.nextSibling);
+ }
+})();
+</script>
 
 </body>
 </html>
