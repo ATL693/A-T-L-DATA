@@ -1101,5 +1101,116 @@ window.openAdmin=openAdmin;
  }
 })();
 </script>
+
+ <script>
+/* A T L DATA - three fixes: admin Back buttons, auto-popup notifications, data-purchase result screen */
+(function(){
+
+/* ---- 1) Admin Back buttons (reuses existing data-ago / data-page click handling already on the page) ---- */
+var admView = document.getElementById("admView");
+if(admView){
+ var obs = new MutationObserver(function(){
+  if(admView.querySelector("[data-atl-back]")) return; // already added for this render
+  var isHome = !!admView.querySelector(".quick-grid");
+  var btn = document.createElement("button");
+  btn.className = "btn btn-outline btn-sm";
+  btn.setAttribute("data-atl-back","1");
+  btn.style.marginBottom = "12px";
+  if(isHome){ btn.textContent = "← Back to Dashboard"; btn.setAttribute("data-page","dashboard"); }
+  else { btn.textContent = "← Back"; btn.setAttribute("data-ago","home"); }
+  admView.insertBefore(btn, admView.firstChild);
+ });
+ obs.observe(admView, { childList: true });
+}
+
+/* ---- 2) Notifications pop up automatically instead of waiting for a bell click ---- */
+async function atlAutoNotif(){
+ try{
+  if(!currentUser) return;
+  var snap = await db.collection("notifications").limit(50).get();
+  var items = snap.docs.map(function(d){ return Object.assign({id:d.id}, d.data()); })
+   .sort(function(a,b){ return (b.createdAt && b.createdAt.seconds || 0) - (a.createdAt && a.createdAt.seconds || 0); });
+  if(!items.length) return;
+  var lastSeen = 0; try{ lastSeen = Number(localStorage.getItem("atl_notif_seen") || 0); }catch(e){}
+  var newest = (items[0].createdAt && items[0].createdAt.seconds) || 0;
+  if(newest <= lastSeen) return;
+  var fresh = items.filter(function(n){ return (n.createdAt && n.createdAt.seconds || 0) > lastSeen; });
+  $("notifList").innerHTML = fresh.map(function(n){
+   return '<div style="padding:12px 0;border-bottom:1px solid var(--border)"><strong style="font-size:14px">'+escapeHTML(n.title||"Notice")+
+    '</strong><div style="font-size:13px;color:var(--muted);margin-top:4px">'+escapeHTML(n.message||"")+
+    '</div><div style="font-size:11px;color:var(--muted);margin-top:4px">'+formatDate(n.createdAt)+"</div></div>";
+  }).join("");
+  document.getElementById("notifModal").classList.add("show");
+  document.getElementById("notifDot").classList.add("hidden");
+  try{ localStorage.setItem("atl_notif_seen", String(newest)); }catch(e){}
+ }catch(e){ console.warn("notif check failed", e); }
+}
+auth.onAuthStateChanged(function(u){ if(u) setTimeout(atlAutoNotif, 1200); });
+
+/* ---- 3) Show a clear result screen after a data purchase (instead of just a toast) ---- */
+var phoneField = document.getElementById("buyPhone").closest(".field");
+var oldBtn = document.getElementById("buyDataBtn");
+var buyArea = document.createElement("div");
+buyArea.id = "planBuyArea";
+phoneField.parentNode.insertBefore(buyArea, phoneField);
+buyArea.appendChild(phoneField);
+buyArea.appendChild(oldBtn);
+
+var closeBtn = document.createElement("button");
+closeBtn.id = "planCloseBtn";
+closeBtn.className = "btn btn-outline btn-block hidden";
+closeBtn.style.marginTop = "14px";
+closeBtn.textContent = "Close";
+buyArea.parentNode.appendChild(closeBtn);
+closeBtn.addEventListener("click", function(){ document.getElementById("planModal").classList.remove("show"); });
+
+var _openPlanModal = openPlanModal;
+openPlanModal = function(network, plan){
+ _openPlanModal(network, plan);
+ buyArea.classList.remove("hidden");
+ closeBtn.classList.add("hidden");
+};
+
+var newBtn = oldBtn.cloneNode(true);
+oldBtn.replaceWith(newBtn);
+newBtn.addEventListener("click", async function(){
+ if(!selectedPlan) return;
+ var phone = ($("buyPhone").value || "").trim();
+ if(!/^0[789][01]\d{8}$/.test(phone)) return showToast("Enter a valid 11-digit phone number.");
+ if(!confirm("Buy " + selectedPlan.displayName + " for " + phone + " at " + money(selectedPlan.displayAmount) + "?")) return;
+ document.getElementById("planModal").classList.remove("show");
+ var pin = await requirePin();
+ if(pin === null){ document.getElementById("planModal").classList.add("show"); return; }
+ document.getElementById("planModal").classList.add("show");
+ newBtn.disabled = true; newBtn.textContent = "Processing…";
+ try{
+  var token = await auth.currentUser.getIdToken(true);
+  var r = await fetch(WORKER + "/buy-data", {
+   method: "POST",
+   headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token },
+   body: JSON.stringify({ network: selectedPlan.network, plan_code: String(selectedPlan.code), phone, pin })
+  });
+  var d = await r.json();
+  if(r.ok){
+   buyArea.classList.add("hidden");
+   $("selectedPlanInfo").innerHTML = '<div class="card" style="text-align:center"><div style="font-size:40px">✅</div>' +
+    '<h3 style="margin-top:10px">Data purchase successful</h3><p style="color:var(--muted);font-size:13px;margin-top:6px">' + escapeHTML(d.message||"") + "</p></div>";
+   closeBtn.classList.remove("hidden");
+   await loadDashboard();
+  }else{
+   $("selectedPlanInfo").innerHTML = '<div class="card" style="text-align:center"><div style="font-size:40px">❌</div>' +
+    '<h3 style="margin-top:10px">Purchase failed</h3><p style="color:var(--muted);font-size:13px;margin-top:6px">' + escapeHTML(d.message||"Please try again.") + "</p></div>";
+   buyArea.classList.add("hidden"); closeBtn.classList.remove("hidden");
+  }
+ }catch(e){
+  $("selectedPlanInfo").innerHTML = '<div class="card" style="text-align:center"><div style="font-size:40px">⚠️</div><h3 style="margin-top:10px">Network error</h3><p style="color:var(--muted);font-size:13px;margin-top:6px">Please check Transactions before retrying.</p></div>';
+  buyArea.classList.add("hidden"); closeBtn.classList.remove("hidden");
+ }
+ newBtn.disabled = false; newBtn.textContent = "Buy Now";
+});
+
+})();
+</script>
+
 </body>
 </html>
