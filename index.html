@@ -1254,6 +1254,62 @@ newBtn.addEventListener("click", async function(){
  }
 })();
 </script>
+ 
+<style>
+.loading{position:relative;padding-left:34px!important}
+.loading::before{content:"";position:absolute;left:0;top:50%;width:18px;height:18px;margin-top:-9px;
+ border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:atlspin .7s linear infinite}
+@keyframes atlspin{to{transform:rotate(360deg)}}
+.empty::before{content:"🗂️";display:block;font-size:26px;margin-bottom:8px;opacity:.6}
+.legal-modal .modal{text-align:left;max-height:80vh}
+.legal-modal h4{margin:16px 0 6px;font-size:14px;color:var(--gold)}
+.legal-modal p,.legal-modal li{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:8px}
+.legal-modal ul{padding-left:18px;margin-bottom:8px}
+.foot-links{margin-top:10px}
+.foot-links span{color:var(--gold);cursor:pointer;margin:0 8px;font-size:12px}
+</style>
+
+<div class="modal-bg legal-modal" id="termsModal">
+ <div class="modal">
+  <div class="modal-head"><h3>Terms of Service</h3><button class="close" data-close="termsModal">×</button></div>
+  <p><strong>1. The service.</strong> A T L DATA lets you buy mobile data, airtime, and (where available) bills for Nigerian networks, paid for from a wallet you fund yourself.</p>
+  <p><strong>2. Wallet funds.</strong> Your wallet balance has no value outside this platform and cannot be withdrawn as cash. It may only be used to pay for services on A T L DATA.</p>
+  <p><strong>3. Pricing.</strong> Prices are set by our network partners and may change at any time without notice. The price shown at the time of purchase is the price charged.</p>
+  <p><strong>4. Failed transactions.</strong> If a purchase fails on our end or our provider's end, the amount is automatically returned to your wallet. If a purchase shows successful but you did not receive the data/airtime, contact support with your transaction reference.</p>
+  <p><strong>5. Your PIN.</strong> Your transaction PIN is private. You are responsible for any purchase authorized with your correct PIN. Contact support immediately if you suspect unauthorized access to your account.</p>
+  <p><strong>6. Prohibited use.</strong> You may not use A T L DATA for fraud, to resell services in violation of network terms, or for any unlawful purpose. We may suspend accounts that show signs of abuse.</p>
+  <p><strong>7. Liability.</strong> We work to keep the service reliable but cannot guarantee uninterrupted access, since purchases depend on third-party network and payment providers.</p>
+  <p><strong>8. Changes.</strong> These terms may be updated from time to time. Continued use of the platform means you accept the current terms.</p>
+ </div>
+</div>
+
+<div class="modal-bg legal-modal" id="privacyModal">
+ <div class="modal">
+  <div class="modal-head"><h3>Privacy Policy</h3><button class="close" data-close="privacyModal">×</button></div>
+  <p><strong>Information we collect.</strong> Your name, email, phone number, and transaction history, collected when you register and use the platform.</p>
+  <p><strong>How we use it.</strong> To create and secure your account, process your purchases and deposits, and provide customer support.</p>
+  <p><strong>Who we share it with.</strong> We share only what's necessary to complete your purchases with our service providers: Google Firebase (authentication and data storage), our data/airtime network partner, and our payment partner for wallet funding. We do not sell your information to anyone.</p>
+  <p><strong>Your transaction PIN</strong> is never stored as entered — only a one-way cryptographic hash of it is kept, which cannot be reversed back into your PIN.</p>
+  <p><strong>Your rights.</strong> You can ask us to correct your account details at any time from My Account, or contact support to request deletion of your account.</p>
+  <p><strong>Contact.</strong> For any privacy question, reach us through the Support page in the app.</p>
+ </div>
+</div>
+
+<script>
+(function(){
+ var foot = document.querySelector("#landingPage footer");
+ if(foot && !document.getElementById("footLinksRow")){
+  var row = document.createElement("div");
+  row.id = "footLinksRow"; row.className = "foot-links";
+  row.innerHTML = '<span data-open-legal="termsModal">Terms of Service</span>·<span data-open-legal="privacyModal">Privacy Policy</span>';
+  foot.appendChild(row);
+ }
+ document.addEventListener("click", function(e){
+  var t = e.target.closest("[data-open-legal]");
+  if(t){ var m = document.getElementById(t.dataset.openLegal); if(m) m.classList.add("show"); }
+ });
+})();
+</script>
 
 </body>
 </html>
