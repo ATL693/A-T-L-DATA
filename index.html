@@ -1310,6 +1310,65 @@ newBtn.addEventListener("click", async function(){
  });
 })();
 </script>
+<style>
+.app-section{animation:atlfade .25s ease}
+@keyframes atlfade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.field input.invalid{border-color:var(--danger)!important}
+.field .ferr{font-size:11px;color:var(--danger);margin-top:5px;display:none}
+.field .ferr.show{display:block}
+.about-sec{padding:50px 0}
+.about-sec h2{font-size:26px;margin-bottom:10px}
+.about-sec p{color:var(--muted);line-height:1.7;max-width:62ch;margin-bottom:30px}
+.about-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.about-grid .card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:20px}
+.about-grid .card h4{font-size:15px;margin-bottom:6px}
+.about-grid .card p{font-size:13px;color:var(--muted);margin-bottom:0}
+@media(max-width:760px){.about-grid{grid-template-columns:1fr}}
+</style>
+
+<script>
+(function(){
+ /* ---- About Us section, inserted before the footer ---- */
+ var foot = document.querySelector("#landingPage footer");
+ if(foot && !document.getElementById("aboutSec")){
+  var sec = document.createElement("section");
+  sec.id = "aboutSec"; sec.className = "about-sec container";
+  sec.innerHTML =
+   '<h2>Why people trust A T L DATA</h2>' +
+   '<p>We built A T L DATA to make buying data and airtime simple and dependable — real prices from our network partners, a wallet that updates itself, and a team that answers when you need help.</p>' +
+   '<div class="about-grid">' +
+    '<div class="card"><h4>🏢 Registered platform</h4><p>Operated by A T L CO.LTD, built for everyday Nigerians who need fast, reliable top-ups.</p></div>' +
+    '<div class="card"><h4>🔐 Your money, protected</h4><p>Funds sit in your personal wallet behind a private PIN. Failed purchases are refunded automatically.</p></div>' +
+    '<div class="card"><h4>🎧 Real support</h4><p>Reach us by email or WhatsApp from the Support page — a person responds, not a bot.</p></div>' +
+   '</div>';
+  foot.parentNode.insertBefore(sec, foot);
+ }
+
+ /* ---- inline field validation ---- */
+ function addErr(input, msg){
+  var f = input.closest(".field"); if(!f) return;
+  var e = f.querySelector(".ferr");
+  if(!e){ e = document.createElement("div"); e.className = "ferr"; f.appendChild(e); }
+  if(msg){ input.classList.add("invalid"); e.textContent = msg; e.classList.add("show"); }
+  else { input.classList.remove("invalid"); e.classList.remove("show"); }
+ }
+ function validators(){
+  var checks = [
+   [document.getElementById("loginEmail"), function(v){ return /\S+@\S+\.\S+/.test(v) ? "" : "Enter a valid email address."; }],
+   [document.getElementById("regEmail"), function(v){ return /\S+@\S+\.\S+/.test(v) ? "" : "Enter a valid email address."; }],
+   [document.getElementById("regPhone"), function(v){ return /^0[789][01]\d{8}$/.test(v) ? "" : "Enter a valid 11-digit phone number."; }],
+   [document.getElementById("regPassword"), function(v){ return v.length>=6 ? "" : "At least 6 characters."; }],
+   [document.getElementById("regConfirm"), function(v){ var p=document.getElementById("regPassword").value; return v===p ? "" : "Passwords do not match."; }]
+  ];
+  checks.forEach(function(pair){
+   var el = pair[0]; if(!el) return;
+   el.addEventListener("blur", function(){ if(el.value) addErr(el, pair[1](el.value)); });
+   el.addEventListener("input", function(){ if(el.classList.contains("invalid")) addErr(el, pair[1](el.value)); });
+  });
+ }
+ validators();
+})();
+</script>
 
 </body>
 </html>
