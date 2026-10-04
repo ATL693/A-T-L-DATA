@@ -1424,6 +1424,62 @@ newBtn.addEventListener("click", async function(){
  updateUserUI = function(){ _updateUserUI(); renderProfileUI(); };
 })();
 </script>
+ 
+<script>
+/* A T L DATA - add back the missing "Submit Deposit Request" form for manual deposits */
+(function(){
+ var copyRow = document.getElementById("manualAcct") && document.getElementById("manualAcct").closest(".copy-row");
+ var box = copyRow ? copyRow.closest(".deposit-box") : null;
+ if(!box || document.getElementById("depositForm")) return;
+
+ var form = document.createElement("form");
+ form.id = "depositForm";
+ form.style.marginTop = "14px";
+ form.innerHTML =
+  '<div class="field"><label>Amount sent (₦)</label><input id="depositAmount" type="number" min="100" required></div>' +
+  '<div class="field"><label>Payment reference / narration</label><input id="depositReference" type="text" required placeholder="e.g. bank app transaction ID"></div>' +
+  '<button class="btn btn-gold btn-block" type="submit">Submit Deposit Request</button>';
+ box.appendChild(form);
+
+ form.addEventListener("submit", async function(e){
+  e.preventDefault();
+  if(!currentUser) return;
+  var amount = Number(document.getElementById("depositAmount").value);
+  var reference = document.getElementById("depositReference").value.trim();
+  if(amount < 100) return showToast("Minimum deposit request is ₦100.");
+  if(!reference) return showToast("Enter your payment reference.");
+
+  var btn = form.querySelector('button[type="submit"]');
+  btn.disabled = true; btn.textContent = "Submitting…";
+  try{
+   await db.collection("deposits").add({
+    uid: currentUser.uid,
+    name: (currentUserData && currentUserData.name) || currentUser.email,
+    email: currentUser.email,
+    amount: amount,
+    reference: reference,
+    status: "pending",
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+   });
+   await db.collection("transactions").add({
+    uid: currentUser.uid,
+    type: "Deposit",
+    amount: amount,
+    status: "pending",
+    description: "Manual wallet deposit request",
+    reference: reference,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+   });
+   form.reset();
+   showToast("Deposit request submitted. An admin will review it shortly.");
+   if(typeof loadDeposits === "function") loadDeposits();
+  }catch(err){
+   showToast("Could not submit request. Please try again.");
+  }
+  btn.disabled = false; btn.textContent = "Submit Deposit Request";
+ });
+})();
+</script>
 
 </body>
 </html>
