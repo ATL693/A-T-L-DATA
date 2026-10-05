@@ -1547,6 +1547,85 @@ newBtn.addEventListener("click", async function(){
  });
 })();
 </script>
+<style>
+.pw-wrap{position:relative}
+.pw-wrap input{padding-right:42px!important}
+.pw-eye{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:8px;font-size:16px;color:var(--muted)}
+tr.clickable-tx{cursor:pointer}
+tr.clickable-tx:hover{background:var(--panel2)}
+</style>
+
+<div class="modal-bg" id="receiptModal">
+ <div class="modal">
+  <div class="modal-head"><h3>Transaction Receipt</h3><button class="close" data-close="receiptModal">×</button></div>
+  <div id="receiptBody"></div>
+  <button class="btn btn-gold btn-block" id="receiptShareBtn" style="margin-top:14px">Share Receipt</button>
+ </div>
+</div>
+
+<script>
+(function(){
+ /* ---- 1) password show/hide toggle on every password field ---- */
+ document.querySelectorAll('input[type="password"]').forEach(function(input){
+  if(input.closest(".pw-wrap")) return;
+  var wrap = document.createElement("div");
+  wrap.className = "pw-wrap";
+  input.parentNode.insertBefore(wrap, input);
+  wrap.appendChild(input);
+  var eye = document.createElement("button");
+  eye.type = "button"; eye.className = "pw-eye"; eye.textContent = "👁️";
+  wrap.appendChild(eye);
+  eye.addEventListener("click", function(){
+   var show = input.type === "password";
+   input.type = show ? "text" : "password";
+   eye.textContent = show ? "🙈" : "👁️";
+  });
+ });
+
+ /* ---- 2) transaction receipt modal ---- */
+ var lastTxItems = [];
+ var _loadTransactions = loadTransactions;
+ loadTransactions = async function(){
+  if(!currentUser) return;
+  var box = document.getElementById("txTable");
+  box.innerHTML = '<div class="loading">Loading…</div>';
+  try{
+   var snap = await db.collection("transactions").where("uid","==",currentUser.uid).get();
+   var items = snap.docs.map(function(d){ return Object.assign({id:d.id}, d.data()); })
+    .sort(function(a,b){ return (b.createdAt && b.createdAt.seconds || 0) - (a.createdAt && a.createdAt.seconds || 0); });
+   lastTxItems = items;
+   if(!items.length){ box.innerHTML = '<div class="empty">No transactions found.</div>'; return; }
+   box.innerHTML = '<table><thead><tr><th>Type</th><th>Description</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead><tbody>' +
+    items.map(function(t){
+     return '<tr class="clickable-tx" data-txid="'+t.id+'"><td>'+escapeHTML(t.type||"-")+'</td><td>'+escapeHTML(t.description||"-")+
+      '</td><td>'+money(t.amount)+'</td><td><span class="badge badge-'+(["success","approved"].indexOf(t.status)!==-1?"ok":["failed","rejected"].indexOf(t.status)!==-1?"bad":"wait")+'">'+
+      escapeHTML(t.status||"-")+'</span></td><td>'+formatDate(t.createdAt)+"</td></tr>";
+    }).join("") + "</tbody></table>";
+  }catch(e){ box.innerHTML = '<div class="empty">Unable to load transactions.</div>'; }
+ };
+
+ document.addEventListener("click", function(e){
+  var row = e.target.closest("tr.clickable-tx");
+  if(!row) return;
+  var t = lastTxItems.find(function(x){ return x.id === row.dataset.txid; });
+  if(!t) return;
+  document.getElementById("receiptBody").innerHTML =
+   '<div class="card" style="text-align:center;margin-bottom:14px"><div style="font-size:34px">' +
+   (["success","approved"].indexOf(t.status)!==-1 ? "✅" : ["failed","rejected"].indexOf(t.status)!==-1 ? "❌" : "⏳") +
+   '</div><h3 style="margin-top:8px">'+money(t.amount)+'</h3><p style="color:var(--muted);font-size:13px;margin-top:4px">'+escapeHTML(t.type||"-")+'</p></div>' +
+   '<div class="field"><label>Description</label><p style="font-size:13px">'+escapeHTML(t.description||"-")+'</p></div>' +
+   '<div class="field"><label>Status</label><p style="font-size:13px;text-transform:capitalize">'+escapeHTML(t.status||"-")+'</p></div>' +
+   '<div class="field"><label>Reference</label><p style="font-size:13px;word-break:break-all">'+escapeHTML(t.id)+'</p></div>' +
+   '<div class="field"><label>Date</label><p style="font-size:13px">'+formatDate(t.createdAt)+'</p></div>';
+  document.getElementById("receiptModal").classList.add("show");
+  document.getElementById("receiptShareBtn").onclick = async function(){
+   var text = "A T L DATA Receipt\n"+(t.type||"-")+" — "+money(t.amount)+"\nStatus: "+(t.status||"-")+"\nRef: "+t.id+"\n"+formatDate(t.createdAt);
+   if(navigator.share){ try{ await navigator.share({ text: text }); }catch(e){} }
+   else { try{ await navigator.clipboard.writeText(text); showToast("Receipt copied."); }catch(e){ showToast("Could not share."); } }
+  };
+ });
+})();
+</script>
 
 </body>
 </html>
