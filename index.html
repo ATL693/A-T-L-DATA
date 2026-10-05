@@ -1480,6 +1480,73 @@ newBtn.addEventListener("click", async function(){
  });
 })();
 </script>
+ 
+<style>
+.pw-modal .modal{text-align:left}
+</style>
+<div class="modal-bg pw-modal" id="pwConfirmModal">
+ <div class="modal">
+  <div class="modal-head"><h3>Confirm your password</h3><button class="close" data-close="pwConfirmModal">×</button></div>
+  <p style="color:var(--muted);font-size:13px;margin-bottom:14px">For your security, re-enter your account password to reset your PIN.</p>
+  <div class="field"><label>Password</label><input id="pwConfirmInput" type="password" autocomplete="current-password"></div>
+  <div id="pwConfirmMsg"></div>
+  <button class="btn btn-gold btn-block" id="pwConfirmBtn">Confirm</button>
+ </div>
+</div>
+
+<script>
+(function(){
+ var setBtn = document.getElementById("setPinBtn");
+ if(!setBtn || document.getElementById("forgotPinBtn")) return;
+
+ var forgotBtn = document.createElement("button");
+ forgotBtn.id = "forgotPinBtn";
+ forgotBtn.className = "btn btn-outline";
+ forgotBtn.style.marginLeft = "8px";
+ forgotBtn.textContent = "Forgot PIN?";
+ setBtn.parentNode.insertBefore(forgotBtn, setBtn.nextSibling);
+
+ function confirmPassword(){
+  return new Promise(function(resolve){
+   var modal = document.getElementById("pwConfirmModal");
+   var input = document.getElementById("pwConfirmInput");
+   var btn = document.getElementById("pwConfirmBtn");
+   var msgBox = document.getElementById("pwConfirmMsg");
+   input.value = ""; msgBox.innerHTML = "";
+   modal.classList.add("show");
+
+   function cleanup(){ modal.classList.remove("show"); btn.onclick = null; closeX.onclick = null; }
+   var closeX = modal.querySelector(".close");
+   closeX.onclick = function(){ cleanup(); resolve(false); };
+   btn.onclick = async function(){
+    var pw = input.value;
+    if(!pw) return;
+    btn.disabled = true; btn.textContent = "Checking…";
+    try{
+     var cred = firebase.auth.EmailAuthProvider.credential(currentUser.email, pw);
+     await currentUser.reauthenticateWithCredential(cred);
+     cleanup(); resolve(true);
+    }catch(e){
+     msgBox.innerHTML = '<div class="alert alert-error">Incorrect password.</div>';
+    }
+    btn.disabled = false; btn.textContent = "Confirm";
+   };
+  });
+ }
+
+ forgotBtn.addEventListener("click", async function(){
+  var ok = await confirmPassword();
+  if(!ok) return;
+  var p1 = await pinPromise("set"); if(p1 === null) return;
+  var p2 = await pinPromise("set"); if(p2 === null) return;
+  if(p1 !== p2) return showToast("PINs did not match. Try again.");
+  var hash = await sha256Hex(p1 + currentUser.uid);
+  await db.collection("users").doc(currentUser.uid).update({ pinHash: hash, updatedAt: firebase.firestore.FieldValue.serverTimestamp() });
+  currentUserData.pinHash = hash;
+  showToast("Your PIN has been reset.");
+ });
+})();
+</script>
 
 </body>
 </html>
