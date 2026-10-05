@@ -1626,6 +1626,123 @@ tr.clickable-tx:hover{background:var(--panel2)}
  });
 })();
 </script>
+ 
+<style>
+.faq-item{border-bottom:1px solid var(--border);padding:12px 0}
+.faq-q{font-weight:700;font-size:14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.faq-a{font-size:13px;color:var(--muted);line-height:1.6;margin-top:8px;display:none}
+.faq-item.open .faq-a{display:block}
+.faq-item.open .faq-q span{transform:rotate(45deg)}
+.faq-q span{transition:.15s;font-size:18px;color:var(--gold)}
+.tx-filters{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.tx-filters input,.tx-filters select{background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:9px 11px;color:var(--text);font-size:13px}
+.tx-filters input{flex:1;min-width:140px}
+</style>
+
+<div class="modal-bg legal-modal" id="faqModal">
+ <div class="modal">
+  <div class="modal-head"><h3>Frequently Asked Questions</h3><button class="close" data-close="faqModal">×</button></div>
+  <div id="faqList"></div>
+ </div>
+</div>
+
+<script>
+(function(){
+ /* ---- FAQ ---- */
+ var faqs = [
+  ["How do I fund my wallet?","Go to Wallet and transfer any amount to your personal account number — your balance updates automatically, usually within a minute. You can also use the manual deposit option and submit your payment reference for approval."],
+  ["What happens if a purchase fails?","If a data or airtime purchase fails on our end, the amount is returned to your wallet automatically. Check Transactions for the status."],
+  ["I forgot my transaction PIN. What do I do?","Go to My Account and tap \"Forgot PIN?\". You'll confirm your account password, then set a new PIN."],
+  ["Is there a fee on deposits or purchases?","Any applicable service charge is already included in the price shown before you confirm a purchase — there are no hidden fees."],
+  ["How long does a deposit take to reflect?","Automatic deposits usually reflect within a minute. Manual deposits are reviewed by an admin and may take longer."],
+  ["Is my information safe?","Yes. Your PIN is never stored directly — only a one-way hash. See our Privacy Policy for full details."],
+  ["How do I contact support?","Go to the Support page in the app for email and WhatsApp options."]
+ ];
+ var foot = document.querySelector("#landingPage footer .foot-links") || document.querySelector("#landingPage footer");
+ if(foot && !document.getElementById("faqFootLink")){
+  var sp = document.createElement("span");
+  sp.id = "faqFootLink"; sp.textContent = "FAQ";
+  sp.style.cssText = "color:var(--gold);cursor:pointer;margin:0 8px;font-size:12px";
+  foot.appendChild(sp);
+  sp.addEventListener("click", function(){ document.getElementById("faqModal").classList.add("show"); });
+ }
+ document.getElementById("faqList").innerHTML = faqs.map(function(f,i){
+  return '<div class="faq-item" data-i="'+i+'"><div class="faq-q">'+f[0]+'<span>+</span></div><div class="faq-a">'+f[1]+'</div></div>';
+ }).join("");
+ document.getElementById("faqList").addEventListener("click", function(e){
+  var item = e.target.closest(".faq-item");
+  if(item) item.classList.toggle("open");
+ });
+
+ /* ---- Transactions: search + filter, with receipt click preserved ---- */
+ var txItems = [];
+ function renderTxTable(items){
+  var box = document.getElementById("txTable");
+  if(!items.length){ box.innerHTML = '<div class="empty">No matching transactions.</div>'; return; }
+  box.innerHTML = '<table><thead><tr><th>Type</th><th>Description</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead><tbody>' +
+   items.map(function(t){
+    return '<tr class="clickable-tx" data-txid="'+t.id+'"><td>'+escapeHTML(t.type||"-")+'</td><td>'+escapeHTML(t.description||"-")+
+     '</td><td>'+money(t.amount)+'</td><td><span class="badge badge-'+(["success","approved"].indexOf(t.status)!==-1?"ok":["failed","rejected"].indexOf(t.status)!==-1?"bad":"wait")+'">'+
+     escapeHTML(t.status||"-")+'</span></td><td>'+formatDate(t.createdAt)+"</td></tr>";
+   }).join("") + "</tbody></table>";
+ }
+ function applyFilters(){
+  var q = (document.getElementById("txSearch").value||"").toLowerCase();
+  var type = document.getElementById("txTypeFilter").value;
+  var f = txItems.filter(function(t){
+   var matchQ = !q || (t.description||"").toLowerCase().indexOf(q)!==-1 || (t.type||"").toLowerCase().indexOf(q)!==-1 || t.id.toLowerCase().indexOf(q)!==-1;
+   var matchT = !type || t.type===type;
+   return matchQ && matchT;
+  });
+  renderTxTable(f);
+ }
+
+ loadTransactions = async function(){
+  if(!currentUser) return;
+  var tableWrap = document.getElementById("txTable").closest(".table-wrap");
+  if(tableWrap && !document.getElementById("txSearch")){
+   var bar = document.createElement("div");
+   bar.className = "tx-filters";
+   bar.innerHTML = '<input id="txSearch" type="search" placeholder="Search description or reference">' +
+    '<select id="txTypeFilter"><option value="">All types</option><option>Data</option><option>Airtime</option><option>Deposit</option></select>';
+   tableWrap.parentNode.insertBefore(bar, tableWrap);
+   document.getElementById("txSearch").addEventListener("input", applyFilters);
+   document.getElementById("txTypeFilter").addEventListener("change", applyFilters);
+  }
+  document.getElementById("txTable").innerHTML = '<div class="loading">Loading…</div>';
+  try{
+   var snap = await db.collection("transactions").where("uid","==",currentUser.uid).get();
+   txItems = snap.docs.map(function(d){ return Object.assign({id:d.id}, d.data()); })
+    .sort(function(a,b){ return (b.createdAt && b.createdAt.seconds || 0) - (a.createdAt && a.createdAt.seconds || 0); });
+   renderTxTable(txItems);
+  }catch(e){ document.getElementById("txTable").innerHTML = '<div class="empty">Unable to load transactions.</div>'; }
+ };
+
+ document.addEventListener("click", function(e){
+  var row = e.target.closest("tr.clickable-tx");
+  if(!row) return;
+  var t = txItems.find(function(x){ return x.id === row.dataset.txid; });
+  if(!t) return;
+  var rb = document.getElementById("receiptBody");
+  if(!rb) return;
+  rb.innerHTML =
+   '<div class="card" style="text-align:center;margin-bottom:14px"><div style="font-size:34px">' +
+   (["success","approved"].indexOf(t.status)!==-1 ? "✅" : ["failed","rejected"].indexOf(t.status)!==-1 ? "❌" : "⏳") +
+   '</div><h3 style="margin-top:8px">'+money(t.amount)+'</h3><p style="color:var(--muted);font-size:13px;margin-top:4px">'+escapeHTML(t.type||"-")+'</p></div>' +
+   '<div class="field"><label>Description</label><p style="font-size:13px">'+escapeHTML(t.description||"-")+'</p></div>' +
+   '<div class="field"><label>Status</label><p style="font-size:13px;text-transform:capitalize">'+escapeHTML(t.status||"-")+'</p></div>' +
+   '<div class="field"><label>Reference</label><p style="font-size:13px;word-break:break-all">'+escapeHTML(t.id)+'</p></div>' +
+   '<div class="field"><label>Date</label><p style="font-size:13px">'+formatDate(t.createdAt)+'</p></div>';
+  document.getElementById("receiptModal").classList.add("show");
+  var shareBtn = document.getElementById("receiptShareBtn");
+  if(shareBtn) shareBtn.onclick = async function(){
+   var text = "A T L DATA Receipt\n"+(t.type||"-")+" — "+money(t.amount)+"\nStatus: "+(t.status||"-")+"\nRef: "+t.id+"\n"+formatDate(t.createdAt);
+   if(navigator.share){ try{ await navigator.share({ text: text }); }catch(err){} }
+   else { try{ await navigator.clipboard.writeText(text); showToast("Receipt copied."); }catch(err){ showToast("Could not share."); } }
+  };
+ });
+})();
+</script>
 
 </body>
 </html>
