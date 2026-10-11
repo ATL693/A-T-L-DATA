@@ -1,0 +1,1164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>A T L Data — Admin Dashboard</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    body { background: #f3f7f5; color: #17251e; min-height: 100vh; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    .hidden { display: none !important; }
+
+    header {
+      background: #063d26;
+      color: white;
+      padding: 20px 15px;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    header h1 {
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+
+    .admin-status {
+      font-size: 13px;
+      opacity: .9;
+    }
+
+    main {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 18px 15px 40px;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .toolbar button {
+      flex: 1;
+      min-width: 140px;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-weight: bold;
+    }
+
+    .light-btn {
+      background: #e6f2ea;
+      color: #087443;
+    }
+
+    .primary-btn {
+      background: #087443;
+      color: white;
+    }
+
+    .admin-card {
+      background: white;
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.06);
+      margin-bottom: 16px;
+    }
+
+    .status-box {
+      padding: 16px;
+      border-radius: 12px;
+      background: #edf7f1;
+      color: #0d6843;
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
+
+    .status-box.error {
+      background: #fde8e8;
+      color: #a52323;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .stat-box {
+      background: #f9faf9;
+      border: 1px solid #e5e5e5;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .stat-box small {
+      display: block;
+      color: #777;
+      margin-bottom: 8px;
+    }
+
+    .stat-box strong {
+      display: block;
+      color: #087443;
+      font-size: 22px;
+    }
+
+    .search-box {
+      background: #fff;
+      border-radius: 12px;
+      border: 1px solid #e5e5e5;
+      padding: 14px;
+      margin-bottom: 15px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #dfe7e1;
+      border-radius: 10px;
+      outline: none;
+      background: #f9faf9;
+    }
+
+    .user-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .user-item {
+      border: 1px solid #e5e5e5;
+      border-radius: 12px;
+      padding: 14px;
+      background: #fff;
+    }
+
+    .user-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .user-name {
+      color: #087443;
+      font-weight: 900;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 800;
+      background: #eaf7ee;
+      color: #087443;
+    }
+
+    .badge.blocked {
+      background: #fde8e8;
+      color: #a52323;
+    }
+
+    .user-meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .user-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .mini-btn {
+      border: none;
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-weight: 800;
+    }
+
+    .mini-btn.green {
+      background: #eaf7ee;
+      color: #087443;
+    }
+
+    .mini-btn.red {
+      background: #fde8e8;
+      color: #a52323;
+    }
+
+    .mini-btn.grey {
+      background: #edf0ef;
+      color: #2b3d34;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 25px 10px;
+      color: #666;
+    }
+
+    /* ---------- Configuration ---------- */
+    .toolbar button.active { background: #087443; color: #fff; }
+    .cfg-menu { display: grid; gap: 12px; }
+    .cfg-item {
+      display: flex; align-items: center; gap: 12px; width: 100%;
+      background: #fff; border: 1px solid #e5e5e5; border-radius: 14px;
+      padding: 16px; text-align: left; color: #17251e;
+      box-shadow: 0 3px 12px rgba(0,0,0,.05);
+    }
+    .cfg-item .ic {
+      width: 44px; height: 44px; border-radius: 12px; background: #087443; color: #fff;
+      display: grid; place-items: center; font-size: 21px; flex: none;
+    }
+    .cfg-item b { display: block; margin-bottom: 3px; }
+    .cfg-item small { color: #666; }
+    .cfg-item .ar { margin-left: auto; color: #999; font-size: 22px; }
+    .cfg-back { background: none; border: 0; color: #087443; font-weight: bold; padding: 6px 0; margin-bottom: 8px; }
+    .cfg-title { font-size: 20px; margin-bottom: 4px; }
+    .cfg-sub { color: #666; font-size: 13px; margin-bottom: 14px; }
+    .cfg-sec { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: #777; font-weight: 800; margin: 20px 0 2px; }
+    .cfg-card label { display: block; font-size: 13px; font-weight: bold; margin: 12px 0 5px; }
+    .cfg-card input[type=text], .cfg-card input[type=url], .cfg-card input[type=email], .cfg-card input[type=tel],
+    .cfg-card input[type=number], .cfg-card input[type=password], .cfg-card select, .cfg-card textarea {
+      width: 100%; padding: 12px; border: 1px solid #dfe7e1; border-radius: 10px;
+      background: #f9faf9; outline: none; font-size: 16px; color: #17251e;
+    }
+    .cfg-card textarea { min-height: 90px; resize: vertical; }
+    .cfg-card input[type=color] { width: 100%; height: 46px; border: 1px solid #dfe7e1; border-radius: 10px; padding: 4px; background: #f9faf9; }
+    .cfg-hint { font-size: 12px; color: #777; margin-top: 4px; }
+    .cfg-btn { width: 100%; border: none; border-radius: 10px; padding: 14px; font-weight: bold; margin-top: 16px; background: #087443; color: #fff; }
+    .cfg-btn.sec { background: #fff; color: #087443; border: 1px solid #087443; margin-top: 8px; }
+    .cfg-btn:disabled { opacity: .6; }
+    .seg { display: flex; border: 1px solid #dfe7e1; border-radius: 10px; overflow: hidden; }
+    .seg button { flex: 1; padding: 12px; border: 0; background: #f9faf9; color: #17251e; font-weight: bold; }
+    .seg button.on { background: #087443; color: #fff; }
+    .cfg-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 10px; }
+    .sw { position: relative; width: 54px; height: 30px; flex: none; }
+    .sw input { opacity: 0; width: 0; height: 0; }
+    .sw span { position: absolute; inset: 0; background: #9aa8a0; border-radius: 30px; transition: .2s; cursor: pointer; }
+    .sw span:before { content: ""; position: absolute; width: 24px; height: 24px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: .2s; }
+    .sw input:checked + span { background: #087443; }
+    .sw input:checked + span:before { transform: translateX(24px); }
+    .st-text { font-weight: bold; }
+    .st-text.on { color: #087443; }
+    .st-text.off { color: #a52323; }
+    .logo-row { display: flex; align-items: center; gap: 12px; margin-top: 8px; }
+    .logo-row img { width: 64px; height: 64px; object-fit: contain; border: 1px solid #e5e5e5; border-radius: 12px; background: #fff; }
+    .show-row { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #555; margin-top: 8px; }
+    .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: #063d26; color: #fff; padding: 12px 18px; border-radius: 12px; font-size: 14px; z-index: 50; max-width: 90%; }
+    .toast.err { background: #a52323; }
+
+    @media (max-width: 700px) {
+      .stats-grid { grid-template-columns: 1fr; }
+      .user-meta { grid-template-columns: 1fr; }
+      .toolbar { flex-direction: column; }
+      .toolbar button { width: 100%; }
+    }
+
+    .badge.wait { background:#fff4d6; color:#8a6100; }
+    .toolbar.tabs button { min-width: 0; padding: 12px 10px; }
+    .bars { display:flex; align-items:flex-end; gap:8px; height:150px; padding-top:18px; }
+    .bar-col { flex:1; display:flex; flex-direction:column; justify-content:flex-end; align-items:center; height:100%; font-size:10px; color:#666; }
+    .bar { width:100%; background:#087443; border-radius:6px 6px 0 0; min-height:2px; }
+    .bar.alt { background:#e0a100; }
+    .row-item { display:flex; justify-content:space-between; gap:10px; padding:12px 0; border-bottom:1px solid #eef1ef; font-size:13px; }
+    .row-item small { color:#777; display:block; margin-top:2px; }
+    .amt-in { color:#087443; font-weight:800; } .amt-out { color:#a52323; font-weight:800; }
+    .filters { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px; }
+    .filters select, .search-box select { padding:11px; border:1px solid #dfe7e1; border-radius:10px; background:#f9faf9; font-size:14px; width:100%; }
+    .search-box select { margin-top:8px; }
+    @media (max-width: 700px) { .toolbar.tabs { flex-direction: row !important; } .toolbar.tabs button { width: auto; flex: 1 1 30%; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div>
+        <h1>🛠️ A T L Data</h1>
+        <div class="admin-status" id="adminStatus">Checking administrator access...</div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="toolbar">
+      <button class="light-btn" id="backBtn" type="button">← Back to Website</button>
+      <button class="primary-btn" id="refreshBtn" type="button">↻ Refresh</button>
+    </div>
+
+    <div id="accessMessage" class="status-box">
+      <strong>Admin Access</strong><br>
+      Only the configured admin can access this dashboard.
+    </div>
+
+    <div id="adminApp" class="hidden">
+
+      <!-- MENU TABS -->
+      <div class="toolbar tabs">
+        <button class="light-btn active" id="tabDash" type="button">📊 Dashboard</button>
+        <button class="light-btn" id="tabUsers" type="button">👥 Users</button>
+        <button class="light-btn" id="tabTx" type="button">💳 Transactions</button>
+        <button class="light-btn" id="tabDep" type="button">📥 Deposits</button>
+        <button class="light-btn" id="tabPrice" type="button">💰 Data Prices</button>
+        <button class="light-btn" id="tabConfig" type="button">⚙️ Configuration</button>
+      </div>
+
+      <!-- ================= DATA PRICES ================= -->
+      <div id="priceView" class="hidden">
+        <div class="admin-card cfg-card">
+          <h3>Data prices &amp; profit</h3>
+          <p class="cfg-sub">Set your selling price for each plan (1GB, 2GB, 10GB...). Profit is calculated automatically.</p>
+          <label for="priceNet">Network</label>
+          <select id="priceNet"><option value="mtn">MTN</option><option value="airtel">Airtel</option><option value="glo">Glo</option><option value="9mobile">9mobile</option></select>
+          <label>Add profit to all plans</label>
+          <div class="filters">
+            <select id="priceType"><option value="flat">Flat (₦)</option><option value="pct">Percent (%)</option></select>
+            <input type="number" id="priceValue" inputmode="decimal" min="0" placeholder="e.g. 20" style="padding:11px;border:1px solid #dfe7e1;border-radius:10px;background:#f9faf9">
+          </div>
+          <button class="cfg-btn sec" id="priceApply" type="button">Apply to all plans</button>
+        </div>
+        <div class="admin-card"><div id="priceList"></div>
+          <button class="cfg-btn" id="priceSave" type="button">Save prices</button></div>
+      </div>
+
+      <!-- ================= DASHBOARD ================= -->
+      <div id="dashView">
+        <div class="admin-card"><div class="stats-grid" id="dashStats"></div></div>
+        <div class="admin-card"><h3>Money in (deposits), last 7 days</h3><div class="bars" id="chartIn"></div></div>
+        <div class="admin-card"><h3>Sales (data, airtime), last 7 days</h3><div class="bars" id="chartSales"></div></div>
+        <div class="admin-card"><h3>Recent transactions</h3><div id="dashRecent"></div>
+          <div class="cfg-hint" style="margin-top:10px">Figures use the latest 300 transactions.</div></div>
+      </div>
+
+      <!-- ================= TRANSACTIONS ================= -->
+      <div id="txView" class="hidden">
+        <div class="search-box">
+          <input type="search" id="txSearch" placeholder="Search by user, description, reference...">
+          <div class="filters">
+            <select id="txType"><option value="">All types</option><option>Deposit</option><option>Admin Credit</option><option>Admin Debit</option><option value="__sales">Sales (data/airtime)</option></select>
+            <select id="txStatus"><option value="">All status</option><option>success</option><option>pending</option><option>failed</option></select>
+          </div>
+          <button class="mini-btn grey" id="txCsv" type="button" style="margin-top:10px;width:100%">⬇️ Export CSV</button>
+        </div>
+        <div class="admin-card"><div id="txList"></div></div>
+      </div>
+
+      <!-- ================= DEPOSITS ================= -->
+      <div id="depView" class="hidden">
+        <div class="admin-card"><h3>Deposit requests</h3><div id="depList"></div></div>
+      </div>
+
+      <!-- ================= USERS VIEW (original) ================= -->
+      <div id="usersView">
+        <div class="admin-card">
+          <div class="stats-grid">
+            <div class="stat-box">
+              <small>Total Users</small>
+              <strong id="totalUsers">0</strong>
+            </div>
+            <div class="stat-box">
+              <small>Total Wallet</small>
+              <strong id="totalWallet">₦0.00</strong>
+            </div>
+            <div class="stat-box">
+              <small>Verified Users</small>
+              <strong id="verifiedUsers">0</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="search-box">
+          <input type="search" id="userSearch" placeholder="Search user by name, email, phone or UID...">
+          <select id="userFilter"><option value="">All users</option><option value="blocked">Blocked</option><option value="verified">Verified</option><option value="unverified">Not verified</option><option value="funded">With balance</option></select>
+        </div>
+
+        <div class="admin-card">
+          <div class="user-list" id="usersList"></div>
+        </div>
+      </div>
+
+      <!-- ================= CONFIGURATION VIEW ================= -->
+      <div id="configView" class="hidden">
+
+        <!-- App Configuration home -->
+        <div id="cfgHome">
+          <h2 class="cfg-title">App Configuration</h2>
+          <p class="cfg-sub">Manage all system configuration from one place.</p>
+          <div class="cfg-menu">
+            <button class="cfg-item" type="button" data-go="cfgSite">
+              <div class="ic">🌐</div>
+              <div><b>Website Setting</b><small>Name, about, contacts, social links, theme, logo</small></div>
+              <span class="ar">›</span>
+            </button>
+            <button class="cfg-item" type="button" data-go="cfgPayment">
+              <div class="ic">💳</div>
+              <div><b>Payment Gateway</b><small>Funding bank, BillStack keys, charges, status</small></div>
+              <span class="ar">›</span>
+            </button>
+            <button class="cfg-item" type="button" data-go="cfgTx">
+              <div class="ic">🔑</div>
+              <div><b>Transaction API</b><small>Vendor API token for extra services</small></div>
+              <span class="ar">›</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Website Setting -->
+        <div id="cfgSite" class="hidden">
+          <button class="cfg-back" type="button" data-go="cfgHome">‹ Back</button>
+          <h2 class="cfg-title">Website Setting</h2>
+          <p class="cfg-sub">Site information shown on your website.</p>
+          <div class="admin-card cfg-card">
+            <div class="cfg-sec" style="margin-top:0">Site information</div>
+            <label for="s_siteName">Site name</label>
+            <input type="text" id="s_siteName">
+            <label for="s_headline">Title / headline</label>
+            <input type="text" id="s_headline">
+            <label for="s_welcome">Welcome notification</label>
+            <textarea id="s_welcome"></textarea>
+            <label for="s_about">About us</label>
+            <textarea id="s_about" placeholder="Details about your website"></textarea>
+
+            <div class="cfg-sec">Contact information</div>
+            <label for="s_email">Email</label>
+            <input type="email" id="s_email">
+            <label for="s_phone">Phone / WhatsApp</label>
+            <input type="tel" id="s_phone">
+            <label for="s_address">Address</label>
+            <input type="text" id="s_address">
+
+            <div class="cfg-sec">App links</div>
+            <label for="s_playStore">Google Play Store link</label>
+            <input type="url" id="s_playStore" placeholder="https://play.google.com/store/apps/details?id=...">
+            <label for="s_appStore">Apple App Store link</label>
+            <input type="url" id="s_appStore" placeholder="https://apps.apple.com/app/...">
+
+            <div class="cfg-sec">Social media links</div>
+            <label for="s_facebook">Facebook</label>
+            <input type="url" id="s_facebook">
+            <label for="s_instagram">Instagram</label>
+            <input type="url" id="s_instagram">
+            <label for="s_twitter">X (Twitter)</label>
+            <input type="url" id="s_twitter">
+            <label for="s_tiktok">TikTok</label>
+            <input type="url" id="s_tiktok">
+            <label for="s_youtube">YouTube</label>
+            <input type="url" id="s_youtube">
+            <label for="s_telegram">Telegram</label>
+            <input type="url" id="s_telegram">
+            <label for="s_whatsapp">WhatsApp link</label>
+            <input type="url" id="s_whatsapp" placeholder="https://wa.me/234...">
+
+            <div class="cfg-sec">Theme &amp; media</div>
+            <label for="s_themeColor">Website theme color</label>
+            <input type="color" id="s_themeColor" value="#087443">
+            <label>Website logo</label>
+            <div class="logo-row">
+              <img id="s_logoPrev" alt="logo" class="hidden">
+              <input type="file" id="s_logoFile" accept="image/*">
+            </div>
+            <label for="s_logoUrl">...or logo link</label>
+            <input type="url" id="s_logoUrl" placeholder="https://...">
+            <button class="cfg-btn sec" id="checkLogo" type="button">Check logo</button>
+            <button class="cfg-btn" id="saveSite" type="button">Update all settings</button>
+          </div>
+        </div>
+
+        <!-- Payment Gateway -->
+        <div id="cfgPayment" class="hidden">
+          <button class="cfg-back" type="button" data-go="cfgHome">‹ Back</button>
+          <h2 class="cfg-title">Payment Gateway</h2>
+          <p class="cfg-sub">Manage and configure your payment service integration.</p>
+
+          <div class="admin-card cfg-card">
+            <h3>General settings</h3>
+            <label for="p_bank">Default funding bank</label>
+            <select id="p_bank">
+              <option value="">Select a bank</option>
+              <option>Sterling Bank</option>
+              <option>Wema Bank</option>
+              <option>Moniepoint Microfinance Bank</option>
+              <option>GT Bank</option>
+              <option>9PSB Bank</option>
+              <option>Pampi Payment Point</option>
+              <option>Pampi ORG</option>
+              <option>9PSB WAAS</option>
+            </select>
+          </div>
+
+          <div class="admin-card cfg-card">
+            <h3>Payment gateways: BillStack</h3>
+
+            <div class="cfg-sec">API credentials</div>
+            <label for="p_apiKey">Public key</label>
+            <input type="password" id="p_apiKey" placeholder="Paste BillStack public key" autocomplete="off">
+            <label for="p_secretKey">Secret key</label>
+            <input type="password" id="p_secretKey" placeholder="Paste BillStack secret key" autocomplete="off">
+            <label class="show-row"><input type="checkbox" id="p_show"> Show keys</label>
+
+            <div class="cfg-sec">Charge configuration</div>
+            <label>Charge type</label>
+            <div class="seg">
+              <button type="button" id="p_t1" class="on">Percentage</button>
+              <button type="button" id="p_t2">Flat rate</button>
+            </div>
+            <label for="p_value" id="p_valueLabel">Charge percentage (%)</label>
+            <input type="number" id="p_value" inputmode="decimal" step="any" min="0" placeholder="e.g. 1 or 2">
+            <label for="p_cap">Maximum cap (optional)</label>
+            <input type="number" id="p_cap" inputmode="decimal" step="any" min="0" placeholder="e.g. 2000">
+            <div class="cfg-hint">Sets a maximum charge limit to protect customers.</div>
+
+            <div class="cfg-sec">Service status</div>
+            <div class="cfg-row">
+              <div>
+                <div class="st-text on" id="p_stText">Currently enabled and operational</div>
+                <div class="cfg-hint" id="p_stHint">Customers can pay with BillStack.</div>
+              </div>
+              <label class="sw"><input type="checkbox" id="p_enabled" checked><span></span></label>
+            </div>
+            <button class="cfg-btn" id="savePayment" type="button">Save payment settings</button>
+          </div>
+        </div>
+
+        <!-- Transaction API -->
+        <div id="cfgTx" class="hidden">
+          <button class="cfg-back" type="button" data-go="cfgHome">‹ Back</button>
+          <h2 class="cfg-title">Transaction API</h2>
+          <p class="cfg-sub">Connect another VTU vendor to get extra services.</p>
+          <div class="admin-card cfg-card">
+            <label for="t_token">Transaction API token</label>
+            <input type="password" id="t_token" placeholder="Paste token from your VTU vendor" autocomplete="off">
+            <div class="cfg-hint">Copy the API token from your vendor's website and paste it here.</div>
+            <label class="show-row"><input type="checkbox" id="t_show"> Show token</label>
+            <button class="cfg-btn" id="saveTx" type="button">Save token</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <script>
+    window.__atlOk = false;
+    function atlShow(m) {
+      var s = document.getElementById('adminStatus'); if (s) s.textContent = m;
+      var a = document.getElementById('accessMessage');
+      if (a) { a.className = 'status-box error'; a.innerHTML = '<strong>Page error</strong><br>' + m; }
+    }
+    window.addEventListener('error', function (e) { atlShow('Error: ' + (e.message || 'script failed') + (e.lineno ? ' (line ' + e.lineno + ')' : '')); });
+    window.addEventListener('unhandledrejection', function (e) { atlShow('Error: ' + ((e.reason && e.reason.message) || e.reason)); });
+    setTimeout(function () { if (!window.__atlOk) atlShow('The page script did not start. Send a screenshot of this screen.'); }, 6000);
+  </script>
+  <script type="module">
+    import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+    import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+    import { getFirestore, collection, getDocs, doc, updateDoc, getDoc, setDoc, query, orderBy, limit, writeBatch, increment, serverTimestamp, runTransaction } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: 'AIzaSyA_x5ZYj7D5Dt_9Bq-NzlchpRPRd3QN21I',
+      authDomain: 'a-t-l-data.firebaseapp.com',
+      projectId: 'a-t-l-data',
+      storageBucket: 'a-t-l-data.firebasestorage.app',
+      messagingSenderId: '519558305824',
+      appId: '1:519558305824:web:cf6dd75ef20ef708c24445'
+    };
+
+    window.__atlOk = true;
+
+    const ADMIN_EMAIL = 'lawanahmadt03@gmail.com';
+    const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    let allUsers = [];
+    let currentUser = null;
+
+    const $ = (id) => document.getElementById(id);
+    const money = (n) => '₦' + Number(n || 0).toLocaleString('en-NG', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+
+    function escapeHTML(value) {
+      return String(value ?? '').replace(/[&<>"']/g, (char) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      }[char]));
+    }
+
+    async function loadUsers() {
+      const list = $('usersList');
+      list.innerHTML = '<div class="empty">Loading users...</div>';
+
+      try {
+        const snap = await getDocs(collection(db, 'users'));
+        allUsers = snap.docs.map((docSnap) => ({ id: docSnap.id, ...docSnap.data() }));
+        renderUsers();
+        renderDash();
+      } catch (error) {
+        list.innerHTML = '<div class="empty">Unable to load users.</div>';
+        console.error(error);
+      }
+    }
+
+    function renderUsers() {
+      const list = $('usersList');
+      const q = $('userSearch').value.trim().toLowerCase();
+      const filtered = !q ? allUsers : allUsers.filter((user) => {
+        const haystack = [user.name, user.email, user.phone, user.uid, user.id].join(' ').toLowerCase();
+        return haystack.includes(q);
+      }).filter((user) => {
+        const f = $('userFilter').value;
+        return !f || (f === 'blocked' && user.isBlocked) || (f === 'verified' && user.emailVerified) ||
+          (f === 'unverified' && !user.emailVerified) || (f === 'funded' && Number(user.balance || 0) > 0);
+      });
+
+      const totalWallet = filtered.reduce((sum, user) => sum + Number(user.balance || 0), 0);
+      $('totalUsers').textContent = String(filtered.length);
+      $('totalWallet').textContent = money(totalWallet);
+      $('verifiedUsers').textContent = String(filtered.filter((user) => user.emailVerified).length);
+
+      if (!filtered.length) {
+        list.innerHTML = '<div class="empty">No users found.</div>';
+        return;
+      }
+
+      list.innerHTML = filtered.map((user) => {
+        const name = user.name || 'Unnamed User';
+        const email = user.email || 'No email';
+        const phone = user.phone || 'No phone';
+        const blocked = !!user.isBlocked;
+        const emailVerified = !!user.emailVerified;
+
+        return `
+          <div class="user-item">
+            <div class="user-head">
+              <div class="user-name">${escapeHTML(name)}</div>
+              <span class="badge ${blocked ? 'blocked' : ''}">${blocked ? 'Blocked' : (emailVerified ? 'Verified' : 'Pending')}</span>
+            </div>
+
+            <div class="user-meta">
+              <div><strong>Email:</strong> ${escapeHTML(email)}</div>
+              <div><strong>Phone:</strong> ${escapeHTML(phone)}</div>
+              <div><strong>Wallet:</strong> ${money(user.balance || 0)}</div>
+              <div><strong>Tier:</strong> ${escapeHTML(user.tier || 'basic')}</div>
+              <div><strong>UID:</strong> ${escapeHTML(user.uid || user.id || 'N/A')}</div>
+              <div><strong>Status:</strong> ${emailVerified ? 'verified' : 'not verified'}</div>
+            </div>
+
+            <div class="user-actions">
+              <button class="mini-btn green" type="button" onclick="toggleBlocked('${user.uid || user.id}')">${blocked ? 'Unblock' : 'Block'}</button>
+              <button class="mini-btn grey" type="button" onclick="setUserTier('${user.uid || user.id}', 'basic')">Tier: Basic</button>
+              <button class="mini-btn grey" type="button" onclick="setUserTier('${user.uid || user.id}', 'gold')">Tier: Gold</button>
+              <button class="mini-btn green" type="button" onclick="adjustBalance('${user.uid || user.id}', 'credit')">+ Fund</button>
+              <button class="mini-btn red" type="button" onclick="adjustBalance('${user.uid || user.id}', 'debit')">− Debit</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    window.toggleBlocked = async (uid) => {
+      if (!uid) return;
+      const ref = doc(db, 'users', uid);
+      const current = await getDoc(ref);
+      const next = !Boolean(current.exists() ? current.data().isBlocked : false);
+      await updateDoc(ref, { isBlocked: next });
+      await loadUsers();
+    };
+
+    window.setUserTier = async (uid, tier) => {
+      if (!uid) return;
+      const ref = doc(db, 'users', uid);
+      await updateDoc(ref, { tier });
+      await loadUsers();
+    };
+
+
+    /* =====================================================
+       DASHBOARD, TRANSACTIONS, DEPOSITS, WALLET ADJUSTMENTS
+       ===================================================== */
+    let allTx = [];
+    let allDeps = [];
+    const CREDIT_TYPES = ['Deposit', 'Admin Credit', 'Refund'];
+    const NON_SALES = ['Deposit', 'Admin Credit', 'Admin Debit', 'Refund'];
+
+    const fmtDate = (t) => {
+      const d = t && t.toDate ? t.toDate() : null;
+      return d ? d.toLocaleString('en-NG', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : '—';
+    };
+    const userName = (uid) => { const u = allUsers.find((x) => (x.uid || x.id) === uid); return u ? (u.name || u.email || uid) : (uid || '—'); };
+    const badgeCls = (st) => st === 'success' || st === 'approved' ? '' : (st === 'failed' || st === 'rejected' ? 'blocked' : 'wait');
+    const short = (n) => n >= 1e6 ? '₦' + (n / 1e6).toFixed(1) + 'M' : n >= 1e3 ? '₦' + (n / 1e3).toFixed(1) + 'k' : '₦' + Math.round(n);
+
+    async function loadTx() {
+      try {
+        const [t, d] = await Promise.all([
+          getDocs(query(collection(db, 'transactions'), orderBy('createdAt', 'desc'), limit(300))),
+          getDocs(query(collection(db, 'deposits'), orderBy('createdAt', 'desc'), limit(100)))
+        ]);
+        allTx = t.docs.map((x) => ({ id: x.id, ...x.data() }));
+        allDeps = d.docs.map((x) => ({ id: x.id, ...x.data() }));
+      } catch (e) { console.error(e); toast('Could not load transactions', true); }
+      renderDash(); renderTx(); renderDeps();
+    }
+
+    function lastDays(filterFn) {
+      const days = [];
+      for (let i = 6; i >= 0; i--) { const d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() - i); days.push({ d, v: 0 }); }
+      allTx.filter((t) => t.status === 'success' && filterFn(t)).forEach((t) => {
+        const dt = t.createdAt && t.createdAt.toDate ? t.createdAt.toDate() : null; if (!dt) return;
+        dt.setHours(0, 0, 0, 0);
+        const slot = days.find((x) => x.d.getTime() === dt.getTime()); if (slot) slot.v += Number(t.amount || 0);
+      });
+      return days;
+    }
+
+    function drawBars(id, days, alt) {
+      const max = Math.max(1, ...days.map((x) => x.v));
+      $(id).innerHTML = days.map((x) => `<div class="bar-col"><span>${x.v ? short(x.v) : ''}</span><div class="bar ${alt ? 'alt' : ''}" style="height:${Math.max(2, x.v / max * 100)}%"></div><span>${x.d.toLocaleDateString('en-NG', { weekday: 'short' })}</span></div>`).join('');
+    }
+
+    function renderDash() {
+      const wallet = allUsers.reduce((a, u) => a + Number(u.balance || 0), 0);
+      const week = Date.now() - 7 * 864e5;
+      const newUsers = allUsers.filter((u) => u.createdAt && u.createdAt.toDate && u.createdAt.toDate().getTime() > week).length;
+      const today = new Date(); today.setHours(0, 0, 0, 0);
+      const todaySales = allTx.filter((t) => t.status === 'success' && !NON_SALES.includes(t.type) && t.createdAt && t.createdAt.toDate && t.createdAt.toDate() >= today)
+        .reduce((a, t) => a + Number(t.amount || 0), 0);
+      const pend = allDeps.filter((x) => x.status === 'pending').length;
+      const box = (l, v) => `<div class="stat-box"><small>${l}</small><strong>${v}</strong></div>`;
+      $('dashStats').innerHTML = box('Total users', allUsers.length) + box('New (7 days)', newUsers) + box('Blocked', allUsers.filter((u) => u.isBlocked).length) +
+        box('Total wallet', money(wallet)) + box("Today's sales", money(todaySales)) + box('Pending deposits', pend);
+      drawBars('chartIn', lastDays((t) => t.type === 'Deposit'), false);
+      drawBars('chartSales', lastDays((t) => !NON_SALES.includes(t.type)), true);
+      $('dashRecent').innerHTML = allTx.slice(0, 8).map(txRow).join('') || '<div class="empty">No transactions yet.</div>';
+    }
+
+    function txRow(t) {
+      const inn = CREDIT_TYPES.includes(t.type);
+      return `<div class="row-item"><div><strong>${escapeHTML(t.type || '-')}</strong> · ${escapeHTML(userName(t.uid))}
+        <small>${escapeHTML(t.description || '')} · ${fmtDate(t.createdAt)}</small></div>
+        <div style="text-align:right"><span class="${inn ? 'amt-in' : 'amt-out'}">${inn ? '+' : '−'}${money(t.amount)}</span>
+        <small><span class="badge ${badgeCls(t.status)}">${escapeHTML(t.status || 'pending')}</span></small></div></div>`;
+    }
+
+    function filteredTx() {
+      const q = $('txSearch').value.trim().toLowerCase(), ty = $('txType').value, st = $('txStatus').value;
+      return allTx.filter((t) => (!ty || (ty === '__sales' ? !NON_SALES.includes(t.type) : t.type === ty)) && (!st || t.status === st) &&
+        (!q || [t.type, t.description, t.reference, t.uid, userName(t.uid)].join(' ').toLowerCase().includes(q)));
+    }
+
+    function renderTx() {
+      const rows = filteredTx();
+      $('txList').innerHTML = rows.map(txRow).join('') || '<div class="empty">No transactions found.</div>';
+    }
+
+    $('txCsv').addEventListener('click', () => {
+      const rows = filteredTx();
+      if (!rows.length) return toast('Nothing to export', true);
+      const q = (v) => '"' + String(v ?? '').replace(/"/g, '""') + '"';
+      const csv = ['Date,User,Type,Description,Amount,Status,Reference'].concat(rows.map((t) =>
+        [fmtDate(t.createdAt), userName(t.uid), t.type, t.description, t.amount, t.status, t.reference].map(q).join(','))).join('\n');
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+      a.download = 'transactions-' + new Date().toISOString().slice(0, 10) + '.csv';
+      a.click();
+    });
+
+    function renderDeps() {
+      $('depList').innerHTML = allDeps.map((x) => `<div class="row-item"><div><strong>${escapeHTML(x.name || x.email || userName(x.uid))}</strong>
+        <small>${money(x.amount)} · Ref: ${escapeHTML(x.reference || '-')} · ${fmtDate(x.createdAt)}</small>
+        ${x.status === 'pending' ? `<div class="user-actions"><button class="mini-btn green" type="button" onclick="decideDeposit('${x.id}',true)">Approve</button>
+        <button class="mini-btn red" type="button" onclick="decideDeposit('${x.id}',false)">Reject</button></div>` : ''}</div>
+        <div><span class="badge ${badgeCls(x.status)}">${escapeHTML(x.status || 'pending')}</span></div></div>`).join('') || '<div class="empty">No deposit requests.</div>';
+    }
+
+    window.decideDeposit = async (id, ok) => {
+      if (!confirm(ok ? 'Approve this deposit and credit the wallet?' : 'Reject this deposit?')) return;
+      try {
+        await runTransaction(db, async (t) => {
+          const dr = doc(db, 'deposits', id), ds = await t.get(dr);
+          if (!ds.exists() || ds.data().status !== 'pending') throw new Error('Already processed');
+          const d = ds.data(), amt = Number(d.amount || 0);
+          if (!ok) return t.update(dr, { status: 'rejected', rejectedAt: serverTimestamp(), rejectedBy: currentUser.email });
+          t.update(dr, { status: 'approved', approvedAt: serverTimestamp(), approvedBy: currentUser.email });
+          t.update(doc(db, 'users', d.uid), { balance: increment(amt), updatedAt: serverTimestamp() });
+          t.set(doc(collection(db, 'transactions')), { uid: d.uid, type: 'Deposit', amount: amt, status: 'success',
+            description: 'Wallet deposit approved', reference: d.reference || '', approvedBy: currentUser.email, createdAt: serverTimestamp() });
+        });
+        toast(ok ? 'Deposit approved' : 'Deposit rejected');
+      } catch (e) { console.error(e); toast(e.message || 'Failed', true); }
+      await Promise.all([loadUsers(), loadTx()]);
+    };
+
+    window.adjustBalance = async (uid, kind) => {
+      const u = allUsers.find((x) => (x.uid || x.id) === uid); if (!u) return;
+      const debit = kind === 'debit', who = u.name || u.email || uid;
+      const amt = parseFloat(prompt((debit ? 'Debit' : 'Fund') + ' amount (₦) for ' + who + ':'));
+      if (!(amt > 0)) return;
+      if (debit && Number(u.balance || 0) < amt) return toast('User balance is too low', true);
+      const note = prompt('Reason / note (optional):') || '';
+      if (!confirm((debit ? 'Debit ' : 'Credit ') + money(amt) + (debit ? ' from ' : ' to ') + who + '?')) return;
+      try {
+        const b = writeBatch(db);
+        b.update(doc(db, 'users', u.id), { balance: increment(debit ? -amt : amt), updatedAt: serverTimestamp() });
+        b.set(doc(collection(db, 'transactions')), { uid: u.id, type: debit ? 'Admin Debit' : 'Admin Credit', amount: amt, status: 'success',
+          description: note || 'Manual ' + (debit ? 'debit' : 'credit') + ' by admin', createdAt: serverTimestamp() });
+        await b.commit();
+        toast('Done');
+      } catch (e) { console.error(e); toast('Could not update balance. Check the Firebase rules.', true); }
+      await Promise.all([loadUsers(), loadTx()]);
+    };
+
+
+    /* =====================================================
+       DATA PRICES  (Firestore: config/pricing -> { mtn: { <planCode>: {code,name,price,enabled} }, ... })
+       Vendor cost comes live from the Worker; only YOUR selling price is stored.
+       ===================================================== */
+    const WORKER_URL = 'https://api.atldata.com.ng';
+    let priceNet = 'mtn', pricePlans = [], savedPricing = null;
+    const pkey = (c) => String(c).replace(/[.\/]/g, '_');
+
+    async function loadPrices() {
+      const box = $('priceList');
+      box.innerHTML = '<div class="empty">Loading plans...</div>';
+      try {
+        if (!savedPricing) { const sn = await getDoc(doc(db, 'config', 'pricing')); savedPricing = sn.exists() ? sn.data() : {}; }
+        const r = await fetch(WORKER_URL + '/test-plans/' + priceNet);
+        const d = await r.json();
+        pricePlans = (Array.isArray(d.plans) ? d.plans : []).map((p) => ({
+          code: String(p.code), name: String(p.name || p.plan_name || p.title || 'Plan'), cost: Number(p.price ?? p.amount ?? 0) }));
+        renderPrices();
+      } catch (e) { console.error(e); box.innerHTML = '<div class="empty">Could not load plans.</div>'; }
+    }
+
+    function renderPrices() {
+      const saved = (savedPricing && savedPricing[priceNet]) || {};
+      $('priceList').innerHTML = pricePlans.map((p, i) => {
+        const sv = saved[pkey(p.code)] || {};
+        return `<div class="row-item" style="align-items:center"><div style="flex:1"><strong>${escapeHTML(p.name)}</strong>
+          <small>Cost ${money(p.cost)} · <span id="pf${i}"></span></small></div>
+          <div style="width:115px"><input type="number" inputmode="decimal" min="0" id="pp${i}" value="${sv.price != null ? sv.price : ''}" placeholder="Sell ₦"
+          style="width:100%;padding:10px;border:1px solid #dfe7e1;border-radius:10px"><label class="show-row"><input type="checkbox" id="pe${i}" ${sv.enabled === false ? '' : 'checked'}> Show</label></div></div>`;
+      }).join('') || '<div class="empty">No plans found.</div>';
+      pricePlans.forEach((p, i) => { $('pp' + i).addEventListener('input', () => showProfit(i)); showProfit(i); });
+    }
+
+    function showProfit(i) {
+      const v = parseFloat($('pp' + i).value), el = $('pf' + i);
+      if (!(v >= 0)) { el.textContent = 'Profit: —'; el.style.color = ''; return; }
+      const pr = v - pricePlans[i].cost;
+      el.textContent = 'Profit: ' + money(pr); el.style.color = pr < 0 ? '#a52323' : '#087443';
+    }
+
+    $('priceNet').addEventListener('change', () => { priceNet = $('priceNet').value; loadPrices(); });
+    $('priceApply').addEventListener('click', () => {
+      const pct = $('priceType').value === 'pct', v = parseFloat($('priceValue').value);
+      if (!(v >= 0)) return toast('Enter the profit value', true);
+      pricePlans.forEach((p, i) => { $('pp' + i).value = Math.ceil(pct ? p.cost * (1 + v / 100) : p.cost + v); showProfit(i); });
+      toast('Applied. Review, then press Save prices');
+    });
+    $('priceSave').addEventListener('click', (e) => {
+      const out = {}; let below = 0;
+      pricePlans.forEach((p, i) => {
+        const v = parseFloat($('pp' + i).value), en = $('pe' + i).checked;
+        if (v >= 0 && v < p.cost) below++;
+        if (v >= 0 || !en) out[pkey(p.code)] = { code: p.code, name: p.name, price: v >= 0 ? v : null, enabled: en };
+      });
+      if (below && !confirm(below + ' plan(s) are priced below cost (you lose money). Save anyway?')) return;
+      saveWithButton(e.currentTarget, async () => {
+        await setDoc(doc(db, 'config', 'pricing'), { [priceNet]: out, updatedAt: Date.now() }, { merge: true });
+        savedPricing = savedPricing || {}; savedPricing[priceNet] = out;
+      });
+    });
+
+    /* =====================================================
+       APP CONFIGURATION  (Firestore collection: "config")
+         config/site     -> public website settings
+         config/payment  -> payment gateway (admin only)
+         config/txapi    -> transaction API token (admin only)
+       ===================================================== */
+
+    const SITE_FIELDS = ['siteName','headline','welcome','about','email','phone','address',
+      'playStore','appStore','facebook','instagram','twitter','tiktok','youtube','telegram','whatsapp','themeColor'];
+
+    let chargeType = 'percentage';
+    let logoData = '';
+    let configLoaded = false;
+
+    function toast(msg, isErr) {
+      const t = document.createElement('div');
+      t.className = 'toast' + (isErr ? ' err' : '');
+      t.textContent = msg;
+      document.body.appendChild(t);
+      setTimeout(() => t.remove(), 3200);
+    }
+
+    function showCfg(id) {
+      ['cfgHome', 'cfgSite', 'cfgPayment', 'cfgTx'].forEach((x) => $(x).classList.toggle('hidden', x !== id));
+      window.scrollTo(0, 0);
+    }
+
+    function showTab(tab) {
+      ['dash', 'users', 'tx', 'dep', 'price', 'config'].forEach((k) => {
+        $(k + 'View').classList.toggle('hidden', k !== tab);
+        $('tab' + k[0].toUpperCase() + k.slice(1)).classList.toggle('active', k === tab);
+      });
+      window.scrollTo(0, 0);
+      if (tab === 'price') loadPrices();
+      if (tab === 'config') { showCfg('cfgHome'); if (!configLoaded) loadConfig(); }
+    }
+
+    function updateLogoPreview() {
+      const img = $('s_logoPrev');
+      if (logoData) { img.src = logoData; img.classList.remove('hidden'); }
+      else { img.classList.add('hidden'); }
+    }
+
+    function updateChargeUI() {
+      $('p_t1').classList.toggle('on', chargeType === 'percentage');
+      $('p_t2').classList.toggle('on', chargeType === 'flat');
+      $('p_valueLabel').textContent = chargeType === 'percentage' ? 'Charge percentage (%)' : 'Flat charge amount (₦)';
+      $('p_value').placeholder = chargeType === 'percentage' ? 'e.g. 1 or 2' : 'e.g. 50';
+    }
+
+    function updateStatusUI() {
+      const on = $('p_enabled').checked;
+      const t = $('p_stText');
+      t.className = 'st-text ' + (on ? 'on' : 'off');
+      t.textContent = on ? 'Currently enabled and operational' : 'Service is disabled';
+      $('p_stHint').textContent = on ? 'Customers can pay with BillStack.' : 'BillStack payments are switched off.';
+    }
+
+    async function loadConfig() {
+      try {
+        const [siteSnap, paySnap, txSnap] = await Promise.all([
+          getDoc(doc(db, 'config', 'site')),
+          getDoc(doc(db, 'config', 'payment')),
+          getDoc(doc(db, 'config', 'txapi'))
+        ]);
+
+        const s = siteSnap.exists() ? siteSnap.data() : {};
+        SITE_FIELDS.forEach((k) => {
+          const el = $('s_' + k);
+          if (s[k] != null && s[k] !== '') el.value = s[k];
+        });
+        logoData = s.logo || '';
+        $('s_logoUrl').value = logoData.startsWith('data:') ? '' : logoData;
+        updateLogoPreview();
+
+        const p = paySnap.exists() ? paySnap.data() : {};
+        const m = p.billstack || {};
+        $('p_bank').value = p.defaultBank || '';
+        $('p_apiKey').value = m.publicKey || '';
+        $('p_secretKey').value = m.secretKey || '';
+        chargeType = m.chargeType === 'flat' ? 'flat' : 'percentage';
+        $('p_value').value = m.chargeValue != null ? m.chargeValue : '';
+        $('p_cap').value = m.maxCap != null ? m.maxCap : '';
+        $('p_enabled').checked = m.enabled !== false;
+        updateChargeUI();
+        updateStatusUI();
+
+        $('t_token').value = txSnap.exists() ? (txSnap.data().token || '') : '';
+        configLoaded = true;
+      } catch (error) {
+        console.error(error);
+        toast('Could not load settings. Check the Firebase rules.', true);
+      }
+    }
+
+    async function saveWithButton(btn, fn) {
+      const old = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'Saving...';
+      try {
+        await fn();
+        toast('Saved successfully');
+      } catch (error) {
+        console.error(error);
+        toast('Could not save. Check the Firebase rules.', true);
+      }
+      btn.disabled = false;
+      btn.textContent = old;
+    }
+
+    // Navigation inside Configuration
+    document.querySelectorAll('[data-go]').forEach((b) => {
+      b.addEventListener('click', () => showCfg(b.getAttribute('data-go')));
+    });
+    $('tabUsers').addEventListener('click', () => showTab('users'));
+    $('tabConfig').addEventListener('click', () => showTab('config'));
+    $('tabDash').addEventListener('click', () => showTab('dash'));
+    $('tabTx').addEventListener('click', () => showTab('tx'));
+    $('tabDep').addEventListener('click', () => showTab('dep'));
+    $('tabPrice').addEventListener('click', () => showTab('price'));
+
+    // Logo upload (resized so it stays small)
+    $('s_logoFile').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+          const max = 300;
+          const k = Math.min(1, max / Math.max(img.width, img.height));
+          const c = document.createElement('canvas');
+          c.width = Math.round(img.width * k);
+          c.height = Math.round(img.height * k);
+          c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+          logoData = c.toDataURL('image/png');
+          $('s_logoUrl').value = '';
+          updateLogoPreview();
+        };
+        img.src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    $('checkLogo').addEventListener('click', () => {
+      const u = $('s_logoUrl').value.trim();
+      if (u) logoData = u;
+      if (!logoData) return toast('No logo selected', true);
+      updateLogoPreview();
+      toast('Logo preview updated');
+    });
+
+    $('saveSite').addEventListener('click', (e) => {
+      const u = $('s_logoUrl').value.trim();
+      if (u) {
+        if (!u.startsWith('https://')) return toast('Logo link must start with https://', true);
+        logoData = u;
+      }
+      const data = {};
+      SITE_FIELDS.forEach((k) => { data[k] = $('s_' + k).value.trim(); });
+      data.logo = logoData;
+      data.updatedAt = Date.now();
+      saveWithButton(e.currentTarget, () => setDoc(doc(db, 'config', 'site'), data));
+    });
+
+    // Payment gateway
+    $('p_t1').addEventListener('click', () => { chargeType = 'percentage'; updateChargeUI(); });
+    $('p_t2').addEventListener('click', () => { chargeType = 'flat'; updateChargeUI(); });
+    $('p_enabled').addEventListener('change', updateStatusUI);
+    $('p_show').addEventListener('change', (e) => {
+      const type = e.target.checked ? 'text' : 'password';
+      ['p_apiKey', 'p_secretKey'].forEach((id) => { $(id).type = type; });
+    });
+    $('t_show').addEventListener('change', (e) => {
+      $('t_token').type = e.target.checked ? 'text' : 'password';
+    });
+
+    $('savePayment').addEventListener('click', (e) => {
+      let value = parseFloat($('p_value').value);
+      if (!isFinite(value) || value < 0) value = 0;
+      if (chargeType === 'percentage' && value > 100) return toast('Percentage cannot be more than 100', true);
+      const capRaw = $('p_cap').value.trim();
+      let cap = capRaw === '' ? '' : parseFloat(capRaw);
+      if (cap !== '' && (!isFinite(cap) || cap < 0)) cap = '';
+
+      const data = {
+        defaultBank: $('p_bank').value,
+        billstack: {
+          publicKey: $('p_apiKey').value.trim(),
+          secretKey: $('p_secretKey').value.trim(),
+          chargeType,
+          chargeValue: value,
+          maxCap: cap,
+          enabled: $('p_enabled').checked
+        },
+        updatedAt: Date.now()
+      };
+      saveWithButton(e.currentTarget, () => setDoc(doc(db, 'config', 'payment'), data));
+    });
+
+    // Transaction API
+    $('saveTx').addEventListener('click', (e) => {
+      const data = { token: $('t_token').value.trim(), updatedAt: Date.now() };
+      saveWithButton(e.currentTarget, () => setDoc(doc(db, 'config', 'txapi'), data));
+    });
+
+    /* ===================================================== */
+
+    onAuthStateChanged(auth, async (user) => {
+      currentUser = user;
+      const allowed = !!user && !!user.email && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+      const adminApp = $('adminApp');
+      const accessMessage = $('accessMessage');
+      const adminStatus = $('adminStatus');
+
+      if (!user) {
+        adminStatus.textContent = 'No user signed in.';
+        accessMessage.className = 'status-box error';
+        accessMessage.innerHTML = '<strong>Access Denied</strong><br>Please login as the administrator.';
+        adminApp.classList.add('hidden');
+        return;
+      }
+
+      if (!allowed) {
+        adminStatus.textContent = 'Signed in as ' + user.email;
+        accessMessage.className = 'status-box error';
+        accessMessage.innerHTML = '<strong>Access Denied</strong><br>This account is not allowed to use the admin panel.';
+        adminApp.classList.add('hidden');
+        return;
+      }
+
+      adminStatus.textContent = 'Administrator access granted (' + user.email + ')';
+      accessMessage.className = 'status-box';
+      accessMessage.innerHTML = '<strong>Admin Access</strong><br>Administrator session is active and the dashboard is ready.';
+      adminApp.classList.remove('hidden');
+      showTab('dash');
+      await Promise.all([loadUsers(), loadTx()]);
+    });
+
+    $('backBtn').addEventListener('click', () => {
+      window.location.href = 'index.html';
+    });
+
+    $('refreshBtn').addEventListener('click', async () => {
+      await Promise.all([loadUsers(), loadTx()]);
+      if (!$('configView').classList.contains('hidden')) {
+        configLoaded = false;
+        await loadConfig();
+      }
+    });
+
+    $('userSearch').addEventListener('input', renderUsers);
+    $('userFilter').addEventListener('change', renderUsers);
+    ['txSearch', 'txType', 'txStatus'].forEach((id) => $(id).addEventListener('input', renderTx));
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadUsers();
+    });
+  </script>
+</body>
+</html>
