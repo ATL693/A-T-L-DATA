@@ -501,6 +501,17 @@
     </div>
   </main>
 
+  <script>
+    window.__atlOk = false;
+    function atlShow(m) {
+      var s = document.getElementById('adminStatus'); if (s) s.textContent = m;
+      var a = document.getElementById('accessMessage');
+      if (a) { a.className = 'status-box error'; a.innerHTML = '<strong>Page error</strong><br>' + m; }
+    }
+    window.addEventListener('error', function (e) { atlShow('Error: ' + (e.message || 'script failed') + (e.lineno ? ' (line ' + e.lineno + ')' : '')); });
+    window.addEventListener('unhandledrejection', function (e) { atlShow('Error: ' + ((e.reason && e.reason.message) || e.reason)); });
+    setTimeout(function () { if (!window.__atlOk) atlShow('The page script did not start. Send a screenshot of this screen.'); }, 6000);
+  </script>
   <script type="module">
     import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
     import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
@@ -514,6 +525,8 @@
       messagingSenderId: '519558305824',
       appId: '1:519558305824:web:cf6dd75ef20ef708c24445'
     };
+
+    window.__atlOk = true;
 
     const ADMIN_EMAIL = 'lawanahmadt03@gmail.com';
     const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
@@ -553,4 +566,328 @@
       }
     }
 
-    func
+    function renderUsers() {
+      const list = $('usersList');
+      const q = $('userSearch').value.trim().toLowerCase();
+      const filtered = !q ? allUsers : allUsers.filter((user) => {
+        const haystack = [user.name, user.email, user.phone, user.uid, user.id].join(' ').toLowerCase();
+        return haystack.includes(q);
+      });
+
+      const totalWallet = filtered.reduce((sum, user) => sum + Number(user.balance || 0), 0);
+      $('totalUsers').textContent = String(filtered.length);
+      $('totalWallet').textContent = money(totalWallet);
+      $('verifiedUsers').textContent = String(filtered.filter((user) => user.emailVerified).length);
+
+      if (!filtered.length) {
+        list.innerHTML = '<div class="empty">No users found.</div>';
+        return;
+      }
+
+      list.innerHTML = filtered.map((user) => {
+        const name = user.name || 'Unnamed User';
+        const email = user.email || 'No email';
+        const phone = user.phone || 'No phone';
+        const blocked = !!user.isBlocked;
+        const emailVerified = !!user.emailVerified;
+
+        return `
+          <div class="user-item">
+            <div class="user-head">
+              <div class="user-name">${escapeHTML(name)}</div>
+              <span class="badge ${blocked ? 'blocked' : ''}">${blocked ? 'Blocked' : (emailVerified ? 'Verified' : 'Pending')}</span>
+            </div>
+
+            <div class="user-meta">
+              <div><strong>Email:</strong> ${escapeHTML(email)}</div>
+              <div><strong>Phone:</strong> ${escapeHTML(phone)}</div>
+              <div><strong>Wallet:</strong> ${money(user.balance || 0)}</div>
+              <div><strong>Tier:</strong> ${escapeHTML(user.tier || 'basic')}</div>
+              <div><strong>UID:</strong> ${escapeHTML(user.uid || user.id || 'N/A')}</div>
+              <div><strong>Status:</strong> ${emailVerified ? 'verified' : 'not verified'}</div>
+            </div>
+
+            <div class="user-actions">
+              <button class="mini-btn green" type="button" onclick="toggleBlocked('${user.uid || user.id}')">${blocked ? 'Unblock' : 'Block'}</button>
+              <button class="mini-btn grey" type="button" onclick="setUserTier('${user.uid || user.id}', 'basic')">Tier: Basic</button>
+              <button class="mini-btn grey" type="button" onclick="setUserTier('${user.uid || user.id}', 'gold')">Tier: Gold</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    window.toggleBlocked = async (uid) => {
+      if (!uid) return;
+      const ref = doc(db, 'users', uid);
+      const current = await getDoc(ref);
+      const next = !Boolean(current.exists() ? current.data().isBlocked : false);
+      await updateDoc(ref, { isBlocked: next });
+      await loadUsers();
+    };
+
+    window.setUserTier = async (uid, tier) => {
+      if (!uid) return;
+      const ref = doc(db, 'users', uid);
+      await updateDoc(ref, { tier });
+      await loadUsers();
+    };
+
+    /* =====================================================
+       APP CONFIGURATION  (Firestore collection: "config")
+         config/site     -> public website settings
+         config/payment  -> payment gateway (admin only)
+         config/txapi    -> transaction API token (admin only)
+       ===================================================== */
+
+    const SITE_FIELDS = ['siteName','headline','welcome','about','email','phone','address',
+      'playStore','appStore','facebook','instagram','twitter','tiktok','youtube','telegram','whatsapp','themeColor'];
+
+    let chargeType = 'percentage';
+    let logoData = '';
+    let configLoaded = false;
+
+    function toast(msg, isErr) {
+      const t = document.createElement('div');
+      t.className = 'toast' + (isErr ? ' err' : '');
+      t.textContent = msg;
+      document.body.appendChild(t);
+      setTimeout(() => t.remove(), 3200);
+    }
+
+    function showCfg(id) {
+      ['cfgHome', 'cfgSite', 'cfgPayment', 'cfgTx'].forEach((x) => $(x).classList.toggle('hidden', x !== id));
+      window.scrollTo(0, 0);
+    }
+
+    function showTab(tab) {
+      const isUsers = tab === 'users';
+      $('usersView').classList.toggle('hidden', !isUsers);
+      $('configView').classList.toggle('hidden', isUsers);
+      $('tabUsers').classList.toggle('active', isUsers);
+      $('tabConfig').classList.toggle('active', !isUsers);
+      if (!isUsers) {
+        showCfg('cfgHome');
+        if (!configLoaded) loadConfig();
+      }
+    }
+
+    function updateLogoPreview() {
+      const img = $('s_logoPrev');
+      if (logoData) { img.src = logoData; img.classList.remove('hidden'); }
+      else { img.classList.add('hidden'); }
+    }
+
+    function updateChargeUI() {
+      $('p_t1').classList.toggle('on', chargeType === 'percentage');
+      $('p_t2').classList.toggle('on', chargeType === 'flat');
+      $('p_valueLabel').textContent = chargeType === 'percentage' ? 'Charge percentage (%)' : 'Flat charge amount (₦)';
+      $('p_value').placeholder = chargeType === 'percentage' ? 'e.g. 1 or 2' : 'e.g. 50';
+    }
+
+    function updateStatusUI() {
+      const on = $('p_enabled').checked;
+      const t = $('p_stText');
+      t.className = 'st-text ' + (on ? 'on' : 'off');
+      t.textContent = on ? 'Currently enabled and operational' : 'Service is disabled';
+      $('p_stHint').textContent = on ? 'Customers can pay with Monnify.' : 'Monnify payments are switched off.';
+    }
+
+    async function loadConfig() {
+      try {
+        const [siteSnap, paySnap, txSnap] = await Promise.all([
+          getDoc(doc(db, 'config', 'site')),
+          getDoc(doc(db, 'config', 'payment')),
+          getDoc(doc(db, 'config', 'txapi'))
+        ]);
+
+        const s = siteSnap.exists() ? siteSnap.data() : {};
+        SITE_FIELDS.forEach((k) => {
+          const el = $('s_' + k);
+          if (s[k] != null && s[k] !== '') el.value = s[k];
+        });
+        logoData = s.logo || '';
+        $('s_logoUrl').value = logoData.startsWith('data:') ? '' : logoData;
+        updateLogoPreview();
+
+        const p = paySnap.exists() ? paySnap.data() : {};
+        const m = p.monnify || {};
+        $('p_bank').value = p.defaultBank || '';
+        $('p_apiKey').value = m.apiKey || '';
+        $('p_secretKey').value = m.secretKey || '';
+        $('p_contract').value = m.contractCode || '';
+        chargeType = m.chargeType === 'flat' ? 'flat' : 'percentage';
+        $('p_value').value = m.chargeValue != null ? m.chargeValue : '';
+        $('p_cap').value = m.maxCap != null ? m.maxCap : '';
+        $('p_enabled').checked = m.enabled !== false;
+        updateChargeUI();
+        updateStatusUI();
+
+        $('t_token').value = txSnap.exists() ? (txSnap.data().token || '') : '';
+        configLoaded = true;
+      } catch (error) {
+        console.error(error);
+        toast('Could not load settings. Check the Firebase rules.', true);
+      }
+    }
+
+    async function saveWithButton(btn, fn) {
+      const old = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'Saving...';
+      try {
+        await fn();
+        toast('Saved successfully');
+      } catch (error) {
+        console.error(error);
+        toast('Could not save. Check the Firebase rules.', true);
+      }
+      btn.disabled = false;
+      btn.textContent = old;
+    }
+
+    // Navigation inside Configuration
+    document.querySelectorAll('[data-go]').forEach((b) => {
+      b.addEventListener('click', () => showCfg(b.getAttribute('data-go')));
+    });
+    $('tabUsers').addEventListener('click', () => showTab('users'));
+    $('tabConfig').addEventListener('click', () => showTab('config'));
+
+    // Logo upload (resized so it stays small)
+    $('s_logoFile').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+          const max = 300;
+          const k = Math.min(1, max / Math.max(img.width, img.height));
+          const c = document.createElement('canvas');
+          c.width = Math.round(img.width * k);
+          c.height = Math.round(img.height * k);
+          c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+          logoData = c.toDataURL('image/png');
+          $('s_logoUrl').value = '';
+          updateLogoPreview();
+        };
+        img.src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    $('checkLogo').addEventListener('click', () => {
+      const u = $('s_logoUrl').value.trim();
+      if (u) logoData = u;
+      if (!logoData) return toast('No logo selected', true);
+      updateLogoPreview();
+      toast('Logo preview updated');
+    });
+
+    $('saveSite').addEventListener('click', (e) => {
+      const u = $('s_logoUrl').value.trim();
+      if (u) {
+        if (!u.startsWith('https://')) return toast('Logo link must start with https://', true);
+        logoData = u;
+      }
+      const data = {};
+      SITE_FIELDS.forEach((k) => { data[k] = $('s_' + k).value.trim(); });
+      data.logo = logoData;
+      data.updatedAt = Date.now();
+      saveWithButton(e.currentTarget, () => setDoc(doc(db, 'config', 'site'), data));
+    });
+
+    // Payment gateway
+    $('p_t1').addEventListener('click', () => { chargeType = 'percentage'; updateChargeUI(); });
+    $('p_t2').addEventListener('click', () => { chargeType = 'flat'; updateChargeUI(); });
+    $('p_enabled').addEventListener('change', updateStatusUI);
+    $('p_show').addEventListener('change', (e) => {
+      const type = e.target.checked ? 'text' : 'password';
+      ['p_apiKey', 'p_secretKey', 'p_contract'].forEach((id) => { $(id).type = type; });
+    });
+    $('t_show').addEventListener('change', (e) => {
+      $('t_token').type = e.target.checked ? 'text' : 'password';
+    });
+
+    $('savePayment').addEventListener('click', (e) => {
+      let value = parseFloat($('p_value').value);
+      if (!isFinite(value) || value < 0) value = 0;
+      if (chargeType === 'percentage' && value > 100) return toast('Percentage cannot be more than 100', true);
+      const capRaw = $('p_cap').value.trim();
+      let cap = capRaw === '' ? '' : parseFloat(capRaw);
+      if (cap !== '' && (!isFinite(cap) || cap < 0)) cap = '';
+
+      const data = {
+        defaultBank: $('p_bank').value,
+        monnify: {
+          apiKey: $('p_apiKey').value.trim(),
+          secretKey: $('p_secretKey').value.trim(),
+          contractCode: $('p_contract').value.trim(),
+          chargeType,
+          chargeValue: value,
+          maxCap: cap,
+          enabled: $('p_enabled').checked
+        },
+        updatedAt: Date.now()
+      };
+      saveWithButton(e.currentTarget, () => setDoc(doc(db, 'config', 'payment'), data));
+    });
+
+    // Transaction API
+    $('saveTx').addEventListener('click', (e) => {
+      const data = { token: $('t_token').value.trim(), updatedAt: Date.now() };
+      saveWithButton(e.currentTarget, () => setDoc(doc(db, 'config', 'txapi'), data));
+    });
+
+    /* ===================================================== */
+
+    onAuthStateChanged(auth, async (user) => {
+      currentUser = user;
+      const allowed = !!user && !!user.email && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+      const adminApp = $('adminApp');
+      const accessMessage = $('accessMessage');
+      const adminStatus = $('adminStatus');
+
+      if (!user) {
+        adminStatus.textContent = 'No user signed in.';
+        accessMessage.className = 'status-box error';
+        accessMessage.innerHTML = '<strong>Access Denied</strong><br>Please login as the administrator.';
+        adminApp.classList.add('hidden');
+        return;
+      }
+
+      if (!allowed) {
+        adminStatus.textContent = 'Signed in as ' + user.email;
+        accessMessage.className = 'status-box error';
+        accessMessage.innerHTML = '<strong>Access Denied</strong><br>This account is not allowed to use the admin panel.';
+        adminApp.classList.add('hidden');
+        return;
+      }
+
+      adminStatus.textContent = 'Administrator access granted (' + user.email + ')';
+      accessMessage.className = 'status-box';
+      accessMessage.innerHTML = '<strong>Admin Access</strong><br>Administrator session is active and the dashboard is ready.';
+      adminApp.classList.remove('hidden');
+      await loadUsers();
+    });
+
+    $('backBtn').addEventListener('click', () => {
+      window.location.href = 'index.html';
+    });
+
+    $('refreshBtn').addEventListener('click', async () => {
+      await loadUsers();
+      if (!$('configView').classList.contains('hidden')) {
+        configLoaded = false;
+        await loadConfig();
+      }
+    });
+
+    $('userSearch').addEventListener('input', renderUsers);
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadUsers();
+    });
+  </script>
+</body>
+</html>
