@@ -501,6 +501,17 @@
     </div>
   </main>
 
+  <script>
+    window.__atlOk = false;
+    function atlShow(m) {
+      var s = document.getElementById('adminStatus'); if (s) s.textContent = m;
+      var a = document.getElementById('accessMessage');
+      if (a) { a.className = 'status-box error'; a.innerHTML = '<strong>Page error</strong><br>' + m; }
+    }
+    window.addEventListener('error', function (e) { atlShow('Error: ' + (e.message || 'script failed') + (e.lineno ? ' (line ' + e.lineno + ')' : '')); });
+    window.addEventListener('unhandledrejection', function (e) { atlShow('Error: ' + ((e.reason && e.reason.message) || e.reason)); });
+    setTimeout(function () { if (!window.__atlOk) atlShow('The page script did not start. Send a screenshot of this screen.'); }, 6000);
+  </script>
   <script type="module">
     import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
     import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
@@ -515,6 +526,8 @@
       appId: '1:519558305824:web:cf6dd75ef20ef708c24445'
     };
 
+    window.__atlOk = true;
+
     const ADMIN_EMAIL = 'lawanahmadt03@gmail.com';
     const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
     const auth = getAuth(app);
@@ -524,33 +537,4 @@
     let currentUser = null;
 
     const $ = (id) => document.getElementById(id);
-    const money = (n) => '₦' + Number(n || 0).toLocaleString('en-NG', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    });
-
-    function escapeHTML(value) {
-      return String(value ?? '').replace(/[&<>"']/g, (char) => ({
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
-      }[char]));
-    }
-
-    async function loadUsers() {
-      const list = $('usersList');
-      list.innerHTML = '<div class="empty">Loading users...</div>';
-
-      try {
-        const snap = await getDocs(collection(db, 'users'));
-        allUsers = snap.docs.map((docSnap) => ({ id: docSnap.id, ...docSnap.data() }));
-        renderUsers();
-      } catch (error) {
-        list.innerHTML = '<div class="empty">Unable to load users.</div>';
-        console.error(error);
-      }
-    }
-
-    func
+    const money = (n) => '₦' + Number(n || 0).toLocaleString('en-NG',
