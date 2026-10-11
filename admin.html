@@ -222,6 +222,57 @@
       color: #666;
     }
 
+    /* ---------- Configuration ---------- */
+    .toolbar button.active { background: #087443; color: #fff; }
+    .cfg-menu { display: grid; gap: 12px; }
+    .cfg-item {
+      display: flex; align-items: center; gap: 12px; width: 100%;
+      background: #fff; border: 1px solid #e5e5e5; border-radius: 14px;
+      padding: 16px; text-align: left; color: #17251e;
+      box-shadow: 0 3px 12px rgba(0,0,0,.05);
+    }
+    .cfg-item .ic {
+      width: 44px; height: 44px; border-radius: 12px; background: #087443; color: #fff;
+      display: grid; place-items: center; font-size: 21px; flex: none;
+    }
+    .cfg-item b { display: block; margin-bottom: 3px; }
+    .cfg-item small { color: #666; }
+    .cfg-item .ar { margin-left: auto; color: #999; font-size: 22px; }
+    .cfg-back { background: none; border: 0; color: #087443; font-weight: bold; padding: 6px 0; margin-bottom: 8px; }
+    .cfg-title { font-size: 20px; margin-bottom: 4px; }
+    .cfg-sub { color: #666; font-size: 13px; margin-bottom: 14px; }
+    .cfg-sec { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: #777; font-weight: 800; margin: 20px 0 2px; }
+    .cfg-card label { display: block; font-size: 13px; font-weight: bold; margin: 12px 0 5px; }
+    .cfg-card input[type=text], .cfg-card input[type=url], .cfg-card input[type=email], .cfg-card input[type=tel],
+    .cfg-card input[type=number], .cfg-card input[type=password], .cfg-card select, .cfg-card textarea {
+      width: 100%; padding: 12px; border: 1px solid #dfe7e1; border-radius: 10px;
+      background: #f9faf9; outline: none; font-size: 16px; color: #17251e;
+    }
+    .cfg-card textarea { min-height: 90px; resize: vertical; }
+    .cfg-card input[type=color] { width: 100%; height: 46px; border: 1px solid #dfe7e1; border-radius: 10px; padding: 4px; background: #f9faf9; }
+    .cfg-hint { font-size: 12px; color: #777; margin-top: 4px; }
+    .cfg-btn { width: 100%; border: none; border-radius: 10px; padding: 14px; font-weight: bold; margin-top: 16px; background: #087443; color: #fff; }
+    .cfg-btn.sec { background: #fff; color: #087443; border: 1px solid #087443; margin-top: 8px; }
+    .cfg-btn:disabled { opacity: .6; }
+    .seg { display: flex; border: 1px solid #dfe7e1; border-radius: 10px; overflow: hidden; }
+    .seg button { flex: 1; padding: 12px; border: 0; background: #f9faf9; color: #17251e; font-weight: bold; }
+    .seg button.on { background: #087443; color: #fff; }
+    .cfg-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 10px; }
+    .sw { position: relative; width: 54px; height: 30px; flex: none; }
+    .sw input { opacity: 0; width: 0; height: 0; }
+    .sw span { position: absolute; inset: 0; background: #9aa8a0; border-radius: 30px; transition: .2s; cursor: pointer; }
+    .sw span:before { content: ""; position: absolute; width: 24px; height: 24px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: .2s; }
+    .sw input:checked + span { background: #087443; }
+    .sw input:checked + span:before { transform: translateX(24px); }
+    .st-text { font-weight: bold; }
+    .st-text.on { color: #087443; }
+    .st-text.off { color: #a52323; }
+    .logo-row { display: flex; align-items: center; gap: 12px; margin-top: 8px; }
+    .logo-row img { width: 64px; height: 64px; object-fit: contain; border: 1px solid #e5e5e5; border-radius: 12px; background: #fff; }
+    .show-row { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #555; margin-top: 8px; }
+    .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: #063d26; color: #fff; padding: 12px 18px; border-radius: 12px; font-size: 14px; z-index: 50; max-width: 90%; }
+    .toast.err { background: #a52323; }
+
     @media (max-width: 700px) {
       .stats-grid { grid-template-columns: 1fr; }
       .user-meta { grid-template-columns: 1fr; }
@@ -252,29 +303,200 @@
     </div>
 
     <div id="adminApp" class="hidden">
-      <div class="admin-card">
-        <div class="stats-grid">
-          <div class="stat-box">
-            <small>Total Users</small>
-            <strong id="totalUsers">0</strong>
+
+      <!-- MENU TABS -->
+      <div class="toolbar">
+        <button class="light-btn active" id="tabUsers" type="button">👥 Users</button>
+        <button class="light-btn" id="tabConfig" type="button">⚙️ Configuration</button>
+      </div>
+
+      <!-- ================= USERS VIEW (original) ================= -->
+      <div id="usersView">
+        <div class="admin-card">
+          <div class="stats-grid">
+            <div class="stat-box">
+              <small>Total Users</small>
+              <strong id="totalUsers">0</strong>
+            </div>
+            <div class="stat-box">
+              <small>Total Wallet</small>
+              <strong id="totalWallet">₦0.00</strong>
+            </div>
+            <div class="stat-box">
+              <small>Verified Users</small>
+              <strong id="verifiedUsers">0</strong>
+            </div>
           </div>
-          <div class="stat-box">
-            <small>Total Wallet</small>
-            <strong id="totalWallet">₦0.00</strong>
-          </div>
-          <div class="stat-box">
-            <small>Verified Users</small>
-            <strong id="verifiedUsers">0</strong>
-          </div>
+        </div>
+
+        <div class="search-box">
+          <input type="search" id="userSearch" placeholder="Search user by name, email, phone or UID...">
+        </div>
+
+        <div class="admin-card">
+          <div class="user-list" id="usersList"></div>
         </div>
       </div>
 
-      <div class="search-box">
-        <input type="search" id="userSearch" placeholder="Search user by name, email, phone or UID...">
-      </div>
+      <!-- ================= CONFIGURATION VIEW ================= -->
+      <div id="configView" class="hidden">
 
-      <div class="admin-card">
-        <div class="user-list" id="usersList"></div>
+        <!-- App Configuration home -->
+        <div id="cfgHome">
+          <h2 class="cfg-title">App Configuration</h2>
+          <p class="cfg-sub">Manage all system configuration from one place.</p>
+          <div class="cfg-menu">
+            <button class="cfg-item" type="button" data-go="cfgSite">
+              <div class="ic">🌐</div>
+              <div><b>Website Setting</b><small>Name, about, contacts, social links, theme, logo</small></div>
+              <span class="ar">›</span>
+            </button>
+            <button class="cfg-item" type="button" data-go="cfgPayment">
+              <div class="ic">💳</div>
+              <div><b>Payment Gateway</b><small>Funding bank, Monnify keys, charges, status</small></div>
+              <span class="ar">›</span>
+            </button>
+            <button class="cfg-item" type="button" data-go="cfgTx">
+              <div class="ic">🔑</div>
+              <div><b>Transaction API</b><small>Vendor API token for extra services</small></div>
+              <span class="ar">›</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Website Setting -->
+        <div id="cfgSite" class="hidden">
+          <button class="cfg-back" type="button" data-go="cfgHome">‹ Back</button>
+          <h2 class="cfg-title">Website Setting</h2>
+          <p class="cfg-sub">Site information shown on your website.</p>
+          <div class="admin-card cfg-card">
+            <div class="cfg-sec" style="margin-top:0">Site information</div>
+            <label for="s_siteName">Site name</label>
+            <input type="text" id="s_siteName">
+            <label for="s_headline">Title / headline</label>
+            <input type="text" id="s_headline">
+            <label for="s_welcome">Welcome notification</label>
+            <textarea id="s_welcome"></textarea>
+            <label for="s_about">About us</label>
+            <textarea id="s_about" placeholder="Details about your website"></textarea>
+
+            <div class="cfg-sec">Contact information</div>
+            <label for="s_email">Email</label>
+            <input type="email" id="s_email">
+            <label for="s_phone">Phone / WhatsApp</label>
+            <input type="tel" id="s_phone">
+            <label for="s_address">Address</label>
+            <input type="text" id="s_address">
+
+            <div class="cfg-sec">App links</div>
+            <label for="s_playStore">Google Play Store link</label>
+            <input type="url" id="s_playStore" placeholder="https://play.google.com/store/apps/details?id=...">
+            <label for="s_appStore">Apple App Store link</label>
+            <input type="url" id="s_appStore" placeholder="https://apps.apple.com/app/...">
+
+            <div class="cfg-sec">Social media links</div>
+            <label for="s_facebook">Facebook</label>
+            <input type="url" id="s_facebook">
+            <label for="s_instagram">Instagram</label>
+            <input type="url" id="s_instagram">
+            <label for="s_twitter">X (Twitter)</label>
+            <input type="url" id="s_twitter">
+            <label for="s_tiktok">TikTok</label>
+            <input type="url" id="s_tiktok">
+            <label for="s_youtube">YouTube</label>
+            <input type="url" id="s_youtube">
+            <label for="s_telegram">Telegram</label>
+            <input type="url" id="s_telegram">
+            <label for="s_whatsapp">WhatsApp link</label>
+            <input type="url" id="s_whatsapp" placeholder="https://wa.me/234...">
+
+            <div class="cfg-sec">Theme &amp; media</div>
+            <label for="s_themeColor">Website theme color</label>
+            <input type="color" id="s_themeColor" value="#087443">
+            <label>Website logo</label>
+            <div class="logo-row">
+              <img id="s_logoPrev" alt="logo" class="hidden">
+              <input type="file" id="s_logoFile" accept="image/*">
+            </div>
+            <label for="s_logoUrl">...or logo link</label>
+            <input type="url" id="s_logoUrl" placeholder="https://...">
+            <button class="cfg-btn sec" id="checkLogo" type="button">Check logo</button>
+            <button class="cfg-btn" id="saveSite" type="button">Update all settings</button>
+          </div>
+        </div>
+
+        <!-- Payment Gateway -->
+        <div id="cfgPayment" class="hidden">
+          <button class="cfg-back" type="button" data-go="cfgHome">‹ Back</button>
+          <h2 class="cfg-title">Payment Gateway</h2>
+          <p class="cfg-sub">Manage and configure your payment service integration.</p>
+
+          <div class="admin-card cfg-card">
+            <h3>General settings</h3>
+            <label for="p_bank">Default funding bank</label>
+            <select id="p_bank">
+              <option value="">Select a bank</option>
+              <option>Sterling Bank</option>
+              <option>Wema Bank</option>
+              <option>Moniepoint Microfinance Bank</option>
+              <option>GT Bank</option>
+              <option>9PSB Bank</option>
+              <option>Pampi Payment Point</option>
+              <option>Pampi ORG</option>
+              <option>9PSB WAAS</option>
+            </select>
+          </div>
+
+          <div class="admin-card cfg-card">
+            <h3>Payment gateways: Monnify</h3>
+
+            <div class="cfg-sec">API credentials</div>
+            <label for="p_apiKey">API key</label>
+            <input type="password" id="p_apiKey" placeholder="Paste API key" autocomplete="off">
+            <label for="p_secretKey">Secret key</label>
+            <input type="password" id="p_secretKey" placeholder="Paste secret key" autocomplete="off">
+            <label for="p_contract">Contract code</label>
+            <input type="password" id="p_contract" placeholder="Paste contract code" autocomplete="off">
+            <label class="show-row"><input type="checkbox" id="p_show"> Show keys</label>
+
+            <div class="cfg-sec">Charge configuration</div>
+            <label>Charge type</label>
+            <div class="seg">
+              <button type="button" id="p_t1" class="on">Percentage</button>
+              <button type="button" id="p_t2">Flat rate</button>
+            </div>
+            <label for="p_value" id="p_valueLabel">Charge percentage (%)</label>
+            <input type="number" id="p_value" inputmode="decimal" step="any" min="0" placeholder="e.g. 1 or 2">
+            <label for="p_cap">Maximum cap (optional)</label>
+            <input type="number" id="p_cap" inputmode="decimal" step="any" min="0" placeholder="e.g. 2000">
+            <div class="cfg-hint">Sets a maximum charge limit to protect customers.</div>
+
+            <div class="cfg-sec">Service status</div>
+            <div class="cfg-row">
+              <div>
+                <div class="st-text on" id="p_stText">Currently enabled and operational</div>
+                <div class="cfg-hint" id="p_stHint">Customers can pay with Monnify.</div>
+              </div>
+              <label class="sw"><input type="checkbox" id="p_enabled" checked><span></span></label>
+            </div>
+            <button class="cfg-btn" id="savePayment" type="button">Save payment settings</button>
+          </div>
+        </div>
+
+        <!-- Transaction API -->
+        <div id="cfgTx" class="hidden">
+          <button class="cfg-back" type="button" data-go="cfgHome">‹ Back</button>
+          <h2 class="cfg-title">Transaction API</h2>
+          <p class="cfg-sub">Connect another VTU vendor to get extra services.</p>
+          <div class="admin-card cfg-card">
+            <label for="t_token">Transaction API token</label>
+            <input type="password" id="t_token" placeholder="Paste token from your VTU vendor" autocomplete="off">
+            <div class="cfg-hint">Copy the API token from your vendor's website and paste it here.</div>
+            <label class="show-row"><input type="checkbox" id="t_show"> Show token</label>
+            <button class="cfg-btn" id="saveTx" type="button">Save token</button>
+          </div>
+        </div>
+
       </div>
     </div>
   </main>
@@ -282,7 +504,7 @@
   <script type="module">
     import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
     import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
-    import { getFirestore, collection, getDocs, doc, updateDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+    import { getFirestore, collection, getDocs, doc, updateDoc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
     const firebaseConfig = {
       apiKey: 'AIzaSyA_x5ZYj7D5Dt_9Bq-NzlchpRPRd3QN21I',
@@ -331,234 +553,4 @@
       }
     }
 
-    function renderUsers() {
-      const list = $('usersList');
-      const q = $('userSearch').value.trim().toLowerCase();
-      const filtered = !q ? allUsers : allUsers.filter((user) => {
-        const haystack = [user.name, user.email, user.phone, user.uid, user.id].join(' ').toLowerCase();
-        return haystack.includes(q);
-      });
-
-      const totalWallet = filtered.reduce((sum, user) => sum + Number(user.balance || 0), 0);
-      $('totalUsers').textContent = String(filtered.length);
-      $('totalWallet').textContent = money(totalWallet);
-      $('verifiedUsers').textContent = String(filtered.filter((user) => user.emailVerified).length);
-
-      if (!filtered.length) {
-        list.innerHTML = '<div class="empty">No users found.</div>';
-        return;
-      }
-
-      list.innerHTML = filtered.map((user) => {
-        const name = user.name || 'Unnamed User';
-        const email = user.email || 'No email';
-        const phone = user.phone || 'No phone';
-        const blocked = !!user.isBlocked;
-        const emailVerified = !!user.emailVerified;
-
-        return `
-          <div class="user-item">
-            <div class="user-head">
-              <div class="user-name">${escapeHTML(name)}</div>
-              <span class="badge ${blocked ? 'blocked' : ''}">${blocked ? 'Blocked' : (emailVerified ? 'Verified' : 'Pending')}</span>
-            </div>
-
-            <div class="user-meta">
-              <div><strong>Email:</strong> ${escapeHTML(email)}</div>
-              <div><strong>Phone:</strong> ${escapeHTML(phone)}</div>
-              <div><strong>Wallet:</strong> ${money(user.balance || 0)}</div>
-              <div><strong>Tier:</strong> ${escapeHTML(user.tier || 'basic')}</div>
-              <div><strong>UID:</strong> ${escapeHTML(user.uid || user.id || 'N/A')}</div>
-              <div><strong>Status:</strong> ${emailVerified ? 'verified' : 'not verified'}</div>
-            </div>
-
-            <div class="user-actions">
-              <button class="mini-btn green" type="button" onclick="toggleBlocked('${user.uid || user.id}')">${blocked ? 'Unblock' : 'Block'}</button>
-              <button class="mini-btn grey" type="button" onclick="setUserTier('${user.uid || user.id}', 'basic')">Tier: Basic</button>
-              <button class="mini-btn grey" type="button" onclick="setUserTier('${user.uid || user.id}', 'gold')">Tier: Gold</button>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    window.toggleBlocked = async (uid) => {
-      if (!uid) return;
-      const ref = doc(db, 'users', uid);
-      const current = await getDoc(ref);
-      const next = !Boolean(current.exists() ? current.data().isBlocked : false);
-      await updateDoc(ref, { isBlocked: next });
-      await loadUsers();
-    };
-
-    window.setUserTier = async (uid, tier) => {
-      if (!uid) return;
-      const ref = doc(db, 'users', uid);
-      await updateDoc(ref, { tier });
-      await loadUsers();
-    };
-
-    onAuthStateChanged(auth, async (user) => {
-      currentUser = user;
-      const allowed = !!user && !!user.email && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
-      const adminApp = $('adminApp');
-      const accessMessage = $('accessMessage');
-      const adminStatus = $('adminStatus');
-
-      if (!user) {
-        adminStatus.textContent = 'No user signed in.';
-        accessMessage.className = 'status-box error';
-        accessMessage.innerHTML = '<strong>Access Denied</strong><br>Please login as the administrator.';
-        adminApp.classList.add('hidden');
-        return;
-      }
-
-      if (!allowed) {
-        adminStatus.textContent = 'Signed in as ' + user.email;
-        accessMessage.className = 'status-box error';
-        accessMessage.innerHTML = '<strong>Access Denied</strong><br>This account is not allowed to use the admin panel.';
-        adminApp.classList.add('hidden');
-        return;
-      }
-
-      adminStatus.textContent = 'Administrator access granted (' + user.email + ')';
-      accessMessage.className = 'status-box';
-      accessMessage.innerHTML = '<strong>Admin Access</strong><br>Administrator session is active and the dashboard is ready.';
-      adminApp.classList.remove('hidden');
-      await loadUsers();
-    });
-
-    $('backBtn').addEventListener('click', () => {
-      window.location.href = 'index.html';
-    });
-
-    $('refreshBtn').addEventListener('click', async () => {
-      await loadUsers();
-    });
-
-    $('userSearch').addEventListener('input', renderUsers);
-
-    document.addEventListener('DOMContentLoaded', () => {
-      loadUsers();
-    });
-  </script>
-</body>
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    func
