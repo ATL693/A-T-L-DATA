@@ -2564,4 +2564,44 @@ tr.clickable-tx:hover{background:var(--panel2)}
 </script>
 
 </body>
+  <style>
+/* Gyaran shafi kada ya motsa gefe a waya */
+html, body {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden !important;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+img, video, iframe {
+    max-width: 100%;
+}
+
+.container,
+.wrapper,
+.main-content,
+.dashboard {
+    max-width: 100%;
+}
+
+/* Gyara manyan abubuwa da ke fita daga allo */
+@media screen and (max-width: 768px) {
+    body {
+        overflow-x: hidden !important;
+    }
+
+    .container,
+    .wrapper,
+    .main-content,
+    .dashboard {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+  </style>
 </html>
