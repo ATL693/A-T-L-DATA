@@ -274,6 +274,42 @@ html,body{overflow-x:hidden}
 .atl-token strong{font-size:20px;font-weight:900;color:var(--gold);word-break:break-all;letter-spacing:1px}
 .atl-ticks{position:relative}
 .atl-ticks::before,.atl-ticks::after{content:"";position:absolute;top:-9px;width:18px;height:18px;border-radius:50%;background:var(--panel)}
+
+ /* ATL DATA — Quick Services Icon Fix */
+.quick-grid .qbtn .ic {
+  width: 58px !important;
+  height: 58px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 16px !important;
+  background: #eef4ff !important;
+  color: #1769d2 !important;
+  margin-bottom: 16px !important;
+  flex-shrink: 0 !important;
+}
+
+.quick-grid .qbtn .ic svg {
+  width: 32px !important;
+  height: 32px !important;
+  display: block !important;
+  fill: none !important;
+  stroke: #1769d2 !important;
+  stroke-width: 1.8 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+  overflow: visible !important;
+}
+
+.quick-grid .qbtn {
+  min-width: 0 !important;
+  text-align: left !important;
+}
+
+.quick-grid .qbtn .ic svg * {
+  fill: none !important;
+  stroke: #1769d2 !important;
+}
 </style>
 </head>
 <body>
