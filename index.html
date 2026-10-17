@@ -2061,5 +2061,90 @@ tr.clickable-tx:hover{background:var(--panel2)}
 })();
 </script>
 
+ <script>
+/* A T L DATA - share the transaction receipt as an image instead of plain text */
+(function(){
+ function loadImg(src){
+  return new Promise(function(res){ var im=new Image(); im.onload=function(){res(im)}; im.onerror=function(){res(null)}; im.src=src; });
+ }
+ async function buildReceiptImage(){
+  var body = document.getElementById("receiptBody");
+  var amount = (body.querySelector("h3")||{}).textContent || "";
+  var type = (body.querySelector(".card p")||{}).textContent || "";
+  var ps = body.querySelectorAll(".field p");
+  var desc = ps[0] ? ps[0].textContent : "";
+  var status = ps[1] ? ps[1].textContent : "";
+  var ref = ps[2] ? ps[2].textContent : "";
+  var date = ps[3] ? ps[3].textContent : "";
+  var ok = /success|approved/i.test(status), bad = /failed|rejected/i.test(status);
+
+  var W=640,H=860;
+  var cv=document.createElement("canvas"); cv.width=W; cv.height=H;
+  var ctx=cv.getContext("2d");
+  ctx.fillStyle="#ffffff"; ctx.fillRect(0,0,W,H);
+  ctx.fillStyle="#0b0d14"; ctx.fillRect(0,0,W,140);
+
+  var logo = await loadImg(LOGO_SRC);
+  if(logo) ctx.drawImage(logo,32,38,64,64);
+  ctx.fillStyle="#ffffff"; ctx.font="bold 28px Arial"; ctx.fillText("A T L DATA",114,76);
+  ctx.fillStyle="#9aa3b7"; ctx.font="14px Arial"; ctx.fillText("Transaction Receipt",114,100);
+
+  ctx.textAlign="center";
+  ctx.font="52px Arial";
+  ctx.fillText(ok?"✅":bad?"❌":"⏳",W/2,230);
+  ctx.fillStyle="#0b0d14"; ctx.font="bold 36px Arial"; ctx.fillText(amount,W/2,290);
+  ctx.fillStyle="#666c7c"; ctx.font="16px Arial"; ctx.fillText(type,W/2,320);
+  ctx.textAlign="left";
+
+  function row(label,value,y){
+   ctx.strokeStyle="#e3e5ef"; ctx.beginPath(); ctx.moveTo(40,y-34); ctx.lineTo(W-40,y-34); ctx.stroke();
+   ctx.fillStyle="#9aa3b7"; ctx.font="13px Arial"; ctx.fillText(label,40,y);
+   ctx.fillStyle="#0b0d14"; ctx.font="bold 16px Arial";
+   var text=String(value||"-"), max=56;
+   if(text.length>max){
+    ctx.font="13px Arial";
+    ctx.fillText(text.slice(0,max),40,y+22);
+    ctx.fillText(text.slice(max),40,y+42);
+   } else { ctx.fillText(text,40,y+22); }
+  }
+  row("Description",desc,400);
+  row("Status",status,470);
+  row("Reference",ref,ref && ref.length>56 ? 560 : 540);
+  row("Date",date,ref && ref.length>56 ? 630 : 610);
+
+  ctx.strokeStyle="#e3e5ef"; ctx.beginPath(); ctx.moveTo(40,H-70); ctx.lineTo(W-40,H-70); ctx.stroke();
+  ctx.fillStyle="#9aa3b7"; ctx.font="13px Arial"; ctx.textAlign="center";
+  ctx.fillText("Thank you for using A T L DATA",W/2,H-40);
+
+  return new Promise(function(res){ cv.toBlob(function(blob){ res(blob); }, "image/png"); });
+ }
+
+ document.addEventListener("click", function(e){
+  var row = e.target.closest("tr.clickable-tx");
+  if(!row) return;
+  setTimeout(function(){
+   var shareBtn = document.getElementById("receiptShareBtn");
+   if(!shareBtn) return;
+   shareBtn.onclick = async function(){
+    shareBtn.disabled = true; var old = shareBtn.textContent; shareBtn.textContent = "Preparing image…";
+    try{
+     var blob = await buildReceiptImage();
+     var file = new File([blob], "atl-receipt.png", { type: "image/png" });
+     if(navigator.canShare && navigator.canShare({ files: [file] })){
+      await navigator.share({ files: [file], title: "A T L DATA Receipt" });
+     }else{
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a"); a.href = url; a.download = "atl-receipt.png";
+      document.body.appendChild(a); a.click(); a.remove();
+      showToast("Receipt image saved. You can share it from your gallery.");
+     }
+    }catch(err){ showToast("Could not create receipt image."); }
+    shareBtn.disabled = false; shareBtn.textContent = old;
+   };
+  }, 0);
+ });
+})();
+</script>
+
 </body>
 </html>
