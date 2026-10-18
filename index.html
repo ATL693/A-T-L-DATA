@@ -2123,8 +2123,8 @@ tr.clickable-tx:hover{background:var(--panel2)}
  }catch(e){ console.warn(e); }
 })();
 </script>
- 
-<script>
+
+ <script>
 /* ===== A T L DATA: share the purchase receipt as an IMAGE =====
    Paste this once, just before </body>. It adds "Share receipt" and "Save image" buttons to the result screen. */
 (function () {
@@ -2231,6 +2231,15 @@ tr.clickable-tx:hover{background:var(--panel2)}
     document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
   }
 
+  // Inside the Median / GoNative APK the browser share + download features are limited, so use Median's own file download
+  // (it saves the image and can open it, and from there the customer can share it with any app).
+  function inApp() { return !!(window.median && window.median.share && typeof window.median.share.downloadFile === "function"); }
+  function toDataUrl(f) { return new Promise(function (res) { var r = new FileReader(); r.onload = function () { res(r.result); }; r.readAsDataURL(f); }); }
+  function deliver(f) {
+    if (inApp()) return toDataUrl(f).then(function (u) { window.median.share.downloadFile({ url: u, filename: f.name, open: true }); });
+    save(f);
+  }
+
   function addButtons(modal) {
     var h = modal.querySelector("h3"), rl = modal.querySelector(".rl"), done = modal.querySelector("button");
     if (!h || !rl || !done) return;
@@ -2255,11 +2264,11 @@ tr.clickable-tx:hover{background:var(--panel2)}
     }
     box.appendChild(mk("📤 Share receipt", function () {
       return make().then(function (f) {
-        if (navigator.canShare && navigator.canShare({ files: [f] })) return navigator.share({ files: [f], title: "A T L DATA receipt" });
-        save(f);
+        if (!inApp() && navigator.canShare && navigator.canShare({ files: [f] })) return navigator.share({ files: [f], title: "A T L DATA receipt" });
+        return deliver(f);
       });
     }));
-    box.appendChild(mk("⬇️ Save image", function () { return make().then(save); }));
+    box.appendChild(mk("⬇️ Save image", function () { return make().then(deliver); }));
     done.parentNode.insertBefore(box, done);
   }
 
@@ -2270,7 +2279,7 @@ tr.clickable-tx:hover{background:var(--panel2)}
 
   window.atlReceipt = { build: build, parse: parseRows, logo: loadLogo };
 })();
-</script>
+ </script>
  
 </body>
 </html>
