@@ -2123,6 +2123,154 @@ tr.clickable-tx:hover{background:var(--panel2)}
  }catch(e){ console.warn(e); }
 })();
 </script>
+ 
+<script>
+/* ===== A T L DATA: share the purchase receipt as an IMAGE =====
+   Paste this once, just before </body>. It adds "Share receipt" and "Save image" buttons to the result screen. */
+(function () {
+  var SITE = "atldata.com.ng";
 
+  function wrap(ctx, text, maxW) {
+    var out = [], line = "";
+    String(text).split(/\s+/).forEach(function (w) {
+      while (ctx.measureText(w).width > maxW) {            // very long word (e.g. a token): split by characters
+        var i = w.length; while (i > 1 && ctx.measureText(w.slice(0, i)).width > maxW) i--;
+        if (line) { out.push(line); line = ""; }
+        out.push(w.slice(0, i)); w = w.slice(i);
+      }
+      var t = line ? line + " " + w : w;
+      if (line && ctx.measureText(t).width > maxW) { out.push(line); line = w; } else line = t;
+    });
+    if (line) out.push(line);
+    return out;
+  }
+
+  function loadLogo() {
+    return new Promise(function (res) {
+      var el = document.querySelector("#logoSlotA img, .brand img, header img, img[alt*='ATL' i], img[alt*='A T L' i]");
+      if (!el || !el.src) return res(null);
+      var im = new Image(); im.crossOrigin = "anonymous";
+      im.onload = function () { res(im); }; im.onerror = function () { res(null); };
+      im.src = el.src;
+    });
+  }
+
+  function parseRows(lines) {
+    var rows = [], amount = "", token = "", first = true;
+    lines.forEach(function (t) {
+      t = String(t).trim();
+      if (!t || /^new balance/i.test(t) || /^(your purchase is processing|check transactions)/i.test(t)) return;
+      var m = t.match(/^([A-Za-z ]{2,18}):\s*(.+)$/);
+      if (m) {
+        if (/^amount$/i.test(m[1])) amount = m[2];
+        else if (/token$/i.test(m[1])) token = m[2];
+        else rows.push([m[1], m[2]]);
+      } else { rows.push([first ? "Service" : "Details", t]); first = false; }
+    });
+    return { rows: rows, amount: amount, token: token };
+  }
+
+  function build(title, kind, parsed, logo) {
+    var W = 720, P = 44, m = document.createElement("canvas").getContext("2d");
+    m.font = "700 27px Arial, sans-serif";
+    var rows = parsed.rows.map(function (r) { var ls = wrap(m, r[1], W - 2 * P); return { label: r[0], lines: ls, h: 34 + ls.length * 36 + 16 }; });
+    m.font = "700 34px 'Courier New', monospace";
+    var tl = parsed.token ? wrap(m, parsed.token, W - 2 * P - 40) : [];
+    m.font = "700 34px Arial, sans-serif";
+    var tt = wrap(m, title, W - 2 * P);
+    var H = 120 + 130 + tt.length * 44 + 24 + (parsed.amount ? 84 : 0) + 40 +
+      rows.reduce(function (a, r) { return a + r.h; }, 0) + (tl.length ? 90 + tl.length * 44 : 0) + 190;
+    var c = document.createElement("canvas"); c.width = W; c.height = H;
+    var x = c.getContext("2d"), y = 0, color = kind === "ok" ? "#16a34a" : "#d97706";
+
+    x.fillStyle = "#ffffff"; x.fillRect(0, 0, W, H);
+    x.fillStyle = "#063d26"; x.fillRect(0, 0, W, 120);                       // header band
+    var tx = P;
+    if (logo) { x.save(); x.beginPath(); x.arc(P + 32, 60, 32, 0, 6.2832); x.clip(); x.drawImage(logo, P, 28, 64, 64); x.restore(); tx = P + 82; }
+    x.fillStyle = "#ffffff"; x.font = "800 32px Arial, sans-serif"; x.textBaseline = "middle"; x.textAlign = "left";
+    x.fillText("A T L DATA", tx, 60);
+    x.fillStyle = "#facc15"; x.font = "700 22px Arial, sans-serif"; x.textAlign = "right"; x.fillText("RECEIPT", W - P, 60);
+
+    var cx = W / 2, cy = 120 + 78;                                              // status badge
+    x.fillStyle = color; x.beginPath(); x.arc(cx, cy, 48, 0, 6.2832); x.fill();
+    x.strokeStyle = "#fff"; x.fillStyle = "#fff"; x.lineWidth = 9; x.lineCap = "round"; x.lineJoin = "round";
+    if (kind === "ok") { x.beginPath(); x.moveTo(cx - 22, cy + 2); x.lineTo(cx - 6, cy + 18); x.lineTo(cx + 24, cy - 16); x.stroke(); }
+    else { [-22, 0, 22].forEach(function (d) { x.beginPath(); x.arc(cx + d, cy, 6, 0, 6.2832); x.fill(); }); }
+
+    y = cy + 48 + 54; x.textAlign = "center"; x.textBaseline = "alphabetic"; x.fillStyle = "#111827"; x.font = "700 34px Arial, sans-serif";
+    tt.forEach(function (l) { x.fillText(l, cx, y); y += 44; });
+    y += 8;
+    if (parsed.amount) { x.fillStyle = "#063d26"; x.font = "800 58px Arial, sans-serif"; x.fillText(parsed.amount, cx, y + 40); y += 84; }
+    y += 18; x.strokeStyle = "#d1d5db"; x.lineWidth = 2; x.setLineDash([8, 8]); x.beginPath(); x.moveTo(P, y); x.lineTo(W - P, y); x.stroke(); x.setLineDash([]); y += 14;
+
+    x.textAlign = "left";
+    rows.forEach(function (r) {
+      x.fillStyle = "#6b7280"; x.font = "400 21px Arial, sans-serif"; x.fillText(r.label.toUpperCase(), P, y + 22);
+      x.fillStyle = "#111827"; x.font = "700 27px Arial, sans-serif";
+      r.lines.forEach(function (l, i) { x.fillText(l, P, y + 22 + 38 + i * 36); });
+      y += r.h;
+    });
+    if (tl.length) {
+      y += 8; var bh = 70 + tl.length * 44;
+      x.fillStyle = "#f3f4f6"; x.beginPath(); x.roundRect ? x.roundRect(P, y, W - 2 * P, bh, 16) : x.rect(P, y, W - 2 * P, bh); x.fill();
+      x.fillStyle = "#6b7280"; x.font = "400 20px Arial, sans-serif"; x.fillText("TOKEN", P + 20, y + 34);
+      x.fillStyle = "#063d26"; x.font = "700 34px 'Courier New', monospace";
+      tl.forEach(function (l, i) { x.fillText(l, P + 20, y + 78 + i * 44); });
+      y += bh + 12;
+    }
+    y += 22; x.strokeStyle = "#d1d5db"; x.setLineDash([8, 8]); x.beginPath(); x.moveTo(P, y); x.lineTo(W - P, y); x.stroke(); x.setLineDash([]);
+    var d; try { d = new Date().toLocaleString("en-NG", { dateStyle: "medium", timeStyle: "short" }); } catch (e) { d = new Date().toLocaleString(); }
+    x.textAlign = "center"; x.fillStyle = "#6b7280"; x.font = "400 22px Arial, sans-serif"; x.fillText(d, cx, y + 44);
+    x.fillStyle = "#111827"; x.font = "700 25px Arial, sans-serif"; x.fillText("Thank you for choosing A T L DATA", cx, y + 90);
+    x.fillStyle = "#063d26"; x.font = "600 22px Arial, sans-serif"; x.fillText(SITE, cx, y + 126);
+    return new Promise(function (res) { c.toBlob(res, "image/png"); });
+  }
+
+  function save(file) {
+    var a = document.createElement("a"); a.href = URL.createObjectURL(file); a.download = file.name;
+    document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
+  }
+
+  function addButtons(modal) {
+    var h = modal.querySelector("h3"), rl = modal.querySelector(".rl"), done = modal.querySelector("button");
+    if (!h || !rl || !done) return;
+    var title = h.textContent.trim();
+    if (/failed|network problem/i.test(title)) return;                           // no receipt for failed purchases
+    var kind = /processing/i.test(title) ? "wait" : "ok";
+    var lines = [].map.call(rl.children, function (n) { return n.textContent; });
+    var box = document.createElement("div"); box.style.cssText = "display:flex;gap:10px;margin-bottom:10px";
+    function make() {
+      return loadLogo().then(function (logo) { return build(title, kind, parseRows(lines), logo); })
+        .then(function (blob) { return new File([blob], "ATL-receipt-" + Date.now() + ".png", { type: "image/png" }); });
+    }
+    function mk(label, fn) {
+      var b = document.createElement("button"); b.type = "button"; b.textContent = label;
+      b.style.cssText = "flex:1;padding:13px 8px;border-radius:12px;border:1px solid var(--border,#2a3142);background:transparent;color:var(--text,#fff);font-weight:700;font-size:14px;cursor:pointer";
+      b.onclick = function () {
+        var old = b.textContent; b.disabled = true; b.textContent = "Preparing…";
+        fn().catch(function (e) { if (!e || e.name !== "AbortError") alert("Could not create the receipt image. Please take a screenshot instead."); })
+          .then(function () { b.disabled = false; b.textContent = old; });
+      };
+      return b;
+    }
+    box.appendChild(mk("📤 Share receipt", function () {
+      return make().then(function (f) {
+        if (navigator.canShare && navigator.canShare({ files: [f] })) return navigator.share({ files: [f], title: "A T L DATA receipt" });
+        save(f);
+      });
+    }));
+    box.appendChild(mk("⬇️ Save image", function () { return make().then(save); }));
+    done.parentNode.insertBefore(box, done);
+  }
+
+  new MutationObserver(function () {
+    var el = document.getElementById("resultModal");
+    if (el && !el.dataset.rcpt) { el.dataset.rcpt = "1"; addButtons(el); }
+  }).observe(document.body, { childList: true });
+
+  window.atlReceipt = { build: build, parse: parseRows, logo: loadLogo };
+})();
+</script>
+ 
 </body>
 </html>
