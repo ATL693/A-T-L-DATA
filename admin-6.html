@@ -1,0 +1,1463 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>A T L Data — Admin Dashboard</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif; }
+    body { background: #f6f7fb; color: #15171f; min-height: 100vh; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    .hidden { display: none !important; }
+
+    header {
+      background: #141722;
+      color: white;
+      padding: 20px 15px;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    header h1 {
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+
+    .admin-status {
+      font-size: 13px;
+      opacity: .9;
+    }
+
+    main {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 18px 15px 40px;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .toolbar button {
+      flex: 1;
+      min-width: 140px;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-weight: bold;
+    }
+
+    .light-btn {
+      background: #eef0ff;
+      color: #4f46e5;
+    }
+
+    .primary-btn {
+      background: #4f46e5;
+      color: white;
+    }
+
+    .admin-card {
+      background: white;
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.06);
+      margin-bottom: 16px;
+    }
+
+    .status-box {
+      padding: 16px;
+      border-radius: 12px;
+      background: #eef0ff;
+      color: #4338ca;
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
+
+    .status-box.error {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .stat-box {
+      background: #f1f2f8;
+      border: 1px solid #e3e5ef;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .stat-box small {
+      display: block;
+      color: #666c7c;
+      margin-bottom: 8px;
+    }
+
+    .stat-box strong {
+      display: block;
+      color: #4f46e5;
+      font-size: 22px;
+    }
+
+    .search-box {
+      background: #fff;
+      border-radius: 12px;
+      border: 1px solid #e3e5ef;
+      padding: 14px;
+      margin-bottom: 15px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #e3e5ef;
+      border-radius: 10px;
+      outline: none;
+      background: #f1f2f8;
+    }
+
+    .user-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .user-item {
+      border: 1px solid #e3e5ef;
+      border-radius: 12px;
+      padding: 14px;
+      background: #fff;
+    }
+
+    .user-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .user-name {
+      color: #4f46e5;
+      font-weight: 900;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 800;
+      background: #eef0ff;
+      color: #4f46e5;
+    }
+
+    .badge.blocked {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    .user-meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      font-size: 12px;
+      color: #666c7c;
+    }
+
+    .user-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .mini-btn {
+      border: none;
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-weight: 800;
+    }
+
+    .mini-btn.green {
+      background: #eef0ff;
+      color: #4f46e5;
+    }
+
+    .mini-btn.red {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    .mini-btn.grey {
+      background: #eceef6;
+      color: #3a4052;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 25px 10px;
+      color: #666c7c;
+    }
+
+    /* ---------- Configuration ---------- */
+    .toolbar button.active { background: #4f46e5; color: #fff; }
+    .cfg-menu { display: grid; gap: 12px; }
+    .cfg-item {
+      display: flex; align-items: center; gap: 12px; width: 100%;
+      background: #fff; border: 1px solid #e3e5ef; border-radius: 14px;
+      padding: 16px; text-align: left; color: #15171f;
+      box-shadow: 0 3px 12px rgba(0,0,0,.05);
+    }
+    .cfg-item .ic {
+      width: 44px; height: 44px; border-radius: 12px; background: #4f46e5; color: #fff;
+      display: grid; place-items: center; font-size: 21px; flex: none;
+    }
+    .cfg-item b { display: block; margin-bottom: 3px; }
+    .cfg-item small { color: #666c7c; }
+    .cfg-item .ar { margin-left: auto; color: #9aa3b7; font-size: 22px; }
+    .cfg-back { background: none; border: 0; color: #4f46e5; font-weight: bold; padding: 6px 0; margin-bottom: 8px; }
+    .cfg-title { font-size: 20px; margin-bottom: 4px; }
+    .cfg-sub { color: #666c7c; font-size: 13px; margin-bottom: 14px; }
+    .cfg-sec { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: #666c7c; font-weight: 800; margin: 20px 0 2px; }
+    .cfg-card label { display: block; font-size: 13px; font-weight: bold; margin: 12px 0 5px; }
+    .cfg-card input[type=text], .cfg-card input[type=url], .cfg-card input[type=email], .cfg-card input[type=tel],
+    .cfg-card input[type=number], .cfg-card input[type=password], .cfg-card select, .cfg-card textarea {
+      width: 100%; padding: 12px; border: 1px solid #e3e5ef; border-radius: 10px;
+      background: #f1f2f8; outline: none; font-size: 16px; color: #15171f;
+    }
+    .cfg-card textarea { min-height: 90px; resize: vertical; }
+    .cfg-card input[type=color] { width: 100%; height: 46px; border: 1px solid #e3e5ef; border-radius: 10px; padding: 4px; background: #f1f2f8; }
+    .cfg-hint { font-size: 12px; color: #666c7c; margin-top: 4px; }
+    .cfg-btn { width: 100%; border: none; border-radius: 10px; padding: 14px; font-weight: bold; margin-top: 16px; background: #4f46e5; color: #fff; }
+    .cfg-btn.sec { background: #fff; color: #4f46e5; border: 1px solid #4f46e5; margin-top: 8px; }
+    .cfg-btn:disabled { opacity: .6; }
+    .seg { display: flex; border: 1px solid #e3e5ef; border-radius: 10px; overflow: hidden; }
+    .seg button { flex: 1; padding: 12px; border: 0; background: #f1f2f8; color: #15171f; font-weight: bold; }
+    .seg button.on { background: #4f46e5; color: #fff; }
+    .cfg-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 10px; }
+    .sw { position: relative; width: 54px; height: 30px; flex: none; }
+    .sw input { opacity: 0; width: 0; height: 0; }
+    .sw span { position: absolute; inset: 0; background: #9aa3b7; border-radius: 30px; transition: .2s; cursor: pointer; }
+    .sw span:before { content: ""; position: absolute; width: 24px; height: 24px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: .2s; }
+    .sw input:checked + span { background: #4f46e5; }
+    .sw input:checked + span:before { transform: translateX(24px); }
+    .st-text { font-weight: bold; }
+    .st-text.on { color: #4f46e5; }
+    .st-text.off { color: #dc2626; }
+    .logo-row { display: flex; align-items: center; gap: 12px; margin-top: 8px; }
+    .logo-row img { width: 64px; height: 64px; object-fit: contain; border: 1px solid #e3e5ef; border-radius: 12px; background: #fff; }
+    .show-row { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #4b5163; margin-top: 8px; }
+    .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: #141722; color: #fff; padding: 12px 18px; border-radius: 12px; font-size: 14px; z-index: 50; max-width: 90%; }
+    .toast.err { background: #dc2626; }
+
+    @media (max-width: 700px) {
+      .stats-grid { grid-template-columns: 1fr; }
+      .user-meta { grid-template-columns: 1fr; }
+      .toolbar { flex-direction: column; }
+      .toolbar button { width: 100%; }
+    }
+
+    .badge.wait { background:#fff4d6; color:#8a6100; }
+    .toolbar.tabs button { min-width: 0; padding: 12px 10px; }
+    .bars { display:flex; align-items:flex-end; gap:8px; height:150px; padding-top:18px; }
+    .bar-col { flex:1; display:flex; flex-direction:column; justify-content:flex-end; align-items:center; height:100%; font-size:10px; color:#666c7c; }
+    .bar { width:100%; background:#4f46e5; border-radius:6px 6px 0 0; min-height:2px; }
+    .bar.alt { background:#e0a100; }
+    .row-item { display:flex; justify-content:space-between; gap:10px; padding:12px 0; border-bottom:1px solid #eceef6; font-size:13px; }
+    .row-item small { color:#666c7c; display:block; margin-top:2px; }
+    .amt-in { color:#4f46e5; font-weight:800; } .amt-out { color:#dc2626; font-weight:800; }
+    .filters { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px; }
+    .filters select, .search-box select { padding:11px; border:1px solid #e3e5ef; border-radius:10px; background:#f1f2f8; font-size:14px; width:100%; }
+    .search-box select { margin-top:8px; }
+    @media (max-width: 700px) { .toolbar.tabs { flex-direction: row !important; } .toolbar.tabs button { width: auto; flex: 1 1 30%; } }
+    .ptabs { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px; }
+    .ptab { border:1px solid #e3e5ef; background:#f1f2f8; border-radius:20px; padding:8px 14px; font-weight:800; color:#3a4052; }
+    .ptab.on { background:#4f46e5; color:#fff; border-color:#4f46e5; }
+    .funding-list { display:grid; gap:10px; }
+    .funding-option { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:14px; border:1px solid #e3e5ef; border-radius:12px; background:#fafbff; }
+    .funding-option strong { display:block; font-size:14px; }
+    .funding-option small { display:block; color:#666c7c; margin-top:4px; }
+    .funding-option input { width:20px; height:20px; accent-color:#4f46e5; flex:none; }
+    @media (max-width:700px) {
+      header { position:static; padding:16px 14px; }
+      header h1 { font-size:22px; }
+      .admin-status { overflow-wrap:anywhere; line-height:1.4; }
+      main { padding:14px 12px 30px; }
+      .toolbar.tabs { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+      .toolbar.tabs button { width:100%; min-width:0; font-size:13px; padding:11px 7px; line-height:1.25; }
+      .admin-card { padding:14px; border-radius:14px; }
+      .stats-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+      .stat-box { padding:12px 8px; min-width:0; }
+      .stat-box strong { font-size:18px; overflow-wrap:anywhere; }
+      .user-meta { grid-template-columns:1fr; font-size:13px; overflow-wrap:anywhere; }
+      .user-actions { gap:7px; }
+      .mini-btn { padding:9px 10px; font-size:13px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div>
+        <h1 class="brand-h"><span class="brand-mark">A</span><span>A T L DATA</span><span class="role">Admin</span></h1>
+        <div class="admin-status" id="adminStatus">Checking administrator access...</div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="toolbar">
+      <button class="light-btn" id="backBtn" type="button">← Back to Website</button>
+      <button class="primary-btn" id="refreshBtn" type="button">↻ Refresh</button>
+    </div>
+
+    <div id="accessMessage" class="status-box">
+      <strong>Admin Access</strong><br>
+      Only the configured admin can access this dashboard.
+    </div>
+
+    <div id="adminApp" class="hidden">
+
+      <!-- MENU TABS -->
+      <div class="toolbar tabs">
+        <button class="light-btn active" id="tabDash" type="button"><svg class="ico" aria-hidden="true" data-emo="📊"><use href="#i-chart"/></svg> Dashboard</button>
+        <button class="light-btn" id="tabUsers" type="button"><svg class="ico" aria-hidden="true" data-emo="👥"><use href="#i-users"/></svg> Users</button>
+        <button class="light-btn" id="tabTx" type="button"><svg class="ico" aria-hidden="true" data-emo="💳"><use href="#i-card"/></svg> Transactions</button>
+        <button class="light-btn" id="tabDep" type="button"><svg class="ico" aria-hidden="true" data-emo="📥"><use href="#i-inbox"/></svg> Deposits</button>
+        <button class="light-btn" id="tabPrice" type="button"><svg class="ico" aria-hidden="true" data-emo="💰"><use href="#i-wallet"/></svg> Data Prices</button>
+        <button class="light-btn" id="tabConfig" type="button"><svg class="ico" aria-hidden="true" data-emo="⚙️"><use href="#i-settings"/></svg> Configuration</button>
+        <button class="light-btn" id="tabFunding" type="button"><svg class="ico" aria-hidden="true" data-emo="🏦"><use href="#i-bank"/></svg> Wallet Funding</button>
+        <button class="light-btn" id="tabInsights" type="button"><svg class="ico" aria-hidden="true" data-emo="📈"><use href="#i-trend"/></svg> Profit &amp; Issues</button>
+      </div>
+
+      <!-- ================= DATA PRICES ================= -->
+      <div id="priceView" class="hidden">
+        <div class="admin-card cfg-card">
+          <h3>Data prices &amp; profit</h3>
+          <p class="cfg-sub">Set your selling price for each plan (1GB, 2GB, 10GB...). Profit is calculated automatically.</p>
+          <label for="priceNet">Network</label>
+          <select id="priceNet"><option value="mtn">MTN</option><option value="airtel">Airtel</option><option value="glo">Glo</option><option value="9mobile">9mobile</option></select>
+          <label>Add profit to all plans</label>
+          <div class="filters">
+            <select id="priceType"><option value="flat">Flat (₦)</option><option value="pct">Percent (%)</option></select>
+            <input type="number" id="priceValue" inputmode="decimal" min="0" placeholder="e.g. 20" style="padding:11px;border:1px solid #e3e5ef;border-radius:10px;background:#f1f2f8">
+          </div>
+          <button class="cfg-btn sec" id="priceApply" type="button">Apply to this category</button>
+          <button class="cfg-btn sec" id="priceApplyAll" type="button">Apply to all categories</button>
+        </div>
+        <div class="admin-card"><div id="priceTabs" class="ptabs"></div><div id="priceList"></div>
+          <button class="cfg-btn" id="priceSave" type="button">Save prices</button></div>
+      </div>
+
+      <!-- ================= DASHBOARD ================= -->
+      <div id="dashView">
+        <div class="admin-card"><div class="stats-grid" id="dashStats"></div></div>
+        <div class="admin-card"><h3>Money in (deposits), last 7 days</h3><div class="bars" id="chartIn"></div></div>
+        <div class="admin-card"><h3>Sales (data, airtime), last 7 days</h3><div class="bars" id="chartSales"></div></div>
+        <div class="admin-card"><h3>Recent transactions</h3><div id="dashRecent"></div>
+          <div class="cfg-hint" style="margin-top:10px">Figures use the latest 300 transactions.</div></div>
+      </div>
+
+      <!-- ================= TRANSACTIONS ================= -->
+      <div id="txView" class="hidden">
+        <div class="search-box">
+          <input type="search" id="txSearch" placeholder="Search by user, description, reference...">
+          <div class="filters">
+            <select id="txType"><option value="">All types</option><option>Deposit</option><option>Admin Credit</option><option>Admin Debit</option><option value="__sales">Sales (data/airtime)</option></select>
+            <select id="txStatus"><option value="">All status</option><option>success</option><option>pending</option><option>failed</option></select>
+          </div>
+          <button class="mini-btn grey" id="txCsv" type="button" style="margin-top:10px;width:100%"><svg class="ico" aria-hidden="true" data-emo="⬇️"><use href="#i-download"/></svg> Export CSV</button>
+        </div>
+        <div class="admin-card"><div id="txList"></div></div>
+      </div>
+
+      <!-- ================= DEPOSITS ================= -->
+      <div id="depView" class="hidden">
+        <div class="admin-card"><h3>Deposit requests</h3><div id="depList"></div></div>
+      </div>
+
+      <!-- ================= USERS VIEW (original) ================= -->
+      <div id="usersView">
+        <div class="admin-card">
+          <div class="stats-grid">
+            <div class="stat-box">
+              <small>Total Users</small>
+              <strong id="totalUsers">0</strong>
+            </div>
+            <div class="stat-box">
+              <small>Total Wallet</small>
+              <strong id="totalWallet">₦0.00</strong>
+            </div>
+            <div class="stat-box">
+              <small>Verified Users</small>
+              <strong id="verifiedUsers">0</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="search-box">
+          <input type="search" id="userSearch" placeholder="Search user by name, email, phone or UID...">
+          <select id="userFilter"><option value="">All users</option><option value="blocked">Blocked</option><option value="verified">Verified</option><option value="unverified">Not verified</option><option value="funded">With balance</option></select>
+        </div>
+
+        <div class="admin-card">
+          <div class="user-list" id="usersList"></div>
+        </div>
+      </div>
+
+      <!-- ================= WALLET FUNDING METHODS ================= -->
+      <div id="fundingView" class="hidden">
+        <div class="admin-card cfg-card">
+          <h2 class="cfg-title">Wallet Funding Methods</h2>
+          <p class="cfg-sub">Choose which funding providers should be available. Save changes after reviewing them.</p>
+          <label for="fundingDefault">Default funding provider</label>
+          <select id="fundingDefault"></select>
+          <div class="cfg-sec">Available providers</div>
+          <div id="fundingOptions" class="funding-list"></div>
+          <button class="cfg-btn" id="saveFunding" type="button">Save funding settings</button>
+          <p class="cfg-hint">These settings are saved in Firestore under config/payment. The customer-facing wallet page and backend must read these settings for providers to actually appear or be disabled for customers.</p>
+        </div>
+      </div>
+
+      <!-- ================= PROFIT & TRANSACTION ISSUES ================= -->
+      <div id="insightsView" class="hidden">
+        <div class="admin-card">
+          <h2 class="cfg-title"><svg class="ico" aria-hidden="true" data-emo="📈"><use href="#i-trend"/></svg> Sales &amp; Profit Overview</h2>
+          <p class="cfg-sub">Revenue is based on successful sales transactions. Profit is only calculated when the transaction contains cost/profit data; missing cost data is not guessed.</p>
+          <label for="profitPeriod">Reporting period</label>
+          <select id="profitPeriod" style="width:100%;padding:11px;border:1px solid #e3e5ef;border-radius:10px;background:#f1f2f8">
+            <option value="7">Last 7 days</option><option value="30" selected>Last 30 days</option><option value="all">All loaded transactions</option>
+          </select>
+          <div class="stats-grid" id="profitStats" style="margin-top:14px"></div>
+          <div class="cfg-hint">Note: transaction history is limited to the latest 300 records. For accurate accounting, ensure your backend records provider cost or profit for each sale.</div>
+        </div>
+        <div class="admin-card">
+          <h2 class="cfg-title"><svg class="ico" aria-hidden="true" data-emo="🚨"><use href="#i-alert"/></svg> Transaction Issues</h2>
+          <p class="cfg-sub">Failed and pending transactions that may need investigation. Check the reference and provider response before retrying or refunding.</p>
+          <div class="search-box" style="padding:0;box-shadow:none">
+            <input type="search" id="issueSearch" placeholder="Search user, reference, service or error...">
+            <div class="filters"><select id="issueStatus"><option value="all">Failed + Pending</option><option value="failed">Failed only</option><option value="pending">Pending only</option></select></div>
+            <button class="mini-btn grey" id="issueCsv" type="button" style="margin-top:10px;width:100%"><svg class="ico" aria-hidden="true" data-emo="⬇️"><use href="#i-download"/></svg> Export issues CSV</button>
+          </div>
+          <div id="issueList" style="margin-top:12px"></div>
+        </div>
+        <div class="admin-card">
+          <h3><svg class="ico" aria-hidden="true" data-emo="🧰"><use href="#i-tool"/></svg> Admin checklist</h3>
+          <div class="row-item"><div><strong>Review failed transactions</strong><small>Confirm provider status before retrying or refunding.</small></div></div>
+          <div class="row-item"><div><strong>Check pending deposits</strong><small>Use the Deposits menu to approve/reject only after confirming payment.</small></div></div>
+          <div class="row-item"><div><strong>Compare selling price and cost</strong><small>Use Data Prices to review plan costs and selling prices.</small></div></div>
+          <div class="row-item"><div><strong>Protect customer balances</strong><small>Do not manually credit or debit without a clear reason and transaction reference.</small></div></div>
+        </div>
+      </div>
+
+      <!-- ================= CONFIGURATION VIEW ================= -->
+      <div id="configView" class="hidden">
+
+        <!-- App Configuration home -->
+        <div id="cfgHome">
+          <h2 class="cfg-title">App Configuration</h2>
+          <p class="cfg-sub">Manage all system configuration from one place.</p>
+          <div class="cfg-menu">
+            <button class="cfg-item" type="button" data-go="cfgSite">
+              <div class="ic"><svg class="ico" aria-hidden="true" data-emo="🌐"><use href="#i-globe"/></svg></div>
+              <div><b>Website Setting</b><small>Name, about, contacts, social links, theme, logo</small></div>
+              <span class="ar">›</span>
+            </button>
+            <button class="cfg-item" type="button" data-go="cfgPayment">
+              <div class="ic"><svg class="ico" aria-hidden="true" data-emo="💳"><use href="#i-card"/></svg></div>
+              <div><b>Payment Gateway</b><small>Funding bank, BillStack keys, charges, status</small></div>
+              <span class="ar">›</span>
+            </button>
+            <button class="cfg-item" type="button" data-go="cfgTx">
+              <div class="ic"><svg class="ico" aria-hidden="true" data-emo="🔑"><use href="#i-key"/></svg></div>
+              <div><b>Transaction API</b><small>Vendor API token for extra services</small></div>
+              <span class="ar">›</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Website Setting -->
+        <div id="cfgSite" class="hidden">
+          <button class="cfg-back" type="button" data-go="cfgHome">‹ Back</button>
+          <h2 class="cfg-title">Website Setting</h2>
+          <p class="cfg-sub">Site information shown on your website.</p>
+          <div class="admin-card cfg-card">
+            <div class="cfg-sec" style="margin-top:0">Site information</div>
+            <label for="s_siteName">Site name</label>
+            <input type="text" id="s_siteName">
+            <label for="s_headline">Title / headline</label>
+            <input type="text" id="s_headline">
+            <label for="s_welcome">Welcome notification</label>
+            <textarea id="s_welcome"></textarea>
+            <label for="s_about">About us</label>
+            <textarea id="s_about" placeholder="Details about your website"></textarea>
+
+            <div class="cfg-sec">Contact information</div>
+            <label for="s_email">Email</label>
+            <input type="email" id="s_email">
+            <label for="s_phone">Phone / WhatsApp</label>
+            <input type="tel" id="s_phone">
+            <label for="s_address">Address</label>
+            <input type="text" id="s_address">
+
+            <div class="cfg-sec">App links</div>
+            <label for="s_playStore">Google Play Store link</label>
+            <input type="url" id="s_playStore" placeholder="https://play.google.com/store/apps/details?id=...">
+            <label for="s_appStore">Apple App Store link</label>
+            <input type="url" id="s_appStore" placeholder="https://apps.apple.com/app/...">
+
+            <div class="cfg-sec">Social media links</div>
+            <label for="s_facebook">Facebook</label>
+            <input type="url" id="s_facebook">
+            <label for="s_instagram">Instagram</label>
+            <input type="url" id="s_instagram">
+            <label for="s_twitter">X (Twitter)</label>
+            <input type="url" id="s_twitter">
+            <label for="s_tiktok">TikTok</label>
+            <input type="url" id="s_tiktok">
+            <label for="s_youtube">YouTube</label>
+            <input type="url" id="s_youtube">
+            <label for="s_telegram">Telegram</label>
+            <input type="url" id="s_telegram">
+            <label for="s_whatsapp">WhatsApp link</label>
+            <input type="url" id="s_whatsapp" placeholder="https://wa.me/234...">
+
+            <div class="cfg-sec">Theme &amp; media</div>
+            <label for="s_themeColor">Website theme color</label>
+            <input type="color" id="s_themeColor" value="#4f46e5">
+            <label>Website logo</label>
+            <div class="logo-row">
+              <img id="s_logoPrev" alt="logo" class="hidden">
+              <input type="file" id="s_logoFile" accept="image/*">
+            </div>
+            <label for="s_logoUrl">...or logo link</label>
+            <input type="url" id="s_logoUrl" placeholder="https://...">
+            <button class="cfg-btn sec" id="checkLogo" type="button">Check logo</button>
+            <button class="cfg-btn" id="saveSite" type="button">Update all settings</button>
+          </div>
+        </div>
+
+        <!-- Payment Gateway -->
+        <div id="cfgPayment" class="hidden">
+          <button class="cfg-back" type="button" data-go="cfgHome">‹ Back</button>
+          <h2 class="cfg-title">Payment Gateway</h2>
+          <p class="cfg-sub">Manage and configure your payment service integration.</p>
+
+          <div class="admin-card cfg-card">
+            <h3>General settings</h3>
+            <label for="p_bank">Default funding bank</label>
+            <select id="p_bank">
+              <option value="">Select a bank</option>
+              <option>Sterling Bank</option>
+              <option>Wema Bank</option>
+              <option>Moniepoint Microfinance Bank</option>
+              <option>GT Bank</option>
+              <option>9PSB Bank</option>
+              <option>Pampi Payment Point</option>
+              <option>Pampi ORG</option>
+              <option>9PSB WAAS</option>
+            </select>
+          </div>
+
+          <div class="admin-card cfg-card">
+            <h3>Payment gateways: BillStack</h3>
+
+            <div class="cfg-sec">API credentials</div>
+            <label for="p_apiKey">Public key</label>
+            <input type="password" id="p_apiKey" placeholder="Paste BillStack public key" autocomplete="off">
+            <label for="p_secretKey">Secret key</label>
+            <input type="password" id="p_secretKey" placeholder="Paste BillStack secret key" autocomplete="off">
+            <label class="show-row"><input type="checkbox" id="p_show"> Show keys</label>
+
+            <div class="cfg-sec">Charge configuration</div>
+            <label>Charge type</label>
+            <div class="seg">
+              <button type="button" id="p_t1" class="on">Percentage</button>
+              <button type="button" id="p_t2">Flat rate</button>
+            </div>
+            <label for="p_value" id="p_valueLabel">Charge percentage (%)</label>
+            <input type="number" id="p_value" inputmode="decimal" step="any" min="0" placeholder="e.g. 1 or 2">
+            <label for="p_cap">Maximum cap (optional)</label>
+            <input type="number" id="p_cap" inputmode="decimal" step="any" min="0" placeholder="e.g. 2000">
+            <div class="cfg-hint">Sets a maximum charge limit to protect customers.</div>
+
+            <div class="cfg-sec">Service status</div>
+            <div class="cfg-row">
+              <div>
+                <div class="st-text on" id="p_stText">Currently enabled and operational</div>
+                <div class="cfg-hint" id="p_stHint">Customers can pay with BillStack.</div>
+              </div>
+              <label class="sw"><input type="checkbox" id="p_enabled" checked><span></span></label>
+            </div>
+            <button class="cfg-btn" id="savePayment" type="button">Save payment settings</button>
+          </div>
+        </div>
+
+        <!-- Transaction API -->
+        <div id="cfgTx" class="hidden">
+          <button class="cfg-back" type="button" data-go="cfgHome">‹ Back</button>
+          <h2 class="cfg-title">Transaction API</h2>
+          <p class="cfg-sub">Connect another VTU vendor to get extra services.</p>
+          <div class="admin-card cfg-card">
+            <label for="t_vendor">Active vendor</label>
+            <select id="t_vendor"><option value="smartteck">Smartteck (mkhdataplug)</option><option value="vtugate">VTUGate</option></select>
+            <div class="cfg-hint">Smartteck is used only when the Base URL and token below are filled. Otherwise VTUGate is used.</div>
+            <label for="t_base">Base URL</label>
+            <input type="url" id="t_base" placeholder="https://app.mkhdataplug.com" autocomplete="off">
+            <label for="t_token">Transaction API token</label>
+            <input type="password" id="t_token" placeholder="Paste token from your VTU vendor" autocomplete="off">
+            <div class="cfg-hint">Copy the API token from your vendor's website and paste it here.</div>
+            <label for="t_whsecret">Webhook secret</label>
+            <input type="password" id="t_whsecret" placeholder="Paste webhook secret from your vendor" autocomplete="off">
+            <div class="cfg-hint">Register this webhook URL at your vendor: https://api.atldata.com.ng/webhooks/smartteck</div>
+            <label class="show-row"><input type="checkbox" id="t_show"> Show token and secret</label>
+            <button class="cfg-btn" id="saveTx" type="button">Save settings</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <script>
+    window.__atlOk = false;
+    function atlShow(m) {
+      var s = document.getElementById('adminStatus'); if (s) s.textContent = m;
+      var a = document.getElementById('accessMessage');
+      if (a) { a.className = 'status-box error'; a.innerHTML = '<strong>Page error</strong><br>' + m; }
+    }
+    window.addEventListener('error', function (e) { atlShow('Error: ' + (e.message || 'script failed') + (e.lineno ? ' (line ' + e.lineno + ')' : '')); });
+    window.addEventListener('unhandledrejection', function (e) { atlShow('Error: ' + ((e.reason && e.reason.message) || e.reason)); });
+    setTimeout(function () { if (!window.__atlOk) atlShow('The page script did not start. Send a screenshot of this screen.'); }, 6000);
+  </script>
+  <script type="module">
+    import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+    import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+    import { getFirestore, collection, getDocs, doc, updateDoc, getDoc, setDoc, query, orderBy, limit, writeBatch, increment, serverTimestamp, runTransaction } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: 'AIzaSyA_x5ZYj7D5Dt_9Bq-NzlchpRPRd3QN21I',
+      authDomain: 'a-t-l-data.firebaseapp.com',
+      projectId: 'a-t-l-data',
+      storageBucket: 'a-t-l-data.firebasestorage.app',
+      messagingSenderId: '519558305824',
+      appId: '1:519558305824:web:cf6dd75ef20ef708c24445'
+    };
+
+    window.__atlOk = true;
+
+    const ADMIN_EMAIL = 'lawanahmadt03@gmail.com';
+    const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    let allUsers = [];
+    let currentUser = null;
+
+    const $ = (id) => document.getElementById(id);
+    const money = (n) => '₦' + Number(n || 0).toLocaleString('en-NG', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+
+    function escapeHTML(value) {
+      return String(value ?? '').replace(/[&<>"']/g, (char) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      }[char]));
+    }
+
+    async function loadUsers() {
+      const list = $('usersList');
+      list.innerHTML = '<div class="empty">Loading users...</div>';
+
+      try {
+        const snap = await getDocs(collection(db, 'users'));
+        allUsers = snap.docs.map((docSnap) => ({ id: docSnap.id, ...docSnap.data() }));
+        renderUsers();
+        renderDash();
+      } catch (error) {
+        list.innerHTML = '<div class="empty">Unable to load users.</div>';
+        console.error(error);
+      }
+    }
+
+    function renderUsers() {
+      const list = $('usersList');
+      const q = $('userSearch').value.trim().toLowerCase();
+      const f = $('userFilter').value;
+      const filtered = allUsers.filter((user) => {
+        const haystack = [user.name, user.email, user.phone, user.uid, user.id].join(' ').toLowerCase();
+        const verified = !!(user.emailVerified || user.adminVerified);
+        const matchesSearch = !q || haystack.includes(q);
+        const matchesFilter = !f || (f === 'blocked' && user.isBlocked) || (f === 'verified' && verified) ||
+          (f === 'unverified' && !verified) || (f === 'funded' && Number(user.balance || 0) > 0);
+        return matchesSearch && matchesFilter;
+      });
+
+      const totalWallet = filtered.reduce((sum, user) => sum + Number(user.balance || 0), 0);
+      $('totalUsers').textContent = String(filtered.length);
+      $('totalWallet').textContent = money(totalWallet);
+      $('verifiedUsers').textContent = String(filtered.filter((user) => user.emailVerified || user.adminVerified).length);
+
+      if (!filtered.length) {
+        list.innerHTML = '<div class="empty">No users found.</div>';
+        return;
+      }
+
+      list.innerHTML = filtered.map((user) => {
+        const name = user.name || 'Unnamed User';
+        const email = user.email || 'No email';
+        const phone = user.phone || 'No phone';
+        const blocked = !!user.isBlocked;
+        const emailVerified = !!user.emailVerified;
+        const adminVerified = !!user.adminVerified;
+        const verified = emailVerified || adminVerified;
+        const safeId = user.id;
+
+        return `
+          <div class="user-item">
+            <div class="user-head">
+              <div class="user-name">${escapeHTML(name)}</div>
+              <span class="badge ${blocked ? 'blocked' : ''}">${blocked ? 'Blocked' : (verified ? 'Verified' : 'Pending')}</span>
+            </div>
+
+            <div class="user-meta">
+              <div><strong>Email:</strong> ${escapeHTML(email)}</div>
+              <div><strong>Phone:</strong> ${escapeHTML(phone)}</div>
+              <div><strong>Wallet:</strong> ${money(user.balance || 0)}</div>
+              <div><strong>Tier:</strong> ${escapeHTML(user.tier || 'basic')}</div>
+              <div><strong>UID:</strong> ${escapeHTML(user.uid || user.id || 'N/A')}</div>
+              <div><strong>Status:</strong> ${verified ? (emailVerified ? 'email verified' : 'admin verified') : 'not verified'}</div>
+            </div>
+
+            <div class="user-actions">
+              <button class="mini-btn ${verified ? 'grey' : 'green'}" type="button" onclick="toggleVerified('${safeId}')">${verified ? '✓ Verified' : 'Verify user'}</button>
+              <button class="mini-btn green" type="button" onclick="toggleBlocked('${safeId}')">${blocked ? 'Unblock' : 'Block'}</button>
+              <button class="mini-btn grey" type="button" onclick="setUserTier('${safeId}', 'basic')">Tier: Basic</button>
+              <button class="mini-btn grey" type="button" onclick="setUserTier('${safeId}', 'gold')">Tier: Gold</button>
+              <button class="mini-btn green" type="button" onclick="adjustBalance('${safeId}', 'credit')">+ Fund</button>
+              <button class="mini-btn red" type="button" onclick="adjustBalance('${safeId}', 'debit')">− Debit</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    window.toggleVerified = async (userDocId) => {
+      if (!userDocId) return;
+      const user = allUsers.find((u) => u.id === userDocId);
+      if (!user) return toast('User not found', true);
+      const next = !(user.emailVerified || user.adminVerified);
+      const action = next ? 'mark this user as verified in ATL DATA' : 'remove the admin verification from this user';
+      if (!confirm('Are you sure you want to ' + action + '?')) return;
+      try {
+        await updateDoc(doc(db, 'users', userDocId), { adminVerified: next, adminVerifiedAt: next ? serverTimestamp() : null, adminVerifiedBy: currentUser.email });
+        toast(next ? 'User marked as verified' : 'Admin verification removed');
+        await loadUsers();
+      } catch (error) {
+        console.error(error);
+        toast('Could not update verification. Check Firebase rules.', true);
+      }
+    };
+
+    window.toggleBlocked = async (uid) => {
+      if (!uid) return;
+      const ref = doc(db, 'users', uid);
+      const current = await getDoc(ref);
+      const next = !Boolean(current.exists() ? current.data().isBlocked : false);
+      await updateDoc(ref, { isBlocked: next });
+      await loadUsers();
+    };
+
+    window.setUserTier = async (uid, tier) => {
+      if (!uid) return;
+      const ref = doc(db, 'users', uid);
+      await updateDoc(ref, { tier });
+      await loadUsers();
+    };
+
+
+    /* =====================================================
+       DASHBOARD, TRANSACTIONS, DEPOSITS, WALLET ADJUSTMENTS
+       ===================================================== */
+    let allTx = [];
+    let allDeps = [];
+    const CREDIT_TYPES = ['Deposit', 'Admin Credit', 'Refund'];
+    const NON_SALES = ['Deposit', 'Admin Credit', 'Admin Debit', 'Refund'];
+
+    const fmtDate = (t) => {
+      const d = t && t.toDate ? t.toDate() : null;
+      return d ? d.toLocaleString('en-NG', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : '—';
+    };
+    const userName = (uid) => { const u = allUsers.find((x) => (x.uid || x.id) === uid); return u ? (u.name || u.email || uid) : (uid || '—'); };
+    const badgeCls = (st) => st === 'success' || st === 'approved' ? '' : (st === 'failed' || st === 'rejected' ? 'blocked' : 'wait');
+    const short = (n) => n >= 1e6 ? '₦' + (n / 1e6).toFixed(1) + 'M' : n >= 1e3 ? '₦' + (n / 1e3).toFixed(1) + 'k' : '₦' + Math.round(n);
+
+    async function loadTx() {
+      try {
+        const [t, d] = await Promise.all([
+          getDocs(query(collection(db, 'transactions'), orderBy('createdAt', 'desc'), limit(300))),
+          getDocs(query(collection(db, 'deposits'), orderBy('createdAt', 'desc'), limit(100)))
+        ]);
+        allTx = t.docs.map((x) => ({ id: x.id, ...x.data() }));
+        allDeps = d.docs.map((x) => ({ id: x.id, ...x.data() }));
+      } catch (e) { console.error(e); toast('Could not load transactions', true); }
+      renderDash(); renderTx(); renderDeps(); renderInsights();
+    }
+
+    function lastDays(filterFn) {
+      const days = [];
+      for (let i = 6; i >= 0; i--) { const d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() - i); days.push({ d, v: 0 }); }
+      allTx.filter((t) => t.status === 'success' && filterFn(t)).forEach((t) => {
+        const dt = t.createdAt && t.createdAt.toDate ? t.createdAt.toDate() : null; if (!dt) return;
+        dt.setHours(0, 0, 0, 0);
+        const slot = days.find((x) => x.d.getTime() === dt.getTime()); if (slot) slot.v += Number(t.amount || 0);
+      });
+      return days;
+    }
+
+    function drawBars(id, days, alt) {
+      const max = Math.max(1, ...days.map((x) => x.v));
+      $(id).innerHTML = days.map((x) => `<div class="bar-col"><span>${x.v ? short(x.v) : ''}</span><div class="bar ${alt ? 'alt' : ''}" style="height:${Math.max(2, x.v / max * 100)}%"></div><span>${x.d.toLocaleDateString('en-NG', { weekday: 'short' })}</span></div>`).join('');
+    }
+
+    function renderDash() {
+      const wallet = allUsers.reduce((a, u) => a + Number(u.balance || 0), 0);
+      const week = Date.now() - 7 * 864e5;
+      const newUsers = allUsers.filter((u) => u.createdAt && u.createdAt.toDate && u.createdAt.toDate().getTime() > week).length;
+      const today = new Date(); today.setHours(0, 0, 0, 0);
+      const todaySales = allTx.filter((t) => t.status === 'success' && !NON_SALES.includes(t.type) && t.createdAt && t.createdAt.toDate && t.createdAt.toDate() >= today)
+        .reduce((a, t) => a + Number(t.amount || 0), 0);
+      const pend = allDeps.filter((x) => x.status === 'pending').length;
+      const box = (l, v) => `<div class="stat-box"><small>${l}</small><strong>${v}</strong></div>`;
+      $('dashStats').innerHTML = box('Total users', allUsers.length) + box('New (7 days)', newUsers) + box('Blocked', allUsers.filter((u) => u.isBlocked).length) +
+        box('Total wallet', money(wallet)) + box("Today's sales", money(todaySales)) + box('Pending deposits', pend);
+      drawBars('chartIn', lastDays((t) => t.type === 'Deposit'), false);
+      drawBars('chartSales', lastDays((t) => !NON_SALES.includes(t.type)), true);
+      $('dashRecent').innerHTML = allTx.slice(0, 8).map(txRow).join('') || '<div class="empty">No transactions yet.</div>';
+    }
+
+    function txRow(t) {
+      const inn = CREDIT_TYPES.includes(t.type);
+      return `<div class="row-item"><div><strong>${escapeHTML(t.type || '-')}</strong> · ${escapeHTML(userName(t.uid))}
+        <small>${escapeHTML(t.description || '')} · ${fmtDate(t.createdAt)}</small></div>
+        <div style="text-align:right"><span class="${inn ? 'amt-in' : 'amt-out'}">${inn ? '+' : '−'}${money(t.amount)}</span>
+        <small><span class="badge ${badgeCls(t.status)}">${escapeHTML(t.status || 'pending')}</span></small></div></div>`;
+    }
+
+    function filteredTx() {
+      const q = $('txSearch').value.trim().toLowerCase(), ty = $('txType').value, st = $('txStatus').value;
+      return allTx.filter((t) => (!ty || (ty === '__sales' ? !NON_SALES.includes(t.type) : t.type === ty)) && (!st || t.status === st) &&
+        (!q || [t.type, t.description, t.reference, t.uid, userName(t.uid)].join(' ').toLowerCase().includes(q)));
+    }
+
+    function renderTx() {
+      const rows = filteredTx();
+      $('txList').innerHTML = rows.map(txRow).join('') || '<div class="empty">No transactions found.</div>';
+    }
+
+    // Read-only business insights. Never infer profit if the transaction has no recorded cost.
+    function txDateMs(t) {
+      if (t.createdAt && typeof t.createdAt.toDate === 'function') return t.createdAt.toDate().getTime();
+      if (typeof t.createdAt === 'number') return t.createdAt;
+      const parsed = Date.parse(t.createdAt || ''); return Number.isFinite(parsed) ? parsed : 0;
+    }
+    function transactionCost(t) {
+      const keys = ['providerCost', 'costPrice', 'purchaseCost', 'vendorCost', 'cost', 'apiCost'];
+      for (const key of keys) if (t[key] != null && Number.isFinite(Number(t[key]))) return Number(t[key]);
+      return null;
+    }
+    function transactionProfit(t) {
+      if (t.profit != null && Number.isFinite(Number(t.profit))) return Number(t.profit);
+      const cost = transactionCost(t);
+      return cost == null ? null : Number(t.amount || 0) - cost;
+    }
+    function renderInsights() {
+      if (!$('profitStats')) return;
+      const period = $('profitPeriod').value;
+      const cutoff = period === 'all' ? 0 : Date.now() - Number(period) * 864e5;
+      const sales = allTx.filter(t => t.status === 'success' && !NON_SALES.includes(t.type) && txDateMs(t) >= cutoff);
+      const revenue = sales.reduce((sum,t) => sum + Number(t.amount || 0), 0);
+      const known = sales.filter(t => transactionProfit(t) != null);
+      const profit = known.reduce((sum,t) => sum + transactionProfit(t), 0);
+      const issues = allTx.filter(t => ['failed','pending'].includes(String(t.status || '').toLowerCase()));
+      const box = (label, value) => `<div class="stat-box"><small>${label}</small><strong>${value}</strong></div>`;
+      $('profitStats').innerHTML = box('Successful sales', sales.length) + box('Sales amount', money(revenue)) +
+        box('Recorded/estimated profit', known.length ? money(profit) : 'Not available') +
+        box('Sales with cost data', `${known.length}/${sales.length}`) + box('Failed transactions', issues.filter(t => String(t.status).toLowerCase() === 'failed').length) +
+        box('Pending transactions', issues.filter(t => String(t.status).toLowerCase() === 'pending').length);
+      renderIssues();
+    }
+    function renderIssues() {
+      if (!$('issueList')) return;
+      const q = $('issueSearch').value.trim().toLowerCase();
+      const st = $('issueStatus').value;
+      const rows = allTx.filter(t => {
+        const status = String(t.status || 'pending').toLowerCase();
+        const matchesStatus = (st === 'all' && ['failed','pending'].includes(status)) || status === st;
+        const hay = [t.type,t.description,t.reference,t.uid,userName(t.uid),t.error,t.message,t.provider,t.status].join(' ').toLowerCase();
+        return matchesStatus && (!q || hay.includes(q));
+      });
+      $('issueList').innerHTML = rows.map(t => `<div class="row-item"><div style="min-width:0;flex:1"><strong>${escapeHTML(t.type || 'Transaction')} · ${escapeHTML(userName(t.uid))}</strong><small>${escapeHTML(t.description || 'No description')} · ${fmtDate(t.createdAt)}</small><small>Reference: ${escapeHTML(t.reference || 'Not recorded')}${t.provider ? ' · Provider: ' + escapeHTML(t.provider) : ''}</small>${(t.error || t.message || t.failureReason) ? `<small style="color:#dc2626">Issue: ${escapeHTML(t.error || t.failureReason || t.message)}</small>` : ''}</div><div style="text-align:right;flex-shrink:0"><strong>${money(t.amount)}</strong><br><span class="badge ${badgeCls(t.status)}">${escapeHTML(t.status || 'pending')}</span></div></div>`).join('') || '<div class="empty">No failed or pending transactions found in the loaded history.</div>';
+    }
+    $('issueCsv').addEventListener('click', () => {
+      const rows = allTx.filter(t => { const status=String(t.status||'pending').toLowerCase(); const st=$('issueStatus').value; const q=$('issueSearch').value.trim().toLowerCase(); return ((st==='all' && ['failed','pending'].includes(status)) || status===st) && (!q || [t.type,t.description,t.reference,t.uid,userName(t.uid),t.error,t.message,t.status].join(' ').toLowerCase().includes(q)); });
+      if (!rows.length) return toast('No issues to export', true);
+      const quote = v => '"' + String(v ?? '').replace(/"/g,'""') + '"';
+      const csv = ['Date,User,Type,Amount,Status,Reference,Description,Error'].concat(rows.map(t => [fmtDate(t.createdAt),userName(t.uid),t.type,t.amount,t.status,t.reference,t.description,t.error||t.failureReason||t.message].map(quote).join(','))).join('\n');
+      const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download='atldata-transaction-issues-'+new Date().toISOString().slice(0,10)+'.csv'; a.click(); URL.revokeObjectURL(a.href);
+    });
+
+    $('txCsv').addEventListener('click', () => {
+      const rows = filteredTx();
+      if (!rows.length) return toast('Nothing to export', true);
+      const q = (v) => '"' + String(v ?? '').replace(/"/g, '""') + '"';
+      const csv = ['Date,User,Type,Description,Amount,Status,Reference'].concat(rows.map((t) =>
+        [fmtDate(t.createdAt), userName(t.uid), t.type, t.description, t.amount, t.status, t.reference].map(q).join(','))).join('\n');
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+      a.download = 'transactions-' + new Date().toISOString().slice(0, 10) + '.csv';
+      a.click();
+    });
+
+    function renderDeps() {
+      $('depList').innerHTML = allDeps.map((x) => `<div class="row-item"><div><strong>${escapeHTML(x.name || x.email || userName(x.uid))}</strong>
+        <small>${money(x.amount)} · Ref: ${escapeHTML(x.reference || '-')} · ${fmtDate(x.createdAt)}</small>
+        ${x.status === 'pending' ? `<div class="user-actions"><button class="mini-btn green" type="button" onclick="decideDeposit('${x.id}',true)">Approve</button>
+        <button class="mini-btn red" type="button" onclick="decideDeposit('${x.id}',false)">Reject</button></div>` : ''}</div>
+        <div><span class="badge ${badgeCls(x.status)}">${escapeHTML(x.status || 'pending')}</span></div></div>`).join('') || '<div class="empty">No deposit requests.</div>';
+    }
+
+    window.decideDeposit = async (id, ok) => {
+      if (!confirm(ok ? 'Approve this deposit and credit the wallet?' : 'Reject this deposit?')) return;
+      try {
+        await runTransaction(db, async (t) => {
+          const dr = doc(db, 'deposits', id), ds = await t.get(dr);
+          if (!ds.exists() || ds.data().status !== 'pending') throw new Error('Already processed');
+          const d = ds.data(), amt = Number(d.amount || 0);
+          if (!ok) return t.update(dr, { status: 'rejected', rejectedAt: serverTimestamp(), rejectedBy: currentUser.email });
+          t.update(dr, { status: 'approved', approvedAt: serverTimestamp(), approvedBy: currentUser.email });
+          t.update(doc(db, 'users', d.uid), { balance: increment(amt), updatedAt: serverTimestamp() });
+          t.set(doc(collection(db, 'transactions')), { uid: d.uid, type: 'Deposit', amount: amt, status: 'success',
+            description: 'Wallet deposit approved', reference: d.reference || '', approvedBy: currentUser.email, createdAt: serverTimestamp() });
+        });
+        toast(ok ? 'Deposit approved' : 'Deposit rejected');
+      } catch (e) { console.error(e); toast(e.message || 'Failed', true); }
+      await Promise.all([loadUsers(), loadTx()]);
+    };
+
+    window.adjustBalance = async (uid, kind) => {
+      const u = allUsers.find((x) => x.id === uid || x.uid === uid); if (!u) return;
+      const debit = kind === 'debit', who = u.name || u.email || uid;
+      const amt = parseFloat(prompt((debit ? 'Debit' : 'Fund') + ' amount (₦) for ' + who + ':'));
+      if (!(amt > 0)) return;
+      if (debit && Number(u.balance || 0) < amt) return toast('User balance is too low', true);
+      const note = prompt('Reason / note (optional):') || '';
+      if (!confirm((debit ? 'Debit ' : 'Credit ') + money(amt) + (debit ? ' from ' : ' to ') + who + '?')) return;
+      try {
+        const b = writeBatch(db);
+        b.update(doc(db, 'users', u.id), { balance: increment(debit ? -amt : amt), updatedAt: serverTimestamp() });
+        b.set(doc(collection(db, 'transactions')), { uid: u.id, type: debit ? 'Admin Debit' : 'Admin Credit', amount: amt, status: 'success',
+          description: note || 'Manual ' + (debit ? 'debit' : 'credit') + ' by admin', createdAt: serverTimestamp() });
+        await b.commit();
+        toast('Done');
+      } catch (e) { console.error(e); toast('Could not update balance. Check the Firebase rules.', true); }
+      await Promise.all([loadUsers(), loadTx()]);
+    };
+
+
+    /* =====================================================
+       DATA PRICES  (Firestore: config/pricing -> { mtn: { <planCode>: {code,name,price,enabled} }, ... })
+       Plans, plan types and your real cost come from the Worker (admin-only route /admin/plans).
+       ===================================================== */
+    const WORKER_URL = 'https://atlapi.lawanahmadt03.workers.dev';   // after the domain switch: https://api.atldata.com.ng
+    let priceNet = 'mtn', pricePlans = [], savedPricing = null, priceTab = '';
+    const pkey = (c) => String(c).replace(/[.\/]/g, '_');
+    const TAB_ORDER = ['SME', 'SME2', 'GIFTING', 'CORPORATE'];
+    const planTitle = (p) => {
+      let t = String(p.name).replace(/^(mtn|airtel|glo|9mobile)\s+/i, '').trim();
+      const v = String(p.validity || '').trim();
+      if (v && t.toLowerCase().endsWith(v.toLowerCase())) t = t.slice(0, -v.length).trim();
+      return t || p.name;
+    };
+    const typeOf = (p) => String(p.type || '').trim().toUpperCase() || 'OTHER';
+
+    async function loadPrices() {
+      const box = $('priceList');
+      box.innerHTML = '<div class="empty">Loading plans...</div>'; $('priceTabs').innerHTML = '';
+      try {
+        if (!savedPricing) { const sn = await getDoc(doc(db, 'config', 'pricing')); savedPricing = sn.exists() ? sn.data() : {}; }
+        let list = null, costKnown = true;
+        try {
+          const token = await auth.currentUser.getIdToken();
+          const r = await fetch(WORKER_URL + '/admin/plans?network=' + priceNet, { headers: { Authorization: 'Bearer ' + token } });
+          const d = await r.json(); if (r.ok && Array.isArray(d.plans)) list = d.plans;
+        } catch (e) { console.warn(e); }
+        if (!list) {                                   // Worker not updated yet: show plans, but your real cost is unknown
+          const r = await fetch(WORKER_URL + '/test-plans/' + priceNet); const d = await r.json();
+          list = (Array.isArray(d.plans) ? d.plans : []).map((p) => ({ ...p, cost: null })); costKnown = false;
+        }
+        const saved = (savedPricing && savedPricing[priceNet]) || {};
+        pricePlans = list.map((p) => {
+          const sv = saved[pkey(p.code)] || {};
+          return { code: String(p.code), name: String(p.name || 'Plan'), type: typeOf(p), validity: p.validity || '', cost: p.cost == null ? null : Number(p.cost),
+            sell: typeof sv.price === 'number' ? sv.price : null, enabled: sv.enabled !== false };
+        });
+        const types = [...new Set(pricePlans.map((p) => p.type))].sort((a, b) => ((TAB_ORDER.indexOf(a) + 1) || 99) - ((TAB_ORDER.indexOf(b) + 1) || 99) || a.localeCompare(b));
+        if (!types.includes(priceTab)) priceTab = types[0] || '';
+        renderPrices(costKnown);
+      } catch (e) { console.error(e); box.innerHTML = '<div class="empty">Could not load plans.</div>'; }
+    }
+
+    function renderPrices(costKnown = true) {
+      const types = [...new Set(pricePlans.map((p) => p.type))].sort((a, b) => ((TAB_ORDER.indexOf(a) + 1) || 99) - ((TAB_ORDER.indexOf(b) + 1) || 99) || a.localeCompare(b));
+      $('priceTabs').innerHTML = types.map((t) => `<button type="button" class="ptab ${t === priceTab ? 'on' : ''}" data-tab="${escapeHTML(t)}">${escapeHTML(t)}</button>`).join('');
+      $('priceApply').textContent = 'Apply to ' + (priceTab || 'this category');
+      const rows = pricePlans.map((p, i) => ({ p, i })).filter((x) => x.p.type === priceTab);
+      $('priceList').innerHTML = (costKnown ? '' : '<div class="cfg-hint" style="margin-bottom:10px">Your real cost is not available yet. Update the Worker (route /admin/plans) to see it.</div>') +
+        (rows.map(({ p, i }) => `<div class="row-item" style="align-items:center"><div style="flex:1"><strong>${escapeHTML(planTitle(p))}</strong>
+          <small>${escapeHTML(p.validity)}${p.cost != null ? ' · Cost ' + money(p.cost) : ''} · <span id="pf${i}"></span></small></div>
+          <div style="width:115px"><input type="number" inputmode="decimal" min="0" data-i="${i}" value="${p.sell != null ? p.sell : ''}" placeholder="Sell ₦"
+          style="width:100%;padding:10px;border:1px solid #e3e5ef;border-radius:10px"><label class="show-row"><input type="checkbox" data-e="${i}" ${p.enabled ? 'checked' : ''}> Show</label></div></div>`).join('') || '<div class="empty">No plans found.</div>');
+      rows.forEach(({ i }) => showProfit(i));
+    }
+
+    function showProfit(i) {
+      const p = pricePlans[i], el = $('pf' + i); if (!el) return;
+      if (p.sell == null || p.cost == null) { el.textContent = p.sell == null ? 'Profit: —' : ''; el.style.color = ''; return; }
+      const pr = p.sell - p.cost;
+      el.textContent = 'Profit: ' + money(pr); el.style.color = pr < 0 ? '#dc2626' : '#4f46e5';
+    }
+
+    $('priceTabs').addEventListener('click', (e) => { const b = e.target.closest('[data-tab]'); if (b) { priceTab = b.dataset.tab; renderPrices(pricePlans.some((p) => p.cost != null)); } });
+    $('priceList').addEventListener('input', (e) => {
+      if (e.target.dataset.i != null) { const i = Number(e.target.dataset.i), v = parseFloat(e.target.value); pricePlans[i].sell = v >= 0 ? v : null; showProfit(i); }
+      if (e.target.dataset.e != null) pricePlans[Number(e.target.dataset.e)].enabled = e.target.checked;
+    });
+    $('priceNet').addEventListener('change', () => { priceNet = $('priceNet').value; priceTab = ''; loadPrices(); });
+    function applyProfit(all) {
+      const pct = $('priceType').value === 'pct', v = parseFloat($('priceValue').value);
+      if (!(v >= 0)) return toast('Enter the profit value', true);
+      let n = 0;
+      pricePlans.forEach((p) => { if ((all || p.type === priceTab) && p.cost != null) { p.sell = Math.ceil(pct ? p.cost * (1 + v / 100) : p.cost + v); n++; } });
+      if (!n) return toast('Real cost is not available, so profit cannot be added automatically.', true);
+      renderPrices(true); toast('Applied to ' + n + ' plans. Review, then press Save prices');
+    }
+    $('priceApply').addEventListener('click', () => applyProfit(false));
+    $('priceApplyAll').addEventListener('click', () => applyProfit(true));
+    $('priceSave').addEventListener('click', (e) => {
+      const out = {}; let below = 0;
+      pricePlans.forEach((p) => {
+        if (p.sell != null && p.cost != null && p.sell < p.cost) below++;
+        if (p.sell != null || !p.enabled) out[pkey(p.code)] = { code: p.code, name: p.name, price: p.sell, enabled: p.enabled };
+      });
+      if (below && !confirm(below + ' plan(s) are priced below cost (you lose money). Save anyway?')) return;
+      saveWithButton(e.currentTarget, async () => {
+        await setDoc(doc(db, 'config', 'pricing'), { [priceNet]: out, updatedAt: Date.now() }, { merge: true });
+        savedPricing = savedPricing || {}; savedPricing[priceNet] = out;
+      });
+    });
+
+    /* =====================================================
+       WALLET FUNDING PROVIDERS (config/payment.fundingMethods)
+       ===================================================== */
+    const FUNDING_PROVIDERS = [
+      { id: 'manual', label: 'Manual Funding', detail: 'Admin reviews and approves deposits' },
+      { id: 'walletTransfer', label: 'Wallet Transfer', detail: 'Transfer between ATL DATA wallets' },
+      { id: 'card', label: 'Card Funding', detail: 'Card payment gateway' },
+      { id: 'moniepoint', label: 'Moniepoint Microfinance Bank', detail: 'Bank transfer / virtual account' },
+      { id: 'wema', label: 'Wema Bank', detail: 'Bank transfer / virtual account' },
+      { id: 'sterling', label: 'Sterling Bank', detail: 'Bank transfer / virtual account' },
+      { id: 'gtbank', label: 'GTBank', detail: 'Bank transfer / virtual account' },
+      { id: 'psb9', label: '9Payment Service Bank (9PSB)', detail: 'Bank transfer / virtual account' },
+      { id: 'palmpayBillStack', label: 'PALMPAY Bill Stack', detail: 'BillStack PalmPay account (customer gives NIN or BVN)' },
+      { id: 'safeHavenBillStack', label: 'SAFEHAVEN Bill Stack', detail: 'BillStack payment option' },
+      { id: 'palmpayPoint', label: 'PalmPay Payment Point', detail: 'PalmPay payment integration' },
+      { id: 'billStack9psb', label: 'BillStack 9PSB', detail: 'BillStack payment option' }
+    ];
+
+    async function loadFundingSettings() {
+      const list = $('fundingOptions');
+      list.innerHTML = '<div class="empty">Loading funding methods...</div>';
+      try {
+        const snap = await getDoc(doc(db, 'config', 'payment'));
+        const data = snap.exists() ? snap.data() : {};
+        const methods = data.fundingMethods || {};
+        list.innerHTML = FUNDING_PROVIDERS.map((p) => {
+          const enabled = methods[p.id] !== false;
+          return `<label class="funding-option"><span><strong>${escapeHTML(p.label)}</strong><small>${escapeHTML(p.detail)}</small></span><input type="checkbox" data-funding-id="${p.id}" ${enabled ? 'checked' : ''} aria-label="Enable ${escapeHTML(p.label)}"></label>`;
+        }).join('');
+        $('fundingDefault').innerHTML = FUNDING_PROVIDERS.map((p) => `<option value="${p.id}">${escapeHTML(p.label)}</option>`).join('');
+        const chosen = data.defaultFundingProvider || 'manual';
+        $('fundingDefault').value = FUNDING_PROVIDERS.some((p) => p.id === chosen) ? chosen : 'manual';
+      } catch (error) {
+        console.error(error);
+        list.innerHTML = '<div class="empty">Unable to load funding methods. Check Firebase rules.</div>';
+      }
+    }
+
+    $('saveFunding').addEventListener('click', (e) => {
+      const checks = [...document.querySelectorAll('[data-funding-id]')];
+      const fundingMethods = {};
+      checks.forEach((input) => { fundingMethods[input.dataset.fundingId] = input.checked; });
+      const chosen = $('fundingDefault').value;
+      if (!fundingMethods[chosen]) return toast('Enable the default provider before saving.', true);
+      const data = { fundingMethods, defaultFundingProvider: chosen, updatedAt: Date.now(), updatedBy: currentUser.email };
+      saveWithButton(e.currentTarget, () => setDoc(doc(db, 'config', 'payment'), data, { merge: true }));
+    });
+
+    /* =====================================================
+       APP CONFIGURATION  (Firestore collection: "config")
+         config/site     -> public website settings
+         config/payment  -> payment gateway (admin only)
+         config/txapi    -> transaction API token (admin only)
+       ===================================================== */
+
+    const SITE_FIELDS = ['siteName','headline','welcome','about','email','phone','address',
+      'playStore','appStore','facebook','instagram','twitter','tiktok','youtube','telegram','whatsapp','themeColor'];
+
+    let chargeType = 'percentage';
+    let logoData = '';
+    let configLoaded = false;
+
+    function toast(msg, isErr) {
+      const t = document.createElement('div');
+      t.className = 'toast' + (isErr ? ' err' : '');
+      t.textContent = msg;
+      document.body.appendChild(t);
+      setTimeout(() => t.remove(), 3200);
+    }
+
+    function showCfg(id) {
+      ['cfgHome', 'cfgSite', 'cfgPayment', 'cfgTx'].forEach((x) => $(x).classList.toggle('hidden', x !== id));
+      window.scrollTo(0, 0);
+    }
+
+    function showTab(tab) {
+      ['dash', 'users', 'tx', 'dep', 'price', 'config', 'funding', 'insights'].forEach((k) => {
+        $(k + 'View').classList.toggle('hidden', k !== tab);
+        $('tab' + k[0].toUpperCase() + k.slice(1)).classList.toggle('active', k === tab);
+      });
+      window.scrollTo(0, 0);
+      if (tab === 'price') loadPrices();
+      if (tab === 'config') { showCfg('cfgHome'); if (!configLoaded) loadConfig(); }
+      if (tab === 'funding') loadFundingSettings();
+      if (tab === 'insights') renderInsights();
+    }
+
+    function updateLogoPreview() {
+      const img = $('s_logoPrev');
+      if (logoData) { img.src = logoData; img.classList.remove('hidden'); }
+      else { img.classList.add('hidden'); }
+    }
+
+    function updateChargeUI() {
+      $('p_t1').classList.toggle('on', chargeType === 'percentage');
+      $('p_t2').classList.toggle('on', chargeType === 'flat');
+      $('p_valueLabel').textContent = chargeType === 'percentage' ? 'Charge percentage (%)' : 'Flat charge amount (₦)';
+      $('p_value').placeholder = chargeType === 'percentage' ? 'e.g. 1 or 2' : 'e.g. 50';
+    }
+
+    function updateStatusUI() {
+      const on = $('p_enabled').checked;
+      const t = $('p_stText');
+      t.className = 'st-text ' + (on ? 'on' : 'off');
+      t.textContent = on ? 'Currently enabled and operational' : 'Service is disabled';
+      $('p_stHint').textContent = on ? 'Customers can pay with BillStack.' : 'BillStack payments are switched off.';
+    }
+
+    async function loadConfig() {
+      try {
+        const [siteSnap, paySnap, txSnap] = await Promise.all([
+          getDoc(doc(db, 'config', 'site')),
+          getDoc(doc(db, 'config', 'payment')),
+          getDoc(doc(db, 'config', 'txapi'))
+        ]);
+
+        const s = siteSnap.exists() ? siteSnap.data() : {};
+        SITE_FIELDS.forEach((k) => {
+          const el = $('s_' + k);
+          if (s[k] != null && s[k] !== '') el.value = s[k];
+        });
+        logoData = s.logo || '';
+        $('s_logoUrl').value = logoData.startsWith('data:') ? '' : logoData;
+        updateLogoPreview();
+
+        const p = paySnap.exists() ? paySnap.data() : {};
+        const m = p.billstack || {};
+        $('p_bank').value = p.defaultBank || '';
+        $('p_apiKey').value = m.publicKey || '';
+        $('p_secretKey').value = m.secretKey || '';
+        chargeType = m.chargeType === 'flat' ? 'flat' : 'percentage';
+        $('p_value').value = m.chargeValue != null ? m.chargeValue : '';
+        $('p_cap').value = m.maxCap != null ? m.maxCap : '';
+        $('p_enabled').checked = m.enabled !== false;
+        updateChargeUI();
+        updateStatusUI();
+
+        const tx = txSnap.exists() ? txSnap.data() : {};
+        $('t_token').value = tx.token || '';
+        $('t_vendor').value = tx.vendor === 'vtugate' ? 'vtugate' : 'smartteck';
+        $('t_base').value = tx.baseUrl || '';
+        $('t_whsecret').value = tx.webhookSecret || '';
+        configLoaded = true;
+      } catch (error) {
+        console.error(error);
+        toast('Could not load settings. Check the Firebase rules.', true);
+      }
+    }
+
+    async function saveWithButton(btn, fn) {
+      const old = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'Saving...';
+      try {
+        await fn();
+        toast('Saved successfully');
+      } catch (error) {
+        console.error(error);
+        toast('Could not save. Check the Firebase rules.', true);
+      }
+      btn.disabled = false;
+      btn.textContent = old;
+    }
+
+    // Navigation inside Configuration
+    document.querySelectorAll('[data-go]').forEach((b) => {
+      b.addEventListener('click', () => showCfg(b.getAttribute('data-go')));
+    });
+    $('tabUsers').addEventListener('click', () => showTab('users'));
+    $('tabConfig').addEventListener('click', () => showTab('config'));
+    $('tabDash').addEventListener('click', () => showTab('dash'));
+    $('tabTx').addEventListener('click', () => showTab('tx'));
+    $('tabDep').addEventListener('click', () => showTab('dep'));
+    $('tabPrice').addEventListener('click', () => showTab('price'));
+    $('tabFunding').addEventListener('click', () => showTab('funding'));
+    $('tabInsights').addEventListener('click', () => showTab('insights'));
+    $('profitPeriod').addEventListener('change', renderInsights);
+    $('issueSearch').addEventListener('input', renderIssues);
+    $('issueStatus').addEventListener('change', renderIssues);
+
+    // Logo upload (resized so it stays small)
+    $('s_logoFile').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+          const max = 300;
+          const k = Math.min(1, max / Math.max(img.width, img.height));
+          const c = document.createElement('canvas');
+          c.width = Math.round(img.width * k);
+          c.height = Math.round(img.height * k);
+          c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+          logoData = c.toDataURL('image/png');
+          $('s_logoUrl').value = '';
+          updateLogoPreview();
+        };
+        img.src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    $('checkLogo').addEventListener('click', () => {
+      const u = $('s_logoUrl').value.trim();
+      if (u) logoData = u;
+      if (!logoData) return toast('No logo selected', true);
+      updateLogoPreview();
+      toast('Logo preview updated');
+    });
+
+    $('saveSite').addEventListener('click', (e) => {
+      const u = $('s_logoUrl').value.trim();
+      if (u) {
+        if (!u.startsWith('https://')) return toast('Logo link must start with https://', true);
+        logoData = u;
+      }
+      const data = {};
+      SITE_FIELDS.forEach((k) => { data[k] = $('s_' + k).value.trim(); });
+      data.logo = logoData;
+      data.updatedAt = Date.now();
+      saveWithButton(e.currentTarget, () => setDoc(doc(db, 'config', 'site'), data));
+    });
+
+    // Payment gateway
+    $('p_t1').addEventListener('click', () => { chargeType = 'percentage'; updateChargeUI(); });
+    $('p_t2').addEventListener('click', () => { chargeType = 'flat'; updateChargeUI(); });
+    $('p_enabled').addEventListener('change', updateStatusUI);
+    $('p_show').addEventListener('change', (e) => {
+      const type = e.target.checked ? 'text' : 'password';
+      ['p_apiKey', 'p_secretKey'].forEach((id) => { $(id).type = type; });
+    });
+    $('t_show').addEventListener('change', (e) => {
+      $('t_token').type = $('t_whsecret').type = e.target.checked ? 'text' : 'password';
+    });
+
+    $('savePayment').addEventListener('click', (e) => {
+      let value = parseFloat($('p_value').value);
+      if (!isFinite(value) || value < 0) value = 0;
+      if (chargeType === 'percentage' && value > 100) return toast('Percentage cannot be more than 100', true);
+      const capRaw = $('p_cap').value.trim();
+      let cap = capRaw === '' ? '' : parseFloat(capRaw);
+      if (cap !== '' && (!isFinite(cap) || cap < 0)) cap = '';
+
+      const data = {
+        defaultBank: $('p_bank').value,
+        billstack: {
+          publicKey: $('p_apiKey').value.trim(),
+          secretKey: $('p_secretKey').value.trim(),
+          chargeType,
+          chargeValue: value,
+          maxCap: cap,
+          enabled: $('p_enabled').checked
+        },
+        updatedAt: Date.now()
+      };
+      saveWithButton(e.currentTarget, () => setDoc(doc(db, 'config', 'payment'), data, { merge: true }));
+    });
+
+    // Transaction API
+    $('saveTx').addEventListener('click', (e) => {
+      let base = $('t_base').value.trim().replace(/\/+$/, '');
+      if (base && !/^https:\/\//i.test(base)) return toast('Base URL must start with https://', true);
+      const data = { vendor: $('t_vendor').value, baseUrl: base, token: $('t_token').value.trim(), webhookSecret: $('t_whsecret').value.trim(), updatedAt: Date.now() };
+      saveWithButton(e.currentTarget, () => setDoc(doc(db, 'config', 'txapi'), data));
+    });
+
+    /* ===================================================== */
+
+    onAuthStateChanged(auth, async (user) => {
+      currentUser = user;
+      const allowed = !!user && !!user.email && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+      const adminApp = $('adminApp');
+      const accessMessage = $('accessMessage');
+      const adminStatus = $('adminStatus');
+
+      if (!user) {
+        adminStatus.textContent = 'No user signed in.';
+        accessMessage.className = 'status-box error';
+        accessMessage.innerHTML = '<strong>Access Denied</strong><br>Please login as the administrator.';
+        adminApp.classList.add('hidden');
+        return;
+      }
+
+      if (!allowed) {
+        adminStatus.textContent = 'Signed in as ' + user.email;
+        accessMessage.className = 'status-box error';
+        accessMessage.innerHTML = '<strong>Access Denied</strong><br>This account is not allowed to use the admin panel.';
+        adminApp.classList.add('hidden');
+        return;
+      }
+
+      adminStatus.textContent = 'Administrator access granted (' + user.email + ')';
+      accessMessage.className = 'status-box';
+      accessMessage.innerHTML = '<strong>Admin Access</strong><br>Administrator session is active and the dashboard is ready.';
+      adminApp.classList.remove('hidden');
+      showTab('dash');
+      await Promise.all([loadUsers(), loadTx()]);
+    });
+
+    $('backBtn').addEventListener('click', () => {
+      window.location.href = 'index.html';
+    });
+
+    $('refreshBtn').addEventListener('click', async () => {
+      await Promise.all([loadUsers(), loadTx()]);
+      if (!$('configView').classList.contains('hidden')) {
+        configLoaded = false;
+        await loadConfig();
+      }
+    });
+
+    $('userSearch').addEventListener('input', renderUsers);
+    $('userFilter').addEventListener('change', renderUsers);
+    ['txSearch', 'txType', 'txStatus'].forEach((id) => $(id).addEventListener('input', renderTx));
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadUsers();
+    });
+  </script>
+<style id="atlAdminUi">
+/* ===== professional finish - same look as the website (added only) ===== */
+.ico{width:1.15em;height:1.15em;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.2em;flex:none}
+body{-webkit-font-smoothing:antialiased}
+header{border-bottom:1px solid #262b3d;padding:14px 16px}
+.brand-h{display:flex;align-items:center;gap:10px;font-size:17px;letter-spacing:.05em;margin:0}
+.brand-mark{width:34px;height:34px;border-radius:10px;background:#5b6eff;display:grid;place-items:center;font-weight:800;font-size:17px;letter-spacing:0}
+.role{font-size:10px;font-weight:700;padding:3px 9px;border-radius:999px;background:rgba(91,110,255,.25);color:#c9d0ff;letter-spacing:.08em;text-transform:uppercase}
+.admin-status{margin-top:8px;font-size:12px}
+.toolbar:not(.tabs){flex-direction:row!important;gap:8px}
+.toolbar:not(.tabs) button{width:auto!important;flex:1;min-width:0;padding:11px 12px;border-radius:12px}
+.toolbar.tabs{flex-direction:row!important;flex-wrap:nowrap!important;overflow-x:auto;gap:8px;padding:2px 2px 12px;scrollbar-width:none}
+.toolbar.tabs::-webkit-scrollbar{display:none}
+.toolbar.tabs button{flex:none!important;width:auto!important;min-width:0!important;display:inline-flex;align-items:center;gap:8px;white-space:nowrap;border-radius:999px;padding:10px 16px;font-weight:700;background:#fff;color:#3a4052;border:1px solid #e3e5ef;transition:background .2s,color .2s,border-color .2s}
+.toolbar.tabs button.active{background:#4f46e5;color:#fff;border-color:#4f46e5;box-shadow:0 4px 12px rgba(79,70,229,.25)}
+.admin-card{border:1px solid #e3e5ef;border-radius:16px;box-shadow:0 1px 2px rgba(20,24,40,.04),0 8px 22px rgba(20,24,40,.05)}
+.cfg-item{transition:transform .15s,border-color .2s}.cfg-item:hover{transform:translateY(-2px);border-color:#4f46e5}
+.cfg-item .ic{border-radius:13px}.cfg-item .ic .ico{width:23px;height:23px}
+.cfg-btn,.primary-btn,.mini-btn{transition:transform .15s,opacity .2s}.cfg-btn:active,.primary-btn:active{transform:scale(.98)}
+input:focus,select:focus,textarea:focus{border-color:#4f46e5!important;box-shadow:0 0 0 3px rgba(79,70,229,.15);outline:none}
+:focus-visible{outline:2px solid #4f46e5;outline-offset:2px}
+.status-box{border:1px solid #dfe3ff}.status-box.error{border-color:#fecaca}
+@media (max-width:700px){.toolbar:not(.tabs){flex-direction:row!important}}
+</style>
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><symbol id="i-data" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="3"/><path d="M9 7h6M10 17h4M2 9a14 14 0 0 1 20 0M5 12a10 10 0 0 1 14 0"/></symbol><symbol id="i-airtime" viewBox="0 0 24 24"><path d="M5 3h14v18H5z"/><path d="M9 6h6M10 18h4M3 7l-1 2m19-2 1 2"/></symbol><symbol id="i-wallet" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="15" rx="3"/><path d="M3 10h18M7 6V4a2 2 0 0 1 2-2h9M16 15h1"/></symbol><symbol id="i-bill" viewBox="0 0 24 24"><path d="M5 3h14v18l-3-2-4 2-4-2-3 2z"/><path d="M8 8h8M8 12h8M8 16h4"/></symbol><symbol id="i-history" viewBox="0 0 24 24"><path d="M4 5h16M4 10h16M4 15h10M4 20h10"/><circle cx="18" cy="18" r="4"/><path d="M18 16v2l1 1"/></symbol><symbol id="i-support" viewBox="0 0 24 24"><path d="M4 13v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="12" width="4" height="7" rx="2"/><rect x="17" y="12" width="4" height="7" rx="2"/><path d="M17 20h-5"/></symbol><symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></symbol><symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol><symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.2A6.5 6.5 0 0 1 21.5 20"/></symbol><symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></symbol><symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></symbol><symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5a7 7 0 0 0-14 0C5 14.800 12 21 12 21z"/><circle cx="12" cy="9.500" r="2.500"/></symbol><symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.500A8 8 0 0 1 9.500 4 8 8 0 1 0 20 14.500z"/></symbol><symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.900 4.900l1.400 1.400M17.700 17.700l1.400 1.400M2 12h2M20 12h2M4.900 19.100l1.400-1.400M17.700 6.300l1.400-1.400"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.500 4.500 4.500L19 7.500"/></symbol><symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12.500 3 3 5-6"/></symbol><symbol id="i-x-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m9 9 6 6M15 9l-6 6"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol><symbol id="i-bank" viewBox="0 0 24 24"><path d="M3 9.500 12 4l9 5.500M5 10v8M9.500 10v8M14.500 10v8M19 10v8M3 21h18"/></symbol><symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="10.500" width="16" height="10.500" rx="3"/><path d="M8 10.500V8a4 4 0 0 1 8 0v2.500"/></symbol><symbol id="i-tool" viewBox="0 0 24 24"><path d="M14.500 6.500a4 4 0 0 0 4.800 4.800l-9 9a2.100 2.100 0 0 1-3-3l9-9a4 4 0 0 0-1.800-1.800z"/></symbol><symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.500 2h-15z"/><path d="M10 21h4"/></symbol><symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18M7 15h3"/></symbol><symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.500-7 10-7 10 7 10 7-3.500 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol><symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3M15 8l4 4-4 4M19 12H9"/></symbol><symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol><symbol id="i-message" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></symbol><symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2.500v3M12 18.500v3M2.500 12h3M18.500 12h3M5.300 5.300l2.100 2.100M16.600 16.600l2.100 2.100M5.300 18.700l2.100-2.100M16.600 7.400l2.100-2.100"/></symbol><symbol id="i-tag" viewBox="0 0 24 24"><path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.500" cy="8.500" r="1"/></symbol><symbol id="i-idcard" viewBox="0 0 24 24"><rect x="2.500" y="5" width="19" height="14" rx="3"/><circle cx="8.500" cy="11" r="2"/><path d="M5.500 16a3 3 0 0 1 6 0M14 10h4M14 14h3"/></symbol><symbol id="i-ban" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m5.600 5.600 12.800 12.800"/></symbol><symbol id="i-trend" viewBox="0 0 24 24"><path d="m3 17 6-6 4 4 8-8M15 7h6v6"/></symbol><symbol id="i-calc" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="3"/><path d="M8.500 7h7M8.500 12h.01M12 12h.01M15.500 12h.01M8.500 16h.01M12 16h.01M15.500 16h.01"/></symbol><symbol id="i-briefcase" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="3"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/></symbol><symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M16 7l3 3M14 9l2 2"/></symbol><symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></symbol><symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol><symbol id="i-chart" viewBox="0 0 24 24"><path d="M5 21V10M12 21V4M19 21v-8"/></symbol><symbol id="i-inbox" viewBox="0 0 24 24"><path d="M3 13h5l1.500 3h5l1.500-3h5M5.500 5h13L21 13v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5z"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v12M7 11l5 5 5-5M5 20h14"/></symbol><symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3.500 2.500 20h19z"/><path d="M12 10v4M12 17h.01"/></symbol><symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></symbol></svg>
+<script>
+(function(){
+ var MAP={"📶": "i-data", "📞": "i-phone", "☎️": "i-phone", "☎": "i-phone", "✉️": "i-mail", "✉": "i-mail", "📧": "i-mail", "⌖": "i-pin", "🌙": "i-moon", "☀️": "i-sun", "☀": "i-sun", "🎧": "i-support", "✔️": "i-check", "✔": "i-check", "✓": "i-check", "✅": "i-check-circle", "❌": "i-x-circle", "⏳": "i-clock", "🏦": "i-bank", "🔒": "i-lock", "🔐": "i-lock", "👤": "i-user", "🧑": "i-user", "🛠️": "i-tool", "🛠": "i-tool", "🧰": "i-tool", "🔔": "i-bell", "💳": "i-card", "👁️": "i-eye", "👁": "i-eye", "🏠": "i-home", "💡": "i-bill", "📜": "i-history", "🚪": "i-logout", "☰": "i-menu", "💬": "i-message", "👥": "i-users", "💰": "i-wallet", "🧾": "i-bill", "⚙️": "i-settings", "⚙": "i-settings", "🏷️": "i-tag", "🏷": "i-tag", "🪪": "i-idcard", "🚫": "i-ban", "📈": "i-trend", "🧮": "i-calc", "💼": "i-briefcase", "🔑": "i-key", "⚡": "i-zap", "🗂️": "i-folder", "🗂": "i-folder", "📊": "i-chart", "📥": "i-inbox", "⬇️": "i-download", "⬇": "i-download", "🚨": "i-alert", "🌐": "i-globe"},NS="http://www.w3.org/2000/svg";
+ var keys=Object.keys(MAP).sort(function(a,b){return b.length-a.length;});
+ var G=new RegExp(keys.map(function(k){return k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");}).join("|"),"g"),T=new RegExp(G.source);
+ var SKIP={SCRIPT:1,STYLE:1,TEXTAREA:1,OPTION:1,TITLE:1,NOSCRIPT:1};
+ function icon(e){var s=document.createElementNS(NS,"svg");s.setAttribute("class","ico");s.setAttribute("aria-hidden","true");s.setAttribute("data-emo",e);
+  var u=document.createElementNS(NS,"use");u.setAttribute("href","#"+MAP[e]);s.appendChild(u);return s;}
+ function conv(n){var t=n.nodeValue,f=document.createDocumentFragment(),last=0,m;G.lastIndex=0;
+  while((m=G.exec(t))){if(m.index>last)f.appendChild(document.createTextNode(t.slice(last,m.index)));f.appendChild(icon(m[0]));last=m.index+m[0].length;}
+  if(last<t.length)f.appendChild(document.createTextNode(t.slice(last)));if(n.parentNode)n.parentNode.replaceChild(f,n);}
+ function ok(n){var p=n.parentNode;return p&&!SKIP[p.nodeName]&&!(p.closest&&p.closest("svg"));}
+ function scan(root){
+  if(root.nodeType===3){if(ok(root)&&T.test(root.nodeValue))conv(root);return;}
+  if(root.nodeType!==1||SKIP[root.nodeName]||root.nodeName==="svg")return;
+  var w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,null),list=[],n;
+  while((n=w.nextNode()))if(ok(n)&&T.test(n.nodeValue))list.push(n);
+  list.forEach(conv);}
+ var busy=false,obs=new MutationObserver(function(ms){
+  if(busy)return;busy=true;
+  try{ms.forEach(function(m){
+   if(m.type==="characterData")scan(m.target);
+   else m.addedNodes.forEach(scan);});}
+  finally{busy=false;}
+ });
+ function start(){scan(document.body);obs.observe(document.body,{childList:true,subtree:true,characterData:true});}
+ if(document.body)start();else document.addEventListener("DOMContentLoaded",start);
+})();
+</script>
+</body>
+</html>
