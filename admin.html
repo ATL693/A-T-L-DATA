@@ -380,7 +380,6 @@
       <!-- ================= DASHBOARD ================= -->
       <div id="dashView">
         <div class="admin-card"><div class="stats-grid" id="dashStats"></div></div>
-        <div class="admin-card"><h3>Active Wallet Users (last 24 hours)</h3><p class="cfg-sub">Customers with a recorded wallet transaction such as data, airtime, bills, transfer, deposit or refund in the last 24 hours.</p><div id="activeWalletStats" class="stats-grid"></div><div id="activeWalletList" class="row-list" style="margin-top:10px"></div><div class="cfg-hint" style="margin-top:10px">Based on recorded transactions in the latest 300 transaction records; this shows wallet activity, not users currently online.</div></div>
         <div class="admin-card"><h3>Money in (deposits), last 7 days</h3><div class="bars" id="chartIn"></div></div>
         <div class="admin-card"><h3>Sales (data, airtime), last 7 days</h3><div class="bars" id="chartSales"></div></div>
         <div class="admin-card"><h3>Recent transactions</h3><div id="dashRecent"></div>
@@ -927,36 +926,9 @@
       const box = (l, v) => `<div class="stat-box"><small>${l}</small><strong>${v}</strong></div>`;
       $('dashStats').innerHTML = box('Total users', allUsers.length) + box('New (7 days)', newUsers) + box('Blocked', allUsers.filter((u) => u.isBlocked).length) +
         box('Total wallet', money(wallet)) + box("Today's sales", money(todaySales)) + box('Pending deposits', pend);
-      renderActiveWalletUsers();
       drawBars('chartIn', lastDays((t) => t.type === 'Deposit'), false);
       drawBars('chartSales', lastDays((t) => !NON_SALES.includes(t.type)), true);
       $('dashRecent').innerHTML = allTx.slice(0, 8).map(txRow).join('') || '<div class="empty">No transactions yet.</div>';
-    }
-
-    function renderActiveWalletUsers() {
-      const cutoff = Date.now() - 24 * 60 * 60 * 1000;
-      const recent = allTx.filter((t) => {
-        const ms = t.createdAt && typeof t.createdAt.toDate === 'function' ? t.createdAt.toDate().getTime() : 0;
-        return ms >= cutoff && !!(t.uid || t.userId);
-      }).sort((a, b) => {
-        const at = a.createdAt && a.createdAt.toDate ? a.createdAt.toDate().getTime() : 0;
-        const bt = b.createdAt && b.createdAt.toDate ? b.createdAt.toDate().getTime() : 0;
-        return bt - at;
-      });
-      const latestByUser = new Map();
-      recent.forEach((t) => {
-        const uid = t.uid || t.userId;
-        if (uid && !latestByUser.has(uid)) latestByUser.set(uid, t);
-      });
-      const stat = $('activeWalletStats');
-      const list = $('activeWalletList');
-      if (stat) stat.innerHTML = `<div class="stat-box"><small>Active wallet users (24h)</small><strong>${latestByUser.size}</strong></div><div class="stat-box"><small>Wallet transactions (24h)</small><strong>${recent.length}</strong></div>`;
-      if (!list) return;
-      const items = [...latestByUser.entries()].slice(0, 15);
-      list.innerHTML = items.map(([uid, t]) => {
-        const kind = t.type || t.service || t.description || 'Wallet activity';
-        return `<div class="row-item"><div><strong>${escapeHTML(userName(uid))}</strong><small>${escapeHTML(kind)} · ${fmtDate(t.createdAt)} · ${escapeHTML(t.status || 'pending')}</small></div><div style="text-align:right"><strong>${money(t.amount)}</strong><small>${escapeHTML(t.reference || '')}</small></div></div>`;
-      }).join('') || '<div class="empty">No wallet activity recorded in the last 24 hours.</div>';
     }
 
     function txRow(t) {
@@ -1092,7 +1064,7 @@
        DATA PRICES  (Firestore: config/pricing -> { mtn: { <planCode>: {code,name,price,enabled} }, ... })
        Plans, plan types and your real cost come from the Worker (admin-only route /admin/plans).
        ===================================================== */
-    const WORKER_URL = 'https://atlapi.lawanahmadt03.workers.dev';   // after the domain switch: https://api.atldata.com.ng
+    const WORKER_URL = 'https://api.atldata.com.ng';
     let priceNet = 'mtn', pricePlans = [], savedPricing = null, priceTab = '';
     const pkey = (c) => String(c).replace(/[.\/]/g, '_');
     const TAB_ORDER = ['SME', 'SME2', 'GIFTING', 'CORPORATE'];
