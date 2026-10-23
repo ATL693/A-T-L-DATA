@@ -2453,6 +2453,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 
     document.getElementById("atlIdNum").value="";                       /* never keep it on screen */
     if(r.d&&r.d.status&&r.d.data){
      var e=r.d.data.errors&&r.d.data.errors.PALMPAY;
+     if(e)r.d.data.needs_id=true;
      box.innerHTML=accountsHtml(r.d.data);wire(box);
      if(e){var m2=document.getElementById("atlIdMsg");if(m2){m2.style.color="var(--danger)";m2.textContent=e;}}
      else say("Your accounts are ready.");
